@@ -1,4 +1,15 @@
 {
+    "name": "romchik38/php-server",
+    "description": "Php files to create a web app under php-fpm ",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Serhii Romanenko",
+            "homepage": "https://github.com/Romchik38"
+        }
+    ],
+
     "autoload": {
         "psr-4": {
             "Romchik38\\Server\\": "src/"
