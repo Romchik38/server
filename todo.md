@@ -4,3 +4,6 @@
 
 ## redirect service
 
+[-] redirect repo  
+[-] RedirectModelInterface  
+[-] add method  
