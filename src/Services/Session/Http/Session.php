@@ -10,17 +10,13 @@ use \Romchik38\Server\Services\Errors\SessionDoesnWorkException;
 class Session implements SessionInterface
 {
 
-    // htmlentities($_SESSION['name'])
-    // session_regenerate_id() 
-    // and redirect the user to another page or reload the same one.
-
     public function __construct()
     {
         session_start();
         $sessionId = session_id();
         if (($sessionId === false) || ($sessionId === '')) {
             throw new SessionDoesnWorkException('Session does\'t work correctly');
-        } 
+        }
     }
 
     public function getUserId(): int
