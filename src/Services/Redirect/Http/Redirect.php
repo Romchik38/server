@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Redirect\Http;
 
-use Romchik38\Server\Api\Services\RedirectInterface;
+use Romchik38\Server\Api\Services\Http\RedirectInterface;
 use Romchik38\Server\Api\Models\RedirectRepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
