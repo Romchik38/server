@@ -3,21 +3,22 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\RedirectModelInterface;
+use Romchik38\Server\Api\Models\Redirect\RedirectModelInterface;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
-use Romchik38\Server\Api\Models\RedirectRepositoryInterface;
+use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Model;
+use Romchik38\Server\Models\Sql\Repository;
 
 class RedirectTest extends TestCase
 {
     private $scheme = 'http';
     private $host = 'somehost';
     private $url = 'someurl';
+    private $method = 'GET';
     private $statusCode = 301;
     private $redirectResultDTOFactory;
-    private $redirectRepository;
 
     public function setUp(): void
     {
@@ -26,19 +27,21 @@ class RedirectTest extends TestCase
 
     public function testExecuteNoRedirect(){
 
-        $redirectModel = $this->createRedirectModel('/hello', 301);
+        $redirectModel = $this->createRedirectModel('/hello', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
         $redirectService = new Redirect(
             $redirectRepository,
             $this->redirectResultDTOFactory
         );
 
-        $result = $redirectService->execute($this->url, )
+        //$result = $redirectService->execute($this->url, $this->method);
+
+        //$this->assertEquals(null, $result);
     }
 
     protected function createRepository(RedirectModelInterface $redirectModel): RedirectRepositoryInterface
     {
-        return new class($redirectModel) implements RedirectRepositoryInterface {
+        return new class($redirectModel) extends Repository implements RedirectRepositoryInterface {
             public function __construct(
                 protected RedirectModelInterface $redirectModel
             ) {}
@@ -53,12 +56,13 @@ class RedirectTest extends TestCase
         };
     }
 
-    protected  function createRedirectModel(string $url, int $statusCode): RedirectModelInterface
+    protected  function createRedirectModel(string $url, int $statusCode, string $method): RedirectModelInterface
     {
-        return new class($url, $statusCode) extends Model implements RedirectModelInterface {
+        return new class($url, $statusCode, $method) extends Model implements RedirectModelInterface {
             public function __construct(
                 protected string $url,
-                protected int $statusCode
+                protected int $statusCode,
+                protected string $method,
             ) {}
             public function getRedirectTo(): string
             {
@@ -67,6 +71,10 @@ class RedirectTest extends TestCase
             public function getRedirectCode(): int
             {
                 return $this->statusCode;
+            }
+            public function getRedirectMethod(): string
+            {
+                return $this->method;
             }
         };
     }

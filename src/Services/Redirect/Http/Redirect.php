@@ -7,7 +7,7 @@ namespace Romchik38\Server\Services\Redirect\Http;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
-use Romchik38\Server\Api\Models\RedirectRepositoryInterface;
+use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 class Redirect implements RedirectInterface

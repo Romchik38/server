@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models;
+namespace Romchik38\Server\Api\Models\Redirect;
 
-use Romchik38\Server\Api\Models\RedirectModelInterface;
+use Romchik38\Server\Api\Models\Redirect\RedirectModelInterface;
+use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 interface RedirectRepositoryInterface extends RepositoryInterface
