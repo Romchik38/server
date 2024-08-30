@@ -14,7 +14,6 @@ class Redirect implements RedirectInterface
 {
     protected string $scheme;
     protected string $host;
-    protected string $schemeHostDelimiter = '://';
 
     public function __construct(
         protected RedirectRepositoryInterface $redirectRepository,
@@ -31,7 +30,7 @@ class Redirect implements RedirectInterface
 
             /** @todo implement schema and host in the RedirectResultDTOInterface */
             $uri = $this->scheme 
-                . $this->schemeHostDelimiter
+                . $this::SCHEME_HOST_DELIMITER
                 . $this->host
                 . $redirectUrl->getRedirectTo();
 
