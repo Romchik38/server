@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Redirect\Http;
 
-use Romchik38\Server\Api\Services\Http\RedirectInterface;
+use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Api\Models\RedirectRepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
@@ -20,10 +20,10 @@ class Redirect implements RedirectInterface
     ) {
     }
 
-    public function execute($action): void
+    public function execute(string $action, string $method): void
     {
         try {
-            $redirectUrl = $this->redirectRepository->checkUrl($action);
+            $redirectUrl = $this->redirectRepository->checkUrl($action, $method);
 //            if ($redirectUrl !== '') {
                 $this->redirect = true;
                 $this->redirectLocation = 'Location: ' . $_SERVER['REQUEST_SCHEME'] . '://'
