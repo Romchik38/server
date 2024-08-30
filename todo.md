@@ -6,6 +6,7 @@
 
 [+] redirect repo  
 [+] RedirectModelInterface  
-[+] add method  
+[+] add method
+[-] redirectResultDTO  
 [-] unit test  
 [-] tag  

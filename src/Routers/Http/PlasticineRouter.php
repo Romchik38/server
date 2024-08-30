@@ -6,6 +6,7 @@ namespace Romchik38\Server\Routers\Http;
 
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
+use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Router\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
@@ -37,9 +38,9 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 2. redirect check
         if ($this->redirectService !== null) {
-            $this->redirectService->execute($url, $method);
-            if ($this->redirectService->isRedirect() === true) {
-                return $this->redirect();
+            $redirectResult = $this->redirectService->execute($url, $method);
+            if ($redirectResult !== null) {
+                return $this->redirect($redirectResult);
             }
         }
 
@@ -127,14 +128,13 @@ class PlasticineRouter implements HttpRouterInterface
     /**
      * Set a redirect to the same site with founded url and status code
      */
-    protected function redirect(): HttpRouterResultInterface
+    protected function redirect(RedirectResultDTOInterface $redirectResult): HttpRouterResultInterface
     {
-        $url = $this->redirectService->getRedirectLocation();
-        $statusCode = $this->redirectService->getStatusCode();
+        $uri = $redirectResult->getRedirectLocation();
+        $statusCode = $redirectResult->getStatusCode();
         $this->routerResult->setHeaders([
             [
-                'Location: ' . $_SERVER['REQUEST_SCHEME'] . '://'
-                    . $_SERVER['HTTP_HOST'] . $url,
+                'Location: ' . $uri,
                 true,
                 $statusCode
             ]

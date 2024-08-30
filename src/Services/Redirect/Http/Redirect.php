@@ -4,46 +4,37 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Redirect\Http;
 
+use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOFactoryInterface;
+use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Api\Models\RedirectRepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 class Redirect implements RedirectInterface
 {
-
-    protected bool $redirect = false;
-    protected string $redirectLocation = '';
-    protected int $statusCode = 0;
-
     public function __construct(
-        protected RedirectRepositoryInterface $redirectRepository
-    ) {
-    }
+        protected RedirectRepositoryInterface $redirectRepository,
+        protected RedirectResultDTOFactoryInterface $redirectResultDTOFactory
+    ) {}
 
-    public function execute(string $action, string $method): void
+    public function execute(string $url, string $method): RedirectResultDTOInterface|null
     {
         try {
-            $redirectUrl = $this->redirectRepository->checkUrl($action, $method);
-//            if ($redirectUrl !== '') {
-                $this->redirect = true;
-                $this->redirectLocation = 'Location: ' . $_SERVER['REQUEST_SCHEME'] . '://'
-                                . $_SERVER['HTTP_HOST']
-                                . $redirectUrl->getRedirectTo();
-                $this->statusCode = $redirectUrl->getRedirectCode();
-//            }
-        } catch (NoSuchEntityException $e) {
-            // return empty result
-        }
-    }
-    public function isRedirect(): bool
-    {
-        return $this->redirect;
-    }
+            $redirectUrl = $this->redirectRepository->checkUrl($url, $method);
 
-    public function getRedirectLocation(): string {
-        return $this->redirectLocation;
-    }
-    public function getStatusCode(): int {
-        return $this->statusCode;
+            /** @todo implement schema and host in the RedirectResultDTOInterface */
+            $uri = $_SERVER['REQUEST_SCHEME'] . '://'
+                . $_SERVER['HTTP_HOST']
+                . $redirectUrl->getRedirectTo();
+
+            $redirectResult = $this->redirectResultDTOFactory->create(
+                $uri,
+                $redirectUrl->getRedirectCode()
+            );
+
+            return $redirectResult;
+        } catch (NoSuchEntityException $e) {
+            return null;
+        }
     }
 }
