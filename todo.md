@@ -8,5 +8,6 @@
 [+] RedirectModelInterface  
 [+] add method
 [+] redirectResultDTO  
+[-] add method to redirectModel
 [-] unit test  
 [-] tag  
