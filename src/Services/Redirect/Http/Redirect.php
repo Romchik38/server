@@ -30,7 +30,7 @@ class Redirect implements RedirectInterface
         if (in_array($scheme, RedirectInterface::ALLOWED_SCHEMAS, true) === false) {
             throw new CantCreateRedirectException('Scheme:' . $scheme . ' not allowed');
         }
-        $this->scheme = $request;
+        $this->scheme = $scheme;
 
         $host = $uri->getHost();
         if ($host === '') {

@@ -10,16 +10,16 @@ use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Model;
 use Romchik38\Server\Models\Sql\Repository;
-use Romchik38\Server\Service\Request\Http\Request;
-use Romchik38\Server\Request\Http\Uri;
+use Romchik38\Server\Services\Request\Http\Request;
+use Romchik38\Server\Services\Request\Http\Uri;
 
 class RedirectTest extends TestCase
 {
-    private $scheme = 'http';
-    private $host = 'somehost';
-    private $url = 'someurl';
-    private $method = 'GET';
-    private $statusCode = 301;
+    // private $scheme = 'http';
+    // private $host = 'example.com';
+    // private $url = 'someurl';
+    // private $method = 'GET';
+    // private $statusCode = 301;
     private $redirectResultDTOFactory;
     private $request;
 
@@ -30,8 +30,8 @@ class RedirectTest extends TestCase
     }
 
     public function testExecuteNoRedirect(){
-        $uri = new Uri($this->scheme, $this->host);
-        $this->request->method('getUri')->willReturn($uri);
+        $requestedUri = new Uri('http', 'example.com');
+        $this->request->method('getUri')->willReturn($requestedUri);
 
         $redirectModel = $this->createRedirectModel('/hello', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
@@ -41,9 +41,9 @@ class RedirectTest extends TestCase
             $this->request
         );
 
-        //$result = $redirectService->execute($this->url, $this->method);
+        $result = $redirectService->execute('/about', 'GET');
 
-        //$this->assertEquals(null, $result);
+        $this->assertEquals(null, $result);
     }
 
     protected function createRepository(RedirectModelInterface $redirectModel): RedirectRepositoryInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Romchik38\Server\Service\Request\Http;
+namespace Romchik38\Server\Services\Request\Http;
 
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 use Romchik38\Server\Api\Services\Request\Http\UriFactoryInterface;
