@@ -24,6 +24,18 @@ class RedirectTest extends TestCase
         $this->redirectResultDTOFactory = $this->createMock(RedirectResultDTOFactory::class);
     }
 
+    public function testExecuteNoRedirect(){
+
+        $redirectModel = $this->createRedirectModel('/hello', 301);
+        $redirectRepository = $this->createRepository($redirectModel);
+        $redirectService = new Redirect(
+            $redirectRepository,
+            $this->redirectResultDTOFactory
+        );
+
+        $result = $redirectService->execute($this->url, )
+    }
+
     protected function createRepository(RedirectModelInterface $redirectModel): RedirectRepositoryInterface
     {
         return new class($redirectModel) implements RedirectRepositoryInterface {
@@ -59,7 +71,4 @@ class RedirectTest extends TestCase
         };
     }
 
-    public function testExecuteNoRedirect(){
-        
-    }
 }
