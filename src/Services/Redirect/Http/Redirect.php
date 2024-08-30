@@ -12,10 +12,17 @@ use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 class Redirect implements RedirectInterface
 {
+    protected string $scheme;
+    protected string $host;
+    protected string $schemeHostDelimiter = '://';
+
     public function __construct(
         protected RedirectRepositoryInterface $redirectRepository,
         protected RedirectResultDTOFactoryInterface $redirectResultDTOFactory
-    ) {}
+    ) {
+        $this->scheme = $_SERVER['REQUEST_SCHEME'];
+        $this->host = $_SERVER['HTTP_HOST'];
+    }
 
     public function execute(string $url, string $method): RedirectResultDTOInterface|null
     {
@@ -23,8 +30,9 @@ class Redirect implements RedirectInterface
             $redirectUrl = $this->redirectRepository->checkUrl($url, $method);
 
             /** @todo implement schema and host in the RedirectResultDTOInterface */
-            $uri = $_SERVER['REQUEST_SCHEME'] . '://'
-                . $_SERVER['HTTP_HOST']
+            $uri = $this->scheme 
+                . $this->schemeHostDelimiter
+                . $this->host
                 . $redirectUrl->getRedirectTo();
 
             $redirectResult = $this->redirectResultDTOFactory->create(
