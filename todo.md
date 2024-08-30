@@ -10,7 +10,6 @@
 [+] redirectResultDTO  
 [+] add method to redirectModel
 [+] add scheme and host to the request  
-[-] add redirect repository  
 [-] unit test  
     [+] return null  
     [-] return redirectDTO  
