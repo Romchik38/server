@@ -10,6 +10,8 @@ use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Model;
 use Romchik38\Server\Models\Sql\Repository;
+use Romchik38\Server\Service\Request\Http\Request;
+use Romchik38\Server\Request\Http\Uri;
 
 class RedirectTest extends TestCase
 {
@@ -19,19 +21,24 @@ class RedirectTest extends TestCase
     private $method = 'GET';
     private $statusCode = 301;
     private $redirectResultDTOFactory;
+    private $request;
 
     public function setUp(): void
     {
         $this->redirectResultDTOFactory = $this->createMock(RedirectResultDTOFactory::class);
+        $this->request = $this->createMock(Request::class);
     }
 
     public function testExecuteNoRedirect(){
+        $uri = new Uri($this->scheme, $this->host);
+        $this->request->method('getUri')->willReturn($uri);
 
         $redirectModel = $this->createRedirectModel('/hello', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
         $redirectService = new Redirect(
             $redirectRepository,
-            $this->redirectResultDTOFactory
+            $this->redirectResultDTOFactory,
+            $this->request
         );
 
         //$result = $redirectService->execute($this->url, $this->method);
