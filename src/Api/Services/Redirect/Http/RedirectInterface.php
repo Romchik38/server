@@ -9,6 +9,7 @@ use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterfa
 interface RedirectInterface 
 {
     const string SCHEME_HOST_DELIMITER = '://';
+    const ALLOWED_SCHEMAS = ['http', 'https'];
 
     public function execute(string $url, string $method): RedirectResultDTOInterface|null;
 }

@@ -6,15 +6,16 @@ use Romchik38\Server\Api\Services\Request\Http\UriInterface;
 
 class Uri implements UriInterface
 {
-    protected readonly array $schemeList = ['http', 'https'];
 
     protected readonly string $scheme;
+    protected readonly string $host;
 
     public function __construct(
         string $scheme,
-        protected readonly string $host
+        string $host
     ) {
-        $this->scheme = strtolower($scheme);
+        $this->scheme = strtolower(str_replace(':', '', $scheme));
+        $this->host = strtolower($host);
     }
 
     public function getScheme(): string {
