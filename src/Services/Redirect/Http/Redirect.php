@@ -39,10 +39,10 @@ class Redirect implements RedirectInterface
         $this->host = $host;
     }
 
-    public function execute(string $url, string $method): RedirectResultDTOInterface|null
+    public function execute(string $redirectFrom, string $method): RedirectResultDTOInterface|null
     {
         try {
-            $redirectUrl = $this->redirectRepository->checkUrl($url, $method);
+            $redirectUrl = $this->redirectRepository->checkUrl($redirectFrom, $method);
 
             $uri = $this->scheme
                 . $this::SCHEME_HOST_DELIMITER

@@ -11,5 +11,5 @@ interface RedirectInterface
     const string SCHEME_HOST_DELIMITER = '://';
     const ALLOWED_SCHEMAS = ['http', 'https'];
 
-    public function execute(string $url, string $method): RedirectResultDTOInterface|null;
+    public function execute(string $redirectFrom, string $method): RedirectResultDTOInterface|null;
 }

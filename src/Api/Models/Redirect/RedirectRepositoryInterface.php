@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Models\Redirect\RedirectModelInterface;
 use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
-interface RedirectRepositoryInterface extends RepositoryInterface
+interface RedirectRepositoryInterface
 {
     /**
      * Return a redirectModel entity or throws an error
@@ -16,5 +16,5 @@ interface RedirectRepositoryInterface extends RepositoryInterface
      * @throws NoSuchEntityException
      * @return RedirectModelInterface
      */
-    public function checkUrl(string $url, string $method): RedirectModelInterface;
+    public function checkUrl(string $redirectFrom, string $method): RedirectModelInterface;
 }
