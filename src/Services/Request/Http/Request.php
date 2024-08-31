@@ -20,6 +20,7 @@ class Request implements RequestInterface
     {
         $scheme = $_SERVER['REQUEST_SCHEME'] ?? '';
         $host = $_SERVER['SERVER_NAME'] ?? '';
-        return $this->uriFactory->create($scheme, $host);
+        $path = $_SERVER['REQUEST_URI'];
+        return $this->uriFactory->create($scheme, $host, $path);
     }
 }

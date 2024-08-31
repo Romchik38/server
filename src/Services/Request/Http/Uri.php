@@ -12,7 +12,8 @@ class Uri implements UriInterface
 
     public function __construct(
         string $scheme,
-        string $host
+        string $host,
+        protected readonly string $path
     ) {
         $this->scheme = strtolower(str_replace(':', '', $scheme));
         $this->host = strtolower($host);
@@ -24,5 +25,9 @@ class Uri implements UriInterface
 
     public function getHost(): string {
         return $this->host;
+    }
+
+    public function getPath() {
+        return $this->path;
     }
 }

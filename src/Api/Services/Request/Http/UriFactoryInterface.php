@@ -8,6 +8,7 @@ interface UriFactoryInterface
 {
     public function create(
         string $scheme,
-        string $host
+        string $host,
+        string $path
     ): UriInterface;
 }
