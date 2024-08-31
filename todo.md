@@ -14,5 +14,8 @@
     [+] return null  
     [+] return redirectDTO  
     [+] __construct  
+[-] request
+    [-] REQUEST_METHOD  
+    [-] REQUEST_URI  
 [-] unit test for router ( when redirect )
 [-] tag  
