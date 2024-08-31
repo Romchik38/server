@@ -14,9 +14,9 @@
     [+] return null  
     [+] return redirectDTO  
     [+] __construct  
-[-] request
+[+] request
     [+] REQUEST_METHOD  
-    [-] REQUEST_URI  
-    [-] add request to router as dep  
-[-] unit test for router ( when redirect )
+    [+] REQUEST_URI  
+    [+] add request to router as dep  
+[+] unit test for router ( when redirect )
 [-] tag  

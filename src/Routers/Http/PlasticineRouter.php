@@ -12,6 +12,7 @@ use Romchik38\Server\Api\Router\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Router\Http\RouterHeadersInterface;
+use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 
 class PlasticineRouter implements HttpRouterInterface
 {
@@ -20,16 +21,19 @@ class PlasticineRouter implements HttpRouterInterface
     public function __construct(
         protected HttpRouterResultInterface $routerResult,
         protected array $controllers,
-        array $headers,
+        protected RequestInterface $request,
+        array $headers = [],
         protected ControllerInterface | null $notFoundController = null,
         protected RedirectInterface|null $redirectService = null
     ) {
-        $this->headers = $headers[$_SERVER['REQUEST_METHOD']] ?? [];
+        $this->headers = $headers[$request->getMethod()] ?? [];
     }
     public function execute(): HttpRouterResultInterface
     {
-        $method = $_SERVER['REQUEST_METHOD'];
-        [$url] = explode('?', $_SERVER['REQUEST_URI']);
+        $uri = $this->request->getUri();
+        $method = $this->request->getMethod();
+        $path = $uri->getPath();
+        [$url] = explode('?', $path);
 
         // 1. method check 
         if (array_key_exists($method, $this->controllers) === false) {
@@ -62,6 +66,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 4. Exec
         try {
+            /** @todo test this */
             $controllerResult = $rootController->execute($elements);
 
             $path = $controllerResult->getPath();
@@ -71,6 +76,7 @@ class PlasticineRouter implements HttpRouterInterface
             $this->routerResult->setStatusCode(200)->setResponse($response);
             return $this->setHeaders($path, $type);
         } catch (NotFoundException $e) {
+            /** @todo test this */
             return $this->pageNotFound();
         }
     }

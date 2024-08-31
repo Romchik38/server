@@ -30,7 +30,7 @@ class RedirectTest extends TestCase
      */
     public function testExecuteNoRedirect()
     {
-        $requestedUri = new Uri('http', 'example.com');
+        $requestedUri = new Uri('http', 'example.com', '/hello');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $redirectModel = $this->createRedirectModel('/index', '/', 301, 'GET');
@@ -51,7 +51,7 @@ class RedirectTest extends TestCase
      */
     public function testExecuteFindRedirect()
     {
-        $requestedUri = new Uri('http', 'example.com');
+        $requestedUri = new Uri('http', 'example.com', '/index');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $redirectResultDTO = new RedirectResultDTO('http://example.com/', 301);
@@ -78,7 +78,7 @@ class RedirectTest extends TestCase
      */
     public function testConstructWithEmptySchemaHost()
     {
-        $requestedUri = new Uri('', '');
+        $requestedUri = new Uri('', '', '');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $this->expectException(CantCreateRedirectException::class);
