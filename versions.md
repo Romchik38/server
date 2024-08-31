@@ -1,5 +1,10 @@
 # Versions
 
+## v.1.1.0
+
+- added Redirect service to router
+- tests for Redirect service and a test for router
+
 ## v.1.0.0
 
 - http server
