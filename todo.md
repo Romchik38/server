@@ -10,8 +10,9 @@
 [+] redirectResultDTO  
 [+] add method to redirectModel
 [+] add scheme and host to the request  
-[-] unit test  
+[+] unit test Redirect  
     [+] return null  
-    [-] return redirectDTO  
-    [-] __construct  
+    [+] return redirectDTO  
+    [+] __construct  
+[-] unit test for router ( when redirect )
 [-] tag  
