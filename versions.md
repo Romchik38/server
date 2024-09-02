@@ -1,5 +1,9 @@
 # Versions
 
+## upcoming
+
+- fixes database postgres
+
 ## v.1.1.1
 
 - controller name 'root' moved to sitemap interface
