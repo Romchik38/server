@@ -1,5 +1,9 @@
 # Versions
 
+## v.1.1.1
+
+- controller name 'root' moved to sitemap interface
+
 ## v.1.1.0
 
 - added Redirect service to router
