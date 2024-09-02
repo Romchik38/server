@@ -9,6 +9,7 @@ use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 
 interface SitemapInterface
 {
+    const ROOT_NAME = 'root';
     /** 
      * map controller tree to controller dto tree 
      * 
