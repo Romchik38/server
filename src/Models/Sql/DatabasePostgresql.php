@@ -6,6 +6,7 @@ namespace Romchik38\Server\Models\Sql;
 
 use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Models\Errors\CreateConnectionExeption;
+use Romchik38\Server\Models\Errors\DatabaseException;
 use Romchik38\Server\Models\Errors\QueryExeption;
 
 class DatabasePostgresql implements DatabaseInterface
@@ -14,6 +15,10 @@ class DatabasePostgresql implements DatabaseInterface
 
     public function __construct(string $config)
     {
+        if (extension_loaded('pgsql') === false) {
+            throw new DatabaseException('Required extension: pgsql');
+        }
+
         $this->connection = pg_connect($config);
         if ($this->connection === false) {
             throw new CreateConnectionExeption('Could\'t create connection');
