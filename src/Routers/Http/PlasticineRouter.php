@@ -57,6 +57,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // two blank elements for /
         if (count($elements) === 2 && $elements[0] === '' && $elements[1] === '') {
+            /** @todo replace with '' */
             $elements = [$elements[0]];
         }
 
