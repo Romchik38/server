@@ -69,6 +69,7 @@ interface ControllerInterface
      * add child controller to the children list
      * 
      * @param ControllerInterface $child [a child to add]
+     * @throws CantCreateControllerChain when try to add the root controller as a child
      * @return ControllerInterface [this controller]
      */
     public function setChild(ControllerInterface $child): ControllerInterface;

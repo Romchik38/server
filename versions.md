@@ -3,6 +3,7 @@
 ## upcoming
 
 - fixes database postgres
+- Controller's method `setChild` now throws an error when the root controller is added as a child
 
 ## v.1.1.1
 
