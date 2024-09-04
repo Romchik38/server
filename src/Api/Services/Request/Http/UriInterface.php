@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Services\Request\Http;
 
 /**
- * @todo replace with Psr\Http\Message\UriInterface
+ * from Psr\Http\Message\UriInterface
  */
 interface UriInterface
 {

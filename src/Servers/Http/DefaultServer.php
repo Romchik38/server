@@ -53,7 +53,6 @@ class DefaultServer implements HttpServerInterface
             // try to show the page
             try {
                 $resultServerError = $this->serverErrorController->execute(['server-error']);
-                /** @todo set statusCode */
                 echo $resultServerError->getResponse();
             } catch (\Exception $e) {
                 // show only a message

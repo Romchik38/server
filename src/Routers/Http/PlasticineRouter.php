@@ -57,8 +57,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // two blank elements for /
         if (count($elements) === 2 && $elements[0] === '' && $elements[1] === '') {
-            /** @todo replace with '' */
-            $elements = [$elements[0]];
+            $elements = [''];
         }
 
         // replace blank with root
@@ -68,7 +67,6 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 4. Exec
         try {
-            /** @todo test this */
             $controllerResult = $rootController->execute($elements);
 
             $path = $controllerResult->getPath();
@@ -78,7 +76,6 @@ class PlasticineRouter implements HttpRouterInterface
             $this->routerResult->setStatusCode(200)->setResponse($response);
             return $this->setHeaders($path, $type);
         } catch (NotFoundException $e) {
-            /** @todo test this */
             return $this->pageNotFound();
         }
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Services\Request\Http;
 
 /**
- * @todo replace this with  
+ * from
  *  Psr\Http\Message\ServerRequestInterface extends 
  *      Psr\Http\Message\RequestInterface extends 
  *          Psr\Http\Message\MessageInterface
