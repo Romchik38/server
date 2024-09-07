@@ -2,6 +2,8 @@
 
 ## upcoming
 
+## v1.1.2
+
 - refactored HttpRouterResultInterface
 - fixes database postgres
 - Controller's method `setChild` now throws an error when the root controller is added as a child
