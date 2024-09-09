@@ -2,6 +2,10 @@
 
 ## upcoming
 
+## v1.2.0
+
+- added Multilanguage system
+
 ## v1.1.5
 
 - added abstract class RouterHeader
