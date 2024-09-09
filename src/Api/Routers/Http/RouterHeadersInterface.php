@@ -1,6 +1,6 @@
 <?php
 
-namespace Romchik38\Server\Api\Router\Http;
+namespace Romchik38\Server\Api\Routers\Http;
 
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 

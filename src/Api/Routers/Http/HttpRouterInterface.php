@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Router\Http;
+namespace Romchik38\Server\Api\Routers\Http;
 
-use Romchik38\Server\Api\Router\RouterInterface;
+use Romchik38\Server\Api\Routers\RouterInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 
 interface HttpRouterInterface extends RouterInterface

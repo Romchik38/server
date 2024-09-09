@@ -7,7 +7,7 @@ namespace Romchik38\Server\Servers\Http;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Servers\Http\HttpServerInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
-use Romchik38\Server\Api\Router\Http\HttpRouterInterface;
+use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 
 class DefaultServer implements HttpServerInterface
 {

@@ -8,10 +8,10 @@ use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
-use Romchik38\Server\Api\Router\Http\HttpRouterInterface;
+use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Api\Router\Http\RouterHeadersInterface;
+use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 use Romchik38\Server\Api\Services\SitemapInterface;
 
