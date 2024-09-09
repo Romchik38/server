@@ -1,6 +1,6 @@
 # PHP Server for web app under php-fpm
 
-Features ( v.1.0.0)
+Features ( v.1.2.0)
 
 - http server
 - http router
@@ -21,3 +21,4 @@ Features ( v.1.0.0)
 - http Session
 - sitemap
 - http view
+- multilanguage system
