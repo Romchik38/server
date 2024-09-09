@@ -2,6 +2,10 @@
 
 ## upcoming
 
+## v1.1.3
+
+- added functions to RouterHeadersInterface ( to work with upcoming Header Collection )
+
 ## v1.1.2
 
 - refactored HttpRouterResultInterface
