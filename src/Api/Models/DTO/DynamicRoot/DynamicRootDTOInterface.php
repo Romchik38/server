@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\DymanicRoot;
+namespace Romchik38\Server\Api\Models\DTO\DynamicRoot;
 
 /** language entity */
-interface DymanicRootDTOInterface
+interface DynamicRootDTOInterface
 {
     public function getName(): string;
 }

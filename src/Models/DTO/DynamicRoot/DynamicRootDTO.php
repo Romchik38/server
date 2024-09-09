@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\DymanicRoot;
+namespace Romchik38\Server\Models\DTO\DynamicRoot;
 
-use Romchik38\Server\Api\Models\DTO\DymanicRoot\DymanicRootDTOInterface;
+use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Models\DTO;
 
-class DymanicRootDTO extends DTO implements DymanicRootDTOInterface
+class DynamicRootDTO extends DTO implements DynamicRootDTOInterface
 {
     public function __construct(
         protected string $name

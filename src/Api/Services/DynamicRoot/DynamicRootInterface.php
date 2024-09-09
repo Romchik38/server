@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Services\DymanicRoot;
+namespace Romchik38\Server\Api\Services\DynamicRoot;
 
-use Romchik38\Server\Api\Models\DTO\DymanicRoot\DymanicRootDTOInterface;
+use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 
-interface DymanicRootInterface
+interface DynamicRootInterface
 {
     const DEFAULT_ROOT_FIELD = 'default_root';
     const ROOT_LIST_FIELD = 'root_list';
 
     /** return default root */
-    public function getDefaultRoot(): DymanicRootDTOInterface;
+    public function getDefaultRoot(): DynamicRootDTOInterface;
 
     /** 
      * return a list of root entities
      * the list defined in the config file
      * 
-     * @return DymanicRootDTOInterface[]
+     * @return DynamicRootDTOInterface[]
      */
     public function getRootList(): array;
 
@@ -35,9 +35,9 @@ interface DymanicRootInterface
      *    2 step - then the root can be accessed in the services, controllers etc
      * 
      * @throws EarlyAccessToCurrentRootError When current root wasn't set
-     * @return DymanicRootDTOInterface The root entity from the current request, setted by Router
+     * @return DynamicRootDTOInterface The root entity from the current request, setted by Router
      */
-    public function getCurrentRoot(): DymanicRootDTOInterface;
+    public function getCurrentRoot(): DynamicRootDTOInterface;
 
     /**
      * @return bool true on success / false on fail

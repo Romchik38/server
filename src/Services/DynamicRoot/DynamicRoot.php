@@ -2,38 +2,38 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\DymanicRoot;
+namespace Romchik38\Server\Services\DynamicRoot;
 
-use Romchik38\Server\Api\Models\DTO\DymanicRoot\DymanicRootDTOFactoryInterface;
-use Romchik38\Server\Api\Models\DTO\DymanicRoot\DymanicRootDTOInterface;
-use Romchik38\Server\Api\Services\DymanicRoot\DymanicRootInterface;
+use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOFactoryInterface;
+use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
+use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootError;
 
-class DymanicRoot implements DymanicRootInterface
+class DynamicRoot implements DynamicRootInterface
 {
-    protected readonly DymanicRootDTOInterface $defaultRoot;
-    protected DymanicRootDTOInterface|null $currentRoot = null;
+    protected readonly DynamicRootDTOInterface $defaultRoot;
+    protected DynamicRootDTOInterface|null $currentRoot = null;
 
     /**
-     * @var DymanicRootDTOInterface[] $rootList
+     * @var DynamicRootDTOInterface[] $rootList
      */
     protected readonly array $rootList;
 
     public function __construct(
         string $defaultRootName,
         array $rootNamesList,
-        DymanicRootDTOFactoryInterface $dymanicRootDTOFactory
+        DynamicRootDTOFactoryInterface $DynamicRootDTOFactory
     ) {
-        $this->defaultRoot = $dymanicRootDTOFactory->create($defaultRootName);
+        $this->defaultRoot = $DynamicRootDTOFactory->create($defaultRootName);
         $list = [];
         foreach ($rootNamesList as $rootName) {
-            $rootDTO = $dymanicRootDTOFactory->create($rootName);
+            $rootDTO = $DynamicRootDTOFactory->create($rootName);
             $list[] = $rootDTO;
         }
         $this->rootList = $list;
     }
 
-    public function getDefaultRoot(): DymanicRootDTOInterface
+    public function getDefaultRoot(): DynamicRootDTOInterface
     {
         return $this->defaultRoot;
     }
@@ -52,7 +52,7 @@ class DymanicRoot implements DymanicRootInterface
         return $names;
     }
 
-    public function getCurrentRoot(): DymanicRootDTOInterface {
+    public function getCurrentRoot(): DynamicRootDTOInterface {
         if ($this->currentRoot === null) {
             throw new EarlyAccessToCurrentRootError('Current dynamic root does\'t setted up');
         }

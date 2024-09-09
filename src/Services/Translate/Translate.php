@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Translate;
 
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
-use Romchik38\Server\Api\Services\DymanicRoot\DymanicRootInterface;
+use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 use Romchik38\Server\Services\Errors\TranslateException;
@@ -13,7 +13,7 @@ use Romchik38\Server\Services\Errors\TranslateException;
 /**
  * Translate a string by given key. Just pass the key 
  * like in the example below:
- *      $translate = new Translate($translateStorage, $dymanicRoot);
+ *      $translate = new Translate($translateStorage, $DynamicRoot);
  *      echo $translate->t('login.index.h1');
  * 
  * Returns translated string for current language, 
@@ -30,14 +30,14 @@ class Translate implements TranslateInterface
 
     public function __construct(
         protected readonly TranslateStorageInterface $translateStorage,
-        protected readonly DymanicRootInterface $dymanicRoot
+        protected readonly DynamicRootInterface $DynamicRoot
     ) {
-        $this->defaultLang = $this->dymanicRoot->getDefaultRoot()->getName();
+        $this->defaultLang = $this->DynamicRoot->getDefaultRoot()->getName();
     }
 
     public function t(string $str): string
     {
-        $this->currentLang = $this->currentLang ?? $this->dymanicRoot->getCurrentRoot()->getName();
+        $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
 
         if ($this->hash === null) {
             $this->hash = $this->translateStorage->getDataByLanguages(

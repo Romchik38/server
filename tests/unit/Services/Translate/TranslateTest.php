@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\DymanicRoot\DymanicRootDTOFactory;
+use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
 use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
 use Romchik38\Server\Models\TranslateEntity\TranslateEntityModel;
 use Romchik38\Server\Services\Translate\Translate;
-use Romchik38\Server\Services\DymanicRoot\DymanicRoot;
+use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Errors\TranslateException;
 use Romchik38\Server\Services\Translate\TranslateStorage;
 
@@ -18,7 +18,7 @@ class TranslateTest extends TestCase
 
     public function setUp(): void
     {
-        $this->dynamicRoot = $this->createMock(DymanicRoot::class);
+        $this->dynamicRoot = $this->createMock(DynamicRoot::class);
         $this->translateStorage = $this->createMock(TranslateStorage::class);
     }
 
@@ -27,10 +27,10 @@ class TranslateTest extends TestCase
         $this->translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash());
 
-        $dynamicRoot = new DymanicRoot(
+        $dynamicRoot = new DynamicRoot(
             'en',
             ['en', 'uk'],
-            new DymanicRootDTOFactory
+            new DynamicRootDTOFactory
         );
         $dynamicRoot->setCurrentRoot('uk');
 
@@ -47,10 +47,10 @@ class TranslateTest extends TestCase
         $this->translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash());
 
-        $dynamicRoot = new DymanicRoot(
+        $dynamicRoot = new DynamicRoot(
             'en',
             ['en', 'uk'],
-            new DymanicRootDTOFactory
+            new DynamicRootDTOFactory
         );
         $dynamicRoot->setCurrentRoot('uk');
 
@@ -79,10 +79,10 @@ class TranslateTest extends TestCase
         $this->translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash());
 
-        $dynamicRoot = new DymanicRoot(
+        $dynamicRoot = new DynamicRoot(
             'gb',
             ['en', 'uk'],
-            new DymanicRootDTOFactory
+            new DynamicRootDTOFactory
         );
         $dynamicRoot->setCurrentRoot('uk');
 

@@ -10,7 +10,7 @@ use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
-use Romchik38\Server\Api\Services\DymanicRoot\DymanicRootInterface;
+use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 
@@ -23,7 +23,7 @@ class DynamicRootRouter implements HttpRouterInterface
     public function __construct(
         protected HttpRouterResultInterface $routerResult,
         protected RequestInterface $request,
-        protected DymanicRootInterface $dynamicRootService,
+        protected DynamicRootInterface $dynamicRootService,
         protected array $actionListCallback,
         protected array $headers = [],
         protected ControllerInterface | null $notFoundController = null,
