@@ -12,4 +12,14 @@ abstract class RouterHeader implements RouterHeadersInterface
         protected readonly string $path,
         protected readonly string $method
     ) {}
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
 }
