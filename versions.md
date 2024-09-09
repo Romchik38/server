@@ -2,7 +2,7 @@
 
 ## upcoming
 
-## v.1.1.4
+## v1.1.4
 
 - added abstract class RouterHeader
 
