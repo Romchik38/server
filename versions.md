@@ -2,6 +2,10 @@
 
 ## upcoming
 
+## v.1.1.4
+
+- added abstract class RouterHeader
+
 ## v1.1.3
 
 - added functions to RouterHeadersInterface ( to work with upcoming Header Collection )
