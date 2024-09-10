@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
-use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
+use Romchik38\Server\Api\Routers\Http\DynamicHeadersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
@@ -23,12 +23,10 @@ class PlasticineRouter implements HttpRouterInterface
         protected HttpRouterResultInterface $routerResult,
         protected array $controllers,
         protected RequestInterface $request,
-        array $headers = [],
+        protected DynamicHeadersCollectionInterface|null $headersCollection = null,
         protected ControllerInterface | null $notFoundController = null,
         protected RedirectInterface|null $redirectService = null
-    ) {
-        $this->headers = $headers[$request->getMethod()] ?? [];
-    }
+    ) {}
     public function execute(): HttpRouterResultInterface
     {
         $uri = $this->request->getUri();
@@ -74,7 +72,14 @@ class PlasticineRouter implements HttpRouterInterface
             $type = $controllerResult->getType();
 
             $this->routerResult->setStatusCode(200)->setResponse($response);
-            return $this->setHeaders($path, $type);
+            $headerPath = $this->getHeaderPath($path);
+            /** @var RouterHeadersInterface|null  $header */
+            $header = $this->headersCollection->getHeader($method, $headerPath, $type);
+            if ($header !== null) {
+                $header->setHeaders($this->routerResult, $path);
+            }
+
+            return $this->routerResult;
         } catch (NotFoundException $e) {
             return $this->pageNotFound();
         }
@@ -107,29 +112,6 @@ class PlasticineRouter implements HttpRouterInterface
         return $this->routerResult;
     }
 
-    /** 
-     * set headers for actions
-     */
-    protected function setHeaders(array $path, string $type): HttpRouterResultInterface
-    {
-        $pathString = implode(ControllerInterface::PATH_SEPARATOR, $path);
-        $header = $this->headers[$pathString] ?? null;
-
-        if ($header === null && $type === ActionInterface::TYPE_DYNAMIC_ACTION) {
-            $dynamicPath = array_slice($path, 0, count($path) - 1);
-            array_push($dynamicPath, ControllerInterface::PATH_DYNAMIC_ALL);
-            $dynamicPathString = implode(ControllerInterface::PATH_SEPARATOR, $dynamicPath);
-            $header = $this->headers[$dynamicPathString] ?? null;
-        }
-
-        if ($header !== null) {
-            /** @var RouterHeadersInterface $header */
-            $header->setHeaders($this->routerResult, $path);
-        }
-
-        return $this->routerResult;
-    }
-
     /**
      * Set a redirect to the same site with founded url and status code
      */
@@ -146,5 +128,13 @@ class PlasticineRouter implements HttpRouterInterface
         ]);
 
         return $this->routerResult;
+    }
+
+    /** 
+     * set headers for actions
+     */
+    protected function getHeaderPath(array $path): string
+    {
+        return implode(ControllerInterface::PATH_SEPARATOR, $path);
     }
 }
