@@ -11,13 +11,13 @@ use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Services\Request\Http\Request;
 use Romchik38\Server\Services\Request\Http\Uri;
 
+
 class PlasticineRouterTest extends TestCase
 {
 
     protected $routerResult;
     protected array $controllers;
     protected $controller;
-    protected array $headers = [];
     protected $notFoundController = null;
     protected $redirectService = null;
     protected $request;
@@ -27,6 +27,7 @@ class PlasticineRouterTest extends TestCase
         $this->routerResult = $this->createMock(HttpRouterResult::class);
         $this->controller = $this->createMock(Controller::class);
         $this->controllers = ['GET' => $this->controller];
+        $this->request = $this->createMock(Request::class);
         $this->request = $this->createMock(Request::class);
     }
     public function testExecuteRedirect()
@@ -57,7 +58,7 @@ class PlasticineRouterTest extends TestCase
             $this->routerResult,
             $this->controllers,
             $this->request,
-            $this->headers,
+            null,
             $this->notFoundController,
             $this->redirectService
         );

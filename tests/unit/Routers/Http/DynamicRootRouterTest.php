@@ -20,7 +20,7 @@ use Romchik38\Server\Routers\Errors\RouterProccessError;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Routers\Http\DynamicHeadersCollection;
+use Romchik38\Server\Routers\Http\HeadersCollection;
 use Romchik38\Server\Routers\Http\RouterHeader;
 
 class DynamicRootRouterTest extends TestCase
@@ -309,7 +309,7 @@ class DynamicRootRouterTest extends TestCase
 
         $data = [$this->header];
 
-        $headerService = new DynamicHeadersCollection($data);
+        $headerService = new HeadersCollection($data);
 
         $headers = [fn() => $headerService];
 

@@ -7,13 +7,13 @@ namespace Romchik38\Server\Routers\Http;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
-use Romchik38\Server\Api\Routers\Http\DynamicHeadersCollectionInterface;
+use Romchik38\Server\Api\Routers\Http\HeadersCollectionInterface;
 
 /** 
  * this is not a service for the app
  * it used only in dynamic header
  */
-class DynamicHeadersCollection implements DynamicHeadersCollectionInterface
+class HeadersCollection implements HeadersCollectionInterface
 {
     protected array $hash = [];
 

@@ -18,7 +18,7 @@ class DynamicRootRouter implements HttpRouterInterface
 {
 
     /**
-     * @param array $headers Is a function, that accepts the rootName and returns an instance of DynamicHeadersCollectionInterface
+     * @param array $headers Is a function, that accepts the rootName and returns an instance of HeadersCollectionInterface
      */
     public function __construct(
         protected HttpRouterResultInterface $routerResult,
@@ -135,7 +135,7 @@ class DynamicRootRouter implements HttpRouterInterface
             // 9. Set headers
             if (count($this->headers) > 0) {
                 $callback = $this->headers[0];
-                /** @var DynamicHeadersCollectionInterface $headerService */
+                /** @var HeadersCollectionInterface $headerService */
                 $headerService = $callback($rootName);
                 $headerPath = $this->getHeaderPath($path);
                 /** @var RouterHeadersInterface|null  $header */

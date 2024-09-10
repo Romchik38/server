@@ -7,10 +7,10 @@ use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Results\Http\HttpRouterResult;
-use Romchik38\Server\Routers\Http\DynamicHeadersCollection;
+use Romchik38\Server\Routers\Http\HeadersCollection;
 use Romchik38\Server\Routers\Http\RouterHeader;
 
-class DynamicHeadersCollectionTest extends TestCase
+class HeadersCollectionTest extends TestCase
 {
     public function createHeader(string $path, string $method): RouterHeadersInterface
     {
@@ -45,7 +45,7 @@ class DynamicHeadersCollectionTest extends TestCase
 
         $data = [$header];
 
-        $headerService = new DynamicHeadersCollection($data);
+        $headerService = new HeadersCollection($data);
         $result = $headerService->getHeader($method, $path, ActionInterface::TYPE_ACTION);
         $result->setHeaders($routerResult, ['en', 'products']);
 
@@ -65,7 +65,7 @@ class DynamicHeadersCollectionTest extends TestCase
         
         $data = [$header];
 
-        $headerService = new DynamicHeadersCollection($data);
+        $headerService = new HeadersCollection($data);
         $result = $headerService->getHeader('POST', $path, ActionInterface::TYPE_ACTION);
         $this->assertSame(null, $result);
     }
@@ -83,7 +83,7 @@ class DynamicHeadersCollectionTest extends TestCase
 
         $data = [$header];
 
-        $headerService = new DynamicHeadersCollection($data);
+        $headerService = new HeadersCollection($data);
         $result = $headerService->getHeader($method, 'en<>products<>smartphone110', ActionInterface::TYPE_DYNAMIC_ACTION);
         $result->setHeaders($routerResult, ['en', 'products', 'smartphone110']);
 

@@ -2,6 +2,11 @@
 
 ## upcoming
 
+## v1.2.1
+
+- PlasticineRouter now uses HeaderColection
+- some code refactor
+
 ## v1.2.0
 
 - added Multilanguage system

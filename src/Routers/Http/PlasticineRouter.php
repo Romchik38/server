@@ -7,7 +7,7 @@ namespace Romchik38\Server\Routers\Http;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
-use Romchik38\Server\Api\Routers\Http\DynamicHeadersCollectionInterface;
+use Romchik38\Server\Api\Routers\Http\HeadersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
@@ -23,7 +23,7 @@ class PlasticineRouter implements HttpRouterInterface
         protected HttpRouterResultInterface $routerResult,
         protected array $controllers,
         protected RequestInterface $request,
-        protected DynamicHeadersCollectionInterface|null $headersCollection = null,
+        protected HeadersCollectionInterface|null $headersCollection = null,
         protected ControllerInterface | null $notFoundController = null,
         protected RedirectInterface|null $redirectService = null
     ) {}

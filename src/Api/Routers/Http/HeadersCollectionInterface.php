@@ -6,7 +6,7 @@ namespace Romchik38\Server\Api\Routers\Http;
 
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 
-interface DynamicHeadersCollectionInterface
+interface HeadersCollectionInterface
 {
     /**
      * @return RouterHeadersInterface|null 
