@@ -2,6 +2,8 @@
 
 ## upcoming
 
+- repository deleteById takes mixed id
+
 ## v1.2.1
 
 - PlasticineRouter now uses HeaderColection

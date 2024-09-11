@@ -55,7 +55,7 @@ class Repository implements RepositoryInterface
         return $this->modelFactory->create();
     }
 
-    public function deleteById(int $id): void
+    public function deleteById($id): void
     {
         $query = 'DELETE FROM ' . $this->table . ' WHERE '
             . $this->primaryFieldName . ' = $1';

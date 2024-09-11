@@ -17,7 +17,7 @@ interface RepositoryInterface
     /**
      * Find an entity by provided id
      *
-     * @param int $id [Entity Primary key]
+     * @param mixed $id [Entity Primary key]
      * @throws NoSuchEntityException
      * @return ModelInterface
      */
@@ -45,11 +45,11 @@ interface RepositoryInterface
     /**
      * Delete a row from the table
      *
-     * @param int $id [PRIMARY KEY of the table]
+     * @param mixed $id [PRIMARY KEY of the table]
      * @throws CouldNotDeleteException
      * @return void
      */
-    public function deleteById(int $id): void;
+    public function deleteById($id): void;
 
     /**
      * Update an existing model
