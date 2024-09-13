@@ -2,7 +2,10 @@
 
 ## upcoming
 
+## v1.2.2
+
 - repository deleteById takes mixed id
+- added psr-7 server request interface ( partial )
 
 ## v1.2.1
 
