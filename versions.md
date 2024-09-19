@@ -2,6 +2,11 @@
 
 ## upcoming
 
+## v1.2.3
+
+- fixed view interface
+- added default view dto interfaces and models
+
 ## v1.2.2
 
 - repository deleteById takes mixed id

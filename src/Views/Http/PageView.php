@@ -6,7 +6,7 @@ namespace Romchik38\Server\Views\Http;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use \Romchik38\Server\Api\Views\Http\HttpViewInterface;
-use Romchik38\Site1\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
+use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 
 class PageView implements HttpViewInterface
 {
