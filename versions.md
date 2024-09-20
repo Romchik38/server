@@ -2,6 +2,9 @@
 
 ## upcoming
 
+[!] method `setMetadata` removed from View interface  
+[!] method `setMetadata` PageView class become protected  
+
 ## v1.2.3
 
 - fixed view interface

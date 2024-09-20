@@ -35,7 +35,7 @@ class PageView implements HttpViewInterface
         return $this;
     }
 
-    public function setMetadata(string $key, string $value): HttpViewInterface
+    protected function setMetadata(string $key, string $value): HttpViewInterface
     {
         $this->metaData[$key] = $value;
         return $this;
