@@ -2,8 +2,13 @@
 
 ## upcoming
 
+## v1.3.0
+
 [!] method `setMetadata` removed from View interface  
 [!] method `setMetadata` PageView class become protected  
+[!] Session service and interface refactored  
+
+- added tests for Session service
 
 ## v1.2.3
 

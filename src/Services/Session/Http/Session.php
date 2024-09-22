@@ -10,6 +10,8 @@ use \Romchik38\Server\Services\Errors\SessionDoesnWorkException;
 class Session implements SessionInterface
 {
 
+    protected int $maxTimeToLogout = SessionInterface::SESSION_MAX_TIME_TO_LOGOUT;
+
     public function __construct()
     {
         session_start();
@@ -19,23 +21,28 @@ class Session implements SessionInterface
         }
     }
 
-    public function getUserId(): int
+    public function getData(string $key): mixed
     {
-        return $_SESSION[SessionInterface::SESSION_USER_ID_FIELD] ?? 0;
+        return $_SESSION[$key] ?? null;
+    }
+
+    public function getAllData(): array
+    {
+        return $_SESSION;
     }
 
     public function logout(): void
     {
-        unset($_SESSION[SessionInterface::SESSION_USER_ID_FIELD]);
         $_SESSION = [];
         if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time() - SessionInterface::SESSION_MAX_TIME_TO_LOGOUT, '/');
+            setcookie(session_name(), '', time() - $this->maxTimeToLogout, '/');
         }
         session_destroy();
     }
 
-    public function setUserId(int $id): void
+    public function setData(string $key, mixed $value): SessionInterface
     {
-        $_SESSION[SessionInterface::SESSION_USER_ID_FIELD] = $id;
+        $_SESSION[$key] = $value;
+        return $this;
     }
 }
