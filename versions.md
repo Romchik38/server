@@ -2,6 +2,8 @@
 
 ## upcoming
 
+- refactoerd Page view
+
 ## v1.3.0
 
 [!] method `setMetadata` removed from View interface  
