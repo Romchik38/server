@@ -9,11 +9,8 @@ use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 
 class DefaultViewDTOFactory implements DefaultViewDTOFactoryInterface
 {
-    public function create(
-        string $name,
-        string $description,
-        string $content = ''
-    ): DefaultViewDTOInterface {
-        return new DefaultViewDTO($name, $description, $content);
+    public function create(string $name, string $description): DefaultViewDTOInterface
+    {
+        return new DefaultViewDTO($name, $description);
     }
 }

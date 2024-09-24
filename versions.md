@@ -2,7 +2,10 @@
 
 ## upcoming
 
-- refactoerd Page view
+## v1.4.0
+
+- refactored Page view
+[!] function `getContent` removed from *DefaultViewDTOInterface*
 
 ## v1.3.0
 
