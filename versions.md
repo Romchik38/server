@@ -2,6 +2,12 @@
 
 ## upcoming
 
+## v1.4.1
+
+- added *View* class
+- added *JsonView* class
+- added tests for View, JsonView and dtos
+
 ## v1.4.0
 
 - refactored Page view
