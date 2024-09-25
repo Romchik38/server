@@ -14,14 +14,12 @@ abstract class View implements ViewInterface
     protected ControllerInterface|null $controller = null;
     protected string $action;
 
-    /** @todo test this */
     public function setController(ControllerInterface $controller, string $action = ''): ViewInterface {
         $this->controller = $controller;
         $this->action = $action;
         return $this;        
     }
 
-    /** @todo test this */
     public function setControllerData(DefaultViewDTOInterface $data): ViewInterface {
         $this->controllerData = $data;
         return $this;
