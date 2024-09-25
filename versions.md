@@ -2,6 +2,8 @@
 
 ## upcoming
 
+- refactored *View* class
+
 ## v1.4.1
 
 - added *View* class

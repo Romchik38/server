@@ -12,7 +12,7 @@ abstract class View implements ViewInterface
 {
     protected DefaultViewDTOInterface|null $controllerData = null;
     protected ControllerInterface|null $controller = null;
-    protected string $action;
+    protected string $action = '';
 
     public function setController(ControllerInterface $controller, string $action = ''): ViewInterface {
         $this->controller = $controller;
