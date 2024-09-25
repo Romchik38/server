@@ -1,16 +1,19 @@
 # PHP Server for web app under php-fpm
 
-Features ( v.1.2.0)
+## Features ( v.1.4.1)
 
 - http
   - server
   - router
   - session
-  - view
+  - views
+    - abstract
+    - json
+    - page
   - request psr-7 ( partial )
   - server request psr-7 ( partial )
-- controller
-- actions
+  - headers
+- controller system
 - sql
   - database ( PostgreSql)
   - repositories  
@@ -26,3 +29,13 @@ Features ( v.1.2.0)
 - Mailer ( phpmail )  
 - sitemap system
 - multilanguage system
+
+## Examples
+
+Examples shows how *php-server* works.
+
+### Site1
+
+- simple site with dynamic pages and login system
+- [github](https://github.com/Romchik38/site1)
+- [live preview](https://site1.romanenko-studio.dev/)
