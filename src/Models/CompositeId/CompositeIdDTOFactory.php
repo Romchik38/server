@@ -6,7 +6,7 @@ namespace Romchik38\Server\Models\CompositeId;
 
 use Romchik38\Server\Api\Models\CompositeId\CompositeIdDTOFactoryInterface;
 use Romchik38\Server\Api\Models\CompositeId\CompositeIdDTOInterface;
-use Romchik38\Server\Models\Errors\DTO\CantCreateDTOException;
+use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 class CompositeIdDTOFactory implements CompositeIdDTOFactoryInterface
 {
@@ -16,7 +16,7 @@ class CompositeIdDTOFactory implements CompositeIdDTOFactoryInterface
     {
         $values = [];
         foreach ($this->idKeys as $key) {
-            $value = $data[$key] ?? throw new CantCreateDTOException('menu id key does not exist');
+            $value = $data[$key] ?? throw new InvalidArgumentException('Composite id key is required:' . $key);
             $values[] = $value;
         }
 

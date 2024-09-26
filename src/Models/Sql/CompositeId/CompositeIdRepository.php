@@ -17,7 +17,7 @@ use Romchik38\Server\Models\Errors\{
     CouldNotSaveException,
     NoSuchEntityException,
     QueryExeption,
-    DTO\CantCreateDTOException
+    InvalidArgumentException
 };
 
 class CompositeIdRepository implements CompositeIdRepositoryInterface
@@ -139,7 +139,7 @@ class CompositeIdRepository implements CompositeIdRepositoryInterface
      * Create an entity from provided row
      * 
      * @param array $row ['field' => 'value', ...]
-     * @throws CantCreateDTOException
+     * @throws InvalidArgumentException
      * @return CompositeIdModelInterface
      */
     protected function createFromRow(array $row): CompositeIdModelInterface
