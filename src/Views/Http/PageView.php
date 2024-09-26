@@ -4,36 +4,17 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Views\Http;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use \Romchik38\Server\Api\Views\Http\HttpViewInterface;
-use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
+use Romchik38\Server\Views\View;
 
-class PageView implements HttpViewInterface
+class PageView extends View implements HttpViewInterface
 {
-    protected string $controllerData = '';
     protected array $metaData = [];
-    protected ControllerInterface|null $controller = null;
-    protected string $action;
 
     public function __construct(
         protected $generateTemplate,
         protected $controllerTemplate
-        )
-    {
-    }
-
-    public function setController(ControllerInterface $controller, string $action = ''): HttpViewInterface {
-        $this->controller = $controller;
-        $this->action = $action;
-        return $this;
-    }
-
-    public function setControllerData(DefaultViewDTOInterface $data): HttpViewInterface
-    {
-        $this->controllerData = call_user_func($this->controllerTemplate, $data);
-        $this->prepareMetaData($data);
-        return $this;
-    }
+    ) {}
 
     protected function setMetadata(string $key, mixed $value): PageView
     {
@@ -43,22 +24,31 @@ class PageView implements HttpViewInterface
 
     public function toString(): string
     {
-        return $this->build();
-    }
+        /** 1. create metadata for header, etc */
+        $this->prepareMetaData();
 
-    protected function build(): string
-    {
+        /** 
+         * 2. generate html from controller template
+         */
+        $controllerResult = call_user_func($this->controllerTemplate, $this->controllerData);
 
+        /** 3. generate html document */
         $html = call_user_func(
             $this->generateTemplate,
             $this->metaData,
-            $this->controllerData
+            $controllerResult
         );
 
         return $html;
     }
 
-    protected function prepareMetaData(DefaultViewDTOInterface $data): void{
-        /** use this for add info to metaData */
+    protected function prepareMetaData(): void
+    {
+        /** 
+         * Use this for add info to metaData 
+         * - $this->controllerData 
+         * - $this->controller
+         * - $this->action
+        */
     }
 }

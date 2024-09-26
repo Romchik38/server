@@ -2,8 +2,11 @@
 
 ## upcoming
 
+## v1.5.0
+
 - refactored *View* class
 - [!] *CantCreateDTOException* class renamed into *InvalidArgumentException*  
+- [!] *PageView* refactored
 
 ## v1.4.1
 

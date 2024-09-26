@@ -10,6 +10,11 @@ use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 interface ViewInterface
 {
     public function setController(ControllerInterface $controller, string $action = ''): ViewInterface;
+
     public function setControllerData(DefaultViewDTOInterface $data): ViewInterface;
+
+    /** 
+     * @throws ViewBuildException
+     */
     public function toString(): string;
 }
