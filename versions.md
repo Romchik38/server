@@ -3,6 +3,7 @@
 ## upcoming
 
 - refactored *View* class
+- [!] *CantCreateDTOException* class renamed into *InvalidArgumentException*  
 
 ## v1.4.1
 
