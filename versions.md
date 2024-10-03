@@ -2,6 +2,9 @@
 
 ## upcoming
 
+- class `Translate` refactored
+- added a few tests for class `Translate`
+
 ## v1.5.0
 
 - refactored *View* class

@@ -45,14 +45,23 @@ class Translate implements TranslateInterface
             );
         }
 
-        /**
-         * Want that translate works - load all phrases in the default language before change it
-         */
+        $format = 'Translation for string %s is missing. Please create it for default %s language first';
+        $formatDefaultVal = 'Default value for language %s isn\'t set';
+
         /** @var TranslateEntityDTOInterface $translateDTO*/
         $translateDTO = $this->hash[$str] ??
-            throw new TranslateException('invalid trans string');
+            /** you do not have a translate for given string at all */
+            throw new TranslateException(sprintf($format, $str, $this->defaultLang));
+
         $defaultVal = $translateDTO->getPhrase($this->defaultLang) ??
-            throw new TranslateException('default value for lang ' . $this->defaultLang . ' isn\'t set');
+            /** you do not have a translate for given string in default language */
+            throw new TranslateException(sprintf($formatDefaultVal, $this->defaultLang));
+
+            /** 
+             * pass 
+             * 
+             * @todo add log with level debug if currentLang is null
+             * */
         return $translateDTO->getPhrase($this->currentLang) ?? $defaultVal;
     }
 }

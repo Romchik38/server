@@ -42,7 +42,7 @@ class TranslateTest extends TestCase
         $this->assertSame('якась фраза', $translate->t('some.key'));
     }
 
-    public function testTthrowsErrorBecauseUnknownKey()
+    public function testThrowsErrorBecauseUnknownKey()
     {
         $this->translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash());
@@ -55,6 +55,7 @@ class TranslateTest extends TestCase
         $dynamicRoot->setCurrentRoot('uk');
 
         $this->expectException(TranslateException::class);
+        $this->expectExceptionMessage('Translation for string unknown.key is missing. Please create it for default en language first');
 
         $translate = new Translate(
             $this->translateStorage,
@@ -87,6 +88,7 @@ class TranslateTest extends TestCase
         $dynamicRoot->setCurrentRoot('uk');
 
         $this->expectException(TranslateException::class);
+        $this->expectExceptionMessage('Default value for language gb isn\'t set');
 
         $translate = new Translate(
             $this->translateStorage,
