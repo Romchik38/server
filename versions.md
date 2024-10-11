@@ -2,6 +2,7 @@
 
 ## upcoming
 
+- [!] Refactored `ActionInterface` - renamed TYPE_DEFAULT_ACTION and it's value
 - class `Translate` refactored
 - added a few tests for class `Translate`
 

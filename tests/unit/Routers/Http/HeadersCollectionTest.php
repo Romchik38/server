@@ -46,7 +46,7 @@ class HeadersCollectionTest extends TestCase
         $data = [$header];
 
         $headerService = new HeadersCollection($data);
-        $result = $headerService->getHeader($method, $path, ActionInterface::TYPE_ACTION);
+        $result = $headerService->getHeader($method, $path, ActionInterface::TYPE_DEFAULT_ACTION);
         $result->setHeaders($routerResult, ['en', 'products']);
 
         $resultHeaders = $routerResult->getHeaders();
@@ -66,7 +66,7 @@ class HeadersCollectionTest extends TestCase
         $data = [$header];
 
         $headerService = new HeadersCollection($data);
-        $result = $headerService->getHeader('POST', $path, ActionInterface::TYPE_ACTION);
+        $result = $headerService->getHeader('POST', $path, ActionInterface::TYPE_DEFAULT_ACTION);
         $this->assertSame(null, $result);
     }
 

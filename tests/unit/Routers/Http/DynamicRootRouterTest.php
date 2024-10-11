@@ -242,7 +242,7 @@ class DynamicRootRouterTest extends TestCase
         $controllerResult = new ControllerResult(
             'Product #1',
             ['en', 'products'],
-            ActionInterface::TYPE_ACTION
+            ActionInterface::TYPE_DEFAULT_ACTION
         );
 
         $this->request->method('getUri')->willReturn($uri);
@@ -295,7 +295,7 @@ class DynamicRootRouterTest extends TestCase
         $controllerResult = new ControllerResult(
             'Product #1',
             $path,
-            ActionInterface::TYPE_ACTION
+            ActionInterface::TYPE_DEFAULT_ACTION
         );
 
         $this->header = new class('en<>products', 'GET') extends RouterHeader {
@@ -412,7 +412,7 @@ class DynamicRootRouterTest extends TestCase
         $controllerResult = new ControllerResult(
             $notFoundResponse,
             ['404'],
-            ActionInterface::TYPE_ACTION
+            ActionInterface::TYPE_DEFAULT_ACTION
         );
 
         $this->request->method('getUri')->willReturn($uri);

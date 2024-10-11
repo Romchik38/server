@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 
 interface ActionInterface
 {
-    const TYPE_ACTION = 'action';
+    const TYPE_DEFAULT_ACTION = 'default_action';
     const TYPE_DYNAMIC_ACTION = 'dynamic_action';
     /**
      * returns current controller

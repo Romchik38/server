@@ -130,7 +130,7 @@ class Controller implements ControllerInterface
                 $fullPath = $this->getFullPath();
                 if ($this->action !== null) {
                     $response = $this->action->execute();
-                    return $this->controllerResultFactory->create($response, $fullPath, ActionInterface::TYPE_ACTION);
+                    return $this->controllerResultFactory->create($response, $fullPath, ActionInterface::TYPE_DEFAULT_ACTION);
                 } else {
                     // 1.2.1.2.1 - throw NotFoundException
                     throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
