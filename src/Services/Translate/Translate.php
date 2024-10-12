@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Translate;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateInterface;
@@ -30,7 +32,9 @@ class Translate implements TranslateInterface
 
     public function __construct(
         protected readonly TranslateStorageInterface $translateStorage,
-        protected readonly DynamicRootInterface $DynamicRoot
+        protected readonly DynamicRootInterface $DynamicRoot,
+        protected readonly LoggerInterface|null $logger = null,
+        protected readonly string $loglevel = LogLevel::DEBUG
     ) {
         $this->defaultLang = $this->DynamicRoot->getDefaultRoot()->getName();
     }
@@ -38,7 +42,12 @@ class Translate implements TranslateInterface
     public function t(string $str): string
     {
         $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
+        return $this->translate($str, $this->currentLang);
+    }
 
+    public function translate(string $key, string $language): string
+    {
+        /** 1. Fill the hash */
         if ($this->hash === null) {
             $this->hash = $this->translateStorage->getDataByLanguages(
                 [$this->defaultLang, $this->currentLang]
@@ -48,20 +57,36 @@ class Translate implements TranslateInterface
         $format = 'Translation for string %s is missing. Please create it for default %s language first';
         $formatDefaultVal = 'Default value for language %s isn\'t set';
 
-        /** @var TranslateEntityDTOInterface $translateDTO*/
-        $translateDTO = $this->hash[$str] ??
+        /** 
+         * 2. Check if key exists
+         * @var TranslateEntityDTOInterface $translateDTO*/
+        $translateDTO = $this->hash[$key] ??
             /** you do not have a translate for given string at all */
-            throw new TranslateException(sprintf($format, $str, $this->defaultLang));
+            throw new TranslateException(sprintf($format, $key, $this->defaultLang));
 
+        /** 3. Check you do not have a translate for given string in default language */
         $defaultVal = $translateDTO->getPhrase($this->defaultLang) ??
-            /** you do not have a translate for given string in default language */
             throw new TranslateException(sprintf($formatDefaultVal, $this->defaultLang));
 
-            /** 
-             * pass 
-             * 
-             * @todo add log with level debug if currentLang is null
-             * */
-        return $translateDTO->getPhrase($this->currentLang) ?? $defaultVal;
+        $translated = $translateDTO->getPhrase($language);
+
+        /** 4. return by provided language */
+        if ($translated !== null) {
+            return $translated;
+        }
+        /**
+         * @todo test this 
+         * 5. return by default language 
+         * */
+        if ($this->logger !== null) {
+            $this->logger->log($this->loglevel, 
+            sprintf(
+                '%s: Missed translation for key %s language %s', 
+                $this::class,
+                $key,
+                $language
+            ));
+        }
+        return $defaultVal;
     }
 }
