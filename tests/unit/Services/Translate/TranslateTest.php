@@ -3,13 +3,14 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LogLevel;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
 use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
-use Romchik38\Server\Models\TranslateEntity\TranslateEntityModel;
 use Romchik38\Server\Services\Translate\Translate;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Errors\TranslateException;
 use Romchik38\Server\Services\Translate\TranslateStorage;
+use Romchik38\Server\Services\Logger\Loggers\FileLogger;
 
 class TranslateTest extends TestCase
 {
@@ -98,6 +99,39 @@ class TranslateTest extends TestCase
         $translate->t('some.key');
     }
 
+    /**
+     * Missin translation for given key and language
+     * In that case function makes log and returns phrase default language
+     * 
+     * test:
+     *    - log
+     *    - default phrase
+     */
+    public function testTranslateWithLoggerNoTranslation()
+    {
+        $this->translateStorage->method('getDataByLanguages')
+            ->willReturn($this->createHash());
+
+        $dynamicRoot = new DynamicRoot(
+            'en',
+            ['en', 'gb'],
+            new DynamicRootDTOFactory
+        );
+        $dynamicRoot->setCurrentRoot('gb');
+
+        $logger = $this->createMock(FileLogger::class);
+
+        $logMessage = Translate::class . ': Missed translation for key some.key language gb';
+        $logger->expects($this->once())->method('log')->with(LogLevel::DEBUG, $logMessage);
+
+        $translate = new Translate(
+            $this->translateStorage,
+            $dynamicRoot,
+            $logger
+        );
+
+        $this->assertSame('phrase some', $translate->t('some.key'));
+    }
 
     protected function createHash()
     {
