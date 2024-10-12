@@ -2,6 +2,7 @@
 
 ## upcoming
 
+- `ControllerDTO` - fixed interface, added tests
 - `Translate` - added new function *translate*
 - [!] Refactored `ActionInterface` - renamed TYPE_DEFAULT_ACTION and it's value
 - class `Translate` refactored

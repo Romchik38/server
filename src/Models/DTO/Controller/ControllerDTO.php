@@ -7,21 +7,13 @@ namespace Romchik38\Server\Models\DTO\Controller;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Models\DTO;
 
-/** MUST BE a real DTO, not a model 
- * 
- * ---->  move methods set... to __construct params <------
- * 
- */
-class ControllerDTO extends DTO implements ControllerDTOInterface
+final class ControllerDTO extends DTO implements ControllerDTOInterface
 {
-
     public function __construct(
         protected readonly string $name,
         protected array $path,
         protected array $children
-    ) {
-
-    }
+    ) {}
 
     public function getName(): string
     {

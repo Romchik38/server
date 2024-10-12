@@ -12,10 +12,23 @@ interface ControllerDTOInterface extends DTOInterface, \JsonSerializable
      * Used in the jsonSerialize() method
      */
     const NAME_FIELD = 'name';
-    const PATH_FIELD = 'name';
-    const CHILDREN_FIELD = 'name';
+    const PATH_FIELD = 'path';
+    const CHILDREN_FIELD = 'children';
 
+    /**
+     * Returns Controller name
+     */
     public function getName(): string;
+
+    /**
+     * Path to this controller
+     * 
+     * @return string[] Parrents names where 1st element is the root name
+     */
     public function getPath(): array;
+
+    /**
+     * @return ControllerDTOInterface[]
+     */
     public function getChildren(): array;
 }
