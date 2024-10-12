@@ -54,6 +54,11 @@ class Translate implements TranslateInterface
             );
         }
 
+        /** Check for specific language */
+        if($language !== $this->defaultLang && $language !== $this->currentLang) {
+            /** @todo make a request to database */
+        }
+
         $format = 'Translation for string %s is missing. Please create it for default %s language first';
         $formatDefaultVal = 'Default value for language %s isn\'t set';
 

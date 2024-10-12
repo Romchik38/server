@@ -47,4 +47,8 @@ class TranslateStorage implements TranslateStorageInterface
 
         return $this->hash;
     }
+
+    public function getAllDataByKey(string $key): TranslateEntityDTOInterface {
+        /** @todo implement it */
+    }
 }
