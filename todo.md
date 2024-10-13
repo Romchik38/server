@@ -6,7 +6,7 @@
 [-] tests for  
     [-] `TranslateStorage`  
     [-] `TranslateEntityModelRepository`  
-    [-] `Translate`  
+    [+] `Translate`  
 
 ## Next
 
