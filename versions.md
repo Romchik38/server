@@ -1,6 +1,11 @@
 # Versions
 
+[n] - new  
+[!] - breaking changes  
+
 ## upcoming
+
+[n] - added `BreadcrumbDTO`, `BreadcrumbDTOFactory` and tests for  them
 
 ## v1.6.1
 
