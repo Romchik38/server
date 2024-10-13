@@ -45,11 +45,44 @@ class TranslateStorageTest extends TestCase
         $hash = $translateStorage->getDataByLanguages($languages);
 
         $this->assertSame(true, array_key_exists($key, $hash));
-        
+
         $dto = $hash[$key];
 
         $this->assertSame('phrase1', $dto->getPhrase('en'));
         $this->assertSame('фраза1', $dto->getPhrase('uk'));
     }
 
+    public function testGetAllDataByKey()
+    {
+        $languages = ['en', 'uk'];
+
+        $key = 'key.about';
+
+        $model1 = new TranslateEntityModel();
+        $model1->setKey($key);
+        $model1->setLanguage('en');
+        $model1->setPhrase('phrase1');
+
+        $model2 = new TranslateEntityModel();
+        $model2->setKey($key);
+        $model2->setLanguage('uk');
+        $model2->setPhrase('фраза1');
+
+        $this->repostory->expects($this->once())->method('getByKey')
+            ->with($key)->willReturn([$model1, $model2]);
+
+        $translateStorage = new TranslateStorage(
+            $this->repostory,
+            new TranslateEntityDTOFactory()
+        );
+
+        $hash = $translateStorage->getAllDataByKey($key);
+
+        $this->assertSame(true, array_key_exists($key, $hash));
+
+        $dto = $hash[$key];
+
+        $this->assertSame('phrase1', $dto->getPhrase('en'));
+        $this->assertSame('фраза1', $dto->getPhrase('uk'));
+    }
 }

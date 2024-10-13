@@ -31,9 +31,12 @@ class TranslateStorage implements TranslateStorageInterface
     }
 
     /**
-     * @return TranslateEntityDTOInterface[]
+     * Returns a hash [key => dto, ...]
+     * 
+     * @return array<string,TranslateEntityDTOInterface>
      */
-    protected function mapModelToDTO(array $models): array {
+    protected function mapModelToDTO(array $models): array
+    {
 
         $collection = [];
 
@@ -48,12 +51,12 @@ class TranslateStorage implements TranslateStorageInterface
             }
         }
 
-        $dtos = [];
+        $hash = [];
 
         foreach ($collection as $itemKey => $languages) {
-            $dtos[$itemKey] = $this->translateEntityDTOFactory->create($itemKey, $languages);
+            $hash[$itemKey] = $this->translateEntityDTOFactory->create($itemKey, $languages);
         }
 
-        return $dtos;
+        return $hash;
     }
 }

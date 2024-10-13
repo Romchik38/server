@@ -4,7 +4,7 @@
 
 [+] translate must return valid data by specific language  
 [-] tests for  
-    [-] `TranslateStorage`  
+    [+] `TranslateStorage`  
     [-] `TranslateEntityModelRepository`  
     [+] `Translate`  
 
