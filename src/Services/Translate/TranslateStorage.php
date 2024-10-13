@@ -19,15 +19,15 @@ class TranslateStorage implements TranslateStorageInterface
     public function getDataByLanguages(array $languages): array
     {
         $models = $this->translateEntityModelRepository->getListByLanguages($languages);
-        $dtos = $this->mapModelToDTO($models);
-        return $dtos;
+        $hash = $this->mapModelToDTO($models);
+        return $hash;
     }
 
     public function getAllDataByKey(string $key): array
     {
         $models = $this->translateEntityModelRepository->getByKey($key);
-        $dtos = $this->mapModelToDTO($models);
-        return $dtos;
+        $hash = $this->mapModelToDTO($models);
+        return $hash;
     }
 
     /**

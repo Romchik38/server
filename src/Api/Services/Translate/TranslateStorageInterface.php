@@ -10,15 +10,17 @@ interface TranslateStorageInterface
 {
 
     /**
-     * get all dto entities by provided 2 languages
+     * Get all dto entities by provided 2 languages
      * 
      * @param string[] $languages [default_lang, current_lang]
-     * @return TranslateEntityDTOInterface[] list of translate dto entities
+     * @return array<string,TranslateEntityDTOInterface> a hash [key => DTO, ...]
      */
     public function getDataByLanguages(array $languages): array;
     
     /**
-     * @return TranslateEntityDTOInterface[]
+     * Get a dto entity by provided key
+     * 
+     * @return array<string,TranslateEntityDTOInterface> A hash [key => DTO, ...]
      */
     public function getAllDataByKey(string $key): array;
 }
