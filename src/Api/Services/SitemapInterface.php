@@ -11,9 +11,9 @@ interface SitemapInterface
 {
     const ROOT_NAME = 'root';
     /** 
-     * map controller tree to controller dto tree 
+     * Map controller tree to controller dto tree. Used for breadcrumbs.
      * 
-     * @param ControllerInterface $controller [current controller]
+     * @param ControllerInterface $controller Current controller. Only to transfer process control
      * @return ControllerDTOInterface [root controller dto]
      */
     public function getRootControllerDTO(ControllerInterface $controller): ControllerDTOInterface;
@@ -22,7 +22,7 @@ interface SitemapInterface
      * map controller tree to one line dto tree 
      * every member can have only one parent and one child
      *  
-     * @param ControllerInterface $controller current controller
+     * @param ControllerInterface $controller Current controller. Only to transfer process control
      * @return ControllerDTOInterface root controller dto
      */
     public function getOnlyLineRootControllerDTO(ControllerInterface $controller, string $action): ControllerDTOInterface;

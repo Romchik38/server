@@ -25,8 +25,7 @@ class Sitemap implements SitemapInterface
         $rootDTO = $this->createItem(null, $controller, $action);
         return $rootDTO;
     }
-
-    /** maps whole controller tree to controller model tree with root element in a head*/
+    
     public function getRootControllerDTO(ControllerInterface $controller): ControllerDTOInterface
     {
         $first = $this->getFirst($controller);
