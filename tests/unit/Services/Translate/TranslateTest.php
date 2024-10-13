@@ -26,7 +26,7 @@ class TranslateTest extends TestCase
     public function testT()
     {
         $this->translateStorage->method('getDataByLanguages')
-            ->willReturn($this->createHash());
+            ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
             'en',
@@ -46,7 +46,7 @@ class TranslateTest extends TestCase
     public function testThrowsErrorBecauseUnknownKey()
     {
         $this->translateStorage->method('getDataByLanguages')
-            ->willReturn($this->createHash());
+            ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
             'en',
@@ -79,7 +79,7 @@ class TranslateTest extends TestCase
     public function testTthrowsErrorBecauseNoDefaultVal()
     {
         $this->translateStorage->method('getDataByLanguages')
-            ->willReturn($this->createHash());
+            ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
             'gb',
@@ -110,7 +110,7 @@ class TranslateTest extends TestCase
     public function testTranslateWithLoggerNoTranslation()
     {
         $this->translateStorage->method('getDataByLanguages')
-            ->willReturn($this->createHash());
+            ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
             'en',
@@ -133,11 +133,44 @@ class TranslateTest extends TestCase
         $this->assertSame('phrase some', $translate->t('some.key'));
     }
 
-    protected function createHash()
+    public function testTranslateWithSpecificLanguage()
     {
         $key = 'some.key';
+        $specificLanguage = 'uk';
+        $this->translateStorage->method('getDataByLanguages')
+            ->willReturn([$key => new TranslateEntityDTO(
+                $key,
+                [
+                    'en' => 'phrase some',
+                ]
+            )]);
 
-        $dto = new TranslateEntityDTO('some.key', [
+        $this->translateStorage
+            ->expects($this->once())
+            ->method('getAllDataByKey')
+            ->with($key)
+            ->willReturn($this->createHash($key));
+
+        $dynamicRoot = new DynamicRoot(
+            'en',
+            ['en'],
+            new DynamicRootDTOFactory
+        );
+
+        $dynamicRoot->setCurrentRoot('en');
+
+        $translate = new Translate(
+            $this->translateStorage,
+            $dynamicRoot
+        );
+
+        $res = $translate->translate($key, $specificLanguage);
+        $this->assertSame('якась фраза', $res);
+    }
+
+    protected function createHash(string $key)
+    {
+        $dto = new TranslateEntityDTO($key, [
             'en' => 'phrase some',
             'uk' => 'якась фраза'
         ]);

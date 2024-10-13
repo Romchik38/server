@@ -43,12 +43,14 @@ class Translate implements TranslateInterface
 
     public function t(string $str): string
     {
-        $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
+        $this->setCurrentLanguage();
         return $this->translate($str, $this->currentLang);
     }
 
     public function translate(string $key, string $language): string
     {
+        $this->setCurrentLanguage();
+
         /** 1. Fill the hash */
         if ($this->hash === null) {
             $this->hash = $this->translateStorage->getDataByLanguages(
@@ -102,5 +104,9 @@ class Translate implements TranslateInterface
             ));
         }
         return $defaultVal;
+    }
+
+    protected function setCurrentLanguage(): void {
+        $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
     }
 }
