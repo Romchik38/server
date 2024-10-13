@@ -2,6 +2,8 @@
 
 ## upcoming
 
+- `Translate`, `TranslateEntityModelRepository`, `TranslateStorage`, `TranslateStorageInterface`, `TranslateEntityModelRepositoryInterface` - refactored, added new methods, `Translate` can works with specific language via *translate* method
+
 ## v1.6.0
 
 - `ControllerDTO` - fixed interface, added tests
