@@ -10,6 +10,19 @@ use Romchik38\Server\Models\TranslateEntity\TranslateEntityModel;
 
 class TranslateEntityModelRepositoryTest extends TestCase
 {
+    protected $database;
+    protected $factory;
+    protected $repository;
+    protected $table = 'table';
+
+    public function setUp(): void {
+        $this->database = $this->createMock(DatabasePostgresql::class);
+        $this->factory = $this->createMock(TranslateEntityModelFactory::class);
+        $this->repository = new TranslateEntityModelRepository(
+            $this->database, $this->factory, $this->table, TranslateEntityModel::ID_FIELD
+        );
+    }
+
     public function testGetListByLanguages()
     {
         $id1 = 1;
@@ -24,10 +37,7 @@ class TranslateEntityModelRepositoryTest extends TestCase
 
         $languages = [$language1, $language2];
 
-        $database = $this->createMock(DatabasePostgresql::class);
-        $factory = $this->createMock(TranslateEntityModelFactory::class);
-        $model = new TranslateEntityModel();
-        $listQueryPart = 'SELECT table.* FROM table  WHERE';
+        $listQueryPart = 'SELECT table.* FROM table WHERE';
         $query = $listQueryPart. ' ' . TranslateEntityModel::LANGUAGE_FIELD . ' = $1 OR '
             . TranslateEntityModel::LANGUAGE_FIELD . ' = $2';
         $databaseResult1 = [
@@ -43,18 +53,13 @@ class TranslateEntityModelRepositoryTest extends TestCase
             TranslateEntityModel::PHRASE_FIELD => $phrase2
         ];
 
-        $factory->expects($this->exactly(2))->method('create')
+        $this->factory->expects($this->exactly(2))->method('create')
             ->willReturn(new TranslateEntityModel(), new TranslateEntityModel());
 
-        $database->expects($this->once())->method('queryParams')
+        $this->database->expects($this->once())->method('queryParams')
             ->with($query, $languages)->willReturn([$databaseResult1, $databaseResult2]);
 
-
-        $repository = new TranslateEntityModelRepository(
-            $database, $factory, 'table', TranslateEntityModel::ID_FIELD
-        );
-
-        [$result1, $result2] = $repository->getListByLanguages($languages);
+        [$result1, $result2] = $this->repository->getListByLanguages($languages);
 
         $this->assertEquals($id1, $result1->getId());
         $this->assertEquals($key1, $result1->getKey());

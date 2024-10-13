@@ -21,7 +21,7 @@ class TranslateEntityModelRepository extends Repository implements TranslateEnti
             $fields[] = TranslateEntityModelInterface::LANGUAGE_FIELD . ' = $' . $count;
         }
         if (count($fields) > 0) {
-            $expression = ' WHERE ' . implode(' OR ', $fields);
+            $expression = 'WHERE ' . implode(' OR ', $fields);
         }
 
         $list = $this->list($expression, $languages);
