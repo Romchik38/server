@@ -3,9 +3,9 @@
 ## Current
 
 [+] translate must return valid data by specific language  
-[-] tests for  
+[+] tests for  
     [+] `TranslateStorage`  
-    [-] `TranslateEntityModelRepository`  
+    [+] `TranslateEntityModelRepository`  
     [+] `Translate`  
 
 ## Next

@@ -2,7 +2,9 @@
 
 ## upcoming
 
-- `Translate`, `TranslateEntityModelRepository`, `TranslateStorage`, `TranslateStorageInterface`, `TranslateEntityModelRepositoryInterface` - refactored, added new methods, `Translate` can works with specific language via *translate* method
+## v1.6.1
+
+- `Translate`, `TranslateEntityModelRepository`, `TranslateStorage`, `TranslateStorageInterface`, `TranslateEntityModelRepositoryInterface` - refactored, added new methods, `Translate` can works with specific language via *translate* method. Tested.
 
 ## v1.6.0
 

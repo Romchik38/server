@@ -71,4 +71,55 @@ class TranslateEntityModelRepositoryTest extends TestCase
         $this->assertEquals($language2, $result2->getLanguage());
         $this->assertEquals($phrase2, $result2->getPhrase());
     }
+
+    public function testGetByKey()
+    {
+        $key = 'some.key';
+
+        $id1 = 1;
+        $language1 = 'en';
+        $phrase1 = 'some phrase';
+
+        $id2 = 2;
+        $language2 = 'uk';
+        $phrase2 = 'якасть фраза';
+
+        $databaseQueryPart = 'SELECT table.* FROM table ';
+        $listQueryPart = sprintf(
+            'WHERE %s.key = $1', 
+            $this->table
+        );
+        $query = $databaseQueryPart . $listQueryPart;
+
+        $databaseResult1 = [
+            TranslateEntityModel::ID_FIELD => $id1,
+            TranslateEntityModel::LANGUAGE_FIELD => $language1,
+            TranslateEntityModel::KEY_FIELD => $key,
+            TranslateEntityModel::PHRASE_FIELD => $phrase1
+        ];
+        $databaseResult2 = [
+            TranslateEntityModel::ID_FIELD => $id2,
+            TranslateEntityModel::LANGUAGE_FIELD => $language2,
+            TranslateEntityModel::KEY_FIELD => $key,
+            TranslateEntityModel::PHRASE_FIELD => $phrase2
+        ];
+
+        $this->factory->expects($this->exactly(2))->method('create')
+            ->willReturn(new TranslateEntityModel(), new TranslateEntityModel());
+
+        $this->database->expects($this->once())->method('queryParams')
+            ->with($query, [$key])->willReturn([$databaseResult1, $databaseResult2]);
+
+        [$result1, $result2] = $this->repository->getByKey($key);
+
+        $this->assertEquals($id1, $result1->getId());
+        $this->assertEquals($key, $result1->getKey());
+        $this->assertEquals($language1, $result1->getLanguage());
+        $this->assertEquals($phrase1, $result1->getPhrase());
+
+        $this->assertEquals($id2, $result2->getId());
+        $this->assertEquals($key, $result2->getKey());
+        $this->assertEquals($language2, $result2->getLanguage());
+        $this->assertEquals($phrase2, $result2->getPhrase());
+    }
 }
