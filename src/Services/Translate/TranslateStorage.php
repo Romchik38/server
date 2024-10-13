@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Translate;
 
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOFactoryInterface;
+use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelRepositoryInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 
 class TranslateStorage implements TranslateStorageInterface
 {
-
-    protected array $hash = [];
-
     public function __construct(
         protected readonly TranslateEntityModelRepositoryInterface $translateEntityModelRepository,
         protected readonly TranslateEntityDTOFactoryInterface $translateEntityDTOFactory
@@ -20,13 +18,22 @@ class TranslateStorage implements TranslateStorageInterface
 
     public function getDataByLanguages(array $languages): array
     {
-        // 1. return data if it is already was created
-        if (count($this->hash) > 0) {
-            return $this->hash;
-        }
-
-        // 2. creating data
         $models = $this->translateEntityModelRepository->getListByLanguages($languages);
+        $dtos = $this->mapModelToDTO($models);
+        return $dtos;
+    }
+
+    public function getAllDataByKey(string $key): array
+    {
+        $models = $this->translateEntityModelRepository->getByKey($key);
+        $dtos = $this->mapModelToDTO($models);
+        return $dtos;
+    }
+
+    /**
+     * @return TranslateEntityDTOInterface[]
+     */
+    protected function mapModelToDTO(array $models): array {
 
         $collection = [];
 
@@ -41,14 +48,12 @@ class TranslateStorage implements TranslateStorageInterface
             }
         }
 
+        $dtos = [];
+
         foreach ($collection as $itemKey => $languages) {
-            $this->hash[$itemKey] = $this->translateEntityDTOFactory->create($itemKey, $languages);
+            $dtos[$itemKey] = $this->translateEntityDTOFactory->create($itemKey, $languages);
         }
 
-        return $this->hash;
-    }
-
-    public function getAllDataByKey(string $key): TranslateEntityDTOInterface {
-        /** @todo implement it */
+        return $dtos;
     }
 }

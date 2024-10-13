@@ -27,6 +27,8 @@ class Translate implements TranslateInterface
 {
     protected string $defaultLang;
     protected string $currentLang;
+    protected string $formatErrorMessage = 'Translation for string %s is missing. Please create it for default %s language first';
+    protected string $formatErrorDefaultVal = 'Default value for language %s isn\'t set';
 
     protected array|null $hash = null;
 
@@ -54,34 +56,41 @@ class Translate implements TranslateInterface
             );
         }
 
-        /** Check for specific language */
-        if($language !== $this->defaultLang && $language !== $this->currentLang) {
-            /** @todo make a request to database */
-        }
-
-        $format = 'Translation for string %s is missing. Please create it for default %s language first';
-        $formatDefaultVal = 'Default value for language %s isn\'t set';
-
         /** 
-         * 2. Check if key exists
+         * 3. Check if key exists
          * @var TranslateEntityDTOInterface $translateDTO*/
         $translateDTO = $this->hash[$key] ??
             /** you do not have a translate for given string at all */
-            throw new TranslateException(sprintf($format, $key, $this->defaultLang));
+            throw new TranslateException(sprintf($this->formatErrorMessage, $key, $this->defaultLang));
 
-        /** 3. Check you do not have a translate for given string in default language */
+        /** 4. Check you do not have a translate for given string in default language */
         $defaultVal = $translateDTO->getPhrase($this->defaultLang) ??
-            throw new TranslateException(sprintf($formatDefaultVal, $this->defaultLang));
+            throw new TranslateException(sprintf($this->formatErrorDefaultVal, $this->defaultLang));
 
         $translated = $translateDTO->getPhrase($language);
 
-        /** 4. return by provided language */
+        /** 5. return by provided language */
         if ($translated !== null) {
             return $translated;
         }
+
+        /** 6. Check for specific language (get all translates for the given key)*/
+        if($language !== $this->defaultLang && $language !== $this->currentLang) {
+            $array = $this->translateStorage->getAllDataByKey($key);
+            if (count($array) === 1) {
+                $dto = $array[$key];
+                $this->hash[$key] = $dto;
+
+                $translated = $dto->getPhrase($language);
+
+                if ($translated !== null) {
+                    return $translated;
+                }   
+            }
+        }
+
         /**
-         * @todo test this 
-         * 5. return by default language 
+         * 7. return by default language 
          * */
         if ($this->logger !== null) {
             $this->logger->log($this->loglevel, 

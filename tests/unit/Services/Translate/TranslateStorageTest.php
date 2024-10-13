@@ -52,32 +52,4 @@ class TranslateStorageTest extends TestCase
         $this->assertSame('фраза1', $dto->getPhrase('uk'));
     }
 
-    public function testGetDataByLanguagesHashAlreadyExist(){
-        $languages = ['en', 'uk'];
-
-        $key = 'key.about';
-
-        $model1 = new TranslateEntityModel();
-        $model1->setKey($key);
-        $model1->setLanguage('en');
-        $model1->setPhrase('phrase1');
-
-        $model2 = new TranslateEntityModel();
-        $model2->setKey($key);
-        $model2->setLanguage('uk');
-        $model2->setPhrase('фраза1');
-
-        $this->repostory->expects($this->once())->method('getListByLanguages')
-            ->willReturn([$model1, $model2]);
-
-        $translateStorage = new TranslateStorage(
-            $this->repostory,
-            new TranslateEntityDTOFactory()
-        );
-
-        $hash = $translateStorage->getDataByLanguages($languages);
-        $hash = $translateStorage->getDataByLanguages($languages);
-
-        $this->assertSame($hash, $hash);
-    }
 }

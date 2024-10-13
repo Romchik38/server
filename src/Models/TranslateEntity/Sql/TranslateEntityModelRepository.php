@@ -27,4 +27,9 @@ class TranslateEntityModelRepository extends Repository implements TranslateEnti
         $list = $this->list($expression, $languages);
         return $list;
     }
+
+    public function getByKey($key): array {
+        $expression = ' WHERE ' . $this->table . '.key = $1';
+        return $this->list($expression, [$key]);
+    }
 }

@@ -16,4 +16,11 @@ interface TranslateEntityModelRepositoryInterface extends RepositoryInterface
      * @return TranslateEntityModelInterface[] 
      */
     public function getListByLanguages(array $languages): array;
+
+    /**
+     * Get entities by provided key
+     * 
+     * @return TranslateEntityModelInterface[]
+     */
+    public function getByKey($key): array;
 }
