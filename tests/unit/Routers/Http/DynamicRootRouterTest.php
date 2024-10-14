@@ -19,7 +19,9 @@ use Romchik38\Server\Results\Controller\ControllerResult;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
+use Romchik38\Server\Api\Services\SitemapInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
+use Romchik38\Server\Routers\Http\ControllersCollection;
 use Romchik38\Server\Routers\Http\HeadersCollection;
 use Romchik38\Server\Routers\Http\RouterHeader;
 
@@ -33,6 +35,8 @@ class DynamicRootRouterTest extends TestCase
     protected $redirectService;
     protected $header;
     protected $notFoundController;
+    protected $controllersCollection;
+    protected $headersCollection;
 
     public function setUp(): void
     {
@@ -42,6 +46,8 @@ class DynamicRootRouterTest extends TestCase
         $this->controller = $this->createMock(Controller::class);
         $this->redirectService = $this->createMock(Redirect::class);
         $this->notFoundController = $this->createMock(Controller::class);
+        $this->controllersCollection = $this->createMock(ControllersCollection::class);
+        $this->headersCollection = $this->createMock(HeadersCollection::class);
     }
 
     /**
@@ -70,7 +76,7 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            ['GET' => $this->controller]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -102,7 +108,7 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            ['GET' => $this->controller]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -128,6 +134,9 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->method('getRootNames')
             ->willReturn($rootNames);
 
+        $this->controllersCollection->expects($this->once())->method('getMethods')
+            ->willReturn(['GET']);
+
         $this->routerResult->expects($this->once())->method('setResponse')
             ->with(HttpRouterResultInterface::METHOD_NOT_ALLOWED_RESPONSE)
             ->willReturn($this->routerResult);
@@ -139,9 +148,7 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -167,6 +174,9 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->method('getRootNames')
             ->willReturn($rootNames);
 
+        $this->controllersCollection->method('getController')
+            ->willReturn(new Controller('some_name'));
+
         $this->redirectService->expects($this->once())->method('execute')
             ->willReturn($redirectResultDTO);
 
@@ -177,10 +187,8 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }],
-            [],
+            $this->controllersCollection,
+            null,
             null,
             $this->redirectService
         );
@@ -213,16 +221,14 @@ class DynamicRootRouterTest extends TestCase
 
         $this->expectException(RouterProccessError::class);
 
-        // $this->routerResult->expects($this->once())->method('setHeaders')
-        //     ->with([['Location: http://example.com/en/newproducts', true, 301]]);
+        $this->controllersCollection->method('getController')
+            ->willReturn(new Controller('some_name'));
 
         $router = new DynamicRootRouter(
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -259,8 +265,10 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->expects($this->once())->method('setCurrentRoot')
             ->with('en')->willReturn(true);
 
+        $this->controllersCollection->method('getController')->willReturn($this->controller);
+
         $this->controller->expects($this->once())->method('execute')
-            ->with(['en', 'products'])->willReturn($controllerResult);
+            ->with([SitemapInterface::ROOT_NAME, 'products'])->willReturn($controllerResult);
 
         $this->routerResult->expects($this->once())->method('setStatusCode')
             ->with(200)->willReturn($this->routerResult);
@@ -272,9 +280,7 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -309,9 +315,7 @@ class DynamicRootRouterTest extends TestCase
 
         $data = [$this->header];
 
-        $headerService = new HeadersCollection($data);
-
-        $headers = [fn() => $headerService];
+        $this->headersCollection = new HeadersCollection($data);
 
         $this->request->method('getUri')->willReturn($uri);
         $this->request->method('getMethod')->willReturn('GET');
@@ -326,6 +330,8 @@ class DynamicRootRouterTest extends TestCase
 
         $this->dynamicRootService->method('setCurrentRoot')->willReturn(true);
 
+        $this->controllersCollection->method('getController')->willReturn($this->controller);
+
         $this->controller->method('execute')->willReturn($controllerResult);
 
         $this->routerResult->method('setStatusCode')->willReturn($this->routerResult);
@@ -338,10 +344,8 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }],
-            $headers
+            $this->controllersCollection,
+            $this->headersCollection
         );
 
         $router->execute();
@@ -373,8 +377,9 @@ class DynamicRootRouterTest extends TestCase
 
         $this->dynamicRootService->method('setCurrentRoot')->willReturn(true);
 
-        $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
+        $this->controllersCollection->method('getController')->willReturn($this->controller);
 
+        $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
 
         $this->routerResult->expects($this->once())->method('setStatusCode')
             ->with(HttpRouterResultInterface::NOT_FOUND_STATUS_CODE)
@@ -388,9 +393,7 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }]
+            $this->controllersCollection
         );
 
         $router->execute();
@@ -428,8 +431,9 @@ class DynamicRootRouterTest extends TestCase
 
         $this->dynamicRootService->method('setCurrentRoot')->willReturn(true);
 
-        $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
+        $this->controllersCollection->method('getController')->willReturn($this->controller);
 
+        $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
 
         $this->routerResult->method('setStatusCode')->willReturn($this->routerResult);
 
@@ -445,10 +449,8 @@ class DynamicRootRouterTest extends TestCase
             $this->routerResult,
             $this->request,
             $this->dynamicRootService,
-            [function () {
-                return ['GET' => $this->controller];
-            }],
-            [],
+            $this->controllersCollection,
+            null,
             $this->notFoundController
         );
 

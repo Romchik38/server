@@ -6,12 +6,15 @@ namespace Romchik38\Server\Routers\Http;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
+use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
+use Romchik38\Server\Api\Routers\Http\HeadersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
+use Romchik38\Server\Api\Services\SitemapInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface
@@ -24,17 +27,11 @@ class DynamicRootRouter implements HttpRouterInterface
         protected HttpRouterResultInterface $routerResult,
         protected RequestInterface $request,
         protected DynamicRootInterface $dynamicRootService,
-        protected array $actionListCallback,
-        protected array $headers = [],
+        protected ControllersCollectionInterface $controllersCollection,
+        protected HeadersCollectionInterface|null $headersCollection = null,
         protected ControllerInterface | null $notFoundController = null,
         protected RedirectInterface|null $redirectService = null
     ) {
-        /** headers check */
-        if(count($headers) > 0) {
-            if(is_callable($headers[0]) === false) {
-                throw new RouterProccessError('1st item of headers array must be a callable');
-            }
-        }
     }
     public function execute(): HttpRouterResultInterface
     {
@@ -82,13 +79,12 @@ class DynamicRootRouter implements HttpRouterInterface
             ]]);
         }
 
-        // 4. Create a dynamic root
-        /** @todo replace callback with class */
-        $controllers = ($this->actionListCallback[0])($rootName);
+        // 4. Get controller
+        $controller = $this->controllersCollection->getController($method);
 
         // 5. method check 
-        if (array_key_exists($method, $controllers) === false) {
-            return $this->methodNotAllowed($controllers);
+        if ($controller === null) {
+            return $this->methodNotAllowed($this->controllersCollection->getMethods());
         }
 
         // 6. redirect check
@@ -119,12 +115,13 @@ class DynamicRootRouter implements HttpRouterInterface
             throw new RouterProccessError('Can\'t set current dynamic root with name: ' . $rootName);
         }
 
-        /** @var ControllerInterface $rootController */
-        $rootController = $controllers[$method];
+        /** 8
+         * @todo replace $rootName with root */
+        $elements[0] = SitemapInterface::ROOT_NAME;
 
         try {
-            // 8. Exec
-            $controllerResult = $rootController->execute($elements);
+            // 9. Exec
+            $controllerResult = $controller->execute($elements);
 
             $path = $controllerResult->getPath();
             $response = $controllerResult->getResponse();
@@ -132,19 +129,16 @@ class DynamicRootRouter implements HttpRouterInterface
 
             $this->routerResult->setStatusCode(200)->setResponse($response);
 
-            // 9. Set headers
-            if (count($this->headers) > 0) {
-                $callback = $this->headers[0];
-                /** @var HeadersCollectionInterface $headerService */
-                $headerService = $callback($rootName);
+            // 10. Set headers
+            if ($this->headersCollection !== null) {
                 $headerPath = $this->getHeaderPath($path);
                 /** @var RouterHeadersInterface|null  $header */
-                $header = $headerService->getHeader($method, $headerPath, $type);
+                $header = $this->headersCollection->getHeader($method, $headerPath, $type);
                 if($header !== null) {
                     $header->setHeaders($this->routerResult, $path);
                 }
             }
-            // 10. Exit
+            // 11. Exit
             return $this->routerResult;
         } catch (NotFoundException $e) {
             // 11. Show page not found
@@ -155,12 +149,12 @@ class DynamicRootRouter implements HttpRouterInterface
     /**
      * set the result to 405 - Method Not Allowed
      */
-    protected function methodNotAllowed(array $controllers): HttpRouterResultInterface
+    protected function methodNotAllowed(array $methods): HttpRouterResultInterface
     {
         $this->routerResult->setResponse(HttpRouterResultInterface::METHOD_NOT_ALLOWED_RESPONSE)
             ->setHeaders([
                 [
-                    'Allow:' . implode(', ', array_keys($controllers)),
+                    'Allow:' . implode(', ', $methods),
                     true,
                     HttpRouterResultInterface::METHOD_NOT_ALLOWED_CODE
                 ]

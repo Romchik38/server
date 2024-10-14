@@ -5,7 +5,10 @@
 
 ## upcoming
 
+## v1.7.0
+
 [n] - added `BreadcrumbDTO`, `BreadcrumbDTOFactory` and tests for  them
+[!] - Refactored `DynamicRootRouter`, added `ControllersCollection`, and tests.
 
 ## v1.6.1
 
