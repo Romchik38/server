@@ -2,12 +2,6 @@
 
 ## Current
 
-[+] Breadcrumbs DTO  
-    [+] DTO  
-    [+] Factory  
-    [+] tests  
-[-] ControllerDTO to BreadcrumbsDTO  
-
 ## Next
 
 [-] phpstan  
