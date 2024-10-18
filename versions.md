@@ -5,6 +5,9 @@
 
 ## upcoming
 
+[n] - `LinkDTO` for Breadcrumb service, and tests
+[n] - `Breadcrumb` service
+
 ## v1.7.0
 
 [n] - added `BreadcrumbDTO`, `BreadcrumbDTOFactory` and tests for  them
