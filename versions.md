@@ -5,6 +5,8 @@
 
 ## upcoming
 
+- added test for `Breadcrumb` service
+
 ## v1.7.1
 
 [n] - `LinkDTO` for Breadcrumb service, and tests
