@@ -13,7 +13,6 @@ use Romchik38\Server\Api\Services\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\SitemapInterface;
 
-/** @todo create an Interface */
 class Breadcrumb implements BreadcrumbInterface
 {
     protected string $currentRoot = SitemapInterface::ROOT_NAME;
@@ -29,7 +28,6 @@ class Breadcrumb implements BreadcrumbInterface
     {
         /** 
          * 1 Set Dynamic root if exist 
-         * @todo test without dynamic root (needed same link collection)
          */
         if ($this->dynamicRoot !== null) {
             $this->currentRoot = $this->dynamicRoot->getCurrentRoot()->getName();

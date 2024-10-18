@@ -115,8 +115,8 @@ class DynamicRootRouter implements HttpRouterInterface
             throw new RouterProccessError('Can\'t set current dynamic root with name: ' . $rootName);
         }
 
-        /** 8
-         * @todo replace $rootName with root */
+        /** 
+         * 8. replace $rootName with 'root' */
         $elements[0] = SitemapInterface::ROOT_NAME;
 
         try {
