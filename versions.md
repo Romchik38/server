@@ -6,6 +6,7 @@
 ## upcoming
 
 - added test for `Breadcrumb` service
+- refactored `BreadcrumbDTO`
 
 ## v1.7.1
 
