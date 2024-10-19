@@ -13,7 +13,7 @@ use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
-use Romchik38\Server\Api\Services\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
 
 class PlasticineRouter implements HttpRouterInterface
 {

@@ -10,7 +10,7 @@ use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultFactoryInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
-use Romchik38\Server\Api\Services\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
 use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;

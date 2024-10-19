@@ -14,7 +14,7 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
-use Romchik38\Server\Api\Services\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface

@@ -5,6 +5,9 @@
 
 ## upcoming
 
+## v1.8.0
+
+- refactor folders
 - added test for `Breadcrumb` service
 - refactored `BreadcrumbDTO`
 
