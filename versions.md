@@ -7,7 +7,7 @@
 
 ## v1.8.0
 
-- refactor folders
+- [!] refactor folders `Sitemap`, `Breadcrumb`
 - added test for `Breadcrumb` service
 - refactored `BreadcrumbDTO`
 
