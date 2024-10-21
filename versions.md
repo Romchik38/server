@@ -5,9 +5,13 @@
 
 ## upcoming
 
+## v1.9.0
+
 - [!] refactored `LinkDTOCollectionInterface` - $paths become optional
 - [n] `Action` - added new function *getPath*
 - [n] `MultiLanguageAction` - added new function *getLanguage*
+- [n] `LinkTree` - mapper from ControllerDTO to LinkTreeDTO and tests.
+- [n] `LinkTreeDTO` - Represents a http link to visit. Can have children. Also added tests.
 
 ## v1.8.0
 

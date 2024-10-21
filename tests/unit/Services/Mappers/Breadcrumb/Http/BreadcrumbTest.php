@@ -213,7 +213,7 @@ class BreadcrumbTest extends TestCase
                     $this->hash[$key] = $linkDTO;
                 }
             }
-            public function getLinksByPaths(array $paths): array
+            public function getLinksByPaths(array $paths = []): array
             {
                 $result = [];
                 foreach ($paths as $path) {
@@ -252,7 +252,7 @@ class BreadcrumbTest extends TestCase
     protected function createLinkDTOCollectionDoNotUseDynamicRoot(): LinkDTOCollectionInterface
     {
         return new class() implements LinkDTOCollectionInterface {
-            public function getLinksByPaths(array $paths): array
+            public function getLinksByPaths(array $paths = []): array
             {
                 return [];
             }
