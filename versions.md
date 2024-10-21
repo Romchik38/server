@@ -5,6 +5,8 @@
 
 ## upcoming
 
+- [!] refactored `LinkDTOCollectionInterface` - $paths become optional
+
 ## v1.8.0
 
 - [!] refactor folders `Sitemap`, `Breadcrumb`
