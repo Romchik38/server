@@ -7,6 +7,7 @@
 
 - [!] refactored `LinkDTOCollectionInterface` - $paths become optional
 - [n] `Action` - added new function *getPath*
+- [n] `MultiLanguageAction` - added new function *getLanguage*
 
 ## v1.8.0
 

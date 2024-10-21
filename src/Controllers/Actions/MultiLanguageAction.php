@@ -15,6 +15,11 @@ abstract class MultiLanguageAction extends DynamicRootAction
     public function __construct(
         protected readonly DynamicRootInterface $DynamicRootService,
         protected readonly TranslateInterface $translateService
-    ) {
+    ) {}
+
+    /** Use to get current language */
+    protected function getLanguage(): string
+    {
+        return $this->DynamicRootService->getCurrentRoot()->getName();
     }
 }
