@@ -6,6 +6,7 @@
 ## upcoming
 
 - [!] refactored `LinkDTOCollectionInterface` - $paths become optional
+- [n] `Action` - added new function *getPath*
 
 ## v1.8.0
 
