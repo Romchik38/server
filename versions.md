@@ -5,6 +5,11 @@
 
 ## upcoming
 
+## v1.9.2
+
+- [!] `DynamicRootRouter` - refactor 404 controller name
+- `ServerInterface`, `DefaultServer` - refactor server-error controller name
+
 ## v1.9.1
 
 - `DynamicRootRouter` - fix bug with controller name 404

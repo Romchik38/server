@@ -52,7 +52,8 @@ class DefaultServer implements HttpServerInterface
             http_response_code($this::DEFAULT_SERVER_ERROR_CODE);
             // try to show the page
             try {
-                $resultServerError = $this->serverErrorController->execute(['server-error']);
+                $resultServerError = $this->serverErrorController
+                    ->execute([$this::SERVER_ERROR_CONTROLLER_NAME]);
                 echo $resultServerError->getResponse();
             } catch (\Exception $e) {
                 // show only a message

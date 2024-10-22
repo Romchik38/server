@@ -443,7 +443,7 @@ class DynamicRootRouterTest extends TestCase
 
         $this->notFoundController->expects($this->once())->method('execute')
             ->with($this->callback(function($param){
-                if (['404'] === $param) {
+                if ([HttpRouterResultInterface::NOT_FOUND_CONTROLLER_NAME] === $param) {
                     return true;
                 } else {
                     return false;

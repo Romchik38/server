@@ -16,6 +16,7 @@ interface HttpRouterResultInterface extends RouterResultInterface {
 
     const NOT_FOUND_RESPONSE = 'Error 404 from router - Page not found';
     const NOT_FOUND_STATUS_CODE = 404;
+    const NOT_FOUND_CONTROLLER_NAME = 'not-found';
 
     public function getResponse(): string;
     public function getHeaders(): array;
