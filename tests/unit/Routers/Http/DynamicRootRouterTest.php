@@ -442,6 +442,13 @@ class DynamicRootRouterTest extends TestCase
         ;
 
         $this->notFoundController->expects($this->once())->method('execute')
+            ->with($this->callback(function($param){
+                if (['404'] === $param) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }))
             ->willReturn($controllerResult);
 
         $router = new DynamicRootRouter(
