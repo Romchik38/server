@@ -5,6 +5,8 @@
 
 ## upcoming
 
+- `DynamicRootRouter` - fix bug with controller name 404
+
 ## v1.9.0
 
 - [!] refactored `LinkDTOCollectionInterface` - $paths become optional

@@ -170,7 +170,7 @@ class DynamicRootRouter implements HttpRouterInterface
         $response = HttpRouterResultInterface::NOT_FOUND_RESPONSE;
         if ($this->notFoundController !== null) {
             $response = $this->notFoundController->execute(
-                [HttpRouterResultInterface::NOT_FOUND_STATUS_CODE]
+                [(string) HttpRouterResultInterface::NOT_FOUND_STATUS_CODE]
             )->getResponse();
         }
         $this->routerResult->setStatusCode(HttpRouterResultInterface::NOT_FOUND_STATUS_CODE)
