@@ -5,6 +5,8 @@
 
 ## upcoming
 
+## v1.9.1
+
 - `DynamicRootRouter` - fix bug with controller name 404
 
 ## v1.9.0
