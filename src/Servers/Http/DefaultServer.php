@@ -56,6 +56,10 @@ class DefaultServer implements HttpServerInterface
                     ->execute([$this::SERVER_ERROR_CONTROLLER_NAME]);
                 echo $resultServerError->getResponse();
             } catch (\Exception $e) {
+                // log error from server error controller
+                if ($this->logger) {
+                    $this->logger->error($e->getMessage());
+                }
                 // show only a message
                 echo $this::DEFAULT_SERVER_ERROR_MESSAGE;
             }

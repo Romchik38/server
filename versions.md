@@ -5,6 +5,8 @@
 
 ## upcoming
 
+- `DefaultServer` now logs error catched from the server error controller
+
 ## v1.9.2
 
 - [!] `DynamicRootRouter` - refactor 404 controller name
