@@ -5,6 +5,7 @@
 
 ## upcoming
 
+- Added requirement PHP v.8.3 to composer.json
 - `DefaultServer` now logs error catched from the server error controller
 
 ## v1.9.2
