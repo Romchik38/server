@@ -22,4 +22,12 @@ abstract class MultiLanguageAction extends DynamicRootAction
     {
         return $this->DynamicRootService->getCurrentRoot()->getName();
     }
+
+     /**
+     * Use to get default language 
+     * */
+    protected function getDefaultLanguage(): string
+    {
+        return $this->DynamicRootService->getDefaultRoot()->getName();
+    }
 }

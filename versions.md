@@ -5,8 +5,11 @@
 
 ## upcoming
 
+## v1.9.3
+
 - Added requirement PHP v.8.3 to composer.json
 - `DefaultServer` now logs error catched from the server error controller
+[n] Added a new method to `MultiLanguageAction`
 
 ## v1.9.2
 
