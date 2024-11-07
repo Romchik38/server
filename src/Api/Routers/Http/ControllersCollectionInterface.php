@@ -6,6 +6,10 @@ namespace Romchik38\Server\Api\Routers\Http;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 
+/** @todo refactor:
+ *   - rename method to key
+ *   - remove Http from namespace
+ */
 interface ControllersCollectionInterface
 {
     public function getController(string $method): ControllerInterface|null;
