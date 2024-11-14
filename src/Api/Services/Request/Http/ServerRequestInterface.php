@@ -27,4 +27,18 @@ interface ServerRequestInterface extends RequestInterface
      *     These will typically be an array or object.
      */
     public function getParsedBody();
+
+    /**
+     * Retrieve query string arguments.
+     *
+     * Retrieves the deserialized query string arguments, if any.
+     *
+     * Note: the query params might not be in sync with the URI or server
+     * params. If you need to ensure you are only getting the original
+     * values, you may need to parse the query string from `getUri()->getQuery()`
+     * or from the `QUERY_STRING` server param.
+     *
+     * @return array
+     */
+    public function getQueryParams();
 }

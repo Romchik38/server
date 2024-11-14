@@ -95,4 +95,21 @@ class ServerRequestTest extends TestCase
         $serverRequest = new ServerRequest(new UriFactory(), $service);
         $this->assertSame($_POST, $serverRequest->getParsedBody());
     }
+
+    public function testGetQueryParams(){
+        $_GET['hello'] = 'world';
+        $service = new class() implements ServerRequestServiceInterface {
+            public function getRequestHeaders(): array|bool
+            {
+                return [];
+            }
+            public function getBodyContent(): array|null
+            {
+                return [];
+            }
+        };
+
+        $serverRequest = new ServerRequest(new UriFactory(), $service);
+        $this->assertSame('world', $serverRequest->getQueryParams()['hello']);
+    }
 }

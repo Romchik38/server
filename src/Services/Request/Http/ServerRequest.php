@@ -34,4 +34,8 @@ class ServerRequest extends Request implements ServerRequestInterface
         /** 2. No post data was provided, so sending body content */
         return $this->serverRequestService->getBodyContent();
     }
+
+    public function getQueryParams() {
+        return [...$_GET];
+    }
 }
