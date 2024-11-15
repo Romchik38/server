@@ -2,15 +2,15 @@
 
 ## Current
 
-[-] Sitemap
-    [+] Controller DTO
-        [+] add description
+[-] Sitemap  
+    [+] Controller DTO  
+        [+] add description  
         [+] test  
     [+] Default action  
-        [+] new method `getDescription` to `DefaultActionInterface`
+        [+] new method `getDescription` to `DefaultActionInterface`  
         [+] test  
     [-] Dynamic Action  
-        [+] change getRoutes must return array of DynamicRouteDTO
+        [+] change getRoutes must return array of DynamicRouteDTO  
             [+] create DynamicRouteDTO  
             [+] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
         [-] test  
@@ -19,14 +19,14 @@
     [-] Sitemap  
         [-] implement new logic  
         [-] test  
-    [-] LinkTree mapper
+    [-] LinkTree mapper  
         [-] implement new logic  
         [?] LinkCollection  
         [-] test  
     [-] Breadcrumb mapper  
         [-] implement logic  
         [-] test  
-[-] create new v
+[-] create new v  
 
 ## Next
 

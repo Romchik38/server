@@ -5,7 +5,7 @@
 
 ## Next
 
-[see](./todo.md)
+[see todo](./todo.md)
 
 ## v1.9.4
 
