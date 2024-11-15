@@ -2,8 +2,6 @@
 
 ## Current
 
-## Next
-
 [-] Sitemap
     [+] Controller DTO
         [+] add description
@@ -29,6 +27,8 @@
         [-] implement logic  
         [-] test  
 [-] create new v
+
+## Next
 
 [?] Virtual repository  
 [-] add controller collection to router  
