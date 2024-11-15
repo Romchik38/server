@@ -12,7 +12,8 @@ class ControllerDTOTest extends TestCase
         $dto = new ControllerDTO(
             'root',
             [],
-            []
+            [],
+            'Home'
         );
 
         $this->assertSame('root', $dto->getName());
@@ -23,7 +24,8 @@ class ControllerDTOTest extends TestCase
         $dto = new ControllerDTO(
             'name',
             ['root'],
-            []
+            [],
+            'Some name'
         );
 
         $this->assertSame(['root'], $dto->getPath());
@@ -35,13 +37,15 @@ class ControllerDTOTest extends TestCase
         $aboutDto = new ControllerDTO(
             'about',
             ['root'],
-            []
+            [],
+            'About'
         );
 
         $rootDto = new ControllerDTO(
             'root',
             [],
-            [$aboutDto]
+            [$aboutDto],
+            'Home'
         );
 
         $this->assertSame([$aboutDto], $rootDto->getChildren());
@@ -52,19 +56,21 @@ class ControllerDTOTest extends TestCase
         $aboutDto = new ControllerDTO(
             'about',
             ['root'],
-            []
+            [],
+            'About'
         );
 
         $rootDto = new ControllerDTO(
             'root',
             [],
-            [$aboutDto]
+            [$aboutDto],
+            'Home'
         );
 
         $res = json_encode($rootDto);
 
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"about","path":["root"],"children":[]}]}',
+            '{"name":"root","path":[],"children":[{"name":"about","path":["root"],"children":[],"description":"About"}],"description":"Home"}',
             $res
         );
     }

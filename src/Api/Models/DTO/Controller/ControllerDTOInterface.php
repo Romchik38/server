@@ -14,9 +14,10 @@ interface ControllerDTOInterface extends DTOInterface, \JsonSerializable
     const NAME_FIELD = 'name';
     const PATH_FIELD = 'path';
     const CHILDREN_FIELD = 'children';
+    const DESCRIPTION_FILED = 'description';
 
     /**
-     * Returns Controller name
+     * Returns route name
      */
     public function getName(): string;
 
@@ -31,4 +32,10 @@ interface ControllerDTOInterface extends DTOInterface, \JsonSerializable
      * @return ControllerDTOInterface[]
      */
     public function getChildren(): array;
+
+    /** Route description */
+    public function getDescription(): string;
+
+    /** json representation */
+    public function jsonSerialize(): mixed;
 }

@@ -134,9 +134,9 @@ class LinkTreeTest extends TestCase
 
     protected function createRootControllerDTO(): ControllerDTOInterface
     {
-        $child1 = new ControllerDTO('about', ['root'], []);
-        $child2 = new ControllerDTO('sitemap', ['root'], []);
-        $rootControllerDTO = new ControllerDTO('root', [], [$child1, $child2]);
+        $child1 = new ControllerDTO('about', ['root'], [], 'About');
+        $child2 = new ControllerDTO('sitemap', ['root'], [], 'Sitemap');
+        $rootControllerDTO = new ControllerDTO('root', [], [$child1, $child2], 'Home');
         return $rootControllerDTO;
     }
 

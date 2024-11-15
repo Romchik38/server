@@ -26,8 +26,11 @@ class BreadcrumbTest extends TestCase
     protected $dynamicRootForBreadcrumb;
     protected $controller;
     protected $dynamicRootDTO;
-    protected string $rootControllerName = 'root';
-    protected string $aboutControllerName = 'about';
+    protected string $rootControllerDTOName = 'root';
+    protected string $rootControllerDTODescription = 'Home';
+    protected string $aboutControllerDTOName = 'about';
+    protected string $aboutControllerDTODescription = 'About';
+
 
     public function setUp(): void
     {
@@ -142,7 +145,7 @@ class BreadcrumbTest extends TestCase
         $this->assertSame($emptyString, $breadcrumbDTORoot->getDescription());
         $this->assertSame('/en', $breadcrumbDTORoot->getUrl());
 
-        $this->assertSame($this->aboutControllerName, $breadcrumbDTOAbout->getName());
+        $this->assertSame($this->aboutControllerDTOName, $breadcrumbDTOAbout->getName());
         $this->assertSame($emptyString, $breadcrumbDTOAbout->getDescription());
         $this->assertSame('/en/about', $breadcrumbDTOAbout->getUrl());
     }
@@ -174,7 +177,7 @@ class BreadcrumbTest extends TestCase
         $this->assertSame($emptyString, $breadcrumbDTORoot->getDescription());
         $this->assertSame('/', $breadcrumbDTORoot->getUrl());
 
-        $this->assertSame($this->aboutControllerName, $breadcrumbDTOAbout->getName());
+        $this->assertSame($this->aboutControllerDTOName, $breadcrumbDTOAbout->getName());
         $this->assertSame($emptyString, $breadcrumbDTOAbout->getDescription());
         $this->assertSame('/about', $breadcrumbDTOAbout->getUrl());
     }
@@ -191,14 +194,6 @@ class BreadcrumbTest extends TestCase
             protected array $hash = [];
             public function __construct(array $models, LinkDTOFactoryInterface $linkDTOFactory)
             {
-                // $model = [
-                //     'path' => ['root', 'about'],
-                //     'link_id' => '1',
-                //     'language' => 'en',
-                //     'name' => 'Home',
-                //     'description' => 'Home page'
-                // ];
-
                 foreach ($models as $model) {
                     $path = $model['path'];
                     $key = serialize($path);
@@ -237,15 +232,17 @@ class BreadcrumbTest extends TestCase
     protected function createControllerDTO(): ControllerDTOInterface
     {
         $about = new ControllerDTO(
-            $this->aboutControllerName,
-            [$this->rootControllerName],
-            []
+            $this->aboutControllerDTOName,
+            [$this->rootControllerDTOName],
+            [],
+            $this->aboutControllerDTODescription
         );
 
         return new ControllerDTO(
-            $this->rootControllerName,
+            $this->rootControllerDTOName,
             [],
-            [$about]
+            [$about],
+            $this->rootControllerDTODescription
         );
     }
 
