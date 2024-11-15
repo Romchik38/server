@@ -13,9 +13,11 @@
         [+] test  
     [-] Dynamic Action  
         [-] change getRoutes must return array of DynamicRouteDTO
-            [-] create DynamicRouteDTO  
+            [+] create DynamicRouteDTO  
             [-] add new method `getDynamicRoutes`  
         [-] test  
+            [-] DynamicRouteDTO  
+            [-] Dynamic Action `getDynamicRoutes  
     [-] Sitemap  
         [-] implement new logic  
         [-] test  
