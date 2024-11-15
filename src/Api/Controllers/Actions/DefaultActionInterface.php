@@ -14,4 +14,10 @@ interface DefaultActionInterface extends ActionInterface
      * @return string [result]
      */
     public function execute(): string;
+
+    /** 
+     * Returns action description. 
+     * Description used in the mapper services to represent action
+     */
+    public function getDescription(): string;
 }
