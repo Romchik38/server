@@ -17,7 +17,7 @@
             [-] add new method `getDynamicRoutes`  
         [-] test  
             [-] DynamicRouteDTO  
-            [-] Dynamic Action `getDynamicRoutes  
+            [-] Dynamic Action  
     [-] Sitemap  
         [-] implement new logic  
         [-] test  
