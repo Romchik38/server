@@ -12,7 +12,9 @@
         [+] new method `getDescription`  
         [+] test  
     [-] Dynamic Action  
-        [-] change getRoutes must return DynamicRoute DTO
+        [-] change getRoutes must return array of DynamicRouteDTO
+            [-] create DynamicRouteDTO  
+            [-] add new method `getDynamicRoutes`  
         [-] test  
     [-] Sitemap  
         [-] implement new logic  
