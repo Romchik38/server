@@ -8,9 +8,9 @@
     [+] Controller DTO
         [+] add description
         [+] test  
-    [-] Default action  
-        [-] return description  
-        [-] test  
+    [+] Default action  
+        [+] new method `getDescription`  
+        [+] test  
     [-] Dynamic Action  
         [-] change getRoutes must return DynamicRoute DTO
         [-] test  
