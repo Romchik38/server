@@ -12,9 +12,9 @@
         [+] new method `getDescription` to `DefaultActionInterface`
         [+] test  
     [-] Dynamic Action  
-        [-] change getRoutes must return array of DynamicRouteDTO
+        [+] change getRoutes must return array of DynamicRouteDTO
             [+] create DynamicRouteDTO  
-            [-] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
+            [+] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
         [-] test  
             [-] DynamicRouteDTO  
             [-] Dynamic Action  
