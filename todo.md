@@ -19,6 +19,7 @@
   - [+] Update Controller  
   - [-] Sitemap  
     - [+] rename Sitemap to ControllerTree
+    - [+] remove `ControllerDTOFactory`
     - [-] implement new logic  
     - [-] test  
   - [-] LinkTree mapper  

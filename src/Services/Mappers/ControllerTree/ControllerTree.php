@@ -5,18 +5,13 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Mappers\ControllerTree;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 use Romchik38\Server\Services\Errors\CantCreateControllerTreeElement;
 
 class ControllerTree implements ControllerTreeInterface
 {
-
-    public function __construct(
-        protected readonly ControllerDTOFactoryInterface $controllerDTOFactory
-    ) {}
-
     /** 
      * for breadcrumbs
      */
@@ -50,7 +45,7 @@ class ControllerTree implements ControllerTreeInterface
         if ($action !== '') {
             $name = $action;
             $path[] = $controller->getName();
-            $element = $this->controllerDTOFactory->create(
+            $element = new ControllerDTO(
                 $name,
                 $path,
                 []
@@ -62,13 +57,13 @@ class ControllerTree implements ControllerTreeInterface
         $name = $controller->getName();
 
         if ($child !== null) {
-            $element =  $this->controllerDTOFactory->create(
+            $element =  new ControllerDTO(
                 $name,
                 $path,
                 [$child]
             );
         } else {
-            $element =  $this->controllerDTOFactory->create(
+            $element =  new ControllerDTO(
                 $name,
                 $path,
                 []
@@ -87,7 +82,7 @@ class ControllerTree implements ControllerTreeInterface
      * 
      * used in getRootControllerDTO
      */
-    protected function createElement(ControllerInterface $element, $parentName = '', $parrentPath = [])
+    protected function createElement(ControllerInterface $element, $parentName = '', $parrentPath = []): ControllerDTOInterface
     {
         if ($element->isPublic() === false) {
             throw new CantCreateControllerTreeElement('Element ' . $element->getName() . ' is not public');
@@ -104,7 +99,7 @@ class ControllerTree implements ControllerTreeInterface
 
             $allChi = $this->addDynamicChildren($element, [], [], $lastPath);
 
-            $lastElement = $this->controllerDTOFactory->create(
+            $lastElement = new ControllerDTO(
                 $element->getName(),
                 $lastPath,
                 $allChi
@@ -131,7 +126,7 @@ class ControllerTree implements ControllerTreeInterface
 
         $allChi = $this->addDynamicChildren($element, $childrenNames, $rowChi, $rowPath);
 
-        $row = $this->controllerDTOFactory->create($elementName, $rowPath, $allChi); // 2
+        $row = new ControllerDTO($elementName, $rowPath, $allChi); // 2
         return $row;
     }
 
@@ -153,7 +148,7 @@ class ControllerTree implements ControllerTreeInterface
             }
             $dynElemPath = $rowPath;
             $dynElemPath[] = $element->getName();
-            $rowDynamicElem = $this->controllerDTOFactory->create(
+            $rowDynamicElem = new ControllerDTO(
                 $dynamicRoute,
                 $dynElemPath,
                 []
