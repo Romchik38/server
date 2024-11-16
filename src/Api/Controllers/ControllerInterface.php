@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Controllers;
 
+use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
 
 interface ControllerInterface
@@ -46,9 +47,9 @@ interface ControllerInterface
     public function getChildren(): array;
 
     /**
-     * return an array of dynamic route's names or empty []
+     * return an array of dynamic route DTOs or empty []
      * 
-     * @return string[]
+     * @return array<int,DynamicRouteDTOInterface>
      */
     public function getDynamicRoutes(): array;
 

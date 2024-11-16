@@ -90,22 +90,29 @@ class ControllerTree implements ControllerTreeInterface
         $rowPath = $parrentPath;
         $children = $element->getChildren();
 
+        $description = $element->getDescription() ?? $element->getName();
+
+        /** Case 1 - has no children */
         if (count($children) === 0) {
             $lastPath = $rowPath;
             if ($parentName !== '') {
                 $lastPath[] = $parentName;
             }
 
+            /** add dynamic children */
             $allChi = $this->addDynamicChildren($element, [], [], $lastPath);
 
+            /** create DTO */
             $lastElement = new ControllerDTO(
                 $element->getName(),
                 $lastPath,
-                $allChi
+                $allChi,
+                $description
             );
             return $lastElement;
         }
 
+        /** Case 2 - has children */
         /** @var Controller $child */
         $elementName = $element->getName();
         $rowChi = [];
@@ -125,7 +132,7 @@ class ControllerTree implements ControllerTreeInterface
 
         $allChi = $this->addDynamicChildren($element, $childrenNames, $rowChi, $rowPath);
 
-        $row = new ControllerDTO($elementName, $rowPath, $allChi); // 2
+        $row = new ControllerDTO($elementName, $rowPath, $allChi, $description);
         return $row;
     }
 
@@ -139,8 +146,9 @@ class ControllerTree implements ControllerTreeInterface
         array $rowPath
     ): array {
         $allChi = $rowChi;
-        $dynamicRoutes = $element->getDynamicRoutes();
-        foreach ($dynamicRoutes as $dynamicRoute) {
+        $dynamicRouteDTOs = $element->getDynamicRoutes();
+        foreach ($dynamicRouteDTOs as $dto) {
+            $dynamicRoute = $dto->name();
             // skip dynamic routes which names equal to children names
             if (array_search($dynamicRoute, $childrenNames) !== false) {
                 continue;
@@ -150,7 +158,8 @@ class ControllerTree implements ControllerTreeInterface
             $rowDynamicElem = new ControllerDTO(
                 $dynamicRoute,
                 $dynElemPath,
-                []
+                [],
+                $dto->description()
             );
             $allChi[] = $rowDynamicElem;
         }
