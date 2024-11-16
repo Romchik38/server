@@ -18,7 +18,7 @@
       - [+] Dynamic Action  
   - [+] Update Controller  
   - [-] Sitemap  
-    - [-] rename Sitemap to ControllerTree
+    - [+] rename Sitemap to ControllerTree
     - [-] implement new logic  
     - [-] test  
   - [-] LinkTree mapper  

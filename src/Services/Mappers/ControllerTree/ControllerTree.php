@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Services\Errors\CantCreateSitemapElement;
+use Romchik38\Server\Services\Errors\CantCreateControllerTreeElement;
 
 class ControllerTree implements ControllerTreeInterface
 {
@@ -90,7 +90,7 @@ class ControllerTree implements ControllerTreeInterface
     protected function createElement(ControllerInterface $element, $parentName = '', $parrentPath = [])
     {
         if ($element->isPublic() === false) {
-            throw new CantCreateSitemapElement('Element ' . $element->getName() . ' is not public');
+            throw new CantCreateControllerTreeElement('Element ' . $element->getName() . ' is not public');
         }
 
         $rowPath = $parrentPath;
@@ -124,7 +124,7 @@ class ControllerTree implements ControllerTreeInterface
             try {
                 $rowElem = $this->createElement($child, $elementName, $rowPath);
                 $rowChi[] = $rowElem;
-            } catch (CantCreateSitemapElement $e) {
+            } catch (CantCreateControllerTreeElement $e) {
                 continue;
             }
         }

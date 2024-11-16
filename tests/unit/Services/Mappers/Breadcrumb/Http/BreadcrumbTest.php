@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOCollectionInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOFactoryInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Services\Mappers\Breadcrumb\Http\Breadcrumb;
-use Romchik38\Server\Services\Mappers\Sitemap\Sitemap;
+use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTOFactory;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Models\DTO\Http\Link\LinkDTOFactory;
@@ -22,7 +22,7 @@ class BreadcrumbTest extends TestCase
 
     protected $dynamicRootForCollection;
     protected $database;
-    protected $sitemap;
+    protected $controllerTree;
     protected $dynamicRootForBreadcrumb;
     protected $controller;
     protected $dynamicRootDTO;
@@ -35,7 +35,7 @@ class BreadcrumbTest extends TestCase
     public function setUp(): void
     {
         $this->dynamicRootForCollection = $this->createMock(DynamicRoot::class);
-        $this->sitemap = $this->createMock(Sitemap::class);
+        $this->controllerTree = $this->createMock(ControllerTree::class);
         $this->dynamicRootForBreadcrumb = $this->createMock(DynamicRoot::class);
         $this->database = $this->createMock(DatabasePostgresql::class);
         $this->controller = $this->createMock(Controller::class);
@@ -82,14 +82,14 @@ class BreadcrumbTest extends TestCase
         $this->dynamicRootForBreadcrumb->expects($this->once())->method('getCurrentRoot')
             ->willReturn($this->dynamicRootDTO);
 
-        $this->sitemap->expects($this->once())->method('getOnlyLineRootControllerDTO')
+        $this->controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
             ->with($this->controller, $action)
             ->willReturn($controllerDTO);
 
         $linkDTOcollection = $this->createLinkDTOCollection([$model1, $model2]);
 
         $breadcrumb = new Breadcrumb(
-            $this->sitemap,
+            $this->controllerTree,
             new BreadcrumbDTOFactory,
             $linkDTOcollection,
             $this->dynamicRootForBreadcrumb
@@ -127,12 +127,12 @@ class BreadcrumbTest extends TestCase
 
         $linkDTOcollection = $this->createLinkDTOCollection([]);
 
-        $this->sitemap->expects($this->once())->method('getOnlyLineRootControllerDTO')
+        $this->controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
             ->with($this->controller, $action)
             ->willReturn($controllerDTO);
 
         $breadcrumb = new Breadcrumb(
-            $this->sitemap,
+            $this->controllerTree,
             new BreadcrumbDTOFactory,
             $linkDTOcollection,
             $this->dynamicRootForBreadcrumb
@@ -159,12 +159,12 @@ class BreadcrumbTest extends TestCase
 
         $controllerDTO = $this->createControllerDTO();
 
-        $this->sitemap->expects($this->once())->method('getOnlyLineRootControllerDTO')
+        $this->controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
             ->with($this->controller, $action)
             ->willReturn($controllerDTO);
 
         $breadcrumb = new Breadcrumb(
-            $this->sitemap,
+            $this->controllerTree,
             new BreadcrumbDTOFactory,
             $linkDTOcollection
         );

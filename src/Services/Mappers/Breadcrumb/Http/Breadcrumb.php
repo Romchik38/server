@@ -18,7 +18,7 @@ class Breadcrumb implements BreadcrumbInterface
     protected string $currentRoot = ControllerTreeInterface::ROOT_NAME;
 
     public function __construct(
-        protected ControllerTreeInterface $sitemapService,
+        protected ControllerTreeInterface $controllerTreeService,
         protected BreadcrumbDTOFactoryInterface $breadcrumbDTOFactory,
         protected LinkDTOCollectionInterface $linkDTOCollection,
         protected DynamicRootInterface|null $dynamicRoot = null
@@ -34,7 +34,7 @@ class Breadcrumb implements BreadcrumbInterface
         }
 
         /** 2. Get ControllerDTOInterface */
-        $controllerDTO = $this->sitemapService->getOnlyLineRootControllerDTO($controller, $action);
+        $controllerDTO = $this->controllerTreeService->getOnlyLineRootControllerDTO($controller, $action);
 
         /** 3. Get LinkDTOs */
         $paths = $this->getPathsFromControllerDTO($controllerDTO);

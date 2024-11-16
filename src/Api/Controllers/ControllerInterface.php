@@ -23,7 +23,7 @@ interface ControllerInterface
     public function execute(array $elements): ControllerResultInterface;
 
     /** 
-     * can controller be shown to user in the sitemap
+     * can controller be shown to user in the controllerTree
      */
     public function isPublic(): bool;
 
