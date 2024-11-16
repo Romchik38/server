@@ -30,6 +30,9 @@ interface ControllerInterface
     /** return the controller name */
     public function getName(): string;
 
+    /** return information about controller or null if it was not provided */
+    public function getDescription(): string|null;
+
     /** 
      * return a child by given controller name 
      * 

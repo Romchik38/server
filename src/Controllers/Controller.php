@@ -64,14 +64,21 @@ class Controller implements ControllerInterface
             $this->dynamicAction->setController($this);
         }
     }
-    
-    public function isPublic(): bool {
+
+    public function isPublic(): bool
+    {
         return $this->publicity;
     }
 
     public function getName(): string
     {
         return $this->path;
+    }
+
+    public function getDescription(): string|null
+    {
+        if ($this->action === null) return null;
+        return $this->action->getDescription();
     }
 
     public function getChild(string $name): Controller
