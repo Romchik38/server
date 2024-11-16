@@ -13,14 +13,13 @@ use Romchik38\Server\Services\Errors\CantCreateControllerTreeElement;
 class ControllerTree implements ControllerTreeInterface
 {
     /** 
-     * for breadcrumbs
+     * Creates a line from current controller to root parent, without all children.
      */
     public function getOnlyLineRootControllerDTO(ControllerInterface $controller, string $action): ControllerDTOInterface
     {
-        $rootDTO = $this->createItem(null, $controller, $action);
-        return $rootDTO;
+        return $this->createItem(null, $controller, $action);
     }
-    
+
     public function getRootControllerDTO(ControllerInterface $controller): ControllerDTOInterface
     {
         $first = $this->getFirst($controller);
