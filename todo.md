@@ -16,6 +16,7 @@
     - [+] test  
       - [+] DynamicRouteDTO  
       - [+] Dynamic Action  
+  - [-] Update Controller  
   - [-] Sitemap  
     - [-] rename Sitemap to ControllerTree
     - [-] implement new logic  

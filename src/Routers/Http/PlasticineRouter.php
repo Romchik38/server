@@ -13,7 +13,7 @@ use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
-use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 
 class PlasticineRouter implements HttpRouterInterface
 {
@@ -61,7 +61,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // replace blank with root
         if ($elements[0] === '') {
-            $elements[0] = SitemapInterface::ROOT_NAME;
+            $elements[0] = ControllerTreeInterface::ROOT_NAME;
         }
 
         // 4. Exec

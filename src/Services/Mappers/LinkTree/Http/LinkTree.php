@@ -10,7 +10,7 @@ use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\LinkTree\Http\LinkTreeInterface;
 
@@ -21,7 +21,7 @@ use Romchik38\Server\Api\Services\Mappers\LinkTree\Http\LinkTreeInterface;
  */
 class LinkTree implements LinkTreeInterface
 {
-    protected string $currentRoot = SitemapInterface::ROOT_NAME;
+    protected string $currentRoot = ControllerTreeInterface::ROOT_NAME;
 
     public function __construct(
         protected LinkTreeDTOFactoryInterface $linkTreeDTOFactory,
@@ -67,11 +67,11 @@ class LinkTree implements LinkTreeInterface
         $path[0] = $this->currentRoot;
 
         $firstPath = $path[0];
-        if ($firstPath === SitemapInterface::ROOT_NAME) {
+        if ($firstPath === ControllerTreeInterface::ROOT_NAME) {
             $path = array_slice($path, 1);
         }
 
-        if ($name === SitemapInterface::ROOT_NAME) {
+        if ($name === ControllerTreeInterface::ROOT_NAME) {
             $name = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 

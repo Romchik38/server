@@ -7,7 +7,7 @@ namespace Romchik38\Server\Api\Services\Mappers;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 
-interface SitemapInterface
+interface ControllerTreeInterface
 {
     const ROOT_NAME = 'root';
     /** 

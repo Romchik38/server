@@ -13,8 +13,8 @@ use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
-use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface
@@ -117,7 +117,7 @@ class DynamicRootRouter implements HttpRouterInterface
 
         /** 
          * 8. replace $rootName with 'root' */
-        $elements[0] = SitemapInterface::ROOT_NAME;
+        $elements[0] = ControllerTreeInterface::ROOT_NAME;
 
         try {
             // 9. Exec

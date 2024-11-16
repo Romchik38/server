@@ -10,7 +10,7 @@ use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultFactoryInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
-use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
 use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
@@ -84,9 +84,9 @@ class Controller implements ControllerInterface
     {
         $name = $child->getName();
         /** root controller must be one */
-        if ($name === SitemapInterface::ROOT_NAME) {
+        if ($name === ControllerTreeInterface::ROOT_NAME) {
             throw new CantCreateControllerChain(
-                'Controller with name ' . SitemapInterface::ROOT_NAME . '  can\'t be a child'
+                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
             );
         }
         $this->children[$name] = $child;

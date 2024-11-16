@@ -18,7 +18,7 @@ use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
 use Romchik38\Server\Results\Controller\ControllerResult;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
-use Romchik38\Server\Api\Services\Mappers\SitemapInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Routers\Http\ControllersCollection;
 use Romchik38\Server\Routers\Http\HeadersCollection;
@@ -267,7 +267,7 @@ class DynamicRootRouterTest extends TestCase
         $this->controllersCollection->method('getController')->willReturn($this->controller);
 
         $this->controller->expects($this->once())->method('execute')
-            ->with([SitemapInterface::ROOT_NAME, 'products'])->willReturn($controllerResult);
+            ->with([ControllerTreeInterface::ROOT_NAME, 'products'])->willReturn($controllerResult);
 
         $this->routerResult->expects($this->once())->method('setStatusCode')
             ->with(200)->willReturn($this->routerResult);
