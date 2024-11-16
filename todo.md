@@ -13,10 +13,11 @@
     - [+] change getRoutes must return array of DynamicRouteDTO  
     - [+] create DynamicRouteDTO  
       - [+] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
-    - [-] test  
-      - [-] DynamicRouteDTO  
-      - [-] Dynamic Action  
+    - [+] test  
+      - [+] DynamicRouteDTO  
+      - [+] Dynamic Action  
   - [-] Sitemap  
+    - [-] rename Sitemap to ControllerTree
     - [-] implement new logic  
     - [-] test  
   - [-] LinkTree mapper  
