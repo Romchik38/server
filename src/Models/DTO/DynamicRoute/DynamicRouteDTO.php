@@ -24,11 +24,11 @@ final class DynamicRouteDTO implements DynamicRouteDTOInterface
 
     public function name(): string
     {
-        return $this->name();
+        return $this->name;
     }
 
     public function description(): string
     {
-        return $this->description();
+        return $this->description;
     }
 }
