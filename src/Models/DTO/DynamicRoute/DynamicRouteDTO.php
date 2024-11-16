@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\DynamicRouteDTO;
+namespace Romchik38\Server\Models\DTO\DynamicRoute;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Models\Errors\InvalidArgumentException;
