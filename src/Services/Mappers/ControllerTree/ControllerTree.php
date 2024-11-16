@@ -77,8 +77,6 @@ class ControllerTree implements ControllerTreeInterface
     }
 
     /** 
-     * @todo add return type
-     * 
      * used in getRootControllerDTO
      */
     protected function createElement(ControllerInterface $element, $parentName = '', $parrentPath = []): ControllerDTOInterface

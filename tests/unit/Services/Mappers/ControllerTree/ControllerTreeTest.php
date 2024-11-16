@@ -29,15 +29,28 @@ class ControllerTreeTest extends TestCase
         $children = $this->controllerDTO->getChildren();
         $this->assertSame(3, count($children));
 
-        [$product, $about, $contacts] = $children;
+        [$products, $about, $contacts] = $children;
 
-        $this->assertSame('products', $product->getName());
-        $this->assertSame('products', $product->getDescription());
+        $this->assertSame('products', $products->getName());
+        $this->assertSame('Products catalog', $products->getDescription());
 
         $this->assertSame('about', $about->getName());
         $this->assertSame('About page', $about->getDescription());
 
         $this->assertSame('contacts', $contacts->getName());
         $this->assertSame('Contacts page', $contacts->getDescription());
+
+        /** products children */
+        $productsChildren = $products->getChildren();
+
+        $this->assertSame(2, count($productsChildren));
+
+        [$product1, $product2] = $productsChildren;
+
+        $this->assertSame('product-1', $product1->getName());
+        $this->assertSame('Product 1 page', $product1->getDescription());
+
+        $this->assertSame('product-2', $product2->getName());
+        $this->assertSame('Product 2 page', $product2->getDescription());
     }
 }
