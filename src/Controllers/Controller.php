@@ -104,7 +104,7 @@ class Controller implements ControllerInterface
         if ($this->dynamicAction === null) {
             return [];
         }
-        return $this->dynamicAction->getRoutes();
+        return $this->dynamicAction->getDynamicRoutes();
     }
 
     public function getCurrentParent(): Controller|null
