@@ -27,16 +27,17 @@
     - [+] remove `ControllerDTOFactory`
     - [+] implement new logic  
     - [+] test  
-  - [-] LinkTree mapper  
+  - [-+] LinkTree mapper  
     - [+] implement new logic  
     - [+] removed `LinkCollection` and `LinkDTOFactory`
-    - [-] test 
+    - [+] test
   - [+] LinkTreeDTO
     - [+] `__construct` throws InvalidArgumentException  
     - [+] test
     - [+] remove `LinkTreeDTOFactoryInterface`
     - [+] remove `LinkTreeDTOFactory`
   - [-] Breadcrumb mapper  
+    - [-] remove `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface`
     - [-] implement logic  
     - [-] test  
   - [-] Action tests
