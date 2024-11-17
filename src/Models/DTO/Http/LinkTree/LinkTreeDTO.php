@@ -10,7 +10,6 @@ use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 /**
  * LinkTreeDTO entity. Represents a http link to visit. Has children.
- * Use LinkTreeDTOFactory to create it.
  * @api
  */
 class LinkTreeDTO extends LinkDTO implements LinkTreeDTOInterface

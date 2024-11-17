@@ -18,9 +18,22 @@ class LinkTreeDTOTest extends TestCase
         $this->assertSame([$child], $children);
     }
 
-    public function testConstructThrowsException():void{
+    public function testConstructThrowsExceptionEmptyName(): void
+    {
         $this->expectException(InvalidArgumentException::class);
         $dto = new LinkTreeDTO('', 'home page', '/', []);
+    }
+
+    public function testConstructThrowsExceptionEmptyDescription(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $dto = new LinkTreeDTO('home', '', '/', []);
+    }
+
+    public function testConstructThrowsExceptionEmptyUrl(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $dto = new LinkTreeDTO('home', 'Home page', '', []);
     }
 
     public function testCreate()

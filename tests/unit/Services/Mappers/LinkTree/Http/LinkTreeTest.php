@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTOFactory;
 use Romchik38\Server\Services\Mappers\LinkTree\Http\LinkTree;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
@@ -15,7 +14,6 @@ use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
 
 class LinkTreeTest extends TestCase
 {
-    protected LinkTreeDTOFactory $linkTreeDTOFactory;
     protected $dynamicRoot;
     protected $dynamicRootDTO;
     protected $linkDTOCollection;
@@ -23,7 +21,6 @@ class LinkTreeTest extends TestCase
 
     public function setUp(): void
     {
-        $this->linkTreeDTOFactory = new LinkTreeDTOFactory();
         $this->dynamicRoot = $this->createMock(DynamicRootInterface::class);
         $this->dynamicRootDTO = $this->createMock(DynamicRootDTOInterface::class);
         $this->linkDTOCollection = $this->createMock(LinkDTOCollectionInterface::class);
