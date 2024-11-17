@@ -75,10 +75,16 @@ class Controller implements ControllerInterface
         return $this->path;
     }
 
-    public function getDescription(): string|null
+    /** @todo update interface */
+    public function getDescription(string $dynamicRoute = ''): string|null
     {
-        if ($this->action === null) return null;
-        return $this->action->getDescription();
+        if(strlen($dynamicRoute) === 0) {
+            if ($this->action === null) return null;
+            return $this->action->getDescription();
+        } else {
+            if ($this->dynamicAction === null) return null;
+            return $this->dynamicAction->getDescription($dynamicRoute);
+        }
     }
 
     public function getChild(string $name): Controller
@@ -187,7 +193,7 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    protected function getFullPath(string $route = ''): array
+    public function getFullPath(string $route = ''): array
     {
         $fullPath = [$this->path];
         if ($route !== '') {

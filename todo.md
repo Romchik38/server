@@ -13,14 +13,17 @@
     - [+] change getRoutes must return array of DynamicRouteDTO  
     - [+] create DynamicRouteDTO  
       - [+] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
+    - [+] added new method `getDescription`
     - [+] test  
       - [+] DynamicRouteDTO  
       - [+] Dynamic Action  
   - [+] Update Controller  
+  - [+] Update `Action` - method `getPath` uses `controller->getFullPath()` to build the path.
   - [-] Sitemap  
     - [+] rename Sitemap to ControllerTree
     - [+] remove `ControllerDTOFactory`
-    - [-] implement new logic  
+    - [+] implement new logic  
+    - [-] ControllerDTO can be json serializable  
     - [-] test  
   - [-] LinkTree mapper  
     - [-] implement new logic  
@@ -29,6 +32,7 @@
   - [-] Breadcrumb mapper  
     - [-] implement logic  
     - [-] test  
+  - [-] Action tests
 - [-] create new v  
 
 ## Next

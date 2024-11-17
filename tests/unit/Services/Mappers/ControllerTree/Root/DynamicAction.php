@@ -37,4 +37,9 @@ final class DynamicAction extends Action implements DynamicActionInterface
         }
         return $routes;
     }
+
+    public function getDescription(string $dynamicRoute): string
+    {
+        return $this->data[$dynamicRoute][$this::DESCRIPTION_INDEX];
+    }
 }

@@ -69,6 +69,11 @@ interface ControllerInterface
      */
     public function getParents(): array;
 
+    /** Returns full path to controller 
+     * @param string $route Dynamic Action route
+    */
+    public function getFullPath(string $route = ''): array;
+
     /**
      * add child controller to the children list
      * 

@@ -56,6 +56,10 @@ class DynamicActionTest extends TestCase
                 }
                 return $routes;
             }
+
+            public function getDescription(string $dynamicRoute): string {
+                return $this::DATA[$dynamicRoute];
+            }
         };
     }
 }

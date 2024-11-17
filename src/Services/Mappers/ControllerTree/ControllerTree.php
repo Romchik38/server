@@ -32,7 +32,8 @@ class ControllerTree implements ControllerTreeInterface
      */
     protected function createItem(ControllerDTOInterface|null $child, ControllerInterface $controller, string $action = ''): ControllerDTOInterface
     {
-
+        /** Case 1 - default */
+        /** Case 2 - dynamic */
         $current = $controller;
         $path = [];
         while ($current->getCurrentParent() !== null) {
@@ -43,29 +44,39 @@ class ControllerTree implements ControllerTreeInterface
 
         if ($action !== '') {
             $name = $action;
+            $description = $controller->getDescription($action);
+            if($description === null) {
+                $description = $name;
+            }
             $path[] = $controller->getName();
             $element = new ControllerDTO(
                 $name,
                 $path,
-                []
+                [],
+                $description
             );
 
             return $this->createItem($element, $controller);
         }
 
         $name = $controller->getName();
-
+        $description = $controller->getDescription();
+        if($description === null) {
+            $description = $name;
+        }
         if ($child !== null) {
             $element =  new ControllerDTO(
                 $name,
                 $path,
-                [$child]
+                [$child],
+                $description
             );
         } else {
             $element =  new ControllerDTO(
                 $name,
                 $path,
-                []
+                [],
+                $description
             );
         }
 
