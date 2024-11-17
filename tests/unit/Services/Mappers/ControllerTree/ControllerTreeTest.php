@@ -9,17 +9,13 @@ use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
 class ControllerTreeTest extends TestCase
 {
-    protected readonly ControllerInterface $root;
-
-    public function setUp(): void
-    {
-        $this->root = (include_once(__DIR__ . '/bootstrap.php'))();
-    }
 
     public function testGetRootControllerDTO(): void
     {
+        $root = (include_once(__DIR__ . '/bootstrap.php'))();
+
         $controllerTree = new ControllerTree();
-        $controllerDTO = $controllerTree->getRootControllerDTO($this->root);
+        $controllerDTO = $controllerTree->getRootControllerDTO($root);
 
         /** 1. root */
         $this->assertSame('root', $controllerDTO->getName());
@@ -54,5 +50,11 @@ class ControllerTreeTest extends TestCase
         $this->assertSame('Product 2 page', $product2->getDescription());
     }
 
-   // public function testGetOnlyLineRootControllerDTOWithAction() {}
+    public function testGetOnlyLineRootControllerDTOWithEmptyAction()
+    {
+        $root = (include_once(__DIR__ . '/bootstrap2.php'))();
+        $controllerResult = $root->execute(['root', 'sitemap']);
+
+
+    }
 }
