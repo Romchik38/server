@@ -28,9 +28,14 @@
     - [+] implement new logic  
     - [+] test  
   - [-] LinkTree mapper  
-    - [-] implement new logic  
-    - [?] LinkCollection  
-    - [-] test  
+    - [+] implement new logic  
+    - [+] removed `LinkCollection` and `LinkDTOFactory`
+    - [-] test 
+  - [-] LinkTreeDTO
+    - [-] `__construct` throws InvalidArgumentException  
+    - [-] test
+    - [-] remove `LinkTreeDTOFactoryInterface`
+    - [-] remove `LinkTreeDTOFactory`
   - [-] Breadcrumb mapper  
     - [-] implement logic  
     - [-] test  

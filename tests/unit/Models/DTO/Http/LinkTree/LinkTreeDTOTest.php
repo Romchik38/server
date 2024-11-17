@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTO;
+use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 class LinkTreeDTOTest extends TestCase
 {
@@ -15,5 +16,29 @@ class LinkTreeDTOTest extends TestCase
         $children = $dto->getChildren();
 
         $this->assertSame([$child], $children);
+    }
+
+    public function testConstructThrowsException():void{
+        $this->expectException(InvalidArgumentException::class);
+        $dto = new LinkTreeDTO('', 'home page', '/', []);
+    }
+
+    public function testCreate()
+    {
+        $name = 'home';
+        $description = 'home page';
+        $url = '/';
+
+        $childName = 'about';
+        $childDescription = 'about page';
+        $childUrl = '/about';
+
+        $child = new LinkTreeDTO($childName, $childDescription, $childUrl, []);
+        $dto = new LinkTreeDTO($name, $description, $url, [$child]);
+
+        $this->assertSame($name, $dto->getName());
+        $this->assertSame($description, $dto->getDescription());
+        $this->assertSame($url, $dto->getUrl());
+        $this->assertSame([$child], $dto->getChildren());
     }
 }

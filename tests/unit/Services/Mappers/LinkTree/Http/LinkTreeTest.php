@@ -40,56 +40,12 @@ class LinkTreeTest extends TestCase
         $this->dynamicRootDTO->expects($this->once())->method('getName')
             ->willReturn($language);
 
-        $this->linkDTOCollection->expects($this->once())->method('getLinksByPaths')
-            ->willReturn($this->createLinkDTOs());
-
-        $linkTreeService = new LinkTree(
-            $this->linkTreeDTOFactory,
-            $this->linkDTOCollection,
-            $this->dynamicRoot
-        );
+        $linkTreeService = new LinkTree($this->dynamicRoot);
 
         $dto = $linkTreeService->getLinkTreeDTO($rootControllerDTO);
 
-        $this->assertSame('Home', $dto->getName());
-        $this->assertSame('Home Page', $dto->getDescription());
-        $this->assertSame('/en', $dto->getUrl());
-
-        $children = $dto->getChildren();
-        $this->assertSame(2, count($children));
-
-        [$child1, $child2] = $children;
-
-        $this->assertSame('About', $child1->getName());
-        $this->assertSame('About Page', $child1->getDescription());
-        $this->assertSame('/en/about', $child1->getUrl());
-
-        $this->assertSame('sitemap', $child2->getName());
-        $this->assertSame('sitemap', $child2->getDescription());
-        $this->assertSame('/en/sitemap', $child2->getUrl());
-    }
-
-    public function testGetLinkTreeDTOwithDynamicRootandWithoutCollection(): void
-    {
-        $language = 'en';
-        $rootControllerDTO = $this->createRootControllerDTO();
-
-        $this->dynamicRoot->expects($this->once())->method('getCurrentRoot')
-            ->willReturn($this->dynamicRootDTO);
-
-        $this->dynamicRootDTO->expects($this->once())->method('getName')
-            ->willReturn($language);
-
-        $linkTreeService = new LinkTree(
-            $this->linkTreeDTOFactory,
-            null,
-            $this->dynamicRoot
-        );
-
-        $dto = $linkTreeService->getLinkTreeDTO($rootControllerDTO);
-
-        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $dto->getName());
-        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $dto->getDescription());
+        $this->assertSame('home', $dto->getName());
+        $this->assertSame('Home page', $dto->getDescription());
         $this->assertSame('/en', $dto->getUrl());
 
         $children = $dto->getChildren();
@@ -98,23 +54,23 @@ class LinkTreeTest extends TestCase
         [$child1, $child2] = $children;
 
         $this->assertSame('about', $child1->getName());
-        $this->assertSame('about', $child1->getDescription());
+        $this->assertSame('About page', $child1->getDescription());
         $this->assertSame('/en/about', $child1->getUrl());
 
         $this->assertSame('sitemap', $child2->getName());
-        $this->assertSame('sitemap', $child2->getDescription());
+        $this->assertSame('Sitemap page', $child2->getDescription());
         $this->assertSame('/en/sitemap', $child2->getUrl());
     }
 
-    public function testGetLinkTreeDTOWithoutDynamicRootandWithoutCollection(): void
+    public function testGetLinkTreeDTOWithoutDynamicRoot(): void
     {
         $rootControllerDTO = $this->createRootControllerDTO();
 
-        $linkTreeService = new LinkTree($this->linkTreeDTOFactory);
+        $linkTreeService = new LinkTree();
         $dto = $linkTreeService->getLinkTreeDTO($rootControllerDTO);
 
         $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $dto->getName());
-        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $dto->getDescription());
+        $this->assertSame('Home page', $dto->getDescription());
         $this->assertSame('/', $dto->getUrl());
 
         $children = $dto->getChildren();
@@ -123,20 +79,20 @@ class LinkTreeTest extends TestCase
         [$child1, $child2] = $children;
 
         $this->assertSame('about', $child1->getName());
-        $this->assertSame('about', $child1->getDescription());
+        $this->assertSame('About page', $child1->getDescription());
         $this->assertSame('/about', $child1->getUrl());
 
         $this->assertSame('sitemap', $child2->getName());
-        $this->assertSame('sitemap', $child2->getDescription());
+        $this->assertSame('Sitemap page', $child2->getDescription());
         $this->assertSame('/sitemap', $child2->getUrl());
     }
 
 
     protected function createRootControllerDTO(): ControllerDTOInterface
     {
-        $child1 = new ControllerDTO('about', ['root'], [], 'About');
-        $child2 = new ControllerDTO('sitemap', ['root'], [], 'Sitemap');
-        $rootControllerDTO = new ControllerDTO('root', [], [$child1, $child2], 'Home');
+        $child1 = new ControllerDTO('about', ['root'], [], 'About page');
+        $child2 = new ControllerDTO('sitemap', ['root'], [], 'Sitemap page');
+        $rootControllerDTO = new ControllerDTO('root', [], [$child1, $child2], 'Home page');
         return $rootControllerDTO;
     }
 

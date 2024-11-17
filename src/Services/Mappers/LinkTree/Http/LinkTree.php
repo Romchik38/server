@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Mappers\LinkTree\Http;
 
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOCollectionInterface;
-use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\LinkTree\Http\LinkTreeInterface;
+use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTO;
 
 /** 
  * Maps ControllerDTO to LinkTreeDTO
@@ -24,8 +23,6 @@ class LinkTree implements LinkTreeInterface
     protected string $currentRoot = ControllerTreeInterface::ROOT_NAME;
 
     public function __construct(
-        protected LinkTreeDTOFactoryInterface $linkTreeDTOFactory,
-        protected LinkDTOCollectionInterface|null $linkDTOCollection = null,
         protected DynamicRootInterface|null $dynamicRoot = null
     ) {}
 
@@ -39,17 +36,7 @@ class LinkTree implements LinkTreeInterface
             $this->currentRoot = $this->dynamicRoot->getCurrentRoot()->getName();
         }
 
-        $linkHash = [];
-        /** 2. Get all available LinkDTOs if linkDTOCollection was provided */
-        if ($this->linkDTOCollection !== null) {
-            $linkDTOs = $this->linkDTOCollection->getLinksByPaths();
-            foreach ($linkDTOs as $linkDTO) {
-                $linkHash[$linkDTO->getUrl()] = $linkDTO;
-            }
-        }
-
-        /** 3. Build controllerDTO hash */
-        $rootLinkTreeDTO = $this->buildLinkTreeDTOHash($rootControllerDTO, $linkHash);
+        $rootLinkTreeDTO = $this->buildLinkTreeDTOHash($rootControllerDTO);
 
         return $rootLinkTreeDTO;
     }
@@ -57,9 +44,10 @@ class LinkTree implements LinkTreeInterface
     /**
      * @param LinkDTOInterface[] $hash
      */
-    protected function buildLinkTreeDTOHash(ControllerDTOInterface $element, $hash = []): LinkTreeDTOInterface
+    protected function buildLinkTreeDTOHash(ControllerDTOInterface $element): LinkTreeDTOInterface
     {
         $name = $element->getName();
+        $description = $element->getDescription();
         $path = $element->getPath();
 
         array_push($path, $name);
@@ -81,17 +69,11 @@ class LinkTree implements LinkTreeInterface
         $dtoChildren = [];
         foreach ($children as $child) {
             // do something with children
-            $dtoChild = $this->buildLinkTreeDTOHash($child, $hash);
+            $dtoChild = $this->buildLinkTreeDTOHash($child);
             $dtoChildren[] = $dtoChild;
         }
-        $description = $name;
-        /** @var LinkDTOInterface $linkDTO */
-        $linkDTO = $hash[$url] ?? null;
-        if ($linkDTO !== null) {
-            $name = $linkDTO->getName();
-            $description = $linkDTO->getDescription();
-        }
-        $dto = $this->linkTreeDTOFactory->create(
+
+        $dto = new LinkTreeDTO(
             $name,
             $description,
             $url,
