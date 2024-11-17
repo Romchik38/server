@@ -23,7 +23,6 @@
     - [+] rename Sitemap to ControllerTree
     - [+] remove `ControllerDTOFactory`
     - [+] implement new logic  
-    - [-] ControllerDTO can be json serializable  
     - [-] test  
   - [-] LinkTree mapper  
     - [-] implement new logic  
