@@ -3,30 +3,30 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
 class ControllerTreeTest extends TestCase
 {
-
-    protected readonly ControllerDTOInterface $controllerDTO;
+    protected readonly ControllerInterface $root;
 
     public function setUp(): void
     {
-        $controllerTree = new ControllerTree();
-        $root = (include_once(__DIR__ . '/bootstrap.php'))();
-        $this->controllerDTO = $controllerTree->getRootControllerDTO($root);
+        $this->root = (include_once(__DIR__ . '/bootstrap.php'))();
     }
 
     public function testGetRootControllerDTO(): void
     {
+        $controllerTree = new ControllerTree();
+        $controllerDTO = $controllerTree->getRootControllerDTO($this->root);
 
         /** 1. root */
-        $this->assertSame('root', $this->controllerDTO->getName());
-        $this->assertSame('Home page', $this->controllerDTO->getDescription());
+        $this->assertSame('root', $controllerDTO->getName());
+        $this->assertSame('Home page', $controllerDTO->getDescription());
 
         /** 2. root children */
-        $children = $this->controllerDTO->getChildren();
+        $children = $controllerDTO->getChildren();
         $this->assertSame(3, count($children));
 
         [$products, $about, $contacts] = $children;
@@ -53,4 +53,6 @@ class ControllerTreeTest extends TestCase
         $this->assertSame('product-2', $product2->getName());
         $this->assertSame('Product 2 page', $product2->getDescription());
     }
+
+   // public function testGetOnlyLineRootControllerDTOWithAction() {}
 }

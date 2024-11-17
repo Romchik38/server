@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Tests\Services\Mappers\ControllerTree;
 
+use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Results\Controller\ControllerResultFactory;
 use Romchik38\Tests\Services\Mappers\ControllerTree\Root\DefaultAction as RootDefaultAction;
@@ -12,7 +13,7 @@ use Romchik38\Tests\Services\Mappers\ControllerTree\Products\DefaultAction as Pr
 use Romchik38\Tests\Services\Mappers\ControllerTree\Products\DynamicAction as ProductsDynamicAction;
 
 
-return function () {
+return function (): ControllerInterface {
     include_once(__DIR__ . '/Root/DefaultAction.php');
     include_once(__DIR__ . '/Root/DynamicAction.php');
     include_once(__DIR__ . '/Products/DefaultAction.php');
