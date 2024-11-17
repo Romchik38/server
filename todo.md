@@ -17,13 +17,16 @@
     - [+] test  
       - [+] DynamicRouteDTO  
       - [+] Dynamic Action  
+      - [-] `getDescription` must throw exception on not found description
+        - [-] implement
+        - [-] tests
   - [+] Update Controller  
   - [+] Update `Action` - method `getPath` uses `controller->getFullPath()` to build the path.
-  - [-] Sitemap  
+  - [-] Sitemap (ControllerTree)
     - [+] rename Sitemap to ControllerTree
     - [+] remove `ControllerDTOFactory`
     - [+] implement new logic  
-    - [-] test  
+    - [+] test  
   - [-] LinkTree mapper  
     - [-] implement new logic  
     - [?] LinkCollection  

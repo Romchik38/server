@@ -21,7 +21,7 @@ final class DefaultAction extends Action implements DefaultActionInterface
     public function execute(): string
     {
         $controllerDTO = $this->controllerTreeService->getOnlyLineRootControllerDTO($this->getController(), '');
-        return '<h1>Sitemap</h1>';
+        return json_encode($controllerDTO);
     }
 
     public function getDescription(): string

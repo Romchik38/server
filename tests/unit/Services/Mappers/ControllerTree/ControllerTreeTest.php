@@ -54,7 +54,17 @@ class ControllerTreeTest extends TestCase
     {
         $root = (include_once(__DIR__ . '/bootstrap2.php'))();
         $controllerResult = $root->execute(['root', 'sitemap']);
+        $encodedTree = $controllerResult->getResponse();
 
-         
+        $this->assertSame('{"name":"root","path":[],"children":[{"name":"sitemap","path":["root"],"children":[],"description":"Sitemap page"}],"description":"Home page"}', $encodedTree);
+    }
+
+    public function testGetOnlyLineRootControllerDTOWithAction()
+    {
+        $root = (include_once(__DIR__ . '/bootstrap3.php'))();
+        $controllerResult = $root->execute(['root', 'catalog', 'product-1']);
+        $encodedTree = $controllerResult->getResponse();
+
+        $this->assertSame('{"name":"root","path":[],"children":[{"name":"catalog","path":["root"],"children":[{"name":"product-1","path":["root","catalog"],"children":[],"description":"Product 1 page"}],"description":"Products catalog"}],"description":"Home page"}', $encodedTree);
     }
 }
