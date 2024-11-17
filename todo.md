@@ -9,20 +9,20 @@
   - [+] Default action  
     - [+] new method `getDescription` to `DefaultActionInterface`  
     - [+] test  
-  - [-] Dynamic Action  
+  - [+] Dynamic Action  
     - [+] change getRoutes must return array of DynamicRouteDTO  
     - [+] create DynamicRouteDTO  
       - [+] replace `getRoutes` with `getDynamicRoutes` in the `DynamicActionInterface`  
     - [+] added new method `getDescription`
+      - [+] `getDescription` must throw exception on not found description
     - [+] test  
-      - [+] DynamicRouteDTO  
+      [+] DynamicRouteDTO  
       - [+] Dynamic Action  
-      - [-] `getDescription` must throw exception on not found description
-        - [-] implement
-        - [-] tests
+      - [+] implement
+      - [+] tests
   - [+] Update Controller  
   - [+] Update `Action` - method `getPath` uses `controller->getFullPath()` to build the path.
-  - [-] Sitemap (ControllerTree)
+  - [+] Sitemap (ControllerTree)
     - [+] rename Sitemap to ControllerTree
     - [+] remove `ControllerDTOFactory`
     - [+] implement new logic  

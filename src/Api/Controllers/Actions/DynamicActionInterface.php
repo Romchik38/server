@@ -26,6 +26,8 @@ interface DynamicActionInterface extends ActionInterface
      */
     public function getDynamicRoutes(): array;
 
-    /** Description of concrete dynamic route */
+    /** Description of concrete dynamic route 
+     * @throws DynamicActionLogicException When description was not found
+     */
     public function getDescription(string $dynamicRoute): string;
 }

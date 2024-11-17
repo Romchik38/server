@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
@@ -29,6 +30,14 @@ class DynamicActionTest extends TestCase
         $action = $this->createAction();
         $routeDTOs = $action->getDynamicRoutes();
         $this->assertSame(1, count($routeDTOs));
+    }
+
+    public function testGetDescriptionThrowsException(): void
+    {
+        $action = $this->createAction();
+        $this->expectException(DynamicActionLogicException::class);
+
+        $action->getDescription('contacts');
     }
 
     protected function createAction(): DynamicActionInterface
@@ -57,8 +66,15 @@ class DynamicActionTest extends TestCase
                 return $routes;
             }
 
-            public function getDescription(string $dynamicRoute): string {
-                return $this::DATA[$dynamicRoute];
+            public function getDescription(string $dynamicRoute): string
+            {
+                $description = $this::DATA[$dynamicRoute] ?? null;
+                if ($description !== null) return $description;
+
+                throw new DynamicActionLogicException(sprintf(
+                    'descruption for route %s not found',
+                    $dynamicRoute
+                ));
             }
         };
     }
