@@ -12,6 +12,7 @@ use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOCollectionInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
 
 class Breadcrumb implements BreadcrumbInterface
 {
@@ -19,8 +20,6 @@ class Breadcrumb implements BreadcrumbInterface
 
     public function __construct(
         protected ControllerTreeInterface $controllerTreeService,
-        protected BreadcrumbDTOFactoryInterface $breadcrumbDTOFactory,
-        protected LinkDTOCollectionInterface $linkDTOCollection,
         protected DynamicRootInterface|null $dynamicRoot = null
     ) {}
 
@@ -36,16 +35,8 @@ class Breadcrumb implements BreadcrumbInterface
         /** 2. Get ControllerDTOInterface */
         $controllerDTO = $this->controllerTreeService->getOnlyLineRootControllerDTO($controller, $action);
 
-        /** 3. Get LinkDTOs */
-        $paths = $this->getPathsFromControllerDTO($controllerDTO);
-        $linkDTOs = $this->linkDTOCollection->getLinksByPaths($paths);
-        $linkHash = [];
-        foreach ($linkDTOs as $linkDTO) {
-            $linkHash[$linkDTO->getUrl()] = $linkDTO;
-        }
-
         /** 4. get breadcrumbDTO */
-        $breadcrumbDTO = $this->mapControllerDTOtoBreadcrumbDTO($controllerDTO, null, $linkHash);
+        $breadcrumbDTO = $this->mapControllerDTOtoBreadcrumbDTO($controllerDTO, null);
 
         return $breadcrumbDTO;
     }
@@ -72,7 +63,6 @@ class Breadcrumb implements BreadcrumbInterface
     protected function mapControllerDTOtoBreadcrumbDTO(
         ControllerDTOInterface $controllerDTO,
         BreadcrumbDTOInterface|null $prev,
-        array $hash
     ): BreadcrumbDTOInterface {
 
         $name = $controllerDTO->getName();
@@ -101,7 +91,7 @@ class Breadcrumb implements BreadcrumbInterface
             $description = $linkDTO->getDescription();
         }
 
-        $element = $this->breadcrumbDTOFactory->create(
+        $element = new BreadcrumbDTO(
             $name,
             $description,
             $url,
@@ -111,7 +101,7 @@ class Breadcrumb implements BreadcrumbInterface
         $children = $controllerDTO->getChildren();
         if (count($children) > 0) {
             $child = $children[0];
-            return $this->mapControllerDTOtoBreadcrumbDTO($child, $element, $hash);
+            return $this->mapControllerDTOtoBreadcrumbDTO($child, $element);
         } else {
             return $element;
         }
