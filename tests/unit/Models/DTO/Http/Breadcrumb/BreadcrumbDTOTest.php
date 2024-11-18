@@ -10,41 +10,37 @@ class BreadcrumbDTOTest extends TestCase
 {
     protected BreadcrumbDTOInterface $root;
     protected BreadcrumbDTOInterface $about;
-    protected $name = 'Home Page';
-    protected $description = 'Home description';
-    protected $url = '/';
-
 
     public function setUp(): void
     {
         $this->root = new BreadcrumbDTO(
-            $this->name,
-            $this->description,
-            $this->url,
+            'home',
+            'Home page',
+            '/',
             null
         );
 
         $this->about = new BreadcrumbDTO(
-            $this->name,
-            $this->description,
-            $this->url,
+            'about',
+            'About page',
+            '/about',
             $this->root
         );
     }
 
     public function testGetName()
     {
-        $this->assertSame($this->name, $this->about->getName());
+        $this->assertSame('about', $this->about->getName());
     }
 
     public function testGetDescription()
     {
-        $this->assertSame($this->description, $this->about->getDescription());
+        $this->assertSame('About page', $this->about->getDescription());
     }
 
     public function testGetUrl()
     {
-        $this->assertSame($this->url, $this->about->getUrl());
+        $this->assertSame('/about', $this->about->getUrl());
     }
 
     public function testGetPrev()
