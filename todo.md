@@ -38,6 +38,7 @@
     - [+] remove `LinkTreeDTOFactory`
   - [-] Breadcrumb mapper  
     - [-] remove `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface`
+    - [-] delete `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`
     - [-] implement logic  
     - [-] test  
   - [-] Action tests
