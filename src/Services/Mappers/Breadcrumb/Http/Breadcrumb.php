@@ -6,9 +6,7 @@ namespace Romchik38\Server\Services\Mappers\Breadcrumb\Http;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
-use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOCollectionInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
@@ -83,17 +81,9 @@ class Breadcrumb implements BreadcrumbInterface
 
         $url = '/' . implode('/', $path);
 
-        /** @var \Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface $linkDTO */
-        $linkDTO = $hash[$url] ?? null;
-        $description = '';
-        if ($linkDTO !== null) {
-            $name = $linkDTO->getName();
-            $description = $linkDTO->getDescription();
-        }
-
         $element = new BreadcrumbDTO(
             $name,
-            $description,
+            $controllerDTO->getDescription(),
             $url,
             $prev
         );
