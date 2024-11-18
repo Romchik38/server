@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 
 /** 
- * Must be extended by DefaultAction or DynamicAction
+ * Must be extended with DefaultActionInterface or DynamicActionInterface
  */
 abstract class Action implements ActionInterface
 {

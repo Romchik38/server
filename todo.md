@@ -27,7 +27,7 @@
     - [+] remove `ControllerDTOFactory`
     - [+] implement new logic  
     - [+] test  
-  - [-+] LinkTree mapper  
+  - [+] LinkTree mapper  
     - [+] implement new logic  
     - [+] removed `LinkCollection` and `LinkDTOFactory`
     - [+] test
@@ -41,7 +41,7 @@
     - [+] delete `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`
     - [+] implement logic  
     - [+] test  
-  - [-] Action tests
+  - [+] Action tests
 - [-] create new v  
 
 ## Next
