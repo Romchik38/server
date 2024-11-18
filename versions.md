@@ -7,6 +7,24 @@
 
 [see todo](./todo.md)
 
+## v1.10.0
+
+- [n] `ControllerDTO` - added `getDescription` method and tests
+- [n] `DefaultActionInterface` - new method `getDescription` and tests
+- [!n] `DynamicActionInterface` - removed `getRoutes`, added `getDynamicRoutes`, added new method `getDescription`
+- [n] created `DynamicRouteDTO`, test  
+- refactored `Controller` - method `getFullPath` is public now
+- refactored `Action` - method `getPath` uses `controller->getFullPath()` to build the path, added tests
+- [!] Fully refactored `Sitemap` - renamed to `ControllerTree`, implement new logic do show description, tests
+- [!] removed `ControllerDTOFactory`
+- [!] `LinkTree` mapper - implemented new logic to work with `ControllerTree`, tests
+- [!] removed `LinkCollection` and `LinkDTOFactory`
+- [!n] LinkTreeDTO - `__construct` now throws InvalidArgumentException, tests
+- [!] removed `LinkTreeDTOFactoryInterface`
+- [!] removed `LinkTreeDTOFactory`
+- [!] `Breadcrumb` mapper - implemented new logic to work with `ControllerTree`, tests, removed `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface` from dependencies
+- [!] deleted `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`
+
 ## v1.9.4
 
 - [n] Adde a new method `getQueryParams` to `ServerRequestInterface`
