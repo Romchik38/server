@@ -37,10 +37,10 @@
     - [+] remove `LinkTreeDTOFactoryInterface`
     - [+] remove `LinkTreeDTOFactory`
   - [-] Breadcrumb mapper  
-    - [-] remove `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface`
+    - [+] remove `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface`
     - [-] delete `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`
-    - [-] implement logic  
-    - [-] test  
+    - [+] implement logic  
+    - [+] test  
   - [-] Action tests
 - [-] create new v  
 
