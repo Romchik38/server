@@ -63,6 +63,10 @@ class LinkTree implements LinkTreeInterface
             $name = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 
+        if ($description === ControllerTreeInterface::ROOT_NAME) {
+            $description = BreadcrumbInterface::HOME_PLACEHOLDER;
+        }
+
         $url = '/' . implode('/', $path);
 
         $children = $element->getChildren();

@@ -7,6 +7,8 @@
 
 [see todo](./todo.md)
 
+- fixed `LinkTree` - description now become "home" on "root" controller
+
 ## v1.10.1
 
 - [n] added new service `Urlbuilder`
