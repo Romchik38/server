@@ -7,6 +7,12 @@
 
 [see todo](./todo.md)
 
+## v1.10.1
+
+- [n] added new service `Urlbuilder`
+- [n] added new Action exception `ActionProcessException`
+- [n] added new Model exceptions `EntityLogicException` and `RepositoryConsistencyException`
+
 ## v1.10.0
 
 - [n] `ControllerDTO` - added `getDescription` method and tests
