@@ -7,7 +7,7 @@ namespace Romchik38\Tests\Services\Mappers\ControllerTree\Catalog;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Actions\Action;
-use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
+use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 final class DynamicAction extends Action implements DynamicActionInterface
@@ -27,7 +27,7 @@ final class DynamicAction extends Action implements DynamicActionInterface
     public function execute(string $dynamicRoute): string
     {
         $arr = $this->data[$dynamicRoute] ?? null;
-        if ($arr === null) throw new DynamicActionNotFoundException(
+        if ($arr === null) throw new ActionNotFoundException(
             sprintf('route %s not found', $dynamicRoute)
         );
 

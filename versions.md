@@ -7,7 +7,12 @@
 
 [see todo](./todo.md)
 
+## v1.11.0
+
 - fixed `LinkTree` - description now become "home" on "root" controller
+- [n] Added new `ActionNotFoundException` - must be used in any `Action` to indicate not found error.
+- [!] Removed `DynamicActionNotFoundException`. Use `ActionNotFoundException` instead.
+- [!] Refactored `Controller` - not catches `ActionNotFoundException` on dynamic and default action `execute` call.
 
 ## v1.10.1
 

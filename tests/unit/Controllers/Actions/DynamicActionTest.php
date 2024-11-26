@@ -5,8 +5,8 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
-use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 class DynamicActionTest extends TestCase
@@ -21,7 +21,7 @@ class DynamicActionTest extends TestCase
     public function testExecuteThrowsNotFound(): void
     {
         $action = $this->createAction();
-        $this->expectException(DynamicActionNotFoundException::class);
+        $this->expectException(ActionNotFoundException::class);
         $action->execute('contacts');
     }
 
@@ -48,7 +48,7 @@ class DynamicActionTest extends TestCase
             {
                 $response = $this::DATA[$dynamicRoute] ?? null;
                 if ($response === null) {
-                    throw new DynamicActionNotFoundException(
+                    throw new ActionNotFoundException(
                         sprintf(
                             'route %s not found',
                             $dynamicRoute

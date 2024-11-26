@@ -11,8 +11,8 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultFactoryInterface;
 use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
-use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 
@@ -28,6 +28,8 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
  *          1.2.1 - execute action if dynamic not present
  *              1.2.1.1 - if action present 
  *                  1.2.1.1.1 - execute
+ *                      1.2.1.1.1.1 - return result
+ *                      1.2.1.1.1.2 - catch NotFound Action Error and throw own
  *              1.2.1.2 - if no action present
  *                  1.2.1.2.1 - throw NotFoundException
  *          1.2.2 - execute dynamic action if present
@@ -78,7 +80,7 @@ class Controller implements ControllerInterface
     /** @todo update interface */
     public function getDescription(string $dynamicRoute = ''): string|null
     {
-        if(strlen($dynamicRoute) === 0) {
+        if (strlen($dynamicRoute) === 0) {
             if ($this->action === null) return null;
             return $this->action->getDescription();
         } else {
@@ -142,8 +144,13 @@ class Controller implements ControllerInterface
                 // execute this default action
                 $fullPath = $this->getFullPath();
                 if ($this->action !== null) {
-                    $response = $this->action->execute();
-                    return $this->controllerResultFactory->create($response, $fullPath, ActionInterface::TYPE_DEFAULT_ACTION);
+                    try {
+                        $response = $this->action->execute();
+                        return $this->controllerResultFactory->create($response, $fullPath, ActionInterface::TYPE_DEFAULT_ACTION);
+                    } catch (ActionNotFoundException) {
+                        // 1.2.1.1.1.2 - catch NotFound Action Error and throw own
+                        throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
+                    }
                 } else {
                     // 1.2.1.2.1 - throw NotFoundException
                     throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
@@ -167,7 +174,7 @@ class Controller implements ControllerInterface
                             $fullPath = $this->getFullPath($nextRoute);
                             $response = $this->dynamicAction->execute($nextRoute);
                             return $this->controllerResultFactory->create($response, $fullPath, ActionInterface::TYPE_DYNAMIC_ACTION);
-                        } catch (DynamicActionNotFoundException $e) {
+                        } catch (ActionNotFoundException $e) {
                             //  1.2.1.2.1 - throw NotFoundException
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                         }

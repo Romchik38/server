@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Controllers\Actions;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
-use Romchik38\Server\Controllers\Errors\DynamicActionNotFoundException;
+use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 
 interface DynamicActionInterface extends ActionInterface
 {
@@ -13,7 +13,7 @@ interface DynamicActionInterface extends ActionInterface
      * The last part of the chain.
      * Returns the result to client
      * 
-     * @throws DynamicActionNotFoundException [if the route is unknown]
+     * @throws ActionNotFoundException [if the route is unknown]
      * @return string [result]
      */
     public function execute(string $dynamicRoute): string;
