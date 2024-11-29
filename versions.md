@@ -5,6 +5,8 @@
 
 ## Next
 
+- [n] Added `FileLoader` class to services
+
 [see todo](./todo.md)
 
 ## v1.11.0
