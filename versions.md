@@ -2,17 +2,21 @@
 
 [n] - new  
 [!] - breaking changes  
+[f] - fix
 
 ## Next
 
+## v1.11.1
+
 - [n] Added `FileLoader` class to services
-- fixed class name `CantCreateControllerTreeElement`
+- [f] fixed class name `CantCreateControllerTreeElement`
+- [n] Added `TempStream` - can write data to `php://temp` and do this with own `write` method, or with given callable. Returns data as a string.
 
 [see todo](./todo.md)
 
 ## v1.11.0
 
-- fixed `LinkTree` - description now become "home" on "root" controller
+- [f] `LinkTree` - description now become "home" on "root" controller
 - [n] Added new `ActionNotFoundException` - must be used in any `Action` to indicate not found error.
 - [!] Removed `DynamicActionNotFoundException`. Use `ActionNotFoundException` instead.
 - [!] Refactored `Controller` - now catches `ActionNotFoundException` on dynamic and default action `execute` call.
