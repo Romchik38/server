@@ -2,91 +2,91 @@
 
 [n] - new  
 [!] - breaking changes  
-[f] - fix
+[f] - fix  
 
 ## Next
 
 ## v1.11.1
 
-- [n] Added `FileLoader` class to services
-- [f] fixed class name `CantCreateControllerTreeElement`
-- [n] Added `TempStream` - can write data to `php://temp` and do this with own `write` method, or with given callable. Returns data as a string.
+- [n] Added `FileLoader` class to services  
+- [f] fixed class name `CantCreateControllerTreeElement`  
+- [n] Added `TempStream` - can write data to `php://temp` and do this with own `write` method, or with given callable. Returns data as a string.  
 
-[see todo](./todo.md)
+[see todo](./todo.md)  
 
 ## v1.11.0
 
-- [f] `LinkTree` - description now become "home" on "root" controller
-- [n] Added new `ActionNotFoundException` - must be used in any `Action` to indicate not found error.
-- [!] Removed `DynamicActionNotFoundException`. Use `ActionNotFoundException` instead.
-- [!] Refactored `Controller` - now catches `ActionNotFoundException` on dynamic and default action `execute` call.
+- [f] `LinkTree` - description now become "home" on "root" controller  
+- [n] Added new `ActionNotFoundException` - must be used in any `Action` to indicate not found error.  
+- [!] Removed `DynamicActionNotFoundException`. Use `ActionNotFoundException` instead.  
+- [!] Refactored `Controller` - now catches `ActionNotFoundException` on dynamic and default action `execute` call.  
 
 ## v1.10.1
 
-- [n] added new service `Urlbuilder`
-- [n] added new Action exception `ActionProcessException`
-- [n] added new Model exceptions `EntityLogicException` and `RepositoryConsistencyException`
+- [n] added new service `Urlbuilder`  
+- [n] added new Action exception `ActionProcessException`  
+- [n] added new Model exceptions `EntityLogicException` and `RepositoryConsistencyException`  
 
 ## v1.10.0
 
-- [n] `ControllerDTO` - added `getDescription` method and tests
-- [n] `DefaultActionInterface` - new method `getDescription` and tests
-- [!n] `DynamicActionInterface` - removed `getRoutes`, added `getDynamicRoutes`, added new method `getDescription`
+- [n] `ControllerDTO` - added `getDescription` method and tests  
+- [n] `DefaultActionInterface` - new method `getDescription` and tests  
+- [!n] `DynamicActionInterface` - removed `getRoutes`, added `getDynamicRoutes`, added new method `getDescription`  
 - [n] created `DynamicRouteDTO`, test  
-- refactored `Controller` - method `getFullPath` is public now
-- refactored `Action` - method `getPath` uses `controller->getFullPath()` to build the path, added tests
-- [!] Fully refactored `Sitemap` - renamed to `ControllerTree`, implement new logic do show description, tests
-- [!] removed `ControllerDTOFactory`
-- [!] `LinkTree` mapper - implemented new logic to work with `ControllerTree`, tests
-- [!] removed `LinkCollection` and `LinkDTOFactory`
-- [!n] LinkTreeDTO - `__construct` now throws InvalidArgumentException, tests
-- [!] removed `LinkTreeDTOFactoryInterface`
-- [!] removed `LinkTreeDTOFactory`
-- [!] `Breadcrumb` mapper - implemented new logic to work with `ControllerTree`, tests, removed `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface` from dependencies
-- [!] deleted `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`
+- refactored `Controller` - method `getFullPath` is public now  
+- refactored `Action` - method `getPath` uses `controller->getFullPath()` to build the path, added tests  
+- [!] Fully refactored `Sitemap` - renamed to `ControllerTree`, implement new logic do show description, tests  
+- [!] removed `ControllerDTOFactory`  
+- [!] `LinkTree` mapper - implemented new logic to work with `ControllerTree`, tests  
+- [!] removed `LinkCollection` and `LinkDTOFactory`  
+- [!n] LinkTreeDTO - `__construct` now throws InvalidArgumentException, tests  
+- [!] removed `LinkTreeDTOFactoryInterface`  
+- [!] removed `LinkTreeDTOFactory`  
+- [!] `Breadcrumb` mapper - implemented new logic to work with `ControllerTree`, tests, removed `BreadcrumbDTOFactoryInterface` and `LinkDTOCollectionInterface` from dependencies  
+- [!] deleted `BreadcrumbDTOFactory` and `BreadcrumbDTOFactoryInterface`  
 
 ## v1.9.4
 
-- [n] Adde a new method `getQueryParams` to `ServerRequestInterface`
+- [n] Adde a new method `getQueryParams` to `ServerRequestInterface`  
 
 ## v1.9.3
 
-- Added requirement PHP v.8.3 to composer.json
-- `DefaultServer` now logs error catched from the server error controller
-- [n] Added a new method to `MultiLanguageAction`
+- Added requirement PHP v.8.3 to composer.json  
+- `DefaultServer` now logs error catched from the server error controller  
+- [n] Added a new method to `MultiLanguageAction`  
 
 ## v1.9.2
 
-- [!] `DynamicRootRouter` - refactor 404 controller name
-- `ServerInterface`, `DefaultServer` - refactor server-error controller name
+- [!] `DynamicRootRouter` - refactor 404 controller name  
+- `ServerInterface`, `DefaultServer` - refactor server-error controller name  
 
 ## v1.9.1
 
-- `DynamicRootRouter` - fix bug with controller name 404
+- `DynamicRootRouter` - fix bug with controller name 404  
 
 ## v1.9.0
 
-- [!] refactored `LinkDTOCollectionInterface` - $paths become optional
-- [n] `Action` - added new function *getPath*
-- [n] `MultiLanguageAction` - added new function *getLanguage*
-- [n] `LinkTree` - mapper from ControllerDTO to LinkTreeDTO and tests.
-- [n] `LinkTreeDTO` - Represents a http link to visit. Can have children. Also added tests.
+- [!] refactored `LinkDTOCollectionInterface` - $paths become optional  
+- [n] `Action` - added new function *getPath*  
+- [n] `MultiLanguageAction` - added new function *getLanguage*  
+- [n] `LinkTree` - mapper from ControllerDTO to LinkTreeDTO and tests.  
+- [n] `LinkTreeDTO` - Represents a http link to visit. Can have children. Also added tests.  
 
 ## v1.8.0
 
-- [!] refactor folders `Sitemap`, `Breadcrumb`
-- added test for `Breadcrumb` service
-- refactored `BreadcrumbDTO`
+- [!] refactor folders `Sitemap`, `Breadcrumb`  
+- added test for `Breadcrumb` service  
+- refactored `BreadcrumbDTO`  
 
 ## v1.7.1
 
-[n] - `LinkDTO` for Breadcrumb service, and tests
-[n] - `Breadcrumb` service
+[n] - `LinkDTO` for Breadcrumb service, and tests  
+[n] - `Breadcrumb` service  
 
 ## v1.7.0
 
-[n] - added `BreadcrumbDTO`, `BreadcrumbDTOFactory` and tests for  them
-[!] - Refactored `DynamicRootRouter`, added `ControllersCollection`, and tests.
+[n] - added `BreadcrumbDTO`, `BreadcrumbDTOFactory` and tests for  them  
+[!] - Refactored `DynamicRootRouter`, added `ControllersCollection`, and tests.  
 
 ## v1.6.1
 
