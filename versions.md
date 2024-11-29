@@ -12,7 +12,7 @@
 - fixed `LinkTree` - description now become "home" on "root" controller
 - [n] Added new `ActionNotFoundException` - must be used in any `Action` to indicate not found error.
 - [!] Removed `DynamicActionNotFoundException`. Use `ActionNotFoundException` instead.
-- [!] Refactored `Controller` - not catches `ActionNotFoundException` on dynamic and default action `execute` call.
+- [!] Refactored `Controller` - now catches `ActionNotFoundException` on dynamic and default action `execute` call.
 
 ## v1.10.1
 
