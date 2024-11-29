@@ -2,12 +2,12 @@
 
 ## Current
 
-[-] middleware  
+[-] add controller collection to router
 
 ## Next
 
-[?] Virtual repository  
-[-] add controller collection to router  
+[-] middleware
+[?] Virtual repository
 [-] phpstan  
 [-] dynamic router takes default lang from headers  
 [-] HEAD method
