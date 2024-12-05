@@ -132,5 +132,10 @@ class PlasticineRouterTest extends TestCase
         
         $response = $routerResult->getResponse();
         $this->assertSame('hello world', $response);
+
+    }
+
+    public function testExecuteWithHeaders(): void {
+        
     }
 }
