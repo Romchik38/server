@@ -8,7 +8,6 @@ use Romchik38\Server\Routers\Http\ControllersCollection;
 
 class ControllersCollectionTest extends TestCase
 {
-
     protected Controller $controller;
     protected $controllerName = 'root';
     protected ControllersCollection $collection;
@@ -32,8 +31,6 @@ class ControllersCollectionTest extends TestCase
      * 
      * is tested by setUp() and testGetController()
      */
-
-
     public function testGetMethods()
     {
         $methods = $this->collection->getMethods();
