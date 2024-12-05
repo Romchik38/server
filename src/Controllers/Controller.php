@@ -13,6 +13,8 @@ use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
+use Romchik38\Server\Controllers\Errors\ControllerLogicException;
+use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 
@@ -77,15 +79,30 @@ class Controller implements ControllerInterface
         return $this->path;
     }
 
-    /** @todo update interface */
-    public function getDescription(string $dynamicRoute = ''): string|null
+    public function getDescription(string $dynamicRoute = ''): string
     {
         if (strlen($dynamicRoute) === 0) {
-            if ($this->action === null) return null;
-            return $this->action->getDescription();
+            if ($this->action === null)  {
+                return $this->path;
+            } else {
+                return $this->action->getDescription();
+            }
         } else {
-            if ($this->dynamicAction === null) return null;
-            return $this->dynamicAction->getDescription($dynamicRoute);
+            if ($this->dynamicAction === null) {
+                throw new ControllerLogicException(
+                    sprintf(
+                        'Description for dynamic route %s cannot be created because dynamic action not exist', 
+                        $dynamicRoute
+                        )
+                );
+            }
+            try {
+                return $this->dynamicAction->getDescription($dynamicRoute);
+            } catch (DynamicActionLogicException) {
+                throw new ControllerLogicException(
+                    sprintf('Description for dynamic route %s not exist', $dynamicRoute)
+                );
+            }
         }
     }
 

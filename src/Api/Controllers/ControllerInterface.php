@@ -31,8 +31,13 @@ interface ControllerInterface
     /** @return string controller name */
     public function getName(): string;
 
-    /** @return string|null information about controller or null if it was not provided */
-    public function getDescription(string $dynamicRoute = ''): string|null;
+    /**
+     * Controller's description
+     * 
+     * @throws ControllerLogicException On non existing dynamic route
+     * @return string 
+     * */
+    public function getDescription(string $dynamicRoute = ''): string;
 
     /** 
      * return a child by given controller name 
