@@ -8,6 +8,7 @@ use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
+use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
@@ -135,5 +136,35 @@ class ControllerTest extends TestCase
         );
 
         $this->assertSame('About Page', $controller->getDescription('about'));
+    }
+
+    public function testGetChild(): void
+    {
+        $root = new Controller(
+            'root'
+        );
+        $products = new Controller(
+            'products'
+        );
+
+        $root->setChild($products);
+        $child = $root->getChild('products');
+
+        $this->assertSame('products', $child->getName());
+    }
+
+    public function testGetChildThrowsException(): void
+    {
+        $root = new Controller(
+            'root'
+        );
+        $products = new Controller(
+            'products'
+        );
+
+        $root->setChild($products);
+
+        $this->expectException(NoSuchControllerException::class);
+        $root->getChild('catalog');
     }
 }
