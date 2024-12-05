@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
+use Romchik38\Server\Results\Controller\ControllerResultFactory;
 use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Results\Http\HttpRouterResult;
 use Romchik38\Server\Routers\Http\ControllersCollection;
@@ -46,15 +47,13 @@ class PlasticineRouterTest extends TestCase
         $this->request->method('getUri')->willReturn($uri);
         $this->request->method('getMethod')->willReturn('POST');
 
-        $routerResult = new HttpRouterResult;
-
         $router = new PlasticineRouter(
-            $routerResult,
+            new HttpRouterResult,
             $this->controllerCollection,
             $this->request
         );
 
-        $router->execute();
+        $routerResult = $router->execute();
 
         $headers = $routerResult->getHeaders();
         $this->assertSame(1, count($headers));
@@ -106,5 +105,32 @@ class PlasticineRouterTest extends TestCase
     }
 
     // 4. Exec
-    
+    public function testExecute(): void{
+        require_once __DIR__ . '/PlasticineRouterTest/Root/DefaultAction.php';
+        $rootController = new Controller(
+            'root',
+            true,
+            new ControllerResultFactory,
+            new DefaultAction
+        );
+        $this->controllerCollection->setController(
+            $rootController,
+            HttpRouterInterface::REQUEST_METHOD_GET
+        );
+
+        $uri = new Uri('http', 'example.com', '/');
+        $this->request->method('getUri')->willReturn($uri);
+        $this->request->method('getMethod')->willReturn('GET');
+
+        $router = new PlasticineRouter(
+            new HttpRouterResult,
+            $this->controllerCollection,
+            $this->request
+        );
+
+        $routerResult = $router->execute();
+        
+        $response = $routerResult->getResponse();
+        $this->assertSame('hello world', $response);
+    }
 }
