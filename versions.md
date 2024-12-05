@@ -9,6 +9,7 @@
 [see todo](./todo.md)  
 
 - [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`, tests, some fixes
+- [!] `Controller` - method `getDescription` now throws error on wrong dynamic route, changed return type - removed null.
 
 ## v1.11.1
 
