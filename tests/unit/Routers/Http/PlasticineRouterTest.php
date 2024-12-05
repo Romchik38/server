@@ -105,7 +105,8 @@ class PlasticineRouterTest extends TestCase
     }
 
     // 4. Exec
-    public function testExecute(): void{
+    public function testExecute(): void
+    {
         require_once __DIR__ . '/PlasticineRouterTest/Root/DefaultAction.php';
         $rootController = new Controller(
             'root',
@@ -129,13 +130,10 @@ class PlasticineRouterTest extends TestCase
         );
 
         $routerResult = $router->execute();
-        
+
         $response = $routerResult->getResponse();
+        $statusCode = $routerResult->getStatusCode();
         $this->assertSame('hello world', $response);
-
-    }
-
-    public function testExecuteWithHeaders(): void {
-        
+        $this->assertSame(200, $statusCode);
     }
 }

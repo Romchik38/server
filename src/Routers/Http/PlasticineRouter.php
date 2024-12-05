@@ -28,7 +28,7 @@ class PlasticineRouter implements HttpRouterInterface
         protected readonly ControllerInterface | null $notFoundController = null,
         protected readonly RedirectInterface|null $redirectService = null
     ) {}
-    
+
     public function execute(): HttpRouterResultInterface
     {
         $uri = $this->request->getUri();
@@ -73,12 +73,13 @@ class PlasticineRouter implements HttpRouterInterface
 
             $this->routerResult->setStatusCode(200)->setResponse($response);
             $headerPath = $this->getHeaderPath($path);
-            /** @var RouterHeadersInterface|null  $header */
-            $header = $this->headersCollection->getHeader($method, $headerPath, $type);
-            if ($header !== null) {
-                $header->setHeaders($this->routerResult, $path);
+            if (!is_null($this->headersCollection)) {
+                /** @var RouterHeadersInterface|null  $header */
+                $header = $this->headersCollection->getHeader($method, $headerPath, $type);
+                if (!is_null($header)) {
+                    $header->setHeaders($this->routerResult, $path);
+                }
             }
-
             return $this->routerResult;
         } catch (NotFoundException $e) {
             return $this->pageNotFound();

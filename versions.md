@@ -8,7 +8,7 @@
 
 [see todo](./todo.md)  
 
-- [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`
+- [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`, tests, some fixes
 
 ## v1.11.1
 
