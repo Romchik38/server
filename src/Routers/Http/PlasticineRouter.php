@@ -21,14 +21,14 @@ class PlasticineRouter implements HttpRouterInterface
     protected array $headers;
 
     public function __construct(
-        protected HttpRouterResultInterface $routerResult,
-        /** @todo replace with controller collection */
-        protected ControllersCollectionInterface $controllersCollection,
-        protected RequestInterface $request,
-        protected HeadersCollectionInterface|null $headersCollection = null,
-        protected ControllerInterface | null $notFoundController = null,
-        protected RedirectInterface|null $redirectService = null
+        protected readonly HttpRouterResultInterface $routerResult,
+        protected readonly ControllersCollectionInterface $controllersCollection,
+        protected readonly RequestInterface $request,
+        protected readonly HeadersCollectionInterface|null $headersCollection = null,
+        protected readonly ControllerInterface | null $notFoundController = null,
+        protected readonly RedirectInterface|null $redirectService = null
     ) {}
+    
     public function execute(): HttpRouterResultInterface
     {
         $uri = $this->request->getUri();

@@ -32,6 +32,40 @@ class PlasticineRouterTest extends TestCase
         $this->request = $this->createMock(Request::class);
         $this->request = $this->createMock(Request::class);
     }
+
+    /** 1. method check  */
+    public function testRootControllerNotFound(): void
+    {
+        $rootController = new Controller('root');
+        $this->controllerCollection->setController(
+            $rootController,
+            HttpRouterInterface::REQUEST_METHOD_GET
+        );
+
+        $uri = new Uri('http', 'example.com', '/index');
+        $this->request->method('getUri')->willReturn($uri);
+        $this->request->method('getMethod')->willReturn('POST');
+
+        $routerResult = new HttpRouterResult;
+
+        $router = new PlasticineRouter(
+            $routerResult,
+            $this->controllerCollection,
+            $this->request
+        );
+
+        $router->execute();
+
+        $headers = $routerResult->getHeaders();
+        $this->assertSame(1, count($headers));
+
+        $firstHeader = $headers[0];
+        $allowedMethods = $firstHeader[0];
+
+        $this->assertSame('Allow:GET', $allowedMethods);
+    }
+
+    // 2. redirect check
     public function testExecuteRedirect()
     {
         $this->controllerCollection->setController(
@@ -50,7 +84,6 @@ class PlasticineRouterTest extends TestCase
         $this->redirectService->expects($this->once())->method('execute')
             ->with('/index', 'GET')->willReturn($redirectResultDTO);
 
-        // so we will expects this in rouerResult
         $this->routerResult->expects($this->once())->method('setHeaders')
             ->with([
                 [
@@ -71,4 +104,7 @@ class PlasticineRouterTest extends TestCase
 
         $router->execute();
     }
+
+    // 4. Exec
+    
 }
