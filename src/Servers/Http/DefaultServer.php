@@ -32,9 +32,9 @@ class DefaultServer implements HttpServerInterface
         try {
             $result = $this->router->execute();
             $response = $result->getResponse();
-            $headres = $result->getHeaders();
+            $headers = $result->getHeaders();
             $statusCode = $result->getStatusCode();
-            foreach ($headres as $header) {
+            foreach ($headers as $header) {
                 header(...$header);
             }
 
