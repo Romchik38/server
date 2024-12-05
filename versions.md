@@ -6,13 +6,15 @@
 
 ## Next
 
+[see todo](./todo.md)  
+
+- [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`
+
 ## v1.11.1
 
 - [n] Added `FileLoader` class to services  
 - [f] fixed class name `CantCreateControllerTreeElement`  
 - [n] Added `TempStream` - can write data to `php://temp` and do this with own `write` method, or with given callable. Returns data as a string.  
-
-[see todo](./todo.md)  
 
 ## v1.11.0
 
