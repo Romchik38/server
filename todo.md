@@ -3,12 +3,11 @@
 ## Current
 
 - add controller collection to router
+  - `PlasticineRouter`
+    - add collection
   - `PlasticineRouterTest`
     - refactor `testExecuteRedirect` - add collection
     - add new test for collection
-  - `PlasticineRouter`
-    - add collection
-    - test
 
 ## Next
 

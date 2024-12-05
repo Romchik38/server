@@ -15,5 +15,6 @@ interface ControllersCollectionInterface
     public function getController(string $method): ControllerInterface|null;
     public function setController(ControllerInterface $controller, string $method): ControllersCollectionInterface;
 
+    /** @return array<int,string> */
     public function getMethods(): array;
 }

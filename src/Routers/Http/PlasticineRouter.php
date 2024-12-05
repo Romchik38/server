@@ -7,6 +7,7 @@ namespace Romchik38\Server\Routers\Http;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
+use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HeadersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
@@ -22,7 +23,7 @@ class PlasticineRouter implements HttpRouterInterface
     public function __construct(
         protected HttpRouterResultInterface $routerResult,
         /** @todo replace with controller collection */
-        protected array $controllers,
+        protected ControllersCollectionInterface $controllersCollection,
         protected RequestInterface $request,
         protected HeadersCollectionInterface|null $headersCollection = null,
         protected ControllerInterface | null $notFoundController = null,
@@ -36,8 +37,9 @@ class PlasticineRouter implements HttpRouterInterface
         [$url] = explode('?', $path);
 
         // 1. method check 
-        if (array_key_exists($method, $this->controllers) === false) {
-            return $this->methodNotAllowed();
+        $rootController = $this->controllersCollection->getController($method);
+        if (is_null($rootController)) {
+            return $this->methodNotAllowed($this->controllersCollection->getMethods());
         }
 
         // 2. redirect check
@@ -47,9 +49,6 @@ class PlasticineRouter implements HttpRouterInterface
                 return $this->redirect($redirectResult);
             }
         }
-
-        /** @var ControllerInterface $rootController */
-        $rootController = $this->controllers[$method];
 
         // 3. parse url
         $elements = explode('/', $url);
@@ -89,12 +88,13 @@ class PlasticineRouter implements HttpRouterInterface
     /**
      * set the result to 405 - Method Not Allowed
      */
-    protected function methodNotAllowed(): HttpRouterResultInterface
+    protected function methodNotAllowed(array $allowedMethods): HttpRouterResultInterface
     {
+        $allowedMethodsAsString = implode(', ', $allowedMethods);
         $this->routerResult->setResponse('Method Not Allowed')
             ->setStatusCode(405)
             ->setHeaders([
-                ['Allow:' . implode(', ', array_keys($this->controllers))]
+                ['Allow:' . $allowedMethodsAsString]
             ]);
         return $this->routerResult;
     }
