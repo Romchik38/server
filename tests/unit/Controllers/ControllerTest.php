@@ -416,10 +416,21 @@ class ControllerTest extends TestCase
         $root = new Controller('root');
         $products = new Controller('products');
         $help = new Controller('help');
-        $root->setChild($help);
+        $root->setChild($help)->setChild($products);
         $products->setChild($help);
 
         $parents = $help->getParents();
         $this->assertSame([$root, $products], $parents);
+    }
+
+    public function testSetCurrentParent():void{
+        $root = new Controller('root');
+        $products = new Controller('products');
+        $help = new Controller('help');
+        $root->setChild($help)->setChild($products);
+        $products->setChild($help);
+
+        $help->setCurrentParent($root);
+        $this->assertSame($root, $help->getCurrentParent());
     }
 }

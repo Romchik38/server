@@ -91,7 +91,7 @@ interface ControllerInterface
     public function setChild(ControllerInterface $child): self;
 
     /**
-     * set the parent in this concrete flow
+     * Sets the parent in a concrete flow
      * 
      * @param ControllerInterface $currentParent [parrent]
      * @return void
