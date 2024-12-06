@@ -60,7 +60,7 @@ interface ControllerInterface
      * @return ControllerInterface|null [parrent controller]
      */
     public function getCurrentParent(): ControllerInterface|null;
-    
+
     /**
      * return an array of dynamic route DTOs or empty []
      * 
@@ -72,12 +72,12 @@ interface ControllerInterface
      * @param string $route Dynamic Action route
      */
     public function getFullPath(string $route = ''): array;
-    
+
     /**
-     * return all parrent of the current controller
+     * Returns all parrent of the current controller,
      * so we can trace all possible paths to this controller
      * 
-     * @return ControllerInterface[] [parents]
+     * @return array<int,ControllerInterface> [parents]
      */
     public function getParents(): array;
 

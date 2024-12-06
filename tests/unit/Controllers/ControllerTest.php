@@ -411,5 +411,15 @@ class ControllerTest extends TestCase
         $this->assertSame(['root', 'about'], $root->getFullPath('about'));
     }
 
-    
+    public function testgetParents(): void
+    {
+        $root = new Controller('root');
+        $products = new Controller('products');
+        $help = new Controller('help');
+        $root->setChild($help);
+        $products->setChild($help);
+
+        $parents = $help->getParents();
+        $this->assertSame([$root, $products], $parents);
+    }
 }
