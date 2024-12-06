@@ -7,6 +7,7 @@ use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
@@ -138,7 +139,7 @@ class ControllerTest extends TestCase
         $this->assertSame('About Page', $controller->getDescription('about'));
     }
 
-    public function testGetChild(): void
+    public function testGetChildAndSetChild(): void
     {
         $root = new Controller(
             'root'
@@ -150,7 +151,7 @@ class ControllerTest extends TestCase
         $root->setChild($products);
         $child = $root->getChild('products');
 
-        $this->assertSame('products', $child->getName());
+        $this->assertSame($products, $child);
     }
 
     public function testGetChildThrowsException(): void
@@ -167,4 +168,19 @@ class ControllerTest extends TestCase
         $this->expectException(NoSuchControllerException::class);
         $root->getChild('catalog');
     }
+
+    public function testSetChildThrowsError(): void
+    {
+        $root = new Controller(
+            'root'
+        );
+        $products = new Controller(
+            'products'
+        );
+
+        $this->expectException(CantCreateControllerChain::class);
+        $products->setChild($root);
+    }
+
+    
 }
