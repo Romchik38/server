@@ -82,7 +82,7 @@ class Controller implements ControllerInterface
     public function getDescription(string $dynamicRoute = ''): string
     {
         if (strlen($dynamicRoute) === 0) {
-            if ($this->action === null)  {
+            if ($this->action === null) {
                 return $this->path;
             } else {
                 return $this->action->getDescription();
@@ -91,9 +91,9 @@ class Controller implements ControllerInterface
             if ($this->dynamicAction === null) {
                 throw new ControllerLogicException(
                     sprintf(
-                        'Description for dynamic route %s cannot be created because dynamic action not exist', 
+                        'Description for dynamic route %s cannot be created because dynamic action not exist',
                         $dynamicRoute
-                        )
+                    )
                 );
             }
             try {
@@ -112,20 +112,6 @@ class Controller implements ControllerInterface
             throw new NoSuchControllerException('children with name: ' . $name . ' does not exist');
     }
 
-    public function setChild(ControllerInterface $child): Controller
-    {
-        $name = $child->getName();
-        /** root controller must be one */
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
-            throw new CantCreateControllerChain(
-                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
-            );
-        }
-        $this->children[$name] = $child;
-        $child->addParent($this);
-        return $this;
-    }
-
     public function getChildren(): array
     {
         return $this->children;
@@ -142,6 +128,20 @@ class Controller implements ControllerInterface
     public function getCurrentParent(): Controller|null
     {
         return $this->currentParent;
+    }
+
+    public function setChild(ControllerInterface $child): Controller
+    {
+        $name = $child->getName();
+        /** root controller must be one */
+        if ($name === ControllerTreeInterface::ROOT_NAME) {
+            throw new CantCreateControllerChain(
+                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
+            );
+        }
+        $this->children[$name] = $child;
+        $child->addParent($this);
+        return $this;
     }
 
     public function setCurrentParent(ControllerInterface $currentParent): void

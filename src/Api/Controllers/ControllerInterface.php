@@ -46,9 +46,11 @@ interface ControllerInterface
      * @throws NoSuchControllerException
      * @return ControllerInterface
      */
-    public function getChild(string $name): ControllerInterface;
+    public function getChild(string $name): self;
 
-    /** return all children controllers */
+    /** 
+     * @return array<string,ControllerInterface> all children controllers 
+     * */
     public function getChildren(): array;
 
     /**
@@ -64,7 +66,7 @@ interface ControllerInterface
      * 
      * @return ControllerInterface|null [parrent controller]
      */
-    public function getCurrentParent(): ControllerInterface|null;
+    public function getCurrentParent(): self|null;
 
     /**
      * return all parrent of the current controller
@@ -76,7 +78,7 @@ interface ControllerInterface
 
     /** Returns full path to controller 
      * @param string $route Dynamic Action route
-    */
+     */
     public function getFullPath(string $route = ''): array;
 
     /**
