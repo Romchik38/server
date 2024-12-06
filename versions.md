@@ -10,6 +10,7 @@
 
 - [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`, tests, some fixes
 - [!] `Controller` - method `getDescription` now throws error on wrong dynamic route, changed return type - removed null.
+- [!] `Controller` - now `ControllerResultFactory` needed if an action added
 
 ## v1.11.1
 

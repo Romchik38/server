@@ -188,37 +188,18 @@ class Controller implements ControllerInterface
         return $this->children;
     }
 
-    /** @todo test */
     public function getCurrentParent(): Controller|null
     {
         return $this->currentParent;
     }
 
+    /** @todo test */
     public function getDynamicRoutes(): array
     {
         if ($this->dynamicAction === null) {
             return [];
         }
         return $this->dynamicAction->getDynamicRoutes();
-    }
-
-    public function setChild(ControllerInterface $child): Controller
-    {
-        $name = $child->getName();
-        /** root controller must be one */
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
-            throw new CantCreateControllerChain(
-                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
-            );
-        }
-        $this->children[$name] = $child;
-        $child->addParent($this);
-        return $this;
-    }
-
-    public function setCurrentParent(ControllerInterface $currentParent): void
-    {
-        $this->currentParent = $currentParent;
     }
 
     public function getParents(): array
@@ -244,5 +225,24 @@ class Controller implements ControllerInterface
                 $stop = false;
             }
         }
+    }
+
+    public function setChild(ControllerInterface $child): Controller
+    {
+        $name = $child->getName();
+        /** root controller must be one */
+        if ($name === ControllerTreeInterface::ROOT_NAME) {
+            throw new CantCreateControllerChain(
+                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
+            );
+        }
+        $this->children[$name] = $child;
+        $child->addParent($this);
+        return $this;
+    }
+
+    public function setCurrentParent(ControllerInterface $currentParent): void
+    {
+        $this->currentParent = $currentParent;
     }
 }

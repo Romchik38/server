@@ -210,4 +210,43 @@ class ControllerTest extends TestCase
         $productsChildren = $products->getChildren();
         $this->assertSame($productsChildren['reviews'], $reviews);
     }
+
+    public function testGetCurrentParent(): void
+    {
+        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+            public function execute(): string
+            {
+                return 'product reviews';
+            }
+            public function getDescription(): string
+            {
+                return 'Product Reviews';
+            }
+        };
+
+        $root = new Controller(
+            'root'
+        );
+        $products = new Controller(
+            'products'
+        );
+        $reviews = new Controller(
+            'reviews',
+            true,
+            new ControllerResultFactory,
+            $reviewsDefaultAction
+        );
+        $catalog = new Controller(
+            'catalog'
+        );
+
+        $root->setChild($products)->setChild($catalog);
+        $products->setChild($reviews);
+
+        $root->execute(['root', 'products', 'reviews']);
+
+        $this->assertSame($products, $reviews->getCurrentParent());
+    }
+
+    
 }

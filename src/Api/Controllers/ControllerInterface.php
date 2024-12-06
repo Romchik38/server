@@ -46,7 +46,7 @@ interface ControllerInterface
      * @throws NoSuchControllerException
      * @return ControllerInterface
      */
-    public function getChild(string $name): self;
+    public function getChild(string $name): ControllerInterface;
 
     /** 
      * @return array<string,ControllerInterface> all children 
@@ -54,19 +54,19 @@ interface ControllerInterface
     public function getChildren(): array;
 
     /**
-     * return an array of dynamic route DTOs or empty []
-     * 
-     * @return array<int,DynamicRouteDTOInterface>
-     */
-    public function getDynamicRoutes(): array;
-
-    /**
      * return the parent in this concrete flow 
      *   or null if it is root controller
      * 
      * @return ControllerInterface|null [parrent controller]
      */
-    public function getCurrentParent(): self|null;
+    public function getCurrentParent(): ControllerInterface|null;
+    
+    /**
+     * return an array of dynamic route DTOs or empty []
+     * 
+     * @return array<int,DynamicRouteDTOInterface>
+     */
+    public function getDynamicRoutes(): array;
 
     /**
      * return all parrent of the current controller
