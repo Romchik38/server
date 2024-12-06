@@ -193,7 +193,6 @@ class Controller implements ControllerInterface
         return $this->currentParent;
     }
 
-    /** @todo test */
     public function getDynamicRoutes(): array
     {
         if ($this->dynamicAction === null) {
@@ -202,6 +201,7 @@ class Controller implements ControllerInterface
         return $this->dynamicAction->getDynamicRoutes();
     }
 
+    /** @todo test */
     public function getParents(): array
     {
         return $this->parents;

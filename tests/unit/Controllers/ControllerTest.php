@@ -7,11 +7,14 @@ use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 use Romchik38\Server\Results\Controller\ControllerResultFactory;
+
+use function PHPSTORM_META\map;
 
 class ControllerTest extends TestCase
 {
@@ -246,7 +249,42 @@ class ControllerTest extends TestCase
         $root->execute(['root', 'products', 'reviews']);
 
         $this->assertSame($products, $reviews->getCurrentParent());
+        $this->assertSame(null, $root->getCurrentParent());
     }
 
-    
+    public function testGetDynamicRoutes(): void
+    {
+        $rootDefaultAction = new class extends Action implements DynamicActionInterface {
+            public function execute(string $route): string
+            {
+                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                return 'Content of ' . $route;
+            }
+            public function getDescription(string $route): string
+            {
+                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                return 'Description of about page';
+            }
+
+            public function getDynamicRoutes(): array
+            {
+                return [
+                    new DynamicRouteDTO('about', 'About page')
+                ];
+            }
+        };
+
+        $root = new Controller(
+            'root',
+            true,
+            new ControllerResultFactory,
+            null,
+            $rootDefaultAction
+        );
+
+        $dtos = $root->getDynamicRoutes();
+        $firstDto = $dtos[0];
+        $this->assertSame('about', $firstDto->name());
+        $this->assertSame('About page', $firstDto->description());
+    }
 }
