@@ -61,11 +61,17 @@ class Controller implements ControllerInterface
         protected readonly DefaultActionInterface|null $action = null,
         protected readonly DynamicActionInterface|null $dynamicAction = null
     ) {
+        $hasAction = false;
         if ($this->action !== null) {
             $this->action->setController($this);
+            $hasAction = true;
         }
         if ($this->dynamicAction !== null) {
             $this->dynamicAction->setController($this);
+            $hasAction = true;
+        }
+        if ($hasAction === true && is_null($this->controllerResultFactory)) {
+            throw new ControllerLogicException('Controller Result Factory needed to hold result from Action');
         }
     }
 
@@ -183,17 +189,17 @@ class Controller implements ControllerInterface
     }
 
     /** @todo test */
+    public function getCurrentParent(): Controller|null
+    {
+        return $this->currentParent;
+    }
+
     public function getDynamicRoutes(): array
     {
         if ($this->dynamicAction === null) {
             return [];
         }
         return $this->dynamicAction->getDynamicRoutes();
-    }
-
-    public function getCurrentParent(): Controller|null
-    {
-        return $this->currentParent;
     }
 
     public function setChild(ControllerInterface $child): Controller
