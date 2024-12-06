@@ -254,7 +254,7 @@ class ControllerTest extends TestCase
 
     public function testGetDynamicRoutes(): void
     {
-        $rootDefaultAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
             public function execute(string $route): string
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
@@ -279,7 +279,7 @@ class ControllerTest extends TestCase
             true,
             new ControllerResultFactory,
             null,
-            $rootDefaultAction
+            $rootDynamicAction
         );
 
         $dtos = $root->getDynamicRoutes();
@@ -287,4 +287,129 @@ class ControllerTest extends TestCase
         $this->assertSame('about', $firstDto->name());
         $this->assertSame('About page', $firstDto->description());
     }
+
+    public function testGetFullPathDefaultRoute(): void
+    {
+        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+            public function execute(): string
+            {
+                return 'product reviews';
+            }
+            public function getDescription(): string
+            {
+                return 'Product Reviews';
+            }
+        };
+
+        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+            public function execute(string $route): string
+            {
+                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                return 'Content of ' . $route;
+            }
+            public function getDescription(string $route): string
+            {
+                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                return 'Description of about page';
+            }
+
+            public function getDynamicRoutes(): array
+            {
+                return [
+                    new DynamicRouteDTO('about', 'About page')
+                ];
+            }
+        };
+
+        $root = new Controller(
+            'root',
+            true,
+            new ControllerResultFactory,
+            null,
+            $rootDynamicAction
+        );
+        $products = new Controller(
+            'products'
+        );
+        $reviews = new Controller(
+            'reviews',
+            true,
+            new ControllerResultFactory,
+            $reviewsDefaultAction
+        );
+        $catalog = new Controller(
+            'catalog'
+        );
+
+        $root->setChild($products)->setChild($catalog);
+        $products->setChild($reviews);
+
+        $root->execute(['root', 'products', 'reviews']);
+
+        // $this->assertSame(['root', 'about'], $root->getFullPath('about'));
+        $fullPath = $reviews->getFullPath();
+        $this->assertSame(['root', 'products', 'reviews'], $fullPath);
+    }
+
+    public function testGetFullPathDynamicRoute()
+    {
+        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+            public function execute(): string
+            {
+                return 'product reviews';
+            }
+            public function getDescription(): string
+            {
+                return 'Product Reviews';
+            }
+        };
+
+        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+            public function execute(string $route): string
+            {
+                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                return 'Content of ' . $route;
+            }
+            public function getDescription(string $route): string
+            {
+                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                return 'Description of about page';
+            }
+
+            public function getDynamicRoutes(): array
+            {
+                return [
+                    new DynamicRouteDTO('about', 'About page')
+                ];
+            }
+        };
+
+        $root = new Controller(
+            'root',
+            true,
+            new ControllerResultFactory,
+            null,
+            $rootDynamicAction
+        );
+        $products = new Controller(
+            'products'
+        );
+        $reviews = new Controller(
+            'reviews',
+            true,
+            new ControllerResultFactory,
+            $reviewsDefaultAction
+        );
+        $catalog = new Controller(
+            'catalog'
+        );
+
+        $root->setChild($products)->setChild($catalog);
+        $products->setChild($reviews);
+
+        $root->execute(['root', 'products', 'reviews']);
+        $this->assertSame(['root', 'about'], $root->getFullPath('about'));
+    }
+
+    
 }

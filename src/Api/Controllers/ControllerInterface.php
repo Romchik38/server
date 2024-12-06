@@ -68,6 +68,11 @@ interface ControllerInterface
      */
     public function getDynamicRoutes(): array;
 
+    /** Returns full path to controller 
+     * @param string $route Dynamic Action route
+     */
+    public function getFullPath(string $route = ''): array;
+    
     /**
      * return all parrent of the current controller
      * so we can trace all possible paths to this controller
@@ -75,11 +80,6 @@ interface ControllerInterface
      * @return ControllerInterface[] [parents]
      */
     public function getParents(): array;
-
-    /** Returns full path to controller 
-     * @param string $route Dynamic Action route
-     */
-    public function getFullPath(string $route = ''): array;
 
     /**
      * add child controller to the children list

@@ -50,10 +50,6 @@ class Controller implements ControllerInterface
     protected array $parents = [];
     protected Controller|null $currentParent = null;
 
-    /**
-     * must have Action
-     * may have DynamicAction
-     */
     public function __construct(
         protected readonly string $path,
         protected readonly bool $publicity = false,
@@ -201,12 +197,6 @@ class Controller implements ControllerInterface
         return $this->dynamicAction->getDynamicRoutes();
     }
 
-    /** @todo test */
-    public function getParents(): array
-    {
-        return $this->parents;
-    }
-
     public function getFullPath(string $route = ''): array
     {
         $fullPath = [$this->path];
@@ -225,6 +215,12 @@ class Controller implements ControllerInterface
                 $stop = false;
             }
         }
+    }
+
+    /** @todo test */
+    public function getParents(): array
+    {
+        return $this->parents;
     }
 
     public function setChild(ControllerInterface $child): Controller
