@@ -84,9 +84,9 @@ interface ControllerInterface
      * 
      * @param ControllerInterface $child [a child to add]
      * @throws CantCreateControllerChain when try to add the root controller as a child
-     * @return ControllerInterface [this controller]
+     * @return self [this controller]
      */
-    public function setChild(ControllerInterface $child): ControllerInterface;
+    public function setChild(ControllerInterface $child): self;
 
     /**
      * set the parent in this concrete flow
