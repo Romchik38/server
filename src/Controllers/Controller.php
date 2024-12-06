@@ -69,86 +69,13 @@ class Controller implements ControllerInterface
         }
     }
 
-    public function isPublic(): bool
+    /** @todo test */
+    public function addParent(ControllerInterface $parent): void
     {
-        return $this->publicity;
+        $this->parents[] = $parent;
     }
 
-    public function getName(): string
-    {
-        return $this->path;
-    }
-
-    public function getDescription(string $dynamicRoute = ''): string
-    {
-        if (strlen($dynamicRoute) === 0) {
-            if ($this->action === null) {
-                return $this->path;
-            } else {
-                return $this->action->getDescription();
-            }
-        } else {
-            if ($this->dynamicAction === null) {
-                throw new ControllerLogicException(
-                    sprintf(
-                        'Description for dynamic route %s cannot be created because dynamic action not exist',
-                        $dynamicRoute
-                    )
-                );
-            }
-            try {
-                return $this->dynamicAction->getDescription($dynamicRoute);
-            } catch (DynamicActionLogicException) {
-                throw new ControllerLogicException(
-                    sprintf('Description for dynamic route %s not exist', $dynamicRoute)
-                );
-            }
-        }
-    }
-
-    public function getChild(string $name): Controller
-    {
-        return $this->children[$name] ??
-            throw new NoSuchControllerException('children with name: ' . $name . ' does not exist');
-    }
-
-    public function getChildren(): array
-    {
-        return $this->children;
-    }
-
-    public function getDynamicRoutes(): array
-    {
-        if ($this->dynamicAction === null) {
-            return [];
-        }
-        return $this->dynamicAction->getDynamicRoutes();
-    }
-
-    public function getCurrentParent(): Controller|null
-    {
-        return $this->currentParent;
-    }
-
-    public function setChild(ControllerInterface $child): Controller
-    {
-        $name = $child->getName();
-        /** root controller must be one */
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
-            throw new CantCreateControllerChain(
-                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
-            );
-        }
-        $this->children[$name] = $child;
-        $child->addParent($this);
-        return $this;
-    }
-
-    public function setCurrentParent(ControllerInterface $currentParent): void
-    {
-        $this->currentParent = $currentParent;
-    }
-
+    /** @todo test */
     public function execute(array $elements): ControllerResultInterface
     {
         if (count($elements) === 0) {
@@ -207,14 +134,90 @@ class Controller implements ControllerInterface
         }
     }
 
+    public function isPublic(): bool
+    {
+        return $this->publicity;
+    }
+
+    public function getName(): string
+    {
+        return $this->path;
+    }
+
+    public function getDescription(string $dynamicRoute = ''): string
+    {
+        if (strlen($dynamicRoute) === 0) {
+            if ($this->action === null) {
+                return $this->path;
+            } else {
+                return $this->action->getDescription();
+            }
+        } else {
+            if ($this->dynamicAction === null) {
+                throw new ControllerLogicException(
+                    sprintf(
+                        'Description for dynamic route %s cannot be created because dynamic action not exist',
+                        $dynamicRoute
+                    )
+                );
+            }
+            try {
+                return $this->dynamicAction->getDescription($dynamicRoute);
+            } catch (DynamicActionLogicException) {
+                throw new ControllerLogicException(
+                    sprintf('Description for dynamic route %s not exist', $dynamicRoute)
+                );
+            }
+        }
+    }
+
+    public function getChild(string $name): Controller
+    {
+        return $this->children[$name] ??
+            throw new NoSuchControllerException('children with name: ' . $name . ' does not exist');
+    }
+
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    /** @todo test */
+    public function getDynamicRoutes(): array
+    {
+        if ($this->dynamicAction === null) {
+            return [];
+        }
+        return $this->dynamicAction->getDynamicRoutes();
+    }
+
+    public function getCurrentParent(): Controller|null
+    {
+        return $this->currentParent;
+    }
+
+    public function setChild(ControllerInterface $child): Controller
+    {
+        $name = $child->getName();
+        /** root controller must be one */
+        if ($name === ControllerTreeInterface::ROOT_NAME) {
+            throw new CantCreateControllerChain(
+                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
+            );
+        }
+        $this->children[$name] = $child;
+        $child->addParent($this);
+        return $this;
+    }
+
+    public function setCurrentParent(ControllerInterface $currentParent): void
+    {
+        $this->currentParent = $currentParent;
+    }
+
     public function getParents(): array
     {
         return $this->parents;
-    }
-
-    public function addParent(ControllerInterface $parent): void
-    {
-        $this->parents[] = $parent;
     }
 
     public function getFullPath(string $route = ''): array

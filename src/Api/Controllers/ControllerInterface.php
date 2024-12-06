@@ -49,7 +49,7 @@ interface ControllerInterface
     public function getChild(string $name): self;
 
     /** 
-     * @return array<string,ControllerInterface> all children controllers 
+     * @return array<string,ControllerInterface> all children 
      * */
     public function getChildren(): array;
 

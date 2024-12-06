@@ -182,5 +182,32 @@ class ControllerTest extends TestCase
         $products->setChild($root);
     }
 
-    
+    public function testGetChildren(): void
+    {
+        $root = new Controller(
+            'root'
+        );
+        $products = new Controller(
+            'products'
+        );
+        $reviews = new Controller(
+            'reviews'
+        );
+        $catalog = new Controller(
+            'catalog'
+        );
+
+        $this->assertSame([], $root->getChildren());
+        $this->assertSame([], $products->getChildren());
+
+        $root->setChild($products)->setChild($catalog);
+        $products->setChild($reviews);
+
+        $rootChildren = $root->getChildren();
+        $this->assertSame($rootChildren['products'], $products);
+        $this->assertSame($rootChildren['catalog'], $catalog);
+
+        $productsChildren = $products->getChildren();
+        $this->assertSame($productsChildren['reviews'], $reviews);
+    }
 }
