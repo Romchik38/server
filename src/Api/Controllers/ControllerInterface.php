@@ -20,7 +20,12 @@ interface ControllerInterface
      */
     public function addParent(ControllerInterface $parent): void;
 
-    /** transfers control to next controller */
+    /** 
+     * transfers control to next controller 
+     * @param array<int,string> chain path
+     * @throws ControllerLogicException on empty $elements
+     * @throws NotFoundException
+     * */
     public function execute(array $elements): ControllerResultInterface;
 
     /** 

@@ -81,7 +81,7 @@ class Controller implements ControllerInterface
     public function execute(array $elements): ControllerResultInterface
     {
         if (count($elements) === 0) {
-            throw new \RuntimeException('Controller error: path not found');
+            throw new ControllerLogicException('Controller error: path not found');
         }
 
         $route = array_shift($elements);
