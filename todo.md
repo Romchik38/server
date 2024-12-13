@@ -2,6 +2,7 @@
 
 ## Current
 
+- Required extension: pgsql in `Database`
 - middleware
   - PSR-15: HTTP
 
