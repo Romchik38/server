@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Routers\Http;          
+namespace Romchik38\Server\Routers\Http;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
@@ -14,7 +15,6 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface
@@ -25,7 +25,7 @@ class DynamicRootRouter implements HttpRouterInterface
      */
     public function __construct(
         protected HttpRouterResultInterface $routerResult,
-        protected RequestInterface $request,
+        protected ServerRequestInterface $request,
         protected DynamicRootInterface $dynamicRootService,
         protected ControllersCollectionInterface $controllersCollection,
         protected HeadersCollectionInterface|null $headersCollection = null,
@@ -140,7 +140,7 @@ class DynamicRootRouter implements HttpRouterInterface
             }
             // 11. Exit
             return $this->routerResult;
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // 11. Show page not found
             return $this->pageNotFound();
         }
