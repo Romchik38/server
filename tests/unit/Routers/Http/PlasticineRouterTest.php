@@ -13,11 +13,8 @@ use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Results\Http\HttpRouterResult;
 use Romchik38\Server\Routers\Http\ControllersCollection;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
-use Romchik38\Server\Services\Request\Http\Request;
-use Romchik38\Server\Services\Request\Http\Uri;
 
-
-class PlasticineRouterTest extends TestCase
+final class PlasticineRouterTest extends TestCase
 {
 
     protected $routerResult;
