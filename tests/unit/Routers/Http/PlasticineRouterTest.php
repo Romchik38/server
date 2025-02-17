@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
@@ -23,15 +25,12 @@ class PlasticineRouterTest extends TestCase
     protected $controller;
     protected $notFoundController = null;
     protected $redirectService = null;
-    protected $request;
 
     public function setUp(): void
     {
         $this->routerResult = $this->createMock(HttpRouterResult::class);
         $this->controller = $this->createMock(Controller::class);
         $this->controllerCollection = new ControllersCollection;
-        $this->request = $this->createMock(Request::class);
-        $this->request = $this->createMock(Request::class);
     }
 
     /** 1. method check  */
@@ -43,14 +42,17 @@ class PlasticineRouterTest extends TestCase
             HttpRouterInterface::REQUEST_METHOD_GET
         );
 
-        $uri = new Uri('http', 'example.com', '/index');
-        $this->request->method('getUri')->willReturn($uri);
-        $this->request->method('getMethod')->willReturn('POST');
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn('/index');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn($uri);
+        $request->method('getMethod')->willReturn('POST');
+
 
         $router = new PlasticineRouter(
             new HttpRouterResult,
             $this->controllerCollection,
-            $this->request
+            $request
         );
 
         $routerResult = $router->execute();
@@ -71,9 +73,11 @@ class PlasticineRouterTest extends TestCase
             $this->controller,
             HttpRouterInterface::REQUEST_METHOD_GET
         );
-        $uri = new Uri('http', 'example.com', '/index');
-        $this->request->method('getUri')->willReturn($uri);
-        $this->request->method('getMethod')->willReturn('GET');
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn('/index');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn($uri);
+        $request->method('getMethod')->willReturn('GET');
 
         $redirectLocation = 'http://example.com/';
         $redirectStatusCode = 301;
@@ -95,7 +99,7 @@ class PlasticineRouterTest extends TestCase
         $router = new PlasticineRouter(
             $this->routerResult,
             $this->controllerCollection,
-            $this->request,
+            $request,
             null,
             $this->notFoundController,
             $this->redirectService
@@ -119,14 +123,16 @@ class PlasticineRouterTest extends TestCase
             HttpRouterInterface::REQUEST_METHOD_GET
         );
 
-        $uri = new Uri('http', 'example.com', '/');
-        $this->request->method('getUri')->willReturn($uri);
-        $this->request->method('getMethod')->willReturn('GET');
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn('/');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getUri')->willReturn($uri);
+        $request->method('getMethod')->willReturn('GET');
 
         $router = new PlasticineRouter(
             new HttpRouterResult,
             $this->controllerCollection,
-            $this->request
+            $request
         );
 
         $routerResult = $router->execute();
