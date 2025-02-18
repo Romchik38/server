@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
+use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
@@ -138,5 +140,14 @@ final class PlasticineRouterTest extends TestCase
         $statusCode = $routerResult->getStatusCode();
         $this->assertSame('hello world', $response);
         $this->assertSame(200, $statusCode);
+    }
+
+    private function createRequestFactory(): RequestFactoryInterface
+    {
+        /** @todo Now */
+        return new class implements ResponseFactoryInterface
+        {
+            
+        };
     }
 }
