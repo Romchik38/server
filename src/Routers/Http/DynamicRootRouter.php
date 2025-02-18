@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
+use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
+use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
+use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
-use Romchik38\Server\Api\Routers\Http\HeadersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
@@ -19,21 +22,16 @@ use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface
 {
-
-    /**
-     * @param array $headers Is a function, that accepts the rootName and returns an instance of HeadersCollectionInterface
-     */
     public function __construct(
-        protected HttpRouterResultInterface $routerResult,
+        protected ResponseFactoryInterface $responseFactory,
         protected ServerRequestInterface $request,
         protected DynamicRootInterface $dynamicRootService,
         protected ControllersCollectionInterface $controllersCollection,
-        protected HeadersCollectionInterface|null $headersCollection = null,
         protected ControllerInterface | null $notFoundController = null,
         protected RedirectInterface|null $redirectService = null
     ) {
     }
-    public function execute(): HttpRouterResultInterface
+    public function execute(): ResponseInterface
     {
         // 0. define
         $uri = $this->request->getUri();
@@ -59,24 +57,27 @@ class DynamicRootRouter implements HttpRouterInterface
 
         // 2. for / redirect to default root
         if (count($elements) === 0) {
-            return $this->routerResult->setHeaders([[
-                'Location: ' . $scheme . RedirectInterface::SCHEME_HOST_DELIMITER
-                    . $host . '/' . $defaultRoot->getName(),
-                true,
-                301
-            ]]);
+            $redirectLine = $scheme 
+                . RedirectInterface::SCHEME_HOST_DELIMITER
+                . $host 
+                . '/' 
+                . $defaultRoot->getName();
+            return ($this->responseFactory->create())->withStatus(301)
+                ->withHeader('Location', $redirectLine);
         }
 
         $rootName = $elements[0];
 
         // 3. try to redirect to defaultRoot + path
         if (array_search($rootName, $rootList, true) === false) {
-            return $this->routerResult->setHeaders([[
-                'Location: ' . $scheme . RedirectInterface::SCHEME_HOST_DELIMITER
-                    . $host . '/' . $defaultRoot->getName() . $path,
-                true,
-                301
-            ]]);
+            $redirectLinePlusPath = $scheme 
+                . RedirectInterface::SCHEME_HOST_DELIMITER
+                . $host 
+                . '/' 
+                . $defaultRoot->getName() 
+                . $path;
+            return ($this->responseFactory->create())->withStatus(301)
+                ->withHeader('Location', $redirectLinePlusPath);
         }
 
         // 4. Get controller
@@ -91,17 +92,9 @@ class DynamicRootRouter implements HttpRouterInterface
         if ($this->redirectService !== null) {
             $redirectResult = $this->redirectService->execute($url, $method);
             if ($redirectResult !== null) {
-                return $this->routerResult->setHeaders([
-                    [
-                        'Location: ' . $scheme . RedirectInterface::SCHEME_HOST_DELIMITER
-                            . $host . $redirectResult->getRedirectLocation(),
-                        true,
-                        $redirectResult->getStatusCode()
-                    ]
-                ]);
+                return $this->redirect($redirectResult);
             }
         }
-
         /**
          * 7. set current root
          * 
@@ -122,24 +115,7 @@ class DynamicRootRouter implements HttpRouterInterface
         try {
             // 9. Exec
             $controllerResult = $controller->execute($elements);
-
-            $path = $controllerResult->getPath();
-            $response = $controllerResult->getResponse();
-            $type = $controllerResult->getType();
-
-            $this->routerResult->setStatusCode(200)->setResponse($response);
-
-            // 10. Set headers
-            if ($this->headersCollection !== null) {
-                $headerPath = $this->getHeaderPath($path);
-                /** @var RouterHeadersInterface|null  $header */
-                $header = $this->headersCollection->getHeader($method, $headerPath, $type);
-                if($header !== null) {
-                    $header->setHeaders($this->routerResult, $path);
-                }
-            }
-            // 11. Exit
-            return $this->routerResult;
+            return $controllerResult->getResponse();
         } catch (NotFoundException) {
             // 11. Show page not found
             return $this->pageNotFound();
@@ -149,40 +125,42 @@ class DynamicRootRouter implements HttpRouterInterface
     /**
      * set the result to 405 - Method Not Allowed
      */
-    protected function methodNotAllowed(array $methods): HttpRouterResultInterface
+    protected function methodNotAllowed(array $methods): ResponseInterface
     {
-        $this->routerResult->setResponse(HttpRouterResultInterface::METHOD_NOT_ALLOWED_RESPONSE)
-            ->setHeaders([
-                [
-                    'Allow:' . implode(', ', $methods),
-                    true,
-                    HttpRouterResultInterface::METHOD_NOT_ALLOWED_CODE
-                ]
-            ]);
-        return $this->routerResult;
+        $response = $this->responseFactory->create();
+        $body = $response->getBody();
+        $body->write('Method Not Allowed');
+        $response = $response->withStatus(405)->withBody($body)
+            ->withAddedHeader('Allow', $methods);
+        return $response;
     }
 
     /**
      * set the result to 404 - Not Found
      */
-    protected function pageNotFound(): HttpRouterResultInterface
+    protected function pageNotFound(): ResponseInterface
     {
-        $response = HttpRouterResultInterface::NOT_FOUND_RESPONSE;
         if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->execute(
-                [HttpRouterResultInterface::NOT_FOUND_CONTROLLER_NAME]
-            )->getResponse();
+            $response = $this->notFoundController->execute(['404'])->getResponse();
+        } else {
+            $response = $this->responseFactory->create();
+            $body = $response->getBody();
+            $body->write('Error 404 from router - Page not found');
+            $response = $response->withBody($body);
         }
-        $this->routerResult->setStatusCode(HttpRouterResultInterface::NOT_FOUND_STATUS_CODE)
-            ->setResponse($response);
-        return $this->routerResult;
+        $response = $response->withStatus(404);
+        return $response;
     }
 
-    /** 
-     * set headers for actions
+     /**
+     * Set a redirect to the same site with founded url and status code
      */
-    protected function getHeaderPath(array $path): string
+    protected function redirect(RedirectResultDTOInterface $redirectResult): ResponseInterface
     {
-        return implode(ControllerInterface::PATH_SEPARATOR, $path);
+        $uri = $redirectResult->getRedirectLocation();
+        $statusCode = $redirectResult->getStatusCode();
+        $response = ($this->responseFactory->create())->withStatus($statusCode)
+            ->withHeader('Location', $uri);
+        return  $response;
     }
 }

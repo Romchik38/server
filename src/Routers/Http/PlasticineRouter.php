@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
-use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
+use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
@@ -18,6 +18,7 @@ use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 class PlasticineRouter implements HttpRouterInterface
 {
     public function __construct(
+        protected ResponseFactoryInterface $responseFactory,
         protected readonly ControllersCollectionInterface $controllersCollection,
         protected readonly ServerRequestInterface $request,
         protected readonly ControllerInterface | null $notFoundController = null,
@@ -73,7 +74,7 @@ class PlasticineRouter implements HttpRouterInterface
      */
     protected function methodNotAllowed(array $allowedMethods): ResponseInterface
     {
-        $response = new Response();
+        $response = $this->responseFactory->create();
         $body = $response->getBody();
         $body->write('Method Not Allowed');
         $response = $response->withStatus(405)->withBody($body)
@@ -89,7 +90,7 @@ class PlasticineRouter implements HttpRouterInterface
         if ($this->notFoundController !== null) {
             $response = $this->notFoundController->execute(['404'])->getResponse();
         } else {
-            $response = new Response();
+            $response = $this->responseFactory->create();
             $body = $response->getBody();
             $body->write('Error 404 from router - Page not found');
             $response = $response->withBody($body);
@@ -105,7 +106,8 @@ class PlasticineRouter implements HttpRouterInterface
     {
         $uri = $redirectResult->getRedirectLocation();
         $statusCode = $redirectResult->getStatusCode();
-        $response = (new Response())->withStatus($statusCode)->withHeader('Location', $uri);
+        $response = ($this->responseFactory->create())->withStatus($statusCode)
+            ->withHeader('Location', $uri);
         return  $response;
     }
 }
