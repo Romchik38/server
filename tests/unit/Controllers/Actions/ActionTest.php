@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Controller;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
 class ActionTest extends TestCase
 {
@@ -18,7 +18,6 @@ class ActionTest extends TestCase
         $controller = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $action
         );
 
@@ -44,9 +43,12 @@ class ActionTest extends TestCase
     protected function createAction(): ActionInterface
     {
         return new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): Response
             {
-                return 'ok';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('ok');
+                return $response->withBody($body);
             }
             public function getDescription(): string
             {

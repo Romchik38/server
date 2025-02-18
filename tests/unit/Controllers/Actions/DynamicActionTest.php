@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
@@ -14,8 +16,8 @@ class DynamicActionTest extends TestCase
     public function testExecute()
     {
         $action = $this->createAction();
-        $result = $action->execute('about');
-        $this->assertSame('<h1>About</h1>', $result);
+        $response = $action->execute('about');
+        $this->assertSame('<h1>About</h1>', (string) $response->getBody());
     }
 
     public function testExecuteThrowsNotFound(): void
@@ -44,10 +46,10 @@ class DynamicActionTest extends TestCase
     {
         return new class extends Action implements DynamicActionInterface {
             protected const DATA = ['about' => 'About'];
-            public function execute(string $dynamicRoute): string
+            public function execute(string $dynamicRoute): ResponseInterface
             {
-                $response = $this::DATA[$dynamicRoute] ?? null;
-                if ($response === null) {
+                $result = $this::DATA[$dynamicRoute] ?? null;
+                if ($result === null) {
                     throw new ActionNotFoundException(
                         sprintf(
                             'route %s not found',
@@ -55,7 +57,10 @@ class DynamicActionTest extends TestCase
                         )
                     );
                 }
-                return sprintf('<h1>%s</h1>', $response);
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write(sprintf('<h1>%s</h1>', $result));
+                return $response->withBody($body);
             }
             public function getDynamicRoutes(): array
             {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 
@@ -11,7 +13,8 @@ class DefaultActionTest extends TestCase
     public function testExecute(): void
     {
         $action = $this->createDefaultAction();
-        $this->assertSame('result', $action->execute());
+        $response = $action->execute();
+        $this->assertSame('result', (string) $response->getBody());
     }
 
 
@@ -24,9 +27,12 @@ class DefaultActionTest extends TestCase
     protected function createDefaultAction(): DefaultActionInterface
     {
         return new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return 'result';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('result');
+                return $response->withBody($body);
             }
 
             public function getDescription(): string
