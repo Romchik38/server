@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Results\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 
 interface ControllerResultInterface
@@ -14,9 +15,9 @@ interface ControllerResultInterface
     /** 
      * returns result from the action
      * 
-     * @return string [action response]
+     * @return ResponseInterface Action response
      */
-    public function getResponse(): string;
+    public function getResponse(): ResponseInterface;
 
     /**
      * returns the full path to action

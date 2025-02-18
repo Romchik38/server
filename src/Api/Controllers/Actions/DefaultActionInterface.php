@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Controllers\Actions;
 
+use Psr\Http\Message\ResponseInterface;
+
 interface DefaultActionInterface extends ActionInterface
 {
 
@@ -11,9 +13,9 @@ interface DefaultActionInterface extends ActionInterface
      * The last part of the chain.
      * Returns the result to client
      * 
-     * @return string [result]
+     * @return ResponseInterface Action responses
      */
-    public function execute(): string;
+    public function execute(): ResponseInterface;
 
     /** 
      * Returns action description. 
