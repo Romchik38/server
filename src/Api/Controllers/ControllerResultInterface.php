@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Results\Controller;
+namespace Romchik38\Server\Api\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;

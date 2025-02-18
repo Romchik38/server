@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Results\Controller;
+namespace Romchik38\Server\Controllers;
 
-use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
+use Romchik38\Server\Api\Controllers\ControllerResultInterface;
 use Romchik38\Server\Models\DTO;
 
 class ControllerResult extends DTO implements ControllerResultInterface

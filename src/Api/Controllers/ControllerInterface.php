@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Controllers;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
-use Romchik38\Server\Api\Results\Controller\ControllerResultInterface;
 
 interface ControllerInterface
 {
