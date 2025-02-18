@@ -5,9 +5,9 @@
 - PSR-7
   - replace `interface ServerRequestInterface` with interface from psr-7 package
     - delete:
-      - `src/Api/Services/Request/Http`
-      - `src/Services/Request/Http`
-      - `tests/unit/Services/Request/Http/ServerRequestTest.php`
+      - [+] `src/Api/Services/Request/Http`
+      - [+] `src/Services/Request/Http`
+      - [+] `tests/unit/Services/Request/Http/ServerRequestTest.php`
     - refactor:
       - [+] `src/Routers/Http/PlasticineRouter.php`
       - [+] `src/Routers/Http/DynamicRootRouter.php`
