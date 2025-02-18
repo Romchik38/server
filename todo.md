@@ -23,11 +23,12 @@
           - [+] `src/Api/Routers/Http/HttpRouterInterface.php`
           - [+] `src/Routers/Http/PlasticineRouter.php`
           - [+] `src/Routers/Http/DynamicRootRouter.php`
-          - `src/Servers/Http/DefaultServer.php`
+          - [+] `src/Servers/Http/DefaultServer.php`
         - delete
-          - `src/Api/Routers/RouterInterface.php`
-          - `src/Results/Http/HttpRouterResult.php`
-          - `src/Api/Results/Http/HttpRouterResultInterface.php`
+          - [+] `src/Api/Routers/RouterInterface.php`
+          - [+] `src/Results/Http/HttpRouterResult.php`
+          - [+] `src/Api/Results/Http/HttpRouterResultInterface.php`
+      - Tests
   - remove `Headers`
 
 ## Next

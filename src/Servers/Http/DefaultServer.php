@@ -30,21 +30,18 @@ class DefaultServer implements HttpServerInterface
     public function run(): DefaultServer
     {
         try {
-            $result = $this->router->execute();
-            $response = $result->getResponse();
-            $headers = $result->getHeaders();
-            $statusCode = $result->getStatusCode();
-            foreach ($headers as $header) {
-                header(...$header);
-            }
+            $response = $this->router->execute();
+            $headers = $response->getHeaders();
+            $statusCode = $response->getStatusCode();
+
+            $this->sendHeaders($headers);
 
             if ($statusCode > 0) {
                 http_response_code($statusCode);
             }
 
-            if (strlen($response) > 0) {
-                echo $response;
-            }
+            echo (string) $response->getBody();
+
         } catch (\Exception $e) {
             if ($this->logger) {
                 $this->logger->error($e->getMessage());
@@ -52,9 +49,12 @@ class DefaultServer implements HttpServerInterface
             http_response_code($this::DEFAULT_SERVER_ERROR_CODE);
             // try to show the page
             try {
-                $resultServerError = $this->serverErrorController
-                    ->execute([$this::SERVER_ERROR_CONTROLLER_NAME]);
-                echo $resultServerError->getResponse();
+                $responseServerError = $this->serverErrorController
+                    ->execute([$this::SERVER_ERROR_CONTROLLER_NAME])
+                    ->getResponse();
+                
+                $this->sendHeaders($responseServerError->getHeaders());
+                echo (string) $responseServerError->getBody();
             } catch (\Exception $e) {
                 // log error from server error controller
                 if ($this->logger) {
@@ -66,5 +66,18 @@ class DefaultServer implements HttpServerInterface
         }
 
         return $this;
+    }
+
+    /** @param array<string, array<int, string>> $headers */
+    private function sendHeaders(array $headers): void
+    {
+        foreach($headers as $key => $value){
+            $line = sprintf(
+                '%s: %s',
+                $key,
+                implode(',', $value)
+            );
+           header($line);
+        }
     }
 }
