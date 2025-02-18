@@ -8,6 +8,10 @@
 
 [see todo](./todo.md)  
 
+## v1.13.0
+
+- [!] Routers and Redirect Service uses PSR-7 ServerRequestInterface. Refactored tests
+
 ## v1.12.0
 
 - [!] `PlasticineRouter` - controller array replaced with `ControllersCollection`, tests, some fixes
