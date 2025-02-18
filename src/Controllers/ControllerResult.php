@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Controllers;
 
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\ControllerResultInterface;
 use Romchik38\Server\Models\DTO;
 
@@ -11,7 +12,7 @@ class ControllerResult extends DTO implements ControllerResultInterface
 {
 
     public function __construct(
-        string $response,
+        ResponseInterface $response,
         array $path,
         string $type
     ) {
@@ -20,7 +21,7 @@ class ControllerResult extends DTO implements ControllerResultInterface
         $this->data[ControllerResultInterface::TYPE_FIELD] = $type;
     }
 
-    public function getResponse(): string
+    public function getResponse(): ResponseInterface
     {
         return $this->data[ControllerResultInterface::RESPONSE_FIELD];
     }
