@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Redirect\Http;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
-use Romchik38\Server\Api\Services\Request\Http\RequestInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Services\Errors\CantCreateRedirectException;
 
@@ -23,7 +23,7 @@ class Redirect implements RedirectInterface
     public function __construct(
         protected readonly RedirectRepositoryInterface $redirectRepository,
         protected readonly RedirectResultDTOFactoryInterface $redirectResultDTOFactory,
-        RequestInterface $request
+        ServerRequestInterface $request
     ) {
         $uri = $request->getUri();
         $scheme = $uri->getScheme();

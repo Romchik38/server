@@ -11,8 +11,8 @@
     - refactor:
       - [+] `src/Routers/Http/PlasticineRouter.php`
       - [+] `src/Routers/Http/DynamicRootRouter.php`
-      - `src/Services/Redirect/Http/Redirect.php`
-      - `tests/unit/Services/Redirect/Http/RedirectTest.php`
+      - [+] `src/Services/Redirect/Http/Redirect.php`
+      - [+] `tests/unit/Services/Redirect/Http/RedirectTest.php`
       - [+] `tests/unit/Routers/Http/PlasticineRouterTest.php`
       - [+] `tests/unit/Routers/Http/DynamicRootRouterTest.php`
 

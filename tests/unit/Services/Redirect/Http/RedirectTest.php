@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Models\Redirect\RedirectModelInterface;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
@@ -10,8 +12,6 @@ use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Model;
-use Romchik38\Server\Services\Request\Http\Request;
-use Romchik38\Server\Services\Request\Http\Uri;
 use Romchik38\Server\Services\Errors\CantCreateRedirectException;
 
 class RedirectTest extends TestCase
@@ -22,7 +22,7 @@ class RedirectTest extends TestCase
     public function setUp(): void
     {
         $this->redirectResultDTOFactory = $this->createMock(RedirectResultDTOFactory::class);
-        $this->request = $this->createMock(Request::class);
+        $this->request = $this->createMock(ServerRequestInterface::class);
     }
 
     /**
@@ -30,7 +30,9 @@ class RedirectTest extends TestCase
      */
     public function testExecuteNoRedirect()
     {
-        $requestedUri = new Uri('http', 'example.com', '/hello');
+        $requestedUri = $this->createMock(UriInterface::class);
+        $requestedUri->method('getScheme')->willReturn('http');
+        $requestedUri->method('getHost')->willReturn('example.com');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $redirectModel = $this->createRedirectModel('/index', '/', 301, 'GET');
@@ -51,7 +53,9 @@ class RedirectTest extends TestCase
      */
     public function testExecuteFindRedirect()
     {
-        $requestedUri = new Uri('http', 'example.com', '/index');
+        $requestedUri = $this->createMock(UriInterface::class);
+        $requestedUri->method('getScheme')->willReturn('http');
+        $requestedUri->method('getHost')->willReturn('example.com');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $redirectResultDTO = new RedirectResultDTO('http://example.com/', 301);
@@ -78,7 +82,9 @@ class RedirectTest extends TestCase
      */
     public function testConstructWithEmptySchemaHost()
     {
-        $requestedUri = new Uri('', '', '');
+        $requestedUri = $this->createMock(UriInterface::class);
+        $requestedUri->method('getScheme')->willReturn('');
+        $requestedUri->method('getHost')->willReturn('');
         $this->request->method('getUri')->willReturn($requestedUri);
 
         $this->expectException(CantCreateRedirectException::class);
