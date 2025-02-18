@@ -9,6 +9,13 @@
       - [+] `DynamicActionInterface`
       - [+] `ControllerResultInterface`
       - `Controller`
+        - delete:
+          - `src/Results/Controller/ControllerResultFactory.php`
+          - `src/Api/Results/Controller/ControllerResultFactoryInterface.php`
+        - move to Controller dir
+          - `src/Results/Controller/ControllerResult.php`
+          - `ControllerResultInterface`
+        - refcator Controller
       - `src/Routers/Http/DynamicRootRouter.php`
       - `src/Routers/Http/PlasticineRouter.php`
       - `src/Servers/Http/DefaultServer.php`
