@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
+use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
@@ -20,16 +22,19 @@ class PlasticineRouter implements HttpRouterInterface
 {
     protected array $headers;
 
+    protected readonly ResponseInterface $routerResult;
+
     public function __construct(
-        protected readonly HttpRouterResultInterface $routerResult,
         protected readonly ControllersCollectionInterface $controllersCollection,
         protected readonly ServerRequestInterface $request,
         protected readonly HeadersCollectionInterface|null $headersCollection = null,
         protected readonly ControllerInterface | null $notFoundController = null,
         protected readonly RedirectInterface|null $redirectService = null
-    ) {}
+    ) {
+        $this->routerResult = new Response;
+    }
 
-    public function execute(): HttpRouterResultInterface
+    public function execute(): ResponseInterface
     {
         $uri = $this->request->getUri();
         $method = $this->request->getMethod();
@@ -66,22 +71,8 @@ class PlasticineRouter implements HttpRouterInterface
         // 4. Exec
         try {
             $controllerResult = $rootController->execute($elements);
-
-            $path = $controllerResult->getPath();
-            $response = $controllerResult->getResponse();
-            $type = $controllerResult->getType();
-
-            $this->routerResult->setStatusCode(200)->setResponse($response);
-            $headerPath = $this->getHeaderPath($path);
-            if (!is_null($this->headersCollection)) {
-                /** @var RouterHeadersInterface|null  $header */
-                $header = $this->headersCollection->getHeader($method, $headerPath, $type);
-                if (!is_null($header)) {
-                    $header->setHeaders($this->routerResult, $path);
-                }
-            }
-            return $this->routerResult;
-        } catch (NotFoundException $e) {
+            return $controllerResult->getResponse();
+        } catch (NotFoundException) {
             return $this->pageNotFound();
         }
     }
@@ -89,8 +80,10 @@ class PlasticineRouter implements HttpRouterInterface
     /**
      * set the result to 405 - Method Not Allowed
      */
-    protected function methodNotAllowed(array $allowedMethods): HttpRouterResultInterface
+    protected function methodNotAllowed(array $allowedMethods): ResponseInterface
     {
+        /** @todo Now */
+        $response = new Response();
         $allowedMethodsAsString = implode(', ', $allowedMethods);
         $this->routerResult->setResponse('Method Not Allowed')
             ->setStatusCode(405)
