@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Tests\Services\Mappers\ControllerTree\Catalog;
 
+use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Actions\Action;
@@ -24,7 +26,7 @@ final class DynamicAction extends Action implements DynamicActionInterface
     protected const DESCRIPTION_INDEX = 0;
     protected const RESPONSE_INDEX = 1;
 
-    public function execute(string $dynamicRoute): string
+    public function execute(string $dynamicRoute): ResponseInterface
     {
         $arr = $this->data[$dynamicRoute] ?? null;
         if ($arr === null) throw new ActionNotFoundException(
@@ -33,7 +35,10 @@ final class DynamicAction extends Action implements DynamicActionInterface
 
         $controllerDTO = $this->controllerTreeService
             ->getOnlyLineRootControllerDTO($this->getController(), $dynamicRoute);
-        return json_encode($controllerDTO);
+        $response = new Response();
+        $body = $response->getBody();
+        $body->write(json_encode($controllerDTO));
+        return $response->withBody($body);
     }
 
     public function getDynamicRoutes(): array

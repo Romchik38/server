@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Tests\Services\Mappers\ControllerTree\Sitemap;
 
+use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Actions\Action;
@@ -18,10 +20,14 @@ final class DefaultAction extends Action implements DefaultActionInterface
         'description' => 'Sitemap page'
     ];
 
-    public function execute(): string
+    public function execute(): ResponseInterface
     {
-        $controllerDTO = $this->controllerTreeService->getOnlyLineRootControllerDTO($this->getController(), '');
-        return json_encode($controllerDTO);
+        $controllerDTO = $this->controllerTreeService
+            ->getOnlyLineRootControllerDTO($this->getController(), '');
+        $response = new Response();
+        $body = $response->getBody();
+        $body->write(json_encode($controllerDTO));
+        return $response->withBody($body);
     }
 
     public function getDescription(): string

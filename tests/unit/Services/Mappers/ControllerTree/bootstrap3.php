@@ -25,7 +25,6 @@ return function (): ControllerInterface {
     $root = new Controller(
         'root',
         true,
-        new ControllerResultFactory,
         new RootDefaultAction,
         new RootDynamicAction
     );
@@ -33,7 +32,6 @@ return function (): ControllerInterface {
     $products = new Controller(
         'catalog',
         true,
-        new ControllerResultFactory,
         new CatalogDefaultAction,
         new CatalogDynamicAction(new ControllerTree)
     );
@@ -41,7 +39,6 @@ return function (): ControllerInterface {
     $sitemap = new Controller(
         'sitemap',
         true,
-        new ControllerResultFactory,
         new SitemapDefaultAction(new ControllerTree)
     );
 
