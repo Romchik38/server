@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
@@ -11,7 +13,6 @@ use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
 class ControllerActionsThrowsError extends TestCase
 {
@@ -19,7 +20,7 @@ class ControllerActionsThrowsError extends TestCase
     public function testDefaultActionThrowsNotFoundError(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
                 throw new ActionNotFoundException('not found, sorry');
             }
@@ -33,7 +34,6 @@ class ControllerActionsThrowsError extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction
         );
 
@@ -45,10 +45,14 @@ class ControllerActionsThrowsError extends TestCase
     public function testDynamicActionThrowsNotFoundError(): void
     {
         $rootDynamicAction = new class extends Action implements DynamicActionInterface {
-            public function execute(string $route): string
+            public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
-                return 'Content about page';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('Content about page');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(string $route): string
             {
@@ -67,7 +71,6 @@ class ControllerActionsThrowsError extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             null,
             $rootDynamicAction
         );

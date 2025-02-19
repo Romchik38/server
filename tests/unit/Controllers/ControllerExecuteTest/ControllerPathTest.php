@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Controllers\Controller;
@@ -15,9 +17,13 @@ class ControllerPathTest extends TestCase
     public function testFindPath(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -26,9 +32,13 @@ class ControllerPathTest extends TestCase
         };
 
         $productsDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Products page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Products page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -39,29 +49,32 @@ class ControllerPathTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction
         );
 
         $products = new Controller(
             'products',
             true,
-            new ControllerResultFactory,
             $productsDefaultAction
         );
 
         $root->setChild($products);
 
         $result = $root->execute(['root', 'products']);
-        $this->assertSame('<h1>Products page<h1>', $result->getResponse());
+        $response = $result->getResponse();
+        $this->assertSame('<h1>Products page<h1>', (string) $response->getBody());
     }
 
     public function testNotFindPath(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -70,9 +83,13 @@ class ControllerPathTest extends TestCase
         };
 
         $productsDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Products page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Products page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -83,14 +100,12 @@ class ControllerPathTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction
         );
 
         $products = new Controller(
             'products',
             true,
-            new ControllerResultFactory,
             $productsDefaultAction
         );
 
@@ -103,9 +118,13 @@ class ControllerPathTest extends TestCase
     public function testEmptyElements(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -114,9 +133,13 @@ class ControllerPathTest extends TestCase
         };
 
         $productsDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Products page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Products page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -127,14 +150,12 @@ class ControllerPathTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction
         );
 
         $products = new Controller(
             'products',
             true,
-            new ControllerResultFactory,
             $productsDefaultAction
         );
 

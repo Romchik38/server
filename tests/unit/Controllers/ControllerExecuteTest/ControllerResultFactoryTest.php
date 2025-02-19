@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
@@ -19,9 +21,13 @@ class ControllerResultFactoryTest extends TestCase
     public function testReturnResultFromDefault(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -30,9 +36,13 @@ class ControllerResultFactoryTest extends TestCase
         };
 
         $productsDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Products page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Products page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -43,30 +53,33 @@ class ControllerResultFactoryTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction
         );
 
         $products = new Controller(
             'products',
             true,
-            new ControllerResultFactory,
             $productsDefaultAction
         );
 
         $root->setChild($products);
 
         $result = $root->execute(['root', 'products']);
-        $this->assertSame('<h1>Products page<h1>', $result->getResponse());
+        $response = $result->getResponse();
+        $this->assertSame('<h1>Products page<h1>', (string) $response->getBody());
     }
 
 
     public function testReturnResultFromDynamic(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -75,9 +88,13 @@ class ControllerResultFactoryTest extends TestCase
         };
 
         $productsDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Products page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Products page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -86,10 +103,14 @@ class ControllerResultFactoryTest extends TestCase
         };
 
         $rootDynamicAction = new class extends Action implements DynamicActionInterface {
-            public function execute(string $route): string
+            public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
-                return 'Content about page';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('Content about page');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(string $route): string
             {
@@ -108,7 +129,6 @@ class ControllerResultFactoryTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction,
             $rootDynamicAction
         );
@@ -116,22 +136,26 @@ class ControllerResultFactoryTest extends TestCase
         $products = new Controller(
             'products',
             true,
-            new ControllerResultFactory,
             $productsDefaultAction
         );
 
         $root->setChild($products);
 
         $result = $root->execute(['root', 'about']);
-        $this->assertSame('Content about page', $result->getResponse());
+        $response = $result->getResponse();
+        $this->assertSame('Content about page', (string) $response->getBody());
     }
 
     public function testResultFactoryWasNull(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -140,10 +164,14 @@ class ControllerResultFactoryTest extends TestCase
         };
 
         $rootDynamicAction = new class extends Action implements DynamicActionInterface {
-            public function execute(string $route): string
+            public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
-                return 'Content about page';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('Content about page');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(string $route): string
             {
@@ -163,7 +191,6 @@ class ControllerResultFactoryTest extends TestCase
         new Controller(
             'root',
             true,
-            null,
             $rootDefaultAction,
             $rootDynamicAction
         );

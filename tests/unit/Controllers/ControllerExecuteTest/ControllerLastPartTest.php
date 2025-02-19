@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\Action;
@@ -10,16 +12,19 @@ use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
 class ControllerLastPartTest extends TestCase
 {
     public function testExecuteDefaultAction(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -28,10 +33,14 @@ class ControllerLastPartTest extends TestCase
         };
 
         $rootDynamicAction = new class extends Action implements DynamicActionInterface {
-            public function execute(string $route): string
+            public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
-                return 'Content about page';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('Content about page');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(string $route): string
             {
@@ -50,21 +59,25 @@ class ControllerLastPartTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction,
             $rootDynamicAction
         );
 
         $result = $root->execute(['root']);
-        $this->assertSame('<h1>Home page<h1>', $result->getResponse());
+        $response = $result->getResponse();
+        $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
 
     public function testExecuteDynamicAction(): void
     {
         $rootDefaultAction = new class extends Action implements DefaultActionInterface {
-            public function execute(): string
+            public function execute(): ResponseInterface
             {
-                return '<h1>Home page<h1>';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('<h1>Home page<h1>');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(): string
             {
@@ -73,10 +86,14 @@ class ControllerLastPartTest extends TestCase
         };
 
         $rootDynamicAction = new class extends Action implements DynamicActionInterface {
-            public function execute(string $route): string
+            public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
-                return 'Content about page';
+                $response = new Response();
+                $body = $response->getBody();
+                $body->write('Content about page');
+                $response = $response->withBody($body);
+                return $response;
             }
             public function getDescription(string $route): string
             {
@@ -95,12 +112,12 @@ class ControllerLastPartTest extends TestCase
         $root = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             $rootDefaultAction,
             $rootDynamicAction
         );
 
         $result = $root->execute(['root', 'about']);
-        $this->assertSame('Content about page', $result->getResponse());
+        $response = $result->getResponse();
+        $this->assertSame('Content about page', (string) $response->getBody());
     }
 }
