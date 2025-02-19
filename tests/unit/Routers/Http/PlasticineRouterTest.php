@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
@@ -27,7 +29,6 @@ final class PlasticineRouterTest extends TestCase
 
     public function setUp(): void
     {
-        $this->routerResult = $this->createMock(HttpRouterResult::class);
         $this->controller = $this->createMock(Controller::class);
         $this->controllerCollection = new ControllersCollection;
     }
@@ -49,20 +50,17 @@ final class PlasticineRouterTest extends TestCase
 
 
         $router = new PlasticineRouter(
-            new HttpRouterResult,
+            new ResponseFactory,
             $this->controllerCollection,
             $request
         );
 
-        $routerResult = $router->execute();
+        $response = $router->execute();
 
-        $headers = $routerResult->getHeaders();
+        $headers = $response->getHeaders();
         $this->assertSame(1, count($headers));
 
-        $firstHeader = $headers[0];
-        $allowedMethods = $firstHeader[0];
-
-        $this->assertSame('Allow:GET', $allowedMethods);
+        $this->assertSame('GET', $response->getHeaderLine('Allow'));
     }
 
     // 2. redirect check
@@ -86,25 +84,18 @@ final class PlasticineRouterTest extends TestCase
         $this->redirectService->expects($this->once())->method('execute')
             ->with('/index', 'GET')->willReturn($redirectResultDTO);
 
-        $this->routerResult->expects($this->once())->method('setHeaders')
-            ->with([
-                [
-                    'Location: ' . $redirectLocation,
-                    true,
-                    $redirectStatusCode
-                ]
-            ]);
-
         $router = new PlasticineRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->controllerCollection,
             $request,
-            null,
             $this->notFoundController,
             $this->redirectService
         );
 
-        $router->execute();
+        $response = $router->execute();
+
+        $this->assertSame($redirectLocation, $response->getHeaderLine('Location'));
+        $this->assertSame($redirectStatusCode, $response->getStatusCode());
     }
 
     // 4. Exec
@@ -114,7 +105,6 @@ final class PlasticineRouterTest extends TestCase
         $rootController = new Controller(
             'root',
             true,
-            new ControllerResultFactory,
             new DefaultAction
         );
         $this->controllerCollection->setController(
@@ -129,25 +119,16 @@ final class PlasticineRouterTest extends TestCase
         $request->method('getMethod')->willReturn('GET');
 
         $router = new PlasticineRouter(
-            new HttpRouterResult,
+            new ResponseFactory,
             $this->controllerCollection,
             $request
         );
 
-        $routerResult = $router->execute();
+        $response = $router->execute();
+        $statusCode = $response->getStatusCode();
 
-        $response = $routerResult->getResponse();
-        $statusCode = $routerResult->getStatusCode();
-        $this->assertSame('hello world', $response);
+        $this->assertSame('hello world', (string) $response->getBody());
         $this->assertSame(200, $statusCode);
     }
 
-    private function createRequestFactory(): RequestFactoryInterface
-    {
-        /** @todo Now */
-        return new class implements ResponseFactoryInterface
-        {
-            
-        };
-    }
 }

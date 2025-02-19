@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
-use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,6 +19,8 @@ use Romchik38\Server\Routers\Errors\RouterProccessError;
 
 class DynamicRootRouter implements HttpRouterInterface
 {
+    use RouterTrait;
+
     public function __construct(
         protected ResponseFactoryInterface $responseFactory,
         protected ServerRequestInterface $request,
@@ -90,7 +91,12 @@ class DynamicRootRouter implements HttpRouterInterface
         if ($this->redirectService !== null) {
             $redirectResult = $this->redirectService->execute($url, $method);
             if ($redirectResult !== null) {
-                return $this->redirect($redirectResult);
+                $url = $this->normalizeRedirectUrl(
+                    $redirectResult->getRedirectLocation(),
+                    $host,
+                    $scheme
+                );
+                return $this->redirect($url, $redirectResult);
             }
         }
         /**
@@ -139,12 +145,14 @@ class DynamicRootRouter implements HttpRouterInterface
     protected function pageNotFound(): ResponseInterface
     {
         if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->execute(['404'])->getResponse();
+            $response = $this->notFoundController->execute([
+                HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME
+            ])->getResponse();
             $response = $response->withStatus(404);
         } else {
             $response = $this->responseFactory->createResponse(404);
             $body = $response->getBody();
-            $body->write('Error 404 from router - Page not found');
+            $body->write(HttpRouterInterface::NOT_FOUND_MESSAGE);
             $response = $response->withBody($body);
         }
         return $response;
@@ -153,12 +161,15 @@ class DynamicRootRouter implements HttpRouterInterface
      /**
      * Set a redirect to the same site with founded url and status code
      */
-    protected function redirect(RedirectResultDTOInterface $redirectResult): ResponseInterface
+    protected function redirect(
+        string $url,
+        RedirectResultDTOInterface $redirectResult
+    ): ResponseInterface
     {
-        $uri = $redirectResult->getRedirectLocation();
         $statusCode = $redirectResult->getStatusCode();
         $response = $this->responseFactory->createResponse($statusCode)
-            ->withHeader('Location', $uri);
+            ->withHeader('Location', $url);
         return $response;
     }
+
 }

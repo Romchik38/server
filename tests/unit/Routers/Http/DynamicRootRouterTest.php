@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
+use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Routers\Http\DynamicRootRouter;
-use Romchik38\Server\Results\Http\HttpRouterResult;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Results\Controller\ControllerResult;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Controllers\ControllerResult;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Routers\Http\ControllersCollection;
-use Romchik38\Server\Routers\Http\HeadersCollection;
-use Romchik38\Server\Routers\Http\RouterHeader;
 
 class DynamicRootRouterTest extends TestCase
 {
@@ -34,11 +34,9 @@ class DynamicRootRouterTest extends TestCase
     protected $header;
     protected $notFoundController;
     protected $controllersCollection;
-    protected $headersCollection;
 
     public function setUp(): void
     {
-        $this->routerResult = $this->createMock(HttpRouterResult::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
         $this->uri = $this->createMock(UriInterface::class);
         $this->dynamicRootService = $this->createMock(DynamicRoot::class);
@@ -46,7 +44,6 @@ class DynamicRootRouterTest extends TestCase
         $this->redirectService = $this->createMock(Redirect::class);
         $this->notFoundController = $this->createMock(Controller::class);
         $this->controllersCollection = $this->createMock(ControllersCollection::class);
-        $this->headersCollection = $this->createMock(HeadersCollection::class);
     }
 
     /**
@@ -70,17 +67,16 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->expects($this->once())->method('getRootNames')
             ->willReturn($rootNames);
 
-        $this->routerResult->expects($this->once())->method('setHeaders')
-            ->with([['Location: http://example.com/en', true, 301]]);
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame('http://example.com/en', $response->getHeaderLine('Location'));
+        $this->assertSame(301, $response->getStatusCode());
     }
 
     /**
@@ -104,17 +100,19 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->expects($this->once())->method('getRootNames')
             ->willReturn($rootNames);
 
-        $this->routerResult->expects($this->once())->method('setHeaders')
-            ->with([['Location: http://example.com/en/products', true, 301]]);
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame(
+            'http://example.com/en/products', 
+            $response->getHeaderLine('Location')
+        );
+        $this->assertSame(301, $response->getStatusCode());
     }
 
     /**
@@ -142,21 +140,16 @@ class DynamicRootRouterTest extends TestCase
         $this->controllersCollection->expects($this->once())->method('getMethods')
             ->willReturn(['GET']);
 
-        $this->routerResult->expects($this->once())->method('setResponse')
-            ->with(HttpRouterResultInterface::METHOD_NOT_ALLOWED_RESPONSE)
-            ->willReturn($this->routerResult);
-
-        $this->routerResult->expects($this->once())->method('setHeaders')
-            ->with([['Allow:GET', true, HttpRouterResultInterface::METHOD_NOT_ALLOWED_CODE]]);
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame('GET', $response->getHeaderLine('Allow'));
+        $this->assertSame('Method Not Allowed', (string) $response->getBody());
     }
 
     /**
@@ -187,20 +180,21 @@ class DynamicRootRouterTest extends TestCase
         $this->redirectService->expects($this->once())->method('execute')
             ->willReturn($redirectResultDTO);
 
-        $this->routerResult->expects($this->once())->method('setHeaders')
-            ->with([['Location: http://example.com/en/newproducts', true, 301]]);
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection,
             null,
-            null,
             $this->redirectService
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame(
+            'http://example.com/en/newproducts', 
+            $response->getHeaderLine('Location')
+        );
+        $this->assertSame(301, $response->getStatusCode());
     }
 
     /**
@@ -234,7 +228,7 @@ class DynamicRootRouterTest extends TestCase
             ->willReturn(new Controller('some_name'));
 
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
@@ -245,19 +239,22 @@ class DynamicRootRouterTest extends TestCase
 
     /**
      * # 8, 10. Exec
-     *   
-     * without headers
-     * return the result
+     * 
+     * return the controller result
      */
-    public function testExecuteControllerReturnResultWithoutHeaders()
+    public function testExecuteControllerReturnResult()
     {
         $this->uri->method('getScheme')->willReturn('http');
         $this->uri->method('getHost')->willReturn('example.com');
         $this->uri->method('getPath')->willReturn('/en/products');
         $defaultRootDTO = new DynamicRootDTO('en');
         $rootNames = ['en', 'uk'];
+        $response = new Response();
+        $body = $response->getBody();
+        $body->write('Product #1');
+        $response = $response->withBody($body);
         $controllerResult = new ControllerResult(
-            'Product #1',
+            $response,
             ['en', 'products'],
             ActionInterface::TYPE_DEFAULT_ACTION
         );
@@ -281,87 +278,16 @@ class DynamicRootRouterTest extends TestCase
         $this->controller->expects($this->once())->method('execute')
             ->with([ControllerTreeInterface::ROOT_NAME, 'products'])->willReturn($controllerResult);
 
-        $this->routerResult->expects($this->once())->method('setStatusCode')
-            ->with(200)->willReturn($this->routerResult);
-
-        $this->routerResult->expects($this->once())->method('setResponse')
-            ->with('Product #1');
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
         );
 
-        $router->execute();
-    }
-
-    /**
-     * # 9. Set headers
-     *   
-     * with headers
-     * return the result
-     */
-    public function testExecuteControllerReturnResultWithHeaders()
-    {
-        $this->uri->method('getScheme')->willReturn('http');
-        $this->uri->method('getHost')->willReturn('example.com');
-        $this->uri->method('getPath')->willReturn('/en/products');
-        $defaultRootDTO = new DynamicRootDTO('en');
-        $rootNames = ['en', 'uk'];
-        $path = ['en', 'products'];
-        $controllerResult = new ControllerResult(
-            'Product #1',
-            $path,
-            ActionInterface::TYPE_DEFAULT_ACTION
-        );
-
-        $this->header = new class('en<>products', 'GET') extends RouterHeader {
-            public function setHeaders(HttpRouterResultInterface $result, array $path): void
-            {
-                $result->setHeaders([
-                    ['Cache-Control:no-cache']
-                ]);
-            }
-        };
-
-        $data = [$this->header];
-
-        $this->headersCollection = new HeadersCollection($data);
-
-        $this->request->method('getUri')->willReturn($this->uri);
-        $this->request->method('getMethod')->willReturn('GET');
-
-        $this->dynamicRootService->method('getDefaultRoot')
-            ->willReturn($defaultRootDTO);
-
-        $this->dynamicRootService->method('getRootNames')
-            ->willReturn($rootNames);
-
-        $this->redirectService->method('execute')->willReturn(null);
-
-        $this->dynamicRootService->method('setCurrentRoot')->willReturn(true);
-
-        $this->controllersCollection->method('getController')->willReturn($this->controller);
-
-        $this->controller->method('execute')->willReturn($controllerResult);
-
-        $this->routerResult->method('setStatusCode')->willReturn($this->routerResult);
-
-        $this->routerResult->expects($this->once())->method('setHeaders')->with([
-            ['Cache-Control:no-cache']
-        ]);
-
-        $router = new DynamicRootRouter(
-            $this->routerResult,
-            $this->request,
-            $this->dynamicRootService,
-            $this->controllersCollection,
-            $this->headersCollection
-        );
-
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame('Product #1', (string) $response->getBody());
     }
 
 
@@ -396,22 +322,19 @@ class DynamicRootRouterTest extends TestCase
 
         $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
 
-        $this->routerResult->expects($this->once())->method('setStatusCode')
-            ->with(HttpRouterResultInterface::NOT_FOUND_STATUS_CODE)
-            ->willReturn($this->routerResult);
-
-        $this->routerResult->expects($this->once())->method('setResponse')
-            ->with(HttpRouterResultInterface::NOT_FOUND_RESPONSE)
-            ->willReturn($this->routerResult);
-
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame(
+            HttpRouterInterface::NOT_FOUND_MESSAGE,
+            (string) $response->getBody()
+        );
+        $this->assertSame(404, $response->getStatusCode());
     }
 
     /**
@@ -427,11 +350,13 @@ class DynamicRootRouterTest extends TestCase
         $this->uri->method('getPath')->willReturn('/en/products');
         $defaultRootDTO = new DynamicRootDTO('en');
         $rootNames = ['en', 'uk'];
-        $notFoundResponse = '<h1>Page not found</h1>';
-
+        $response = new Response();
+        $body = $response->getBody();
+        $body->write('<h1>Page not found</h1>');
+        $response = $response->withBody($body);
         $controllerResult = new ControllerResult(
-            $notFoundResponse,
-            ['404'],
+            $response,
+            [HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME],
             ActionInterface::TYPE_DEFAULT_ACTION
         );
 
@@ -452,16 +377,9 @@ class DynamicRootRouterTest extends TestCase
 
         $this->controller->method('execute')->willThrowException(new NotFoundException('not found'));
 
-        $this->routerResult->method('setStatusCode')->willReturn($this->routerResult);
-
-        $this->routerResult->expects($this->once())->method('setResponse')
-            ->with($notFoundResponse)
-            ->willReturn($this->routerResult)
-        ;
-
         $this->notFoundController->expects($this->once())->method('execute')
             ->with($this->callback(function($param){
-                if ([HttpRouterResultInterface::NOT_FOUND_CONTROLLER_NAME] === $param) {
+                if ([HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME] === $param) {
                     return true;
                 } else {
                     return false;
@@ -470,14 +388,18 @@ class DynamicRootRouterTest extends TestCase
             ->willReturn($controllerResult);
 
         $router = new DynamicRootRouter(
-            $this->routerResult,
+            new ResponseFactory,
             $this->request,
             $this->dynamicRootService,
             $this->controllersCollection,
-            null,
             $this->notFoundController
         );
 
-        $router->execute();
+        $response = $router->execute();
+        $this->assertSame(
+            '<h1>Page not found</h1>', 
+            (string) $response->getBody()
+        );
+        $this->assertSame(404, $response->getStatusCode());
     }
 }

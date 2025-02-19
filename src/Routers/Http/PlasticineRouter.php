@@ -17,6 +17,8 @@ use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 
 class PlasticineRouter implements HttpRouterInterface
 {
+    use RouterTrait;
+
     public function __construct(
         protected ResponseFactoryInterface $responseFactory,
         protected readonly ControllersCollectionInterface $controllersCollection,
@@ -30,6 +32,8 @@ class PlasticineRouter implements HttpRouterInterface
     {
         $uri = $this->request->getUri();
         $method = $this->request->getMethod();
+        $host = $uri->getHost();
+        $scheme = $uri->getScheme();
         $path = $uri->getPath();
         [$url] = explode('?', $path);
 
@@ -43,7 +47,12 @@ class PlasticineRouter implements HttpRouterInterface
         if ($this->redirectService !== null) {
             $redirectResult = $this->redirectService->execute($url, $method);
             if ($redirectResult !== null) {
-                return $this->redirect($redirectResult);
+                $url = $this->normalizeRedirectUrl(
+                    $redirectResult->getRedirectLocation(),
+                    $host,
+                    $scheme
+                );
+                return $this->redirect($url, $redirectResult);
             }
         }
 
@@ -102,12 +111,14 @@ class PlasticineRouter implements HttpRouterInterface
     /**
      * Set a redirect to the same site with founded url and status code
      */
-    protected function redirect(RedirectResultDTOInterface $redirectResult): ResponseInterface
+    protected function redirect(
+        string $url, 
+        RedirectResultDTOInterface $redirectResult
+    ): ResponseInterface
     {
-        $uri = $redirectResult->getRedirectLocation();
         $statusCode = $redirectResult->getStatusCode();
         $response = ($this->responseFactory->createResponse($statusCode))
-            ->withHeader('Location', $uri);
+            ->withHeader('Location', $url);
         return  $response;
     }
 }
