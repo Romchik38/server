@@ -8,6 +8,38 @@
 
 [see todo](./todo.md)  
 
+## v1.14.0
+
+- [!] PSR-7 Response - Routers, actions, controller, server now use `ResponseInterface`.
+  - replace `HttpRouterResult` with `ResponseInterface` from psr-7 package
+    - refactor:
+      - `DefaultActionInterface`
+      - `DynamicActionInterface`
+      - `ControllerResultInterface`
+      - `Controller`
+        - delete:
+          - `src/Results/Controller/ControllerResultFactory.php`
+          - `src/Api/Results/Controller/ControllerResultFactoryInterface.php`
+        - move to Controller dir
+          - `src/Results/Controller/ControllerResult.php`
+          - `ControllerResultInterface`
+        - refactor
+          - `Controller`
+          - `ControllerResult`
+      - Router
+        - refactor:
+          - `src/Api/Routers/Http/HttpRouterInterface.php`
+          - `src/Routers/Http/PlasticineRouter.php`
+          - `src/Routers/Http/DynamicRootRouter.php`
+        - delete
+          - `src/Api/Routers/RouterInterface.php`
+          - `src/Results/Http/HttpRouterResult.php`
+          - `src/Api/Results/Http/HttpRouterResultInterface.php`
+      - Server
+        - `src/Servers/Http/DefaultServer.php`
+      - Tests
+  - removed `Headers` classes
+
 ## v1.13.0
 
 - [!] Routers and Redirect Service uses PSR-7 ServerRequestInterface. Refactored tests
