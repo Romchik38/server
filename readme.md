@@ -11,9 +11,8 @@
     - json
     - page
     - twig (in progress site2)
-  - Request psr-7 ( partial )
-  - Server request psr-7 ( partial )
-  - Headers
+  - Server Request (psr-7)
+  - Response (psr-7)
 - Controller system
 - Sql
   - database ( PostgreSql)

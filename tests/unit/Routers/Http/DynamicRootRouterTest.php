@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
-use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Routers\Http\DynamicRootRouter;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
@@ -31,7 +30,6 @@ class DynamicRootRouterTest extends TestCase
     protected $dynamicRootService;
     protected $controller;
     protected $redirectService;
-    protected $header;
     protected $notFoundController;
     protected $controllersCollection;
 
