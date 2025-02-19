@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace Romchik38\Server\Routers\Http;
 
 use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
-use Romchik38\Server\Api\Results\Http\HttpRouterResultInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Api\Routers\Http\RouterHeadersInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
@@ -62,7 +60,7 @@ class DynamicRootRouter implements HttpRouterInterface
                 . $host 
                 . '/' 
                 . $defaultRoot->getName();
-            return ($this->responseFactory->create())->withStatus(301)
+            return ($this->responseFactory->createResponse(301))
                 ->withHeader('Location', $redirectLine);
         }
 
@@ -76,7 +74,7 @@ class DynamicRootRouter implements HttpRouterInterface
                 . '/' 
                 . $defaultRoot->getName() 
                 . $path;
-            return ($this->responseFactory->create())->withStatus(301)
+            return ($this->responseFactory->createResponse(301))
                 ->withHeader('Location', $redirectLinePlusPath);
         }
 
@@ -127,10 +125,10 @@ class DynamicRootRouter implements HttpRouterInterface
      */
     protected function methodNotAllowed(array $methods): ResponseInterface
     {
-        $response = $this->responseFactory->create();
+        $response = $this->responseFactory->createResponse(405);
         $body = $response->getBody();
         $body->write('Method Not Allowed');
-        $response = $response->withStatus(405)->withBody($body)
+        $response = $response->withBody($body)
             ->withAddedHeader('Allow', $methods);
         return $response;
     }
@@ -142,13 +140,13 @@ class DynamicRootRouter implements HttpRouterInterface
     {
         if ($this->notFoundController !== null) {
             $response = $this->notFoundController->execute(['404'])->getResponse();
+            $response = $response->withStatus(404);
         } else {
-            $response = $this->responseFactory->create();
+            $response = $this->responseFactory->createResponse(404);
             $body = $response->getBody();
             $body->write('Error 404 from router - Page not found');
             $response = $response->withBody($body);
         }
-        $response = $response->withStatus(404);
         return $response;
     }
 
@@ -159,8 +157,8 @@ class DynamicRootRouter implements HttpRouterInterface
     {
         $uri = $redirectResult->getRedirectLocation();
         $statusCode = $redirectResult->getStatusCode();
-        $response = ($this->responseFactory->create())->withStatus($statusCode)
+        $response = $this->responseFactory->createResponse($statusCode)
             ->withHeader('Location', $uri);
-        return  $response;
+        return $response;
     }
 }

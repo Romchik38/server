@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Api\Http\Message\ResponseFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
@@ -74,10 +74,10 @@ class PlasticineRouter implements HttpRouterInterface
      */
     protected function methodNotAllowed(array $allowedMethods): ResponseInterface
     {
-        $response = $this->responseFactory->create();
+        $response = $this->responseFactory->createResponse(405);
         $body = $response->getBody();
         $body->write('Method Not Allowed');
-        $response = $response->withStatus(405)->withBody($body)
+        $response = $response->withBody($body)
             ->withAddedHeader('Allow', $allowedMethods);
         return $response;
     }
@@ -90,7 +90,7 @@ class PlasticineRouter implements HttpRouterInterface
         if ($this->notFoundController !== null) {
             $response = $this->notFoundController->execute(['404'])->getResponse();
         } else {
-            $response = $this->responseFactory->create();
+            $response = $this->responseFactory->createResponse();
             $body = $response->getBody();
             $body->write('Error 404 from router - Page not found');
             $response = $response->withBody($body);
@@ -106,7 +106,7 @@ class PlasticineRouter implements HttpRouterInterface
     {
         $uri = $redirectResult->getRedirectLocation();
         $statusCode = $redirectResult->getStatusCode();
-        $response = ($this->responseFactory->create())->withStatus($statusCode)
+        $response = ($this->responseFactory->createResponse($statusCode))
             ->withHeader('Location', $uri);
         return  $response;
     }
