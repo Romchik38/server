@@ -101,7 +101,6 @@ class ControllerTest extends TestCase
         $this->assertSame('About Page', $controller->getDescription('about'));
     }
 
-
     public function testGetDescriptionSetBoth(): void
     {
         $defaultAction = new class extends Action implements DefaultActionInterface {
@@ -432,7 +431,7 @@ class ControllerTest extends TestCase
         $this->assertSame(['root', 'about'], $root->getFullPath('about'));
     }
 
-    public function testgetParents(): void
+    public function testGetParents(): void
     {
         $root = new Controller('root');
         $products = new Controller('products');
@@ -444,7 +443,8 @@ class ControllerTest extends TestCase
         $this->assertSame([$root, $products], $parents);
     }
 
-    public function testSetCurrentParent():void{
+    public function testSetCurrentParent():void
+    {
         $root = new Controller('root');
         $products = new Controller('products');
         $help = new Controller('help');
@@ -453,5 +453,15 @@ class ControllerTest extends TestCase
 
         $help->setCurrentParent($root);
         $this->assertSame($root, $help->getCurrentParent());
+    }
+
+    public function testAddParent(): void
+    {
+        $root = new Controller('root');
+        $products = new Controller('products');
+        $help = new Controller('help');
+        $help->addParent($root);
+        $help->addParent($products);
+        $this->assertSame([$root, $products], $help->getParents());
     }
 }

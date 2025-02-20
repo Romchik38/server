@@ -63,7 +63,6 @@ class Controller implements ControllerInterface
         }
     }
 
-    /** @todo test */
     public function addParent(ControllerInterface $parent): void
     {
         $this->parents[] = $parent;
@@ -209,7 +208,6 @@ class Controller implements ControllerInterface
         }
     }
 
-    /** @todo test */
     public function getParents(): array
     {
         return $this->parents;

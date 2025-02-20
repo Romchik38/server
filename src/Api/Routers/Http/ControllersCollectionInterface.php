@@ -6,9 +6,10 @@ namespace Romchik38\Server\Api\Routers\Http;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 
-/** @todo refactor:
- *   - rename method to key
- *   - remove Http from namespace
+/**
+ * Creates a collection of key => value, where:
+ *  - key is a HTTP METHOD like 'GET'
+ *  - value is a root controller
  */
 interface ControllersCollectionInterface
 {
