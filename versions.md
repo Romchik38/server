@@ -6,7 +6,9 @@
 
 ## Next
 
-[see todo](./todo.md)  
+[see todo](./todo.md)
+
+- [n] - `DTO` now can be serialized to json with json_encode
 
 ## v1.14.0
 

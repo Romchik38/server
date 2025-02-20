@@ -19,4 +19,9 @@ class DTO implements DTOInterface
     {
         return $this->data;
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->data;
+    }
 }

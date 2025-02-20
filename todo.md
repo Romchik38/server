@@ -2,6 +2,8 @@
 
 ## Current
 
+- remove `Romchik38\Server\Views\JsonView`
+
 ## Next
 
 - Required extension: pgsql in `Database`
