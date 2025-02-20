@@ -9,6 +9,9 @@
 [see todo](./todo.md)
 
 - [n] - `DTO` now can be serialized to json with json_encode
+- [!] - `PageView` method `__construct` params now are type of `Closure`
+  - `$controllerTemplate`
+  - `$generateTemplate`
 
 ## v1.14.0
 

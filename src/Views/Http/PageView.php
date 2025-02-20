@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Views\Http;
 
+use Closure;
 use \Romchik38\Server\Api\Views\Http\HttpViewInterface;
 use Romchik38\Server\Views\View;
 
 class PageView extends View implements HttpViewInterface
 {
+    /** @var array<string,mixed> $metaData */
     protected array $metaData = [];
 
     public function __construct(
-        protected $generateTemplate,
-        protected $controllerTemplate
-    ) {}
+        protected Closure $generateTemplate,
+        protected Closure $controllerTemplate
+    ) {
+    }
 
     protected function setMetadata(string $key, mixed $value): PageView
     {
