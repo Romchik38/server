@@ -6,6 +6,7 @@ namespace Romchik38\Server\Services\Translate;
 
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
+use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelInterface;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelRepositoryInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 
@@ -33,11 +34,11 @@ class TranslateStorage implements TranslateStorageInterface
     /**
      * Returns a hash [key => dto, ...]
      * 
+     * @param array<int, TranslateEntityModelInterface> $models
      * @return array<string,TranslateEntityDTOInterface>
      */
     protected function mapModelToDTO(array $models): array
     {
-
         $collection = [];
 
         foreach ($models as $model) {

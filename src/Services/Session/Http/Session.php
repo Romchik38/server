@@ -26,6 +26,7 @@ class Session implements SessionInterface
         return $_SESSION[$key] ?? null;
     }
 
+    /** @return array<string,string> */
     public function getAllData(): array
     {
         return $_SESSION;
@@ -34,8 +35,9 @@ class Session implements SessionInterface
     public function logout(): void
     {
         $_SESSION = [];
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time() - $this->maxTimeToLogout, '/');
+        $name = session_name();
+        if ($name !== false) {
+            setcookie($name, '', time() - $this->maxTimeToLogout, '/');
         }
         session_destroy();
     }

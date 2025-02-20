@@ -30,6 +30,7 @@ class Translate implements TranslateInterface
     protected string $formatErrorMessage = 'Translation for string %s is missing. Please create it for default %s language first';
     protected string $formatErrorDefaultVal = 'Default value for language %s isn\'t set';
 
+    /** @var array<string,TranslateEntityDTOInterface>|null $hash */
     protected array|null $hash = null;
 
     public function __construct(
