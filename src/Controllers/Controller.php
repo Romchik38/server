@@ -49,6 +49,7 @@ class Controller implements ControllerInterface
     protected array $parents = [];
     protected Controller|null $currentParent = null;
 
+    /** @todo $path can not  be empty */
     public function __construct(
         protected readonly string $path,
         protected readonly bool $publicity = false,

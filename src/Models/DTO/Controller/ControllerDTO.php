@@ -10,7 +10,7 @@ use Romchik38\Server\Models\DTO;
 final class ControllerDTO extends DTO implements ControllerDTOInterface
 {
     /** 
-     * @param array<int,ControllerDTO> $children
+     * @param array<int,ControllerDTOInterface> $children
      */
     public function __construct(
         protected readonly string $name,

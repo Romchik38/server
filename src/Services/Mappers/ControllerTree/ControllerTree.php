@@ -45,7 +45,7 @@ class ControllerTree implements ControllerTreeInterface
         if ($action !== '') {
             $name = $action;
             $description = $controller->getDescription($action);
-            if($description === null) {
+            if($description === '') {
                 $description = $name;
             }
             $path[] = $controller->getName();
@@ -61,7 +61,7 @@ class ControllerTree implements ControllerTreeInterface
 
         $name = $controller->getName();
         $description = $controller->getDescription();
-        if($description === null) {
+        if($description === '') {
             $description = $name;
         }
         if ($child !== null) {
@@ -88,18 +88,28 @@ class ControllerTree implements ControllerTreeInterface
     }
 
     /** 
-     * used in getRootControllerDTO
+     * Used in getRootControllerDTO
+     * @param array<int,string> $parrentPath
      */
-    protected function createElement(ControllerInterface $element, $parentName = '', $parrentPath = []): ControllerDTOInterface
+    protected function createElement(
+        ControllerInterface $element, 
+        string $parentName = '', 
+        array $parrentPath = []
+    ): ControllerDTOInterface
     {
         if ($element->isPublic() === false) {
-            throw new CantCreateControllerTreeElement('Element ' . $element->getName() . ' is not public');
+            throw new CantCreateControllerTreeElement(
+                sprintf('Element %s is not public', $element->getName())
+            );
         }
 
         $rowPath = $parrentPath;
         $children = $element->getChildren();
 
-        $description = $element->getDescription() ?? $element->getName();
+        $description = $element->getDescription();
+        if($description === '') {
+            $description = $element->getName();
+        }
 
         /** Case 1 - has no children */
         if (count($children) === 0) {
@@ -122,7 +132,6 @@ class ControllerTree implements ControllerTreeInterface
         }
 
         /** Case 2 - has children */
-        /** @var Controller $child */
         $elementName = $element->getName();
         $rowChi = [];
         if ($parentName !== '') {
@@ -146,7 +155,11 @@ class ControllerTree implements ControllerTreeInterface
     }
 
     /** 
-     * used in getRootControllerDTO
+     * Used in getRootControllerDTO
+     * @param array<int,string> $childrenNames
+     * @param array<int,ControllerDTOInterface> $rowChi
+     * @param array<int,string> $rowPath
+     * @return array<int,ControllerDTOInterface>
      */
     protected function addDynamicChildren(
         ControllerInterface $element,
