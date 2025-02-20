@@ -2,14 +2,13 @@
 
 ## Current
 
-- remove `Romchik38\Server\Views\JsonView`
+- phpstan
+- ? laminas-coding-standard
 
 ## Next
 
-- Required extension: pgsql in `Database`
 - middleware
   - PSR-15: HTTP
 - Virtual repository
-- phpstan  
 - dynamic router takes default lang from headers  
 - HEAD method
