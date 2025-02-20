@@ -14,8 +14,6 @@ use Romchik38\Server\Services\Errors\CantSendEmailException;
 
 class EmailLogger extends Logger
 {
-    protected readonly string $fullFilePath;
-
     public function __construct(
         int $logLevel,
         protected MailerInterface $mailer,
@@ -37,7 +35,6 @@ class EmailLogger extends Logger
         if (count($this->messages) === 0) {
             return;
         }
-
 
         // write
         $writeErrors = [];

@@ -16,6 +16,7 @@ class FileLogger extends Logger implements FileLoggerInterface
 
     /**
      * @param string $protocol [ file:// (default), http://, ftp:// etc.]
+     * @param resource $context — [optional]
      */
     public function __construct(
         string $fileName,
@@ -34,13 +35,6 @@ class FileLogger extends Logger implements FileLoggerInterface
         $this->messages[] = [$level, $message];
     }
 
-    // protected function sendAllToalternativeLog(array $writeMessages): void {
-    //     foreach($writeMessages as $item) {
-    //         [$level, $message] = $item;
-    //         $this->alternativeLogger->log($level, $message);
-    //     }
-    // }
-
     public function sendAllLogs(): void
     {
         if (count($this->messages) === 0) {
@@ -51,9 +45,12 @@ class FileLogger extends Logger implements FileLoggerInterface
         $fp = fopen($this->fullFilePath, 'a', $this->useIncludePath, $this->context);
         if ($fp === false) {
             // log error to alternative logger
-            if ($this->alternativeLogger) {
+            if ($this->alternativeLogger !== null) {
                 $this->alternativeLogger->log(LogLevel::ALERT, 'Can\'t open file to log: ' . $this->fullFilePath );
-                $this->sendAllToalternativeLog($this->messages);
+                foreach($this->messages as $item) {
+                    [$level, $message] = $item;
+                    $this->alternativeLogger->log($level, $message);
+                }
                 $this->alternativeLogger->sendAllLogs();
             }
             return;

@@ -57,7 +57,6 @@ class Breadcrumb implements BreadcrumbInterface
         return $paths;
     }
 
-    /** @param array<string,\Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface> $hash */
     protected function mapControllerDTOtoBreadcrumbDTO(
         ControllerDTOInterface $controllerDTO,
         BreadcrumbDTOInterface|null $prev,

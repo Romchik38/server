@@ -5,10 +5,10 @@ namespace Romchik38\Server\Services\Logger;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
-use Psr\Log\LoggerInterface;
 
 abstract class Logger extends AbstractLogger implements LoggerServerInterface
 {
+    /** @var array <int,array<int,string>> $messages */
     protected array $messages = [];
 
     public function __construct(
@@ -17,6 +17,7 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
     ) {
     }
 
+    /** @var array<string,int> $levels */
     protected array $levels = [
         LogLevel::EMERGENCY => 0, //       Emergency: system is unusable
         LogLevel::ALERT => 1,     //       Alert: action must be taken immediately
@@ -50,7 +51,13 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
      */
     abstract protected function write(string $level, string $message);
 
-    protected function interpolate($message, array $context = array())
+    /** 
+     * @param array<int|string,mixed> $context 
+     * */
+    protected function interpolate(
+        string|\Stringable $message, 
+        array $context = []
+    ): string
     {
         // build a replacement array with braces around the context keys
         $replace = array();
@@ -67,10 +74,12 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
 
     /** 
      * Write logs to another logger when main logger doesn't work
-     * 
-     * @param array $writeMessages [['level', 'message'], ...]
+     * @param array<array<int,string>> $writeMessages  - [['level', 'message'], ...]
      */
     protected function sendAllToalternativeLog(array $writeMessages): void {
+        if($this->alternativeLogger === null){
+            return;
+        }
         foreach($writeMessages as $item) {
             [$level, $message] = $item;
             $this->alternativeLogger->log($level, $message);
