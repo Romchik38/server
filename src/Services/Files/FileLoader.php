@@ -56,11 +56,21 @@ class FileLoader implements FileLoaderInterface
         $file = '';
 
         $chank = fread($fp, 1024);
-        while ($chank !== false && $chank !== '') {
-            if ($chank !== false) {
-                $file .= $chank;
-            }
+        if($chank === false) {
+            fclose($fp);
+            throw new FileLoaderException(
+                sprintf('Cannot read file %s', $fullPath)
+            );
+        }
+        while ($chank !== '') {
+            $file .= $chank;
             $chank = fread($fp, 1024);
+            if($chank === false) {
+                fclose($fp);
+                throw new FileLoaderException(
+                    sprintf('Cannot close file %s', $fullPath)
+                );
+            }
         }
 
         $isClosed = fclose($fp);
