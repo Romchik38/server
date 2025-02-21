@@ -71,18 +71,12 @@ class EntityRepository implements EntityRepositoryInterface
         }
     }
 
-    /**
-     * Add fields to existing entity
-     * 
-     * @param array $fields [field_name => field_value, ...]
-     * @param int $entityId 
-     * @throws CouldNotAddException
-     * @return EntityModelInterface [a fresh copy of given entity with new fields]
-     */
-    public function addFields(array $fields, EntityModelInterface $entity): EntityModelInterface {
+    public function addFields(
+        array $fields, 
+        EntityModelInterface $entity
+    ): EntityModelInterface {
         $entityRow = $entity->getAllEntityData();
         $entityId = $entityRow[$this->primaryEntityFieldName];
-        // @throws CouldNotAddException
         $fieldsRow = $this->insertFields($fields, $entityId);
         return $this->createFromRow($entityRow, $fieldsRow);   
     }
@@ -116,17 +110,10 @@ class EntityRepository implements EntityRepositoryInterface
         }
     }
 
-    /**
-     * Delete entity fields. 
-     * Fields are values of $this->entityFieldName table
-     * 
-     * @param string[] $fields
-     * @param EntityModelInterface $entity
-     * @throws CouldNotDeleteException [when some errors occures]
-     * @throws NoSuchEntityException [if given entity doesn't present]
-     * @return EntityModelInterface [a fresh copy of the entity already without given fields]
-     */
-    public function deleteFields(array $fields, EntityModelInterface $entity): EntityModelInterface
+    public function deleteFields(
+        array $fields, 
+        EntityModelInterface $entity
+    ): EntityModelInterface
     {
         $count = 0;
         $values = [];
@@ -144,7 +131,7 @@ class EntityRepository implements EntityRepositoryInterface
         . ') AND ' . $this->primaryEntityFieldName . ' = $' . ++$count;
 
         try {
-            $this->database->queryParams($query, [$params]);
+            $this->database->queryParams($query, $params);
             return $this->getById($entityId);
         } catch (QueryExeption $e) {
             throw new CouldNotDeleteException($e->getMessage());
@@ -182,13 +169,6 @@ class EntityRepository implements EntityRepositoryInterface
 
     }
 
-    /**
-     * create a list of intities by provided expression 
-     *
-     * @param string $expression [use entity id or name]
-     * @param array $params
-     * @return EntityModelInterface[]
-     */
     public function listByEntities(string $expression, array $params): array
     {
         // 1 select entities
@@ -283,11 +263,14 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * create an entity from row
      *
-     * @param array $entityRow
-     * @param array $fieldsRow
+     * @param array<string,string> $entityRow
+     * @param array<int,array<string,string>> $fieldsRow
      * @return EntityModelInterface
      */
-    protected function createFromRow(array $entityRow, array $fieldsRow): EntityModelInterface
+    protected function createFromRow(
+        array $entityRow, 
+        array $fieldsRow
+    ): EntityModelInterface
     {
         $entity = $this->entityFactory->create();
         foreach ($entityRow as $key => $value) {
@@ -306,9 +289,10 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * insert rows into fields table by provided id
      * 
-     * @param array $fields [field_name => field_value, ...]
+     * @param array<string,string> $fields [field_name => field_value, ...]
      * @param int $entityId 
      * @throws CouldNotAddException
+     * @return array<array<string,string>>
      */
     protected function insertFields(array $fields, int $entityId): array {
         $values = [];
@@ -351,7 +335,7 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * create entities by given array with entity id
      * 
-     * @param array $arr [array of raw entites got from entity primary table]
+     * @param array<array<string,string>> $arr [array of raw entites got from entity primary table]
      * @return EntityModelInterface[] [array of entites]
      */
     protected function selectFields(array $arr): array {

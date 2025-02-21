@@ -12,6 +12,10 @@ use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
 class VirtualRepository implements VirtualRepositoryInterface
 {
 
+    /** 
+     * @param array<int,string> $selectFields 
+     * @param array<int,string> $tables
+     * */
     public function __construct(
         protected DatabaseInterface $database,
         protected ModelFactoryInterface $modelFactory,
@@ -25,6 +29,7 @@ class VirtualRepository implements VirtualRepositoryInterface
         return $this->modelFactory->create();
     }
 
+    /** @param array<int,string> $params */
     public function list(string $expression, array $params): array
     {
         $entities = [];
@@ -43,7 +48,7 @@ class VirtualRepository implements VirtualRepositoryInterface
     /**
      * Create an entity from provided row
      * 
-     * @param array $row ['field' => 'value', ...]
+     * @param array<string,string> $row ['field' => 'value', ...]
      * @return ModelInterface
      */
     protected function createFromRow(array $row): ModelInterface

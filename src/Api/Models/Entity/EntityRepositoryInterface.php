@@ -8,11 +8,36 @@ use Romchik38\Server\Api\Models\Entity\EntityModelInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 interface EntityRepositoryInterface {
+    
     public function add(EntityModelInterface $model): EntityModelInterface;
+    
+     /**
+     * Add fields to existing entity
+     * 
+     * @param array<string,string> $fields [field_name => field_value, ...]
+     * @throws CouldNotAddException
+     * @return EntityModelInterface [a fresh copy of given entity with new fields]
+     */
     public function addFields(array $fields, EntityModelInterface $entity): EntityModelInterface;
+    
     public function create(): EntityModelInterface;
+    
     public function deleteById(int $id): void;
-    public function deleteFields(array $fields, EntityModelInterface $entity): EntityModelInterface;
+
+     /**
+     * Delete entity fields. 
+     * Fields are values of $this->entityFieldName table
+     * 
+     * @param string[] $fields
+     * @param EntityModelInterface $entity
+     * @throws CouldNotDeleteException [when some errors occures]
+     * @throws NoSuchEntityException [if given entity doesn't present]
+     * @return EntityModelInterface [a fresh copy of the entity already without given fields]
+     */
+    public function deleteFields(
+        array $fields, 
+        EntityModelInterface $entity
+    ): EntityModelInterface;
 
     /**
      * Find an entity by provided id
@@ -21,7 +46,21 @@ interface EntityRepositoryInterface {
      * @return EntityModelInterface
      */
     public function getById(int $id): EntityModelInterface;
+
+     /**
+     * create a list of intities by provided expression 
+     *
+     * @param string $expression [use entity id or name]
+     * @param array<int,string> $params
+     * @return EntityModelInterface[]
+     */
     public function listByEntities(string $expression, array $params): array;
+
+    /** 
+     * @param array<int,string> $params
+     * @return EntityModelInterface[]
+     */
     public function listByFields(string $expression, array $params): array;
+
     public function save(EntityModelInterface $model): EntityModelInterface;
 }

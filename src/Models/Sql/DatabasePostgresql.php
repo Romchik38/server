@@ -11,7 +11,7 @@ use Romchik38\Server\Models\Errors\QueryExeption;
 
 class DatabasePostgresql implements DatabaseInterface
 {
-    private \PgSql\Connection|false $connection = false;
+    private \PgSql\Connection $connection;
 
     public function __construct(string $config)
     {
@@ -19,17 +19,16 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseException('Required extension: pgsql');
         }
 
-        $this->connection = pg_connect($config);
-        if ($this->connection === false) {
+        $connection = pg_connect($config);
+        if ($connection === false) {
             throw new CreateConnectionExeption('Could\'t create connection');
         }
+        $this->connection = $connection;
     }
 
     public function __destruct()
     {
-        if ($this->connection) {
-            pg_close($this->connection);
-        }
+        pg_close($this->connection);
     }
 
     public function queryParams(string $query, array $params): array {

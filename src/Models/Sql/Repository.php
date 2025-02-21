@@ -81,6 +81,7 @@ class Repository implements RepositoryInterface
         return $this->createFromRow($row);
     }
 
+    /** @param array<int,string> $params */
     public function list(string $expression = '', array $params = []): array
     {
         $entities = [];
@@ -119,7 +120,7 @@ class Repository implements RepositoryInterface
     /**
      *  Create an entity from provided row
      *
-     * @param array $row [explicite description]
+     * @param array<string,string> $row
      * @return ModelInterface
      */
     protected function createFromRow(array $row): ModelInterface
