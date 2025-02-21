@@ -126,38 +126,6 @@ class DynamicRootRouter implements HttpRouterInterface
         }
     }
 
-    /**
-     * set the result to 405 - Method Not Allowed
-     */
-    protected function methodNotAllowed(array $methods): ResponseInterface
-    {
-        $response = $this->responseFactory->createResponse(405);
-        $body = $response->getBody();
-        $body->write('Method Not Allowed');
-        $response = $response->withBody($body)
-            ->withAddedHeader('Allow', $methods);
-        return $response;
-    }
-
-    /**
-     * set the result to 404 - Not Found
-     */
-    protected function pageNotFound(): ResponseInterface
-    {
-        if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->execute([
-                HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME
-            ])->getResponse();
-            $response = $response->withStatus(404);
-        } else {
-            $response = $this->responseFactory->createResponse(404);
-            $body = $response->getBody();
-            $body->write(HttpRouterInterface::NOT_FOUND_MESSAGE);
-            $response = $response->withBody($body);
-        }
-        return $response;
-    }
-
      /**
      * Set a redirect to the same site with founded url and status code
      */

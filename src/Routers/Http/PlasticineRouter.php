@@ -79,36 +79,6 @@ class PlasticineRouter implements HttpRouterInterface
     }
 
     /**
-     * set the result to 405 - Method Not Allowed
-     */
-    protected function methodNotAllowed(array $allowedMethods): ResponseInterface
-    {
-        $response = $this->responseFactory->createResponse(405);
-        $body = $response->getBody();
-        $body->write('Method Not Allowed');
-        $response = $response->withBody($body)
-            ->withAddedHeader('Allow', $allowedMethods);
-        return $response;
-    }
-
-    /**
-     * set the result to 404 - Not Found
-     */
-    protected function pageNotFound(): ResponseInterface
-    {
-        if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->execute(['404'])->getResponse();
-        } else {
-            $response = $this->responseFactory->createResponse();
-            $body = $response->getBody();
-            $body->write('Error 404 from router - Page not found');
-            $response = $response->withBody($body);
-        }
-        $response = $response->withStatus(404);
-        return $response;
-    }
-
-    /**
      * Set a redirect to the same site with founded url and status code
      */
     protected function redirect(

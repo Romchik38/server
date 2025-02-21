@@ -19,6 +19,7 @@ class DynamicRoot implements DynamicRootInterface
      */
     protected readonly array $rootList;
 
+    /** @param array<int,string> $rootNamesList */
     public function __construct(
         string $defaultRootName,
         array $rootNamesList,
