@@ -8,11 +8,14 @@
 
 [see todo](./todo.md)
 
+## v1.14.1
+
 - [n] - `DTO` now can be serialized to json with json_encode
 - [!] - `PageView` method `__construct` params now are type of `Closure`
   - `$controllerTemplate`
   - `$generateTemplate`
 - [!] removed `CompositeId` models
+- added `phpstan` checks level 8
 
 ## v1.14.0
 
