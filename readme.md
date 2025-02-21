@@ -1,5 +1,9 @@
 # PHP Server for web app under php-fpm
 
+![phpstan](https://placehold.co/15x15/1589F0/1589F0.png) `phpstan: level 8`
+![phpunit](https://placehold.co/15x15/c5f015/c5f015.png) `phpunit: partially`
+![status](https://placehold.co/15x15/f03c15/f03c15.png) `status: development`
+
 ## Features (v1.14.0)
 
 - Http
@@ -46,3 +50,11 @@ Coming soon. In progress.
 
 - multilanguage system
 - View based on twig
+
+## Code quality
+
+- phpstan level 8
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`[OK] No errors`  
+- phpunit
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (146 tests, 287 assertions)`
+  - tested partially
