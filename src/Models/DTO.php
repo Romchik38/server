@@ -8,6 +8,7 @@ use Romchik38\Server\Api\Models\DTO\DTOInterface;
 
 class DTO implements DTOInterface
 {
+    /** @var array<string,mixed> */
     protected array $data = [];
 
     public function getData(string $key): mixed

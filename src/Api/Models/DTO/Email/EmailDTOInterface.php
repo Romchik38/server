@@ -16,6 +16,8 @@ interface EmailDTOInterface extends DTOInterface {
     public function getEmailAddress(): string;
     public function getSubject(): string;
     public function getMessage(): string;
+
+    /** @return array<string,string> */
     public function getHeaders(): array;
 
 }

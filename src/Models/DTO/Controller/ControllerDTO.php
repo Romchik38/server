@@ -11,6 +11,7 @@ final class ControllerDTO extends DTO implements ControllerDTOInterface
 {
     /** 
      * @param array<int,ControllerDTOInterface> $children
+     * @param array<int,string> $path
      */
     public function __construct(
         protected readonly string $name,

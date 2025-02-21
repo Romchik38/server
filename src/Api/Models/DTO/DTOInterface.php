@@ -9,5 +9,7 @@ use JsonSerializable;
 interface DTOInterface extends JsonSerializable
 {
     public function getData(string $key): mixed;
+
+    /** @return array<string,mixed> */
     public function getAllData(): array;
 }

@@ -10,6 +10,7 @@ use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
 class EmailDTO extends DTO implements EmailDTOInterface
 {
 
+    /** @param array<string,string> $headers */
     public function __construct(
         string $emailAddress,
         string $subject,

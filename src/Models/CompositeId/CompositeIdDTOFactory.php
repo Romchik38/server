@@ -10,6 +10,7 @@ use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 class CompositeIdDTOFactory implements CompositeIdDTOFactoryInterface
 {
+    /** @param array<int,string> */
     public function __construct(protected array $idKeys) {}
     
     public function create(array $data): CompositeIdDTOInterface

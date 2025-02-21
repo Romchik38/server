@@ -6,8 +6,7 @@ interface TranslateEntityDTOFactoryInterface
 {
     /**
      * Create translate dto entity
-     * 
-     * @param array $data [key => value, ...]
+     * @param array<string,string> $data [key => value, ...]
      */
     public  function create(string $key, array $data): TranslateEntityDTOInterface;
 }

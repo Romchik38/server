@@ -12,7 +12,7 @@ class CompositeIdModel extends Model implements CompositeIdModelInterface
 {
     protected CompositeIdDTOInterface|null $id = null;
 
-    public function getId(): CompositeIdDTOInterface
+    public function getId(): CompositeIdDTOInterface|null
     {
         return $this->id;
     }

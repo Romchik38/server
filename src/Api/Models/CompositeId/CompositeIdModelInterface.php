@@ -12,6 +12,6 @@ use Romchik38\Server\Api\Models\ModelInterface;
  */
 interface CompositeIdModelInterface extends ModelInterface
 {    
-    public function getId(): CompositeIdDTOInterface;
+    public function getId(): CompositeIdDTOInterface|null;
     public function setId(CompositeIdDTOInterface $id): CompositeIdModelInterface;
 }

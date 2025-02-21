@@ -8,6 +8,7 @@ use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
 
 interface EmailDTOFactoryInterface {
 
+    /** @param array<string,string> $headers */
     public function create(
         string $emailAddress,
         string $subject,

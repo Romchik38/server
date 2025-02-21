@@ -34,6 +34,9 @@ class DatabasePostgresql implements DatabaseInterface
     }
 
     public function queryParams(string $query, array $params): array {
+        if(is_null($this->connection)){
+            throw new CreateConnectionExeption('No connection to create a query');
+        }
         $result = pg_query_params($this->connection, $query, $params);
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);

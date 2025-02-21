@@ -118,6 +118,9 @@ class CompositeIdRepository implements CompositeIdRepositoryInterface
 
         // prepare id
         $id = $model->getId();
+        if(is_null($id)){
+            throw new CouldNotSaveException('Composite id not set');
+        }
         [$IdPlaceHolders, $idParams] = $this->getParametersFromIdDto($id, $counter);
         
         $params = array_merge($fieldsParams, $idParams);
