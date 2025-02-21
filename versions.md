@@ -12,6 +12,7 @@
 - [!] - `PageView` method `__construct` params now are type of `Closure`
   - `$controllerTemplate`
   - `$generateTemplate`
+- [!] removed `CompositeId` models
 
 ## v1.14.0
 
