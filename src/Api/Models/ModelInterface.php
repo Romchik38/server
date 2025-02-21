@@ -7,6 +7,8 @@ namespace Romchik38\Server\Api\Models;
 interface ModelInterface
 {
     public function getData(string $key): mixed;
+
+    /** @return array<string,mixed> */
     public function getAllData(): array;
 
     public function setData(string $key, mixed $value): ModelInterface;

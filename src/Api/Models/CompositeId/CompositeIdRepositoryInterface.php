@@ -31,7 +31,7 @@ interface CompositeIdRepositoryInterface
      * Search in the repository by provided condition
      * 
      * @param string $expression [condition]
-     * @param array $params
+     * @param array<int,int|string> $params
      * @return CompositeIdModelInterface[]
      */
     public function list(string $expression, array $params): array;

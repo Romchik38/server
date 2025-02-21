@@ -7,6 +7,8 @@ namespace Romchik38\Server\Models;
 use Romchik38\Server\Api\Models\ModelInterface;
 
 class Model implements ModelInterface {
+
+    /** @var array<string,mixed> $data */
     protected array $data = [];
 
     public function getData(string $key): mixed {

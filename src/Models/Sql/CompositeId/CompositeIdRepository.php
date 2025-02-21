@@ -9,7 +9,6 @@ use Romchik38\Server\Api\Models\CompositeId\CompositeIdDTOInterface;
 use Romchik38\Server\Api\Models\CompositeId\CompositeIdModelInterface;
 use Romchik38\Server\Api\Models\CompositeId\CompositeIdRepositoryInterface;
 use Romchik38\Server\Api\Models\DatabaseInterface;
-use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\CompositeId\CompositeIdFactoryInterface;
 use Romchik38\Server\Models\Errors\{
     CouldNotAddException,
@@ -138,7 +137,7 @@ class CompositeIdRepository implements CompositeIdRepositoryInterface
     /**
      * Create an entity from provided row
      * 
-     * @param array $row ['field' => 'value', ...]
+     * @param array<string,string> $row ['field' => 'value', ...]
      * @throws InvalidArgumentException
      * @return CompositeIdModelInterface
      */
@@ -157,15 +156,18 @@ class CompositeIdRepository implements CompositeIdRepositoryInterface
     }
 
     /**
-     * Prepare an id data for the query
+     * Prepare an id data for a query
      * Used in methods: 
      *   - getById
      *   - deleteById
      * 
      * @param CompositeIdDTOInterface $id
-     * @return array [ ['fieldname = $1', ...], [$value, ...] ]
+     * @return array<int,array<int,string>> [ ['fieldname = $1', ...], [$value, ...] ]
      */
-    protected function getParametersFromIdDto(CompositeIdDTOInterface $id, int $start = 0): array
+    protected function getParametersFromIdDto(
+        CompositeIdDTOInterface $id, 
+        int $start = 0
+    ): array
     {
         $idFields = $id->getIdKeys();
         $counter = $start;
@@ -174,7 +176,7 @@ class CompositeIdRepository implements CompositeIdRepositoryInterface
 
         foreach ($idFields as $field) {
             $counter++;
-            $params[] = $id->getData($field);
+            $params[] = (string) $id->getData($field);
             $placeHolders[] = $field . ' = $' . $counter;
         }
 

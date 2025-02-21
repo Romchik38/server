@@ -11,7 +11,7 @@ use Romchik38\Server\Models\Errors\QueryExeption;
 
 class DatabasePostgresql implements DatabaseInterface
 {
-    private \PgSql\Connection $connection;
+    private \PgSql\Connection|null $connection = null;
 
     public function __construct(string $config)
     {
@@ -28,7 +28,9 @@ class DatabasePostgresql implements DatabaseInterface
 
     public function __destruct()
     {
-        pg_close($this->connection);
+        if(!is_null($this->connection)){
+            pg_close($this->connection);
+        }
     }
 
     public function queryParams(string $query, array $params): array {
