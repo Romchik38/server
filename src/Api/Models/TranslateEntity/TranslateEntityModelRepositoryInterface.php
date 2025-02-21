@@ -22,5 +22,5 @@ interface TranslateEntityModelRepositoryInterface extends RepositoryInterface
      * 
      * @return TranslateEntityModelInterface[]
      */
-    public function getByKey($key): array;
+    public function getByKey(string $key): array;
 }

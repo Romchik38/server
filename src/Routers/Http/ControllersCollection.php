@@ -12,6 +12,7 @@ use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
  */
 class ControllersCollection implements ControllersCollectionInterface
 {
+    /** @var array<string,ControllerInterface> $hash */
     protected array $hash = [];
 
     public function getController(string $method): ControllerInterface|null

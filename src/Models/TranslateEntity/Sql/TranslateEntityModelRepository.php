@@ -24,13 +24,16 @@ class TranslateEntityModelRepository extends Repository implements TranslateEnti
             $expression = 'WHERE ' . implode(' OR ', $fields);
         }
 
+        /** @var TranslateEntityModelInterface[] $list */
         $list = $this->list($expression, $languages);
         return $list;
     }
 
-    public function getByKey($key): array
+    public function getByKey(string $key): array
     {
         $expression = 'WHERE ' . $this->table . '.key = $1';
-        return $this->list($expression, [$key]);
+        /** @var TranslateEntityModelInterface[] $list */
+        $list = $this->list($expression, [$key]);
+        return $list;
     }
 }
