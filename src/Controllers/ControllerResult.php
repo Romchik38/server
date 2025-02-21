@@ -10,7 +10,7 @@ use Romchik38\Server\Models\DTO;
 
 class ControllerResult extends DTO implements ControllerResultInterface
 {
-
+    /** @param array<int,string> $path*/
     public function __construct(
         ResponseInterface $response,
         array $path,

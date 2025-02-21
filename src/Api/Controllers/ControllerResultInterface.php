@@ -23,7 +23,7 @@ interface ControllerResultInterface
      * returns the full path to action
      * direction from root to action
      * 
-     * @return array ['root', 'controller_name', ... 'action_name']
+     * @return array<int,string> - ['root', 'controller_name', ... 'action_name']
      */
     public function getPath(): array;
 

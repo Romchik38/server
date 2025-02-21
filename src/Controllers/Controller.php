@@ -45,8 +45,12 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
  */
 class Controller implements ControllerInterface
 {
+    /** @var array<string,ControllerInterface> $children */
     protected array $children = [];
+
+    /** @var array<int,ControllerInterface> $parents */
     protected array $parents = [];
+
     protected Controller|null $currentParent = null;
 
     /** @todo $path can not  be empty */
@@ -69,7 +73,9 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    /** @todo test */
+    /** 
+     * @todo test 
+     * */
     public function execute(array $elements): ControllerResultInterface
     {
         if (count($elements) === 0) {
@@ -165,7 +171,7 @@ class Controller implements ControllerInterface
         }
     }
 
-    public function getChild(string $name): Controller
+    public function getChild(string $name): ControllerInterface
     {
         return $this->children[$name] ??
             throw new NoSuchControllerException('children with name: ' . $name . ' does not exist');
@@ -195,18 +201,12 @@ class Controller implements ControllerInterface
         if ($route !== '') {
             array_push($fullPath, $route);
         }
-        $stop = false;
         $nextParrent = $this->currentParent;
-        while ($stop === false) {
-            $stop = true;
-            if ($nextParrent === null) {
-                return $fullPath;
-            } else {
-                array_unshift($fullPath, $nextParrent->getName());
-                $nextParrent = $nextParrent->getCurrentParent();
-                $stop = false;
-            }
+        while ($nextParrent !== null) {
+            array_unshift($fullPath, $nextParrent->getName());
+            $nextParrent = $nextParrent->getCurrentParent();
         }
+        return $fullPath;
     }
 
     public function getParents(): array

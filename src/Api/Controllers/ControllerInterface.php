@@ -21,8 +21,8 @@ interface ControllerInterface
 
     /** 
      * transfers control to next controller 
-     * @param array<int,string> chain path
-     * @throws ControllerLogicException on empty $elements
+     * @param array<int,string> $elements - chain path ['controller_name', 'or_action_name']
+     * @throws ControllerLogicException - on empty $elements
      * @throws NotFoundException
      * */
     public function execute(array $elements): ControllerResultInterface;
@@ -53,44 +53,42 @@ interface ControllerInterface
     public function getChild(string $name): ControllerInterface;
 
     /** 
-     * @return array<string,ControllerInterface> all children 
+     * @return array<string,ControllerInterface> - all children 
      * */
     public function getChildren(): array;
 
     /**
      * return the parent in this concrete flow 
      *   or null if it is root controller
-     * 
-     * @return ControllerInterface|null [parrent controller]
+     * @return ControllerInterface|null - parrent controller
      */
     public function getCurrentParent(): ControllerInterface|null;
 
     /**
-     * return an array of dynamic route DTOs or empty []
-     * 
+     * Return an array of dynamic route DTOs or empty []
      * @return array<int,DynamicRouteDTOInterface>
      */
     public function getDynamicRoutes(): array;
 
-    /** Returns full path to controller 
+    /** 
+     * Returns full path to controller 
      * @param string $route Dynamic Action route
+     * @return array<int,string>
      */
     public function getFullPath(string $route = ''): array;
 
     /**
      * Returns all parrent of the current controller,
      * so we can trace all possible paths to this controller
-     * 
-     * @return array<int,ControllerInterface> [parents]
+     * @return array<int,ControllerInterface> - [parents]
      */
     public function getParents(): array;
 
     /**
-     * add child controller to the children list
-     * 
+     * Add child controller to the children list
      * @param ControllerInterface $child [a child to add]
      * @throws CantCreateControllerChain when try to add the root controller as a child
-     * @return self [this controller]
+     * @return self - this controller
      */
     public function setChild(ControllerInterface $child): self;
 
