@@ -7,6 +7,7 @@ namespace Romchik38\Server\Api\Controllers\Actions;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
+use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 
 interface DynamicActionInterface extends ActionInterface
 {

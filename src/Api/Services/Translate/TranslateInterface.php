@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Services\Translate;
 
+use Romchik38\Server\Services\Errors\TranslateException;
+
 interface TranslateInterface
 {
     /**

@@ -17,7 +17,7 @@ interface VirtualRepositoryInterface
 
     /** 
      * Search entities by provided conditions ( expression and params )
-     * 
+     * @param array<int,string> $params
      * @return ModelInterface[]
      */
     public function list(string $expression, array $params): array;

@@ -51,7 +51,7 @@ class Controller implements ControllerInterface
     /** @var array<int,ControllerInterface> $parents */
     protected array $parents = [];
 
-    protected Controller|null $currentParent = null;
+    protected ControllerInterface|null $currentParent = null;
 
     /** @todo $path can not  be empty */
     public function __construct(
@@ -182,7 +182,7 @@ class Controller implements ControllerInterface
         return $this->children;
     }
 
-    public function getCurrentParent(): Controller|null
+    public function getCurrentParent(): ControllerInterface|null
     {
         return $this->currentParent;
     }

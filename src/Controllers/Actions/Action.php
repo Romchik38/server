@@ -20,7 +20,7 @@ abstract class Action implements ActionInterface
         return $this->controller;
     }
 
-    public function setController(ControllerInterface $controller)
+    public function setController(ControllerInterface $controller): void
     {
         $this->controller = $controller;
     }

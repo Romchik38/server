@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Controllers;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
+use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
+use Romchik38\Server\Controllers\Errors\ControllerLogicException;
+use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
+use Romchik38\Server\Controllers\Errors\NotFoundException;
 
 interface ControllerInterface
 {

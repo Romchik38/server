@@ -29,7 +29,6 @@ class VirtualRepository implements VirtualRepositoryInterface
         return $this->modelFactory->create();
     }
 
-    /** @param array<int,string> $params */
     public function list(string $expression, array $params): array
     {
         $entities = [];

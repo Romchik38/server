@@ -6,6 +6,7 @@ namespace Romchik38\Server\Api\Views;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
+use Romchik38\Server\Views\Http\Errors\ViewBuildException;
 
 interface ViewInterface
 {

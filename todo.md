@@ -2,7 +2,6 @@
 
 ## Current
 
-- phpstan
 - ? laminas-coding-standard
 
 ## Next

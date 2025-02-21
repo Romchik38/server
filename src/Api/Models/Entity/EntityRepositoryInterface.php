@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Models\Entity;
 
 use Romchik38\Server\Api\Models\Entity\EntityModelInterface;
+use Romchik38\Server\Models\Errors\CouldNotAddException;
+use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 
 interface EntityRepositoryInterface {
