@@ -11,16 +11,20 @@ use Romchik38\Server\Api\Views\ViewInterface;
 abstract class View implements ViewInterface
 {
     protected DefaultViewDTOInterface|null $controllerData = null;
-    protected ControllerInterface|null $controller = null;
-    protected string $action = '';
+    protected ControllerInterface|null $controller         = null;
+    protected string $action                               = '';
 
-    public function setController(ControllerInterface $controller, string $action = ''): ViewInterface {
+    public function setController(
+        ControllerInterface $controller,
+        string $action = ''
+    ): ViewInterface {
         $this->controller = $controller;
-        $this->action = $action;
-        return $this;        
+        $this->action     = $action;
+        return $this;
     }
 
-    public function setControllerData(DefaultViewDTOInterface $data): ViewInterface {
+    public function setControllerData(DefaultViewDTOInterface $data): ViewInterface
+    {
         $this->controllerData = $data;
         return $this;
     }

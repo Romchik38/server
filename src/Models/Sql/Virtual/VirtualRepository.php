@@ -9,11 +9,12 @@ use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
 
+use function implode;
+
 class VirtualRepository implements VirtualRepositoryInterface
 {
-
-    /** 
-     * @param array<int,string> $selectFields 
+    /**
+     * @param array<int,string> $selectFields
      * @param array<int,string> $tables
      * */
     public function __construct(
@@ -33,7 +34,7 @@ class VirtualRepository implements VirtualRepositoryInterface
     {
         $entities = [];
 
-        $query = 'SELECT ' . implode(', ', $this->selectFields) 
+        $query = 'SELECT ' . implode(', ', $this->selectFields)
             . ' FROM ' . implode(', ', $this->tables) . ' ' . $expression;
 
         $arr = $this->database->queryParams($query, $params);
@@ -46,9 +47,8 @@ class VirtualRepository implements VirtualRepositoryInterface
 
     /**
      * Create an entity from provided row
-     * 
+     *
      * @param array<string,string> $row ['field' => 'value', ...]
-     * @return ModelInterface
      */
     protected function createFromRow(array $row): ModelInterface
     {
@@ -60,5 +60,4 @@ class VirtualRepository implements VirtualRepositoryInterface
 
         return $entity;
     }
-
 }
