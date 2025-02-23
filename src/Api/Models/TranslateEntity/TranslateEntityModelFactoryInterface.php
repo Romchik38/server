@@ -10,7 +10,7 @@ interface TranslateEntityModelFactoryInterface extends ModelFactoryInterface
 {
     /**
      * Create a translate entity with empty fields
-     * 
+     *
      * @return TranslateEntityModelInterface an empty translate entity
      */
     public function create(): TranslateEntityModelInterface;

@@ -8,7 +8,7 @@ use Romchik38\Server\Services\Files\FileLoaderException;
 
 interface FileLoaderInterface
 {
-    /** 
+    /**
      * @throws FileLoaderException on any error during loading process
      */
     public function load(string $path): string;

@@ -11,16 +11,15 @@ interface HttpViewInterface extends ViewInterface
     /**
      * Metadata fields
      */
-    const TITLE = 'title';
-    const DESCRIPTION = 'description';
-    const HEADER_DATA = 'header_data';
-    const NAV_DATA = 'nav_data';
-    const FOOTER_DATA = 'footer_data';
+    const TITLE           = 'title';
+    const DESCRIPTION     = 'description';
+    const HEADER_DATA     = 'header_data';
+    const NAV_DATA        = 'nav_data';
+    const FOOTER_DATA     = 'footer_data';
     const BREADCRUMB_DATA = 'breadcrumb_data';
 
     /**
      * Templates
      */
     const DEFAULT_WRAPPER = '1-column';
-
 }

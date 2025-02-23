@@ -21,7 +21,6 @@ interface RepositoryInterface
      *
      * @param mixed $id [Entity Primary key]
      * @throws NoSuchEntityException
-     * @return ModelInterface
      */
     public function getById($id): ModelInterface;
 
@@ -36,12 +35,7 @@ interface RepositoryInterface
 
     /**
      * inserts a row to the database
-     *
-     * @param ModelInterface $model 
-     *
-     * @return ModelInterface 
      */
-
     public function add(ModelInterface $model): ModelInterface;
 
     /**
@@ -49,17 +43,13 @@ interface RepositoryInterface
      *
      * @param mixed $id [PRIMARY KEY of the table]
      * @throws CouldNotDeleteException
-     * @return void
      */
     public function deleteById($id): void;
 
     /**
      * Update an existing model
      *
-     * @param ModelInterface $model
      * @throws CouldNotSaveException
-     * @return ModelInterface
      */
     public function save(ModelInterface $model): ModelInterface;
-
 }

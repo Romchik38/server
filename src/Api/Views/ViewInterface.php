@@ -14,7 +14,7 @@ interface ViewInterface
 
     public function setControllerData(DefaultViewDTOInterface $data): ViewInterface;
 
-    /** 
+    /**
      * @throws ViewBuildException
      */
     public function toString(): string;

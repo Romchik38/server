@@ -9,7 +9,7 @@ use Romchik38\Server\Models\DTO;
 
 final class ControllerDTO extends DTO implements ControllerDTOInterface
 {
-    /** 
+    /**
      * @param array<int,ControllerDTOInterface> $children
      * @param array<int,string> $path
      */
@@ -18,7 +18,8 @@ final class ControllerDTO extends DTO implements ControllerDTOInterface
         protected array $path,
         protected array $children,
         protected readonly string $description
-    ) {}
+    ) {
+    }
 
     public function getName(): string
     {
@@ -43,9 +44,9 @@ final class ControllerDTO extends DTO implements ControllerDTOInterface
     public function jsonSerialize(): mixed
     {
         return [
-            ControllerDTOInterface::NAME_FIELD => $this->name,
-            ControllerDTOInterface::PATH_FIELD => $this->path,
-            ControllerDTOInterface::CHILDREN_FIELD => $this->children,
+            ControllerDTOInterface::NAME_FIELD        => $this->name,
+            ControllerDTOInterface::PATH_FIELD        => $this->path,
+            ControllerDTOInterface::CHILDREN_FIELD    => $this->children,
             ControllerDTOInterface::DESCRIPTION_FILED => $this->description,
         ];
     }

@@ -7,7 +7,9 @@ namespace Romchik38\Server\Routers\Http;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 
-/** 
+use function array_keys;
+
+/**
  * this used only in the DynamicRootRouter
  */
 class ControllersCollection implements ControllersCollectionInterface
@@ -17,8 +19,7 @@ class ControllersCollection implements ControllersCollectionInterface
 
     public function getController(string $method): ControllerInterface|null
     {
-        $controller = $this->hash[$method] ?? null;
-        return $controller;
+        return $this->hash[$method] ?? null;
     }
 
     public function setController(ControllerInterface $controller, string $method): ControllersCollectionInterface

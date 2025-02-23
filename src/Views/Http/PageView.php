@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Views\Http;
 
 use Closure;
-use \Romchik38\Server\Api\Views\Http\HttpViewInterface;
+use Romchik38\Server\Api\Views\Http\HttpViewInterface;
 use Romchik38\Server\Views\View;
+
+use function call_user_func;
 
 class PageView extends View implements HttpViewInterface
 {
@@ -30,26 +32,24 @@ class PageView extends View implements HttpViewInterface
         /** 1. create metadata for header, etc */
         $this->prepareMetaData();
 
-        /** 
+        /**
          * 2. generate html from controller template
          */
         $controllerResult = call_user_func($this->controllerTemplate, $this->controllerData);
 
         /** 3. generate html document */
-        $html = call_user_func(
+        return call_user_func(
             $this->generateTemplate,
             $this->metaData,
             $controllerResult
         );
-
-        return $html;
     }
 
     protected function prepareMetaData(): void
     {
-        /** 
-         * Use this for add info to metaData 
-         * - $this->controllerData 
+        /**
+         * Use this for add info to metaData
+         * - $this->controllerData
          * - $this->controller
          * - $this->action
         */

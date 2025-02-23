@@ -8,9 +8,10 @@ use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
 use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
+use function strlen;
+
 /**
  * LinkTreeDTO entity. Represents a http link to visit. Has children.
- * @api
  */
 class LinkTreeDTO extends LinkDTO implements LinkTreeDTOInterface
 {

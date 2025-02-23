@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Models\DTO\Controller;
 
+use JsonSerializable;
 use Romchik38\Server\Api\Models\DTO\DTOInterface;
 
-interface ControllerDTOInterface extends DTOInterface, \JsonSerializable
+interface ControllerDTOInterface extends DTOInterface, JsonSerializable
 {
     /**
      * Used in the jsonSerialize() method
      */
-    const NAME_FIELD = 'name';
-    const PATH_FIELD = 'path';
-    const CHILDREN_FIELD = 'children';
+    const NAME_FIELD        = 'name';
+    const PATH_FIELD        = 'path';
+    const CHILDREN_FIELD    = 'children';
     const DESCRIPTION_FILED = 'description';
 
     /**
@@ -23,7 +24,7 @@ interface ControllerDTOInterface extends DTOInterface, \JsonSerializable
 
     /**
      * Path to this controller
-     * 
+     *
      * @return string[] Parrents names where 1st element is the root name
      */
     public function getPath(): array;

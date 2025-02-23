@@ -9,7 +9,7 @@ interface ApiDTOFactoryInterface
     public function create(
         string $name,
         string $description,
-        string $status, 
+        string $status,
         mixed $result
     ): ApiDTOInterface;
 }

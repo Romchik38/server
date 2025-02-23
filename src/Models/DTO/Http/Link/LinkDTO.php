@@ -17,18 +17,21 @@ class LinkDTO extends DTO implements LinkDTOInterface
         string $description,
         string $url,
     ) {
-        $this->data[LinkDTOInterface::NAME_FIELD] = $name;
+        $this->data[LinkDTOInterface::NAME_FIELD]        = $name;
         $this->data[LinkDTOInterface::DESCRIPTION_FIELD] = $description;
-        $this->data[LinkDTOInterface::URL_FIELD] = $url;
+        $this->data[LinkDTOInterface::URL_FIELD]         = $url;
     }
+
     public function getName(): string
     {
         return $this->data[LinkDTOInterface::NAME_FIELD];
     }
+
     public function getDescription(): string
     {
         return $this->data[LinkDTOInterface::DESCRIPTION_FIELD];
     }
+
     public function getUrl(): string
     {
         return $this->data[LinkDTOInterface::URL_FIELD];

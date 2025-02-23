@@ -1,10 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Romchik38\Server\Services\Logger;
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
+use Stringable;
+
+use function is_array;
+use function is_object;
+use function method_exists;
+use function strtr;
 
 abstract class Logger extends AbstractLogger implements LoggerServerInterface
 {
@@ -20,16 +28,16 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
     /** @var array<string,int> $levels */
     protected array $levels = [
         LogLevel::EMERGENCY => 0, //       Emergency: system is unusable
-        LogLevel::ALERT => 1,     //       Alert: action must be taken immediately
-        LogLevel::CRITICAL => 2,  //       Critical: critical conditions
-        LogLevel::ERROR => 3,     //       Error: error conditions
-        LogLevel::WARNING => 4,   //       Warning: warning conditions
-        LogLevel::NOTICE => 5,    //       Notice: normal but significant condition
-        LogLevel::INFO => 6,      //       Informational: informational messages
-        LogLevel::DEBUG => 7      //       Debug: debug-level messages
+        LogLevel::ALERT     => 1, //       Alert: action must be taken immediately
+        LogLevel::CRITICAL  => 2, //       Critical: critical conditions
+        LogLevel::ERROR     => 3, //       Error: error conditions
+        LogLevel::WARNING   => 4, //       Warning: warning conditions
+        LogLevel::NOTICE    => 5, //       Notice: normal but significant condition
+        LogLevel::INFO      => 6, //       Informational: informational messages
+        LogLevel::DEBUG     => 7, //       Debug: debug-level messages
     ];
 
-    public function log($level, string|\Stringable $message, array $context = []): void
+    public function log($level, string|Stringable $message, array $context = []): void
     {
         if ($this->logLevel < $this->levels[$level]) {
             return;
@@ -41,29 +49,26 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
 
     /**
      * Use this method to write log to external service.
-     * 
-     * Also you can push all messages to $messages array and then, 
+     *
+     * Also you can push all messages to $messages array and then,
      * in the finish line, send all messages. LoggerServerInterface has sendAllLogs() for this.
      *
-     * @param string $level
-     * @param string $message
      * @return void
      */
     abstract protected function write(string $level, string $message);
 
-    /** 
-     * @param array<int|string,mixed> $context 
+    /**
+     * @param array<int|string,mixed> $context
      * */
     protected function interpolate(
-        string|\Stringable $message, 
+        string|Stringable $message,
         array $context = []
-    ): string
-    {
+    ): string {
         // build a replacement array with braces around the context keys
-        $replace = array();
+        $replace = [];
         foreach ($context as $key => $val) {
             // check that the value can be cast to string
-            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
+            if (! is_array($val) && (! is_object($val) || method_exists($val, '__toString'))) {
                 $replace['{' . $key . '}'] = $val;
             }
         }
@@ -72,15 +77,17 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
         return strtr($message, $replace);
     }
 
-    /** 
+    /**
      * Write logs to another logger when main logger doesn't work
+     *
      * @param array<array<int,string>> $writeMessages  - [['level', 'message'], ...]
      */
-    protected function sendAllToalternativeLog(array $writeMessages): void {
-        if($this->alternativeLogger === null){
+    protected function sendAllToalternativeLog(array $writeMessages): void
+    {
+        if ($this->alternativeLogger === null) {
             return;
         }
-        foreach($writeMessages as $item) {
+        foreach ($writeMessages as $item) {
             [$level, $message] = $item;
             $this->alternativeLogger->log($level, $message);
         }

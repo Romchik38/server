@@ -15,14 +15,15 @@ interface TempStreamInterface
      */
     public function writeFromCallable(callable $fn, int $resourceIndex, ...$args): void;
 
-    /** 
+    /**
      * @throws StreamProcessException On write error
      */
     public function write(string $data): void;
 
-    /** 
-     * Closes the stream and returns all data as a string 
-     * @throws StreamProcessException On further calls  
+    /**
+     * Closes the stream and returns all data as a string
+     *
+     * @throws StreamProcessException On further calls
      * */
     public function __invoke(): string;
 }

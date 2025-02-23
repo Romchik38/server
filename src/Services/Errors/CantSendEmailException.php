@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Errors;
 
-class CantSendEmailException extends \RuntimeException {
+use RuntimeException;
 
+class CantSendEmailException extends RuntimeException
+{
 }

@@ -6,7 +6,7 @@ namespace Romchik38\Server\Api\Models;
 
 use Romchik38\Server\Api\Models\ModelInterface;
 
-interface ModelFactoryInterface {
-
+interface ModelFactoryInterface
+{
     public function create(): ModelInterface;
 }

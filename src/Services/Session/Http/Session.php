@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Session\Http;
 
-use \Romchik38\Server\Api\Services\SessionInterface;
-use \Romchik38\Server\Services\Errors\SessionDoesnWorkException;
+use Romchik38\Server\Api\Services\SessionInterface;
+use Romchik38\Server\Services\Errors\SessionDoesnWorkException;
+
+use function session_destroy;
+use function session_id;
+use function session_name;
+use function session_start;
+use function setcookie;
+use function time;
 
 class Session implements SessionInterface
 {
-
     protected int $maxTimeToLogout = SessionInterface::SESSION_MAX_TIME_TO_LOGOUT;
 
     public function __construct()
@@ -35,7 +41,7 @@ class Session implements SessionInterface
     public function logout(): void
     {
         $_SESSION = [];
-        $name = session_name();
+        $name     = session_name();
         if ($name !== false) {
             setcookie($name, '', time() - $this->maxTimeToLogout, '/');
         }

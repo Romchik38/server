@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Errors;
 
-class CreateConnectionExeption extends DatabaseException {
-
+class CreateConnectionExeption extends DatabaseException
+{
 }

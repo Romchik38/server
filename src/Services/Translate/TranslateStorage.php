@@ -10,30 +10,31 @@ use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelInterface;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelRepositoryInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 
+use function array_key_exists;
+
 class TranslateStorage implements TranslateStorageInterface
 {
     public function __construct(
         protected readonly TranslateEntityModelRepositoryInterface $translateEntityModelRepository,
         protected readonly TranslateEntityDTOFactoryInterface $translateEntityDTOFactory
-    ) {}
+    ) {
+    }
 
     public function getDataByLanguages(array $languages): array
     {
         $models = $this->translateEntityModelRepository->getListByLanguages($languages);
-        $hash = $this->mapModelToDTO($models);
-        return $hash;
+        return $this->mapModelToDTO($models);
     }
 
     public function getAllDataByKey(string $key): array
     {
         $models = $this->translateEntityModelRepository->getByKey($key);
-        $hash = $this->mapModelToDTO($models);
-        return $hash;
+        return $this->mapModelToDTO($models);
     }
 
     /**
      * Returns a hash [key => dto, ...]
-     * 
+     *
      * @param array<int, TranslateEntityModelInterface> $models
      * @return array<string,TranslateEntityDTOInterface>
      */
@@ -44,9 +45,9 @@ class TranslateStorage implements TranslateStorageInterface
         foreach ($models as $model) {
             $key = $model->getKey();
             if (array_key_exists($key, $collection) === true) {
-                $languages = $collection[$key];
+                $languages                        = $collection[$key];
                 $languages[$model->getLanguage()] = $model->getPhrase();
-                $collection[$key] = $languages;
+                $collection[$key]                 = $languages;
             } else {
                 $collection[$key] = [$model->getLanguage() => $model->getPhrase()];
             }

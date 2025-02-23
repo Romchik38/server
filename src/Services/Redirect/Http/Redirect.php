@@ -7,10 +7,12 @@ namespace Romchik38\Server\Services\Redirect\Http;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
-use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
+use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Services\Errors\CantCreateRedirectException;
+
+use function in_array;
 
 /**
  * Redirect to the same scheme://host
@@ -25,7 +27,7 @@ class Redirect implements RedirectInterface
         protected readonly RedirectResultDTOFactoryInterface $redirectResultDTOFactory,
         ServerRequestInterface $request
     ) {
-        $uri = $request->getUri();
+        $uri    = $request->getUri();
         $scheme = $uri->getScheme();
         if (in_array($scheme, RedirectInterface::ALLOWED_SCHEMAS, true) === false) {
             throw new CantCreateRedirectException('Scheme:' . $scheme . ' not allowed');
@@ -49,12 +51,10 @@ class Redirect implements RedirectInterface
                 . $this->host
                 . $redirectUrl->getRedirectTo();
 
-            $redirectResult = $this->redirectResultDTOFactory->create(
+            return $this->redirectResultDTOFactory->create(
                 $uri,
                 $redirectUrl->getRedirectCode()
             );
-
-            return $redirectResult;
         } catch (NoSuchEntityException $e) {
             return null;
         }

@@ -6,8 +6,8 @@ namespace Romchik38\Server\Api\Models\DTO\Email;
 
 use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
 
-interface EmailDTOFactoryInterface {
-
+interface EmailDTOFactoryInterface
+{
     /** @param array<string,string> $headers */
     public function create(
         string $emailAddress,

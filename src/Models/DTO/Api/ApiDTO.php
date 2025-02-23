@@ -16,10 +16,10 @@ class ApiDTO extends DefaultViewDTO implements ApiDTOInterface
         string $status,
         mixed $result
     ) {
-        $this->data[DefaultViewDTOInterface::DEFAULT_NAME_FIELD] = $name;
+        $this->data[DefaultViewDTOInterface::DEFAULT_NAME_FIELD]        = $name;
         $this->data[DefaultViewDTOInterface::DEFAULT_DESCRIPTION_FIELD] = $description;
-        $this->data[$this::STATUS_FIELD] = $status;
-        $this->data[$this::RESULT_FIELD] = $result;
+        $this->data[$this::STATUS_FIELD]                                = $status;
+        $this->data[$this::RESULT_FIELD]                                = $result;
     }
 
     public function getStatus(): string

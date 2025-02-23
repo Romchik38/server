@@ -12,22 +12,24 @@ use Romchik38\Server\Api\Services\Translate\TranslateInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 use Romchik38\Server\Services\Errors\TranslateException;
 
+use function count;
+use function sprintf;
+
 /**
- * Translate a string by given key. Just pass the key 
+ * Translate a string by given key. Just pass the key
  * like in the example below:
  *      $translate = new Translate($translateStorage, $DynamicRoot);
  *      echo $translate->t('login.index.h1');
- * 
- * Returns translated string for current language, 
+ *
+ * Returns translated string for current language,
  *   otherwise returns the string for default language
  *   otherwise throws an error (so the key must be in the translate storage)
- * 
  */
 class Translate implements TranslateInterface
 {
     protected string $defaultLang;
     protected string $currentLang;
-    protected string $formatErrorMessage = 'Translation for string %s is missing. Please create it for default %s language first';
+    protected string $formatErrorMessage    = 'Translation for string %s is missing. Please create it for default %s language first';
     protected string $formatErrorDefaultVal = 'Default value for language %s isn\'t set';
 
     /** @var array<string,TranslateEntityDTOInterface>|null $hash */
@@ -59,7 +61,7 @@ class Translate implements TranslateInterface
             );
         }
 
-        /** 
+        /**
          * 3. Check if key exists
          * @var TranslateEntityDTOInterface $translateDTO*/
         $translateDTO = $this->hash[$key] ??
@@ -78,36 +80,39 @@ class Translate implements TranslateInterface
         }
 
         /** 6. Check for specific language (get all translates for the given key)*/
-        if($language !== $this->defaultLang && $language !== $this->currentLang) {
+        if ($language !== $this->defaultLang && $language !== $this->currentLang) {
             $array = $this->translateStorage->getAllDataByKey($key);
             if (count($array) === 1) {
-                $dto = $array[$key];
+                $dto              = $array[$key];
                 $this->hash[$key] = $dto;
 
                 $translated = $dto->getPhrase($language);
 
                 if ($translated !== null) {
                     return $translated;
-                }   
+                }
             }
         }
 
         /**
-         * 7. return by default language 
+         * 7. return by default language
          * */
         if ($this->logger !== null) {
-            $this->logger->log($this->loglevel, 
-            sprintf(
-                '%s: Missed translation for key %s language %s', 
-                $this::class,
-                $key,
-                $language
-            ));
+            $this->logger->log(
+                $this->loglevel,
+                sprintf(
+                    '%s: Missed translation for key %s language %s',
+                    $this::class,
+                    $key,
+                    $language
+                )
+            );
         }
         return $defaultVal;
     }
 
-    protected function setCurrentLanguage(): void {
+    protected function setCurrentLanguage(): void
+    {
         $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
     }
 }

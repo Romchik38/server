@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Streams;
 
+use Exception;
+
+use function fclose;
+use function fgets;
+use function fopen;
+use function fwrite;
+use function rewind;
+use function sprintf;
+
 class TempStream implements TempStreamInterface
 {
     /** @var resource $fp */
     protected $fp;
     protected const PROTOCOL = 'php://temp';
-    protected const MODE = 'rw';
+    protected const MODE     = 'rw';
     protected bool $isClosed = false;
 
     public function __construct()
@@ -42,7 +51,7 @@ class TempStream implements TempStreamInterface
             if ($result === false) {
                 throw new StreamProcessException('Error during callable execution');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new StreamProcessException(
                 sprintf('Error during callable execution: %s', $e->getMessage())
             );
@@ -57,7 +66,7 @@ class TempStream implements TempStreamInterface
 
         if (rewind($this->fp) === false) {
             throw new StreamProcessException('Cannot rewind stream');
-        };
+        }
 
         $data = '';
         while (true) {
@@ -70,7 +79,7 @@ class TempStream implements TempStreamInterface
 
         if (fclose($this->fp) === false) {
             throw new StreamProcessException('Cannot close Stream');
-        };
+        }
 
         $this->isClosed = true;
 

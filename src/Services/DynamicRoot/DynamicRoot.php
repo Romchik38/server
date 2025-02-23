@@ -14,9 +14,7 @@ class DynamicRoot implements DynamicRootInterface
     protected readonly DynamicRootDTOInterface $defaultRoot;
     protected DynamicRootDTOInterface|null $currentRoot = null;
 
-    /**
-     * @var DynamicRootDTOInterface[] $rootList
-     */
+    /** @var DynamicRootDTOInterface[] $rootList */
     protected readonly array $rootList;
 
     /** @param array<int,string> $rootNamesList */
@@ -26,10 +24,10 @@ class DynamicRoot implements DynamicRootInterface
         DynamicRootDTOFactoryInterface $DynamicRootDTOFactory
     ) {
         $this->defaultRoot = $DynamicRootDTOFactory->create($defaultRootName);
-        $list = [];
+        $list              = [];
         foreach ($rootNamesList as $rootName) {
             $rootDTO = $DynamicRootDTOFactory->create($rootName);
-            $list[] = $rootDTO;
+            $list[]  = $rootDTO;
         }
         $this->rootList = $list;
     }
@@ -53,7 +51,8 @@ class DynamicRoot implements DynamicRootInterface
         return $names;
     }
 
-    public function getCurrentRoot(): DynamicRootDTOInterface {
+    public function getCurrentRoot(): DynamicRootDTOInterface
+    {
         if ($this->currentRoot === null) {
             throw new EarlyAccessToCurrentRootError('Current dynamic root does\'t setted up');
         }

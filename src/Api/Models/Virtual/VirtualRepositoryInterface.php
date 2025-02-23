@@ -10,13 +10,12 @@ interface VirtualRepositoryInterface
 {
     /**
      * Create an empty entity
-     * 
-     * @return ModelInterface
      */
     public function create(): ModelInterface;
 
-    /** 
+    /**
      * Search entities by provided conditions ( expression and params )
+     *
      * @param array<int,string> $params
      * @return ModelInterface[]
      */

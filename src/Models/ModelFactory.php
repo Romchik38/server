@@ -8,10 +8,10 @@ use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Models\Model;
 
-class ModelFactory implements ModelFactoryInterface {
-
-    public function create(): ModelInterface {
+class ModelFactory implements ModelFactoryInterface
+{
+    public function create(): ModelInterface
+    {
         return new Model();
     }
-
 }

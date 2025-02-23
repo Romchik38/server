@@ -13,25 +13,23 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
 interface ControllerInterface
 {
     const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
-    const PATH_SEPARATOR = '<>';
-    const PATH_DYNAMIC_ALL = '*';
+    const PATH_SEPARATOR          = '<>';
+    const PATH_DYNAMIC_ALL        = '*';
     /**
      * add parrent to this controller
-     * 
-     * @param ControllerInterface $parent
-     * @return void
      */
     public function addParent(ControllerInterface $parent): void;
 
-    /** 
-     * transfers control to next controller 
+    /**
+     * transfers control to next controller
+     *
      * @param array<int,string> $elements - chain path ['controller_name', 'or_action_name']
      * @throws ControllerLogicException - on empty $elements
      * @throws NotFoundException
      * */
     public function execute(array $elements): ControllerResultInterface;
 
-    /** 
+    /**
      * can controller be shown to user in the controllerTree
      */
     public function isPublic(): bool;
@@ -41,41 +39,42 @@ interface ControllerInterface
 
     /**
      * Controller's description
-     * 
+     *
      * @throws ControllerLogicException On non existing dynamic route
-     * @return string 
      * */
     public function getDescription(string $dynamicRoute = ''): string;
 
-    /** 
-     * return a child by given controller name 
-     * 
+    /**
+     * return a child by given controller name
+     *
      * @param string $name [controller name]
      * @throws NoSuchControllerException
-     * @return ControllerInterface
      */
     public function getChild(string $name): ControllerInterface;
 
-    /** 
-     * @return array<string,ControllerInterface> - all children 
+    /**
+     * @return array<string,ControllerInterface> - all children
      * */
     public function getChildren(): array;
 
     /**
-     * return the parent in this concrete flow 
+     * return the parent in this concrete flow
      *   or null if it is root controller
+     *
      * @return ControllerInterface|null - parrent controller
      */
     public function getCurrentParent(): ControllerInterface|null;
 
     /**
      * Return an array of dynamic route DTOs or empty []
+     *
      * @return array<int,DynamicRouteDTOInterface>
      */
     public function getDynamicRoutes(): array;
 
-    /** 
-     * Returns full path to controller 
+    /**
+     * Returns full path to controller
+     *
      * @param string $route Dynamic Action route
      * @return array<int,string>
      */
@@ -84,12 +83,14 @@ interface ControllerInterface
     /**
      * Returns all parrent of the current controller,
      * so we can trace all possible paths to this controller
+     *
      * @return array<int,ControllerInterface> - [parents]
      */
     public function getParents(): array;
 
     /**
      * Add child controller to the children list
+     *
      * @param ControllerInterface $child [a child to add]
      * @throws CantCreateControllerChain when try to add the root controller as a child
      * @return self - this controller
@@ -98,9 +99,8 @@ interface ControllerInterface
 
     /**
      * Sets the parent in a concrete flow
-     * 
+     *
      * @param ControllerInterface $currentParent [parrent]
-     * @return void
      */
     public function setCurrentParent(ControllerInterface $currentParent): void;
 }

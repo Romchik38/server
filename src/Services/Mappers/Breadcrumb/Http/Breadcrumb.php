@@ -7,10 +7,16 @@ namespace Romchik38\Server\Services\Mappers\Breadcrumb\Http;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
-use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
+
+use function array_merge;
+use function array_push;
+use function array_slice;
+use function count;
+use function implode;
 
 class Breadcrumb implements BreadcrumbInterface
 {
@@ -19,12 +25,13 @@ class Breadcrumb implements BreadcrumbInterface
     public function __construct(
         protected ControllerTreeInterface $controllerTreeService,
         protected DynamicRootInterface|null $dynamicRoot = null
-    ) {}
+    ) {
+    }
 
     public function getBreadcrumbDTO(ControllerInterface $controller, string $action): BreadcrumbDTOInterface
     {
-        /** 
-         * 1 Set Dynamic root if exist 
+        /**
+         * 1 Set Dynamic root if exist
          */
         if ($this->dynamicRoot !== null) {
             $this->currentRoot = $this->dynamicRoot->getCurrentRoot()->getName();
@@ -34,23 +41,21 @@ class Breadcrumb implements BreadcrumbInterface
         $controllerDTO = $this->controllerTreeService->getOnlyLineRootControllerDTO($controller, $action);
 
         /** 4. get breadcrumbDTO */
-        $breadcrumbDTO = $this->mapControllerDTOtoBreadcrumbDTO($controllerDTO, null);
-
-        return $breadcrumbDTO;
+        return $this->mapControllerDTOtoBreadcrumbDTO($controllerDTO, null);
     }
 
     /** @return array<int,string[]>*/
     protected function getPathsFromControllerDTO(ControllerDTOInterface $dto): array
     {
-        $stop = false;
-        $paths = [];
+        $stop    = false;
+        $paths   = [];
         $current = $dto;
         while ($stop === false) {
-            $stop = true;
-            $paths[] = array_merge($current->getPath(), [$current->getName()]);
+            $stop     = true;
+            $paths[]  = array_merge($current->getPath(), [$current->getName()]);
             $children = $current->getChildren();
             if (count($children) > 0) {
-                $stop = false;
+                $stop    = false;
                 $current = $children[0];
             }
         }
@@ -61,7 +66,6 @@ class Breadcrumb implements BreadcrumbInterface
         ControllerDTOInterface $controllerDTO,
         BreadcrumbDTOInterface|null $prev,
     ): BreadcrumbDTOInterface {
-
         $name = $controllerDTO->getName();
         $path = $controllerDTO->getPath();
 

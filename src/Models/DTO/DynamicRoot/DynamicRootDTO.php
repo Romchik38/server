@@ -11,7 +11,9 @@ class DynamicRootDTO extends DTO implements DynamicRootDTOInterface
 {
     public function __construct(
         protected string $name
-    ) {}
+    ) {
+    }
+
     public function getName(): string
     {
         return $this->name;

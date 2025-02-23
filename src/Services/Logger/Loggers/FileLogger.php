@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Logger\Loggers;
 
-use Romchik38\Server\Services\Logger\Logger;
-use Romchik38\Server\Api\Services\Loggers\FileLoggerInterface;
-use Psr\Log\LoggerInterface;
+use DateTime;
 use Psr\Log\LogLevel;
+use Romchik38\Server\Api\Services\Loggers\FileLoggerInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
+use Romchik38\Server\Services\Logger\Logger;
+
+use function count;
+use function fclose;
+use function fopen;
+use function fwrite;
+
+use const PHP_EOL;
 
 class FileLogger extends Logger implements FileLoggerInterface
 {
@@ -40,14 +47,14 @@ class FileLogger extends Logger implements FileLoggerInterface
         if (count($this->messages) === 0) {
             return;
         }
-        
+
         // 1 open file - write, pointer at the and, if the file doesn't exist, if will be created
         $fp = fopen($this->fullFilePath, 'a', $this->useIncludePath, $this->context);
         if ($fp === false) {
             // log error to alternative logger
             if ($this->alternativeLogger !== null) {
-                $this->alternativeLogger->log(LogLevel::ALERT, 'Can\'t open file to log: ' . $this->fullFilePath );
-                foreach($this->messages as $item) {
+                $this->alternativeLogger->log(LogLevel::ALERT, 'Can\'t open file to log: ' . $this->fullFilePath);
+                foreach ($this->messages as $item) {
                     [$level, $message] = $item;
                     $this->alternativeLogger->log($level, $message);
                 }
@@ -57,12 +64,12 @@ class FileLogger extends Logger implements FileLoggerInterface
         }
         // 2 write
         $writeErrors = [];
-        $date = new \DateTime();
-        $dateString = $date->format(LoggerServerInterface::DATE_TIME_FORMAT);
-        foreach($this->messages as $item) {
+        $date        = new DateTime();
+        $dateString  = $date->format(LoggerServerInterface::DATE_TIME_FORMAT);
+        foreach ($this->messages as $item) {
             [$level, $message] = $item;
-            $str = '[' . $dateString . '] ' . $level . ': ' . $message . PHP_EOL;
-            $writeResult = fwrite($fp, $str);
+            $str               = '[' . $dateString . '] ' . $level . ': ' . $message . PHP_EOL;
+            $writeResult       = fwrite($fp, $str);
             if ($writeResult === false) {
                 $writeErrors[] = $item;
             }
@@ -70,7 +77,7 @@ class FileLogger extends Logger implements FileLoggerInterface
         if (count($writeErrors) > 0) {
             // log error to alternative logger
             if ($this->alternativeLogger) {
-                $this->alternativeLogger->log(LogLevel::ALERT, 'Some logs not saved to file: ' . $this->fullFilePath );
+                $this->alternativeLogger->log(LogLevel::ALERT, 'Some logs not saved to file: ' . $this->fullFilePath);
                 $this->sendAllToalternativeLog($writeErrors);
             }
         }
@@ -79,7 +86,7 @@ class FileLogger extends Logger implements FileLoggerInterface
         if ($closeResult === false) {
             // log error to alternative logger
             if ($this->alternativeLogger) {
-                $this->alternativeLogger->log(LogLevel::ALERT, 'Can\'t close file: ' . $this->fullFilePath );
+                $this->alternativeLogger->log(LogLevel::ALERT, 'Can\'t close file: ' . $this->fullFilePath);
                 $this->sendAllToalternativeLog($this->messages);
             }
         }

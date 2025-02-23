@@ -8,6 +8,8 @@ use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
 use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
+use function strlen;
+
 class LinkDTOFactory implements LinkDTOFactoryInterface
 {
     public function create(string $name, string $description, string $url): LinkDTOInterface

@@ -8,7 +8,7 @@ use Romchik38\Server\Models\Errors\QueryExeption;
 
 interface DatabaseInterface
 {
-    /** 
+    /**
      * @param array<int,int|string> $params
      * @throws QueryExeption
      * @return array<array<string,string>>

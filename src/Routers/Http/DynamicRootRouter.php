@@ -11,11 +11,16 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
-use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
+use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Routers\Errors\RouterProccessError;
+
+use function array_search;
+use function array_shift;
+use function count;
+use function explode;
 
 class DynamicRootRouter implements HttpRouterInterface
 {
@@ -30,18 +35,19 @@ class DynamicRootRouter implements HttpRouterInterface
         protected RedirectInterface|null $redirectService = null
     ) {
     }
+
     public function execute(): ResponseInterface
     {
         // 0. define
-        $uri = $this->request->getUri();
+        $uri    = $this->request->getUri();
         $scheme = $uri->getScheme();
-        $host = $uri->getHost();
+        $host   = $uri->getHost();
         $method = $this->request->getMethod();
-        $path = $uri->getPath();
-        [$url] = explode('?', $path);
+        $path   = $uri->getPath();
+        [$url]  = explode('?', $path);
 
         $defaultRoot = $this->dynamicRootService->getDefaultRoot();
-        $rootList = $this->dynamicRootService->getRootNames();
+        $rootList    = $this->dynamicRootService->getRootNames();
 
         // 1. parse url
         $elements = explode('/', $url);
@@ -56,10 +62,10 @@ class DynamicRootRouter implements HttpRouterInterface
 
         // 2. for / redirect to default root
         if (count($elements) === 0) {
-            $redirectLine = $scheme 
+            $redirectLine = $scheme
                 . RedirectInterface::SCHEME_HOST_DELIMITER
-                . $host 
-                . '/' 
+                . $host
+                . '/'
                 . $defaultRoot->getName();
             return ($this->responseFactory->createResponse(301))
                 ->withHeader('Location', $redirectLine);
@@ -69,11 +75,11 @@ class DynamicRootRouter implements HttpRouterInterface
 
         // 3. try to redirect to defaultRoot + path
         if (array_search($rootName, $rootList, true) === false) {
-            $redirectLinePlusPath = $scheme 
+            $redirectLinePlusPath = $scheme
                 . RedirectInterface::SCHEME_HOST_DELIMITER
-                . $host 
-                . '/' 
-                . $defaultRoot->getName() 
+                . $host
+                . '/'
+                . $defaultRoot->getName()
                 . $path;
             return ($this->responseFactory->createResponse(301))
                 ->withHeader('Location', $redirectLinePlusPath);
@@ -82,7 +88,7 @@ class DynamicRootRouter implements HttpRouterInterface
         // 4. Get controller
         $controller = $this->controllersCollection->getController($method);
 
-        // 5. method check 
+        // 5. method check
         if ($controller === null) {
             return $this->methodNotAllowed($this->controllersCollection->getMethods());
         }
@@ -101,9 +107,9 @@ class DynamicRootRouter implements HttpRouterInterface
         }
         /**
          * 7. set current root
-         * 
+         *
          * - the check may be ommited, because early we did check #3 with $rootList
-         *   and redirected all requests which starts with items not in the $rootList 
+         *   and redirected all requests which starts with items not in the $rootList
          * - but we can't set $rootName which is not in the list because of something ...
          * - so there is the check:
          */
@@ -112,7 +118,7 @@ class DynamicRootRouter implements HttpRouterInterface
             throw new RouterProccessError('Can\'t set current dynamic root with name: ' . $rootName);
         }
 
-        /** 
+        /**
          * 8. replace $rootName with 'root' */
         $elements[0] = ControllerTreeInterface::ROOT_NAME;
 
@@ -127,17 +133,14 @@ class DynamicRootRouter implements HttpRouterInterface
     }
 
      /**
-     * Set a redirect to the same site with founded url and status code
-     */
+      * Set a redirect to the same site with founded url and status code
+      */
     protected function redirect(
         string $url,
         RedirectResultDTOInterface $redirectResult
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $statusCode = $redirectResult->getStatusCode();
-        $response = $this->responseFactory->createResponse($statusCode)
+        return $this->responseFactory->createResponse($statusCode)
             ->withHeader('Location', $url);
-        return $response;
     }
-
 }

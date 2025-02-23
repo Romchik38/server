@@ -8,6 +8,10 @@ use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
+
+use function implode;
+use function count;
+
 use Romchik38\Server\Models\Errors\{
     NoSuchEntityException,
     CouldNotDeleteException,
@@ -18,29 +22,29 @@ use Romchik38\Server\Models\Errors\{
 
 class Repository implements RepositoryInterface
 {
-
     public function __construct(
         protected DatabaseInterface $database,
         protected ModelFactoryInterface $modelFactory,
         protected string $table,
         protected string $primaryFieldName
-    ) {}
+    ) {
+    }
 
     public function add(ModelInterface $model): ModelInterface
     {
-        $keys = [];
+        $keys   = [];
         $values = [];
         $params = [];
-        $count = 0;
+        $count  = 0;
         foreach ($model->getAllData() as $key => $value) {
             $count++;
             $params[] = '$' . $count;
-            $keys[] = $key;
+            $keys[]   = $key;
             $values[] = $value;
         }
 
         $query = 'INSERT INTO ' . $this->table . ' (' . implode(', ', $keys) . ') VALUES ('
-            . implode(', ', $params) . ') RETURNING *';
+        . implode(', ', $params) . ') RETURNING *';
         try {
             $arr = $this->database->queryParams($query, $values);
             $row = $arr[0];
@@ -58,7 +62,7 @@ class Repository implements RepositoryInterface
     public function deleteById($id): void
     {
         $query = 'DELETE FROM ' . $this->table . ' WHERE '
-            . $this->primaryFieldName . ' = $1';
+        . $this->primaryFieldName . ' = $1';
         try {
             $this->database->queryParams($query, [$id]);
         } catch (QueryExeption $e) {
@@ -68,13 +72,13 @@ class Repository implements RepositoryInterface
 
     public function getById($id): ModelInterface
     {
-        $query = 'SELECT ' . $this->table . '.* FROM ' . $this->table
-            . ' WHERE ' . $this->primaryFieldName . ' = $1';
+        $query  = 'SELECT ' . $this->table . '.* FROM ' . $this->table
+        . ' WHERE ' . $this->primaryFieldName . ' = $1';
         $params = [$id];
-        $arr = $this->database->queryParams($query, $params);
+        $arr    = $this->database->queryParams($query, $params);
         if (count($arr) === 0) {
             throw new NoSuchEntityException('row with id ' . $id
-                . ' do not present in the ' . $this->table . ' table');
+            . ' do not present in the ' . $this->table . ' table');
         }
         $row = $arr[0];
 
@@ -86,7 +90,7 @@ class Repository implements RepositoryInterface
         $entities = [];
 
         $query = 'SELECT ' . $this->table . '.* FROM ' . $this->table . ' ' . $expression;
-        $arr = $this->database->queryParams($query, $params);
+        $arr   = $this->database->queryParams($query, $params);
         foreach ($arr as $row) {
             $entities[] = $this->createFromRow($row);
         }
@@ -96,16 +100,16 @@ class Repository implements RepositoryInterface
 
     public function save(ModelInterface $model): ModelInterface
     {
-        $fields = [];
-        $params = [];
+        $fields  = [];
+        $params  = [];
         $counter = 0;
         foreach ($model->getAllData() as $key => $value) {
             $counter++;
             $fields[] = $key . ' = $' . $counter;
             $params[] = $value;
         }
-        $query = 'UPDATE ' . $this->table . ' SET ' . implode(', ', $fields)
-            . ' WHERE ' . $this->primaryFieldName . ' = $' . ++$counter . ' RETURNING *';
+        $query    = 'UPDATE ' . $this->table . ' SET ' . implode(', ', $fields)
+        . ' WHERE ' . $this->primaryFieldName . ' = $' . ++$counter . ' RETURNING *';
         $params[] = $model->getData($this->primaryFieldName);
         try {
             $arr = $this->database->queryParams($query, $params);
@@ -120,7 +124,6 @@ class Repository implements RepositoryInterface
      *  Create an entity from provided row
      *
      * @param array<string,string> $row
-     * @return ModelInterface
      */
     protected function createFromRow(array $row): ModelInterface
     {
@@ -131,5 +134,4 @@ class Repository implements RepositoryInterface
 
         return $entity;
     }
-
 }

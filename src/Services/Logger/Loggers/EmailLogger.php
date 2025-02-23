@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Logger\Loggers;
 
-use Romchik38\Server\Services\Logger\Logger;
-use Psr\Log\LoggerInterface;
+use DateTime;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Models\DTO\Email\EmailDTOFactoryInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Romchik38\Server\Api\Services\MailerInterface;
 use Romchik38\Server\Services\Errors\CantSendEmailException;
+use Romchik38\Server\Services\Logger\Logger;
+
+use function count;
+use function implode;
+use function phpversion;
 
 class EmailLogger extends Logger
 {
@@ -37,26 +41,25 @@ class EmailLogger extends Logger
         }
 
         // write
-        $writeErrors = [];
+        $writeErrors    = [];
         $messagesToSent = [];
-        $date = new \DateTime();
-        $dateString = $date->format(LoggerServerInterface::DATE_TIME_FORMAT);
+        $date           = new DateTime();
+        $dateString     = $date->format(LoggerServerInterface::DATE_TIME_FORMAT);
         foreach ($this->messages as $item) {
             [$level, $message] = $item;
 
             $messagesToSent[] = '<p>Date: ' . $dateString . '</p><p>Level: '
                 . $level . '</p><p>Message: ' . $message . '</p>';
-
         }
 
         $subject = 'Log message';
 
-        $headers = array(
-            'From' => $this->sender,
-            'Reply-To' => $this->sender,
+        $headers = [
+            'From'         => $this->sender,
+            'Reply-To'     => $this->sender,
             'Content-type' => 'text/html',
-            'X-Mailer' => 'PHP/' . phpversion()
-        );
+            'X-Mailer'     => 'PHP/' . phpversion(),
+        ];
 
         $emailDTO = $this->emailDTOFactory->create(
             $this->recipient,
@@ -65,7 +68,7 @@ class EmailLogger extends Logger
             $headers
         );
 
-        // send 
+        // send
         try {
             $this->mailer->send($emailDTO);
         } catch (CantSendEmailException $e) {
@@ -75,7 +78,7 @@ class EmailLogger extends Logger
         if (count($writeErrors) > 0) {
             // log error to alternative logger
             if ($this->alternativeLogger) {
-                $this->alternativeLogger->log(LogLevel::ALERT, EmailLogger::class . ' - some logs did not send');
+                $this->alternativeLogger->log(LogLevel::ALERT, self::class . ' - some logs did not send');
                 $this->sendAllToalternativeLog($writeErrors);
             }
         }

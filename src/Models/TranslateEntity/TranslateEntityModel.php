@@ -11,7 +11,7 @@ class TranslateEntityModel extends Model implements TranslateEntityModelInterfac
 {
     public function getId(): int
     {
-        return (int)$this->getData(TranslateEntityModelInterface::ID_FIELD);
+        return (int) $this->getData(TranslateEntityModelInterface::ID_FIELD);
     }
 
     public function getKey(): string

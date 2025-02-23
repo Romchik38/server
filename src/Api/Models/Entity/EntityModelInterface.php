@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Models\Entity;
 
-interface EntityModelInterface {
-    /** 
-     * FIELDS 
+interface EntityModelInterface
+{
+    /**
+     * FIELDS
+     *
      * @return array<string,mixed>
-    */
+     */
     public function getFieldsData(): array;
 
     /** ENTITY */
@@ -16,7 +18,7 @@ interface EntityModelInterface {
 
     public function setEntityData(string $key, mixed $value): EntityModelInterface;
 
-    /** 
+    /**
      * @return array<string,mixed>
      */
     public function getAllEntityData(): array;

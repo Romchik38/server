@@ -10,9 +10,14 @@ use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 use Romchik38\Server\Services\Errors\CantCreateControllerTreeElement;
 
+use function array_search;
+use function array_unshift;
+use function count;
+use function sprintf;
+
 class ControllerTree implements ControllerTreeInterface
 {
-    /** 
+    /**
      * Creates a line from current controller to root parent, without all children.
      */
     public function getOnlyLineRootControllerDTO(ControllerInterface $controller, string $action): ControllerDTOInterface
@@ -23,11 +28,10 @@ class ControllerTree implements ControllerTreeInterface
     public function getRootControllerDTO(ControllerInterface $controller): ControllerDTOInterface
     {
         $first = $this->getFirst($controller);
-        $ControllerDTO = $this->createElement($first);
-        return $ControllerDTO;
+        return $this->createElement($first);
     }
 
-    /** 
+    /**
      * used in getOnlyLineRootControllerDTO
      */
     protected function createItem(ControllerDTOInterface|null $child, ControllerInterface $controller, string $action = ''): ControllerDTOInterface
@@ -35,7 +39,7 @@ class ControllerTree implements ControllerTreeInterface
         /** Case 1 - default */
         /** Case 2 - dynamic */
         $current = $controller;
-        $path = [];
+        $path    = [];
         while ($current->getCurrentParent() !== null) {
             $parent = $current->getCurrentParent();
             array_unshift($path, $parent->getName());
@@ -43,12 +47,12 @@ class ControllerTree implements ControllerTreeInterface
         }
 
         if ($action !== '') {
-            $name = $action;
+            $name        = $action;
             $description = $controller->getDescription($action);
-            if($description === '') {
+            if ($description === '') {
                 $description = $name;
             }
-            $path[] = $controller->getName();
+            $path[]  = $controller->getName();
             $element = new ControllerDTO(
                 $name,
                 $path,
@@ -59,20 +63,20 @@ class ControllerTree implements ControllerTreeInterface
             return $this->createItem($element, $controller);
         }
 
-        $name = $controller->getName();
+        $name        = $controller->getName();
         $description = $controller->getDescription();
-        if($description === '') {
+        if ($description === '') {
             $description = $name;
         }
         if ($child !== null) {
-            $element =  new ControllerDTO(
+            $element = new ControllerDTO(
                 $name,
                 $path,
                 [$child],
                 $description
             );
         } else {
-            $element =  new ControllerDTO(
+            $element = new ControllerDTO(
                 $name,
                 $path,
                 [],
@@ -87,27 +91,27 @@ class ControllerTree implements ControllerTreeInterface
         }
     }
 
-    /** 
+    /**
      * Used in getRootControllerDTO
+     *
      * @param array<int,string> $parrentPath
      */
     protected function createElement(
-        ControllerInterface $element, 
-        string $parentName = '', 
+        ControllerInterface $element,
+        string $parentName = '',
         array $parrentPath = []
-    ): ControllerDTOInterface
-    {
+    ): ControllerDTOInterface {
         if ($element->isPublic() === false) {
             throw new CantCreateControllerTreeElement(
                 sprintf('Element %s is not public', $element->getName())
             );
         }
 
-        $rowPath = $parrentPath;
+        $rowPath  = $parrentPath;
         $children = $element->getChildren();
 
         $description = $element->getDescription();
-        if($description === '') {
+        if ($description === '') {
             $description = $element->getName();
         }
 
@@ -122,18 +126,17 @@ class ControllerTree implements ControllerTreeInterface
             $allChi = $this->addDynamicChildren($element, [], [], $lastPath);
 
             /** create DTO */
-            $lastElement = new ControllerDTO(
+            return new ControllerDTO(
                 $element->getName(),
                 $lastPath,
                 $allChi,
                 $description
             );
-            return $lastElement;
         }
 
         /** Case 2 - has children */
         $elementName = $element->getName();
-        $rowChi = [];
+        $rowChi      = [];
         if ($parentName !== '') {
             array_unshift($rowPath, $parentName);
         }
@@ -141,7 +144,7 @@ class ControllerTree implements ControllerTreeInterface
         foreach ($children as $child) {
             $childrenNames[] = $child->getName();
             try {
-                $rowElem = $this->createElement($child, $elementName, $rowPath);
+                $rowElem  = $this->createElement($child, $elementName, $rowPath);
                 $rowChi[] = $rowElem;
             } catch (CantCreateControllerTreeElement $e) {
                 continue;
@@ -150,12 +153,12 @@ class ControllerTree implements ControllerTreeInterface
 
         $allChi = $this->addDynamicChildren($element, $childrenNames, $rowChi, $rowPath);
 
-        $row = new ControllerDTO($elementName, $rowPath, $allChi, $description);
-        return $row;
+        return new ControllerDTO($elementName, $rowPath, $allChi, $description);
     }
 
-    /** 
+    /**
      * Used in getRootControllerDTO
+     *
      * @param array<int,string> $childrenNames
      * @param array<int,ControllerDTOInterface> $rowChi
      * @param array<int,string> $rowPath
@@ -167,7 +170,7 @@ class ControllerTree implements ControllerTreeInterface
         array $rowChi,
         array $rowPath
     ): array {
-        $allChi = $rowChi;
+        $allChi           = $rowChi;
         $dynamicRouteDTOs = $element->getDynamicRoutes();
         foreach ($dynamicRouteDTOs as $dto) {
             $dynamicRoute = $dto->name();
@@ -175,31 +178,31 @@ class ControllerTree implements ControllerTreeInterface
             if (array_search($dynamicRoute, $childrenNames) !== false) {
                 continue;
             }
-            $dynElemPath = $rowPath;
-            $dynElemPath[] = $element->getName();
+            $dynElemPath    = $rowPath;
+            $dynElemPath[]  = $element->getName();
             $rowDynamicElem = new ControllerDTO(
                 $dynamicRoute,
                 $dynElemPath,
                 [],
                 $dto->description()
             );
-            $allChi[] = $rowDynamicElem;
+            $allChi[]       = $rowDynamicElem;
         }
         return $allChi;
     }
 
-    /** 
+    /**
      * returns the first root element with all tree
      */
     protected function getFirst(ControllerInterface $controller): ControllerInterface
     {
-        $stop = false;
+        $stop    = false;
         $current = $controller;
         while ($stop === false) {
-            $stop = true;
+            $stop   = true;
             $parent = $current->getCurrentParent();
             if ($parent !== null) {
-                $stop = false;
+                $stop    = false;
                 $current = $parent;
             }
         }

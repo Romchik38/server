@@ -10,7 +10,6 @@ use Romchik38\Server\Models\DTO\Email\EmailDTO;
 
 class EmailDTOFactory implements EmailDTOFactoryInterface
 {
-
     public function create(
         string $emailAddress,
         string $subject,

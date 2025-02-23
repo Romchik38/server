@@ -11,9 +11,13 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
+use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+
+use function count;
+use function explode;
+use function is_null;
 
 class PlasticineRouter implements HttpRouterInterface
 {
@@ -30,14 +34,14 @@ class PlasticineRouter implements HttpRouterInterface
 
     public function execute(): ResponseInterface
     {
-        $uri = $this->request->getUri();
+        $uri    = $this->request->getUri();
         $method = $this->request->getMethod();
-        $host = $uri->getHost();
+        $host   = $uri->getHost();
         $scheme = $uri->getScheme();
-        $path = $uri->getPath();
-        [$url] = explode('?', $path);
+        $path   = $uri->getPath();
+        [$url]  = explode('?', $path);
 
-        // 1. method check 
+        // 1. method check
         $rootController = $this->controllersCollection->getController($method);
         if (is_null($rootController)) {
             return $this->methodNotAllowed($this->controllersCollection->getMethods());
@@ -82,13 +86,11 @@ class PlasticineRouter implements HttpRouterInterface
      * Set a redirect to the same site with founded url and status code
      */
     protected function redirect(
-        string $url, 
+        string $url,
         RedirectResultDTOInterface $redirectResult
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $statusCode = $redirectResult->getStatusCode();
-        $response = ($this->responseFactory->createResponse($statusCode))
+        return ($this->responseFactory->createResponse($statusCode))
             ->withHeader('Location', $url);
-        return  $response;
     }
 }

@@ -7,6 +7,8 @@ namespace Romchik38\Server\Models\DTO\DynamicRoute;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
+use function strlen;
+
 final class DynamicRouteDTO implements DynamicRouteDTOInterface
 {
     /** @throws InvalidArgumentException Params can't be empty */

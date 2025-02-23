@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Errors;
 
-class NoSuchEntityException extends \RuntimeException {
+use RuntimeException;
 
+class NoSuchEntityException extends RuntimeException
+{
 }

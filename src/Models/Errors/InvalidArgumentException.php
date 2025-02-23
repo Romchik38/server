@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Romchik38\Server\Models\Errors;
 
 use RuntimeException;
 
-class InvalidArgumentException extends RuntimeException {}
+class InvalidArgumentException extends RuntimeException
+{
+}

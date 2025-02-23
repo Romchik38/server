@@ -17,8 +17,8 @@ class ControllerResult extends DTO implements ControllerResultInterface
         string $type
     ) {
         $this->data[ControllerResultInterface::RESPONSE_FIELD] = $response;
-        $this->data[ControllerResultInterface::PATH_FIELD] = $path;
-        $this->data[ControllerResultInterface::TYPE_FIELD] = $type;
+        $this->data[ControllerResultInterface::PATH_FIELD]     = $path;
+        $this->data[ControllerResultInterface::TYPE_FIELD]     = $type;
     }
 
     public function getResponse(): ResponseInterface

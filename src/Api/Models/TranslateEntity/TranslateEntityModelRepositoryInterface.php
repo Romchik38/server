@@ -8,18 +8,17 @@ use Romchik38\Server\Api\Models\RepositoryInterface;
 
 interface TranslateEntityModelRepositoryInterface extends RepositoryInterface
 {
-
     /**
      * Get a list of the translate entities by provided languages
-     * 
+     *
      * @param string[] $languages a list of languages
-     * @return TranslateEntityModelInterface[] 
+     * @return TranslateEntityModelInterface[]
      */
     public function getListByLanguages(array $languages): array;
 
     /**
      * Get entities by provided key
-     * 
+     *
      * @return TranslateEntityModelInterface[]
      */
     public function getByKey(string $key): array;

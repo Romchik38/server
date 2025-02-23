@@ -23,5 +23,4 @@ class BreadcrumbDTO extends LinkDTO implements BreadcrumbDTOInterface
     {
         return $this->data[BreadcrumbDTOInterface::PREV_FIELD];
     }
-
 }

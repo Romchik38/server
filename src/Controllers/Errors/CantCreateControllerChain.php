@@ -6,4 +6,6 @@ namespace Romchik38\Server\Controllers\Errors;
 
 use RuntimeException;
 
-class CantCreateControllerChain extends RuntimeException {}
+class CantCreateControllerChain extends RuntimeException
+{
+}

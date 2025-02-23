@@ -6,6 +6,7 @@ namespace Romchik38\Server\Api\Models\Entity;
 
 use Romchik38\Server\Api\Models\Entity\EntityModelInterface;
 
-interface EntityFactoryInterface {
+interface EntityFactoryInterface
+{
     public function create(): EntityModelInterface;
 }

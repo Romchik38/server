@@ -4,40 +4,41 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\DTO\Email;
 
-use Romchik38\Server\Models\DTO;
 use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
+use Romchik38\Server\Models\DTO;
 
 class EmailDTO extends DTO implements EmailDTOInterface
 {
-
     /** @param array<string,string> $headers */
     public function __construct(
         string $emailAddress,
         string $subject,
         string $message,
         array $headers
-    )
-    {
-        $this->data[$this::EMAIL] = $emailAddress;
+    ) {
+        $this->data[$this::EMAIL]   = $emailAddress;
         $this->data[$this::SUBJECT] = $subject;
         $this->data[$this::MESSAGE] = $message;
         $this->data[$this::HEADERS] = $headers;
     }
 
-    public function getEmailAddress(): string {
+    public function getEmailAddress(): string
+    {
         return $this->data[$this::EMAIL];
     }
 
-    public function getSubject(): string {
+    public function getSubject(): string
+    {
         return $this->data[$this::SUBJECT];
     }
 
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         return $this->data[$this::MESSAGE];
     }
 
-    public function getHeaders(): array {
+    public function getHeaders(): array
+    {
         return $this->data[$this::HEADERS];
     }
-    
 }

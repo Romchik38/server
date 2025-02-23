@@ -17,9 +17,16 @@ use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 
+use function array_push;
+use function array_shift;
+use function array_unshift;
+use function count;
+use function sprintf;
+use function strlen;
+
 /**
  * Controller tasks:
- * 
+ *
  *   0 - the path does not match with controller path
  *      0.1 - throw NotFoundException
  *   1  the path equal with controller path
@@ -27,7 +34,7 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
  *          - transfer control to next controller
  *      1.2 - if there is no next controller
  *          1.2.1 - execute action if dynamic not present
- *              1.2.1.1 - if action present 
+ *              1.2.1.1 - if action present
  *                  1.2.1.1.1 - execute
  *                      1.2.1.1.1.1 - return result
  *                      1.2.1.1.1.2 - catch NotFound Action Error and throw own
@@ -40,7 +47,7 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
  *                  1.2.1.2.1 - throw NotFoundException
  *              1.2.1.3 - dynamic action present, but we have at least one more next control element in the path
  *                  1.2.1.3.1 - throw NotFoundException
- *          1.2.3 - if dynamic action not present 
+ *          1.2.3 - if dynamic action not present
  *              1.2.3.1 - throw NotFoundException
  */
 class Controller implements ControllerInterface
@@ -73,8 +80,8 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    /** 
-     * @todo test 
+    /**
+     * @todo test
      * */
     public function execute(array $elements): ControllerResultInterface
     {
@@ -124,7 +131,7 @@ class Controller implements ControllerInterface
                         }
                     }
 
-                    // 1.2.1.3.1 - throw NotFoundException                
+                    // 1.2.1.3.1 - throw NotFoundException
                     throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                 }
             }

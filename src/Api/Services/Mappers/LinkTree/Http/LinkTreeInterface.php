@@ -9,7 +9,6 @@ use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 
 /**
  * Creates LinkTreeDTO
- * @api
  */
 interface LinkTreeInterface
 {
