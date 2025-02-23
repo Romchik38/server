@@ -8,7 +8,7 @@ use DateTime;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Services\Loggers\FileLoggerInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
-use Romchik38\Server\Services\Logger\Logger;
+use Romchik38\Server\Services\Logger\AbstractLogger;
 
 use function count;
 use function fclose;
@@ -17,7 +17,7 @@ use function fwrite;
 
 use const PHP_EOL;
 
-class FileLogger extends Logger implements FileLoggerInterface
+class FileLogger extends AbstractLogger implements FileLoggerInterface
 {
     protected readonly string $fullFilePath;
 

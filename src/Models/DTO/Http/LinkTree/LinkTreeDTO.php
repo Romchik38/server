@@ -20,7 +20,7 @@ class LinkTreeDTO extends LinkDTO implements LinkTreeDTOInterface
      * @param string $description link description lide 'Product catalog 2024'
      * @param string $url link url like /products
      * @param LinkTreeDTOInterface[] $children Sublinks
-     * @throws InvalidArgumentException name, description and url length must be greater than 0
+     * @throws InvalidArgumentException - Name, description and url length must be greater than 0.
      */
     public function __construct(
         string $name,

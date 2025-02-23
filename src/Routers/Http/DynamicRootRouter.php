@@ -15,7 +15,7 @@ use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Routers\Errors\RouterProccessError;
+use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
 
 use function array_search;
 use function array_shift;
@@ -115,7 +115,7 @@ class DynamicRootRouter implements HttpRouterInterface
          */
         $isSetCurrentRoot = $this->dynamicRootService->setCurrentRoot($rootName);
         if ($isSetCurrentRoot === false) {
-            throw new RouterProccessError('Can\'t set current dynamic root with name: ' . $rootName);
+            throw new RouterProccessErrorException('Can\'t set current dynamic root with name: ' . $rootName);
         }
 
         /**

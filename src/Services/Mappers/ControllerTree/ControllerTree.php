@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
-use Romchik38\Server\Services\Errors\CantCreateControllerTreeElement;
+use Romchik38\Server\Services\Errors\CantCreateControllerTreeElementException;
 
 use function array_search;
 use function array_unshift;
@@ -107,7 +107,7 @@ class ControllerTree implements ControllerTreeInterface
         array $parrentPath = []
     ): ControllerDTOInterface {
         if ($element->isPublic() === false) {
-            throw new CantCreateControllerTreeElement(
+            throw new CantCreateControllerTreeElementException(
                 sprintf('Element %s is not public', $element->getName())
             );
         }
@@ -151,7 +151,7 @@ class ControllerTree implements ControllerTreeInterface
             try {
                 $rowElem  = $this->createElement($child, $elementName, $rowPath);
                 $rowChi[] = $rowElem;
-            } catch (CantCreateControllerTreeElement $e) {
+            } catch (CantCreateControllerTreeElementException $e) {
                 continue;
             }
         }

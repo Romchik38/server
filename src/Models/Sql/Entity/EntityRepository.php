@@ -12,7 +12,7 @@ use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryExeption;
+use Romchik38\Server\Models\Errors\QueryException;
 
 use function count;
 use function implode;
@@ -70,7 +70,7 @@ class EntityRepository implements EntityRepositoryInterface
             // @throws CouldNotAddException
             $fieldsRow = $this->insertFields($fields, $entityId);
             return $this->createFromRow($entityRow, $fieldsRow);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotAddException($e->getMessage());
         }
     }
@@ -106,7 +106,7 @@ class EntityRepository implements EntityRepositoryInterface
         . $this->primaryEntityFieldName . ' = $1';
         try {
             $this->database->queryParams($query, [$id]);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotDeleteException($e->getMessage());
         }
     }
@@ -133,7 +133,7 @@ class EntityRepository implements EntityRepositoryInterface
         try {
             $this->database->queryParams($query, $params);
             return $this->getById($entityId);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotDeleteException($e->getMessage());
         }
     }
@@ -245,12 +245,12 @@ class EntityRepository implements EntityRepositoryInterface
 
             try {
                 $fieldsRow = $this->database->queryParams($query2, $params2);
-            } catch (QueryExeption $e) {
+            } catch (QueryException $e) {
                 throw new CouldNotSaveException($e->getMessage());
             }
             // 3 return saved entity
             return $this->createFromRow($entityRow, $fieldsRow);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
     }
@@ -319,7 +319,7 @@ class EntityRepository implements EntityRepositoryInterface
 
         try {
             return $this->database->queryParams($query, $params);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotAddException($e->getMessage());
         }
     }

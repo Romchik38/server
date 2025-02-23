@@ -24,7 +24,7 @@ class Redirect implements RedirectInterface
 
     public function __construct(
         protected readonly RedirectRepositoryInterface $redirectRepository,
-        protected readonly RedirectResultDTOFactoryInterface $redirectResultDTOFactory,
+        protected readonly RedirectResultDTOFactoryInterface $redirectResultDtoFactory,
         ServerRequestInterface $request
     ) {
         $uri    = $request->getUri();
@@ -51,7 +51,7 @@ class Redirect implements RedirectInterface
                 . $this->host
                 . $redirectUrl->getRedirectTo();
 
-            return $this->redirectResultDTOFactory->create(
+            return $this->redirectResultDtoFactory->create(
                 $uri,
                 $redirectUrl->getRedirectCode()
             );

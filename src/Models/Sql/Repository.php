@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Sql;
 
-use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Api\Models\DatabaseInterface;
-use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
+use Romchik38\Server\Api\Models\ModelInterface;
+use Romchik38\Server\Api\Models\RepositoryInterface;
+use Romchik38\Server\Models\Errors\CouldNotAddException;
+use Romchik38\Server\Models\Errors\CouldNotDeleteException;
+use Romchik38\Server\Models\Errors\CouldNotSaveException;
+use Romchik38\Server\Models\Errors\NoSuchEntityException;
+use Romchik38\Server\Models\Errors\QueryException;
 
-use function implode;
 use function count;
-
-use Romchik38\Server\Models\Errors\{
-    NoSuchEntityException,
-    CouldNotDeleteException,
-    CouldNotSaveException,
-    QueryExeption,
-    CouldNotAddException
-};
+use function implode;
 
 class Repository implements RepositoryInterface
 {
@@ -49,7 +46,7 @@ class Repository implements RepositoryInterface
             $arr = $this->database->queryParams($query, $values);
             $row = $arr[0];
             return $this->createFromRow($row);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotAddException($e->getMessage());
         }
     }
@@ -59,18 +56,18 @@ class Repository implements RepositoryInterface
         return $this->modelFactory->create();
     }
 
-    public function deleteById($id): void
+    public function deleteById(int|string $id): void
     {
         $query = 'DELETE FROM ' . $this->table . ' WHERE '
         . $this->primaryFieldName . ' = $1';
         try {
             $this->database->queryParams($query, [$id]);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotDeleteException($e->getMessage());
         }
     }
 
-    public function getById($id): ModelInterface
+    public function getById(int|string $id): ModelInterface
     {
         $query  = 'SELECT ' . $this->table . '.* FROM ' . $this->table
         . ' WHERE ' . $this->primaryFieldName . ' = $1';
@@ -115,7 +112,7 @@ class Repository implements RepositoryInterface
             $arr = $this->database->queryParams($query, $params);
             $row = $arr[0];
             return $this->createFromRow($row);
-        } catch (QueryExeption $e) {
+        } catch (QueryException $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
     }

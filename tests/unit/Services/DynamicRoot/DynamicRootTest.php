@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
-use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootError;
+use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
 
 class DynamicRootTest extends TestCase
 {
@@ -127,7 +127,7 @@ class DynamicRootTest extends TestCase
                 $thirdDTO,
             );
 
-        $this->expectException(EarlyAccessToCurrentRootError::class);
+        $this->expectException(EarlyAccessToCurrentRootErrorException::class);
 
         $DynamicRoot = new DynamicRoot($default, $list, $this->DynamicRootDTOFactory);
         $DynamicRoot->getCurrentRoot();

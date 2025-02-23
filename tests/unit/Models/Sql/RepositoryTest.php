@@ -8,7 +8,7 @@ use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryExeption;
+use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Model;
 use Romchik38\Server\Models\Sql\Repository;
 use Romchik38\Server\Models\Sql\DatabasePostgresql;
@@ -86,7 +86,7 @@ class RepositoryTest extends TestCase
      */
     public function testAddThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryExeption());
+        $this->database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotAddException::class);
 
@@ -147,7 +147,7 @@ class RepositoryTest extends TestCase
      */
     public function testDeleteByIdThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryExeption());
+        $this->database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotDeleteException::class);
         $repository = $this->createRepository();
@@ -316,7 +316,7 @@ class RepositoryTest extends TestCase
      */
     public function testSaveThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryExeption());
+        $this->database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotSaveException::class);
 

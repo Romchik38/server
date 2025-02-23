@@ -19,10 +19,9 @@ interface RepositoryInterface
     /**
      * Find an entity by provided id
      *
-     * @param mixed $id [Entity Primary key]
      * @throws NoSuchEntityException
      */
-    public function getById($id): ModelInterface;
+    public function getById(int|string $id): ModelInterface;
 
     /**
      * Returns a list of the Models
@@ -41,10 +40,9 @@ interface RepositoryInterface
     /**
      * Delete a row from the table
      *
-     * @param mixed $id [PRIMARY KEY of the table]
      * @throws CouldNotDeleteException
      */
-    public function deleteById($id): void;
+    public function deleteById(int|string $id): void;
 
     /**
      * Update an existing model

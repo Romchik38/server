@@ -23,9 +23,16 @@
   - `CannotCreateMetadataError` to `CannotCreateMetadataErrorException`
   - `CantCreateControllerTreeElement` to `CantCreateControllerTreeElementException`
   - `RouterProccessError` to `RouterProccessErrorException`
+  - `Logger` to `AbstractLogger`
+  - `EarlyAccessToCurrentRootError` to `EarlyAccessToCurrentRootErrorException`
+  - `QueryExeption` to `QueryException`
   - `` to ``
   - `` to ``
-
+  - `` to ``
+  - `` to ``
+  - `` to ``
+  - `` to ``
+- `Repository` changed type of `$id` param from `mixed` to `int|string`
 
 ## v1.14.0
 

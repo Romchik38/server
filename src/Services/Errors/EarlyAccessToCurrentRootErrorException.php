@@ -6,6 +6,6 @@ namespace Romchik38\Server\Services\Errors;
 
 use RuntimeException;
 
-class EarlyAccessToCurrentRootError extends RuntimeException
+class EarlyAccessToCurrentRootErrorException extends RuntimeException
 {
 }

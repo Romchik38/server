@@ -10,18 +10,18 @@ use Romchik38\Server\Api\Models\DTO\Email\EmailDTOFactoryInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Romchik38\Server\Api\Services\MailerInterface;
 use Romchik38\Server\Services\Errors\CantSendEmailException;
-use Romchik38\Server\Services\Logger\Logger;
+use Romchik38\Server\Services\Logger\AbstractLogger;
 
 use function count;
 use function implode;
 use function phpversion;
 
-class EmailLogger extends Logger
+class EmailLogger extends AbstractLogger
 {
     public function __construct(
         int $logLevel,
         protected MailerInterface $mailer,
-        protected EmailDTOFactoryInterface $emailDTOFactory,
+        protected EmailDTOFactoryInterface $emailDtoFactory,
         protected string $recipient,
         protected string $sender,
         protected LoggerServerInterface|null $alternativeLogger = null,
@@ -61,7 +61,7 @@ class EmailLogger extends Logger
             'X-Mailer'     => 'PHP/' . phpversion(),
         ];
 
-        $emailDTO = $this->emailDTOFactory->create(
+        $emailDto = $this->emailDtoFactory->create(
             $this->recipient,
             $subject,
             implode("<br><br>", $messagesToSent),
@@ -70,7 +70,7 @@ class EmailLogger extends Logger
 
         // send
         try {
-            $this->mailer->send($emailDTO);
+            $this->mailer->send($emailDto);
         } catch (CantSendEmailException $e) {
             $writeErrors[] = $item;
         }

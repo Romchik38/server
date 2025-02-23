@@ -15,15 +15,15 @@ class PhpMail implements MailerInterface
     /**
      * Send an email
      *
-     * @throws CantSendEmailException [if result is false]
+     * @throws CantSendEmailException - If result is false.
      */
-    public function send(EmailDTOInterface $emailDTO): void
+    public function send(EmailDTOInterface $emailDto): void
     {
         $result = mail(
-            $emailDTO->getEmailAddress(),
-            $emailDTO->getSubject(),
-            $emailDTO->getMessage(),
-            $emailDTO->getHeaders()
+            $emailDto->getEmailAddress(),
+            $emailDto->getSubject(),
+            $emailDto->getMessage(),
+            $emailDto->getHeaders()
         );
 
         if ($result === false) {

@@ -7,7 +7,7 @@ use Romchik38\Server\Models\Sql\Entity\EntityRepository;
 use Romchik38\Server\Models\Sql\DatabasePostgresql;
 use Romchik38\Server\Models\EntityFactory;
 use Romchik38\Server\Models\EntityModel;
-use Romchik38\Server\Models\Errors\QueryExeption;
+use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
@@ -109,7 +109,7 @@ class EntityRepositoryTest extends TestCase
         $entity->email_contact_recovery = 'some@email';
 
         $this->factory->method('create')->willReturn(new EntityModel());
-        $this->database->method('queryParams')->willThrowException(new QueryExeption('some database error'));
+        $this->database->method('queryParams')->willThrowException(new QueryException('some database error'));
         $this->expectException(CouldNotAddException::class);
 
         $repository->add($entity);
@@ -165,7 +165,7 @@ class EntityRepositoryTest extends TestCase
     public function testDeleteById(){
         $repository = $this->createRepository();
 
-        $this->database->method('queryParams')->willThrowException(new QueryExeption('some database error'));
+        $this->database->method('queryParams')->willThrowException(new QueryException('some database error'));
         $this->expectException(CouldNotDeleteException::class);
 
         $repository->deleteById(1);

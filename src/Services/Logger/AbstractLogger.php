@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Logger;
 
-use Psr\Log\AbstractLogger;
+use Psr\Log\AbstractLogger as PsrAbstractLogger;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Stringable;
@@ -14,7 +14,7 @@ use function is_object;
 use function method_exists;
 use function strtr;
 
-abstract class Logger extends AbstractLogger implements LoggerServerInterface
+abstract class AbstractLogger extends PsrAbstractLogger implements LoggerServerInterface
 {
     /** @var array <int,array<int,string>> $messages */
     protected array $messages = [];
@@ -37,6 +37,9 @@ abstract class Logger extends AbstractLogger implements LoggerServerInterface
         LogLevel::DEBUG     => 7, //       Debug: debug-level messages
     ];
 
+    /**
+     * @param mixed $level
+     */
     public function log($level, string|Stringable $message, array $context = []): void
     {
         if ($this->logLevel < $this->levels[$level]) {

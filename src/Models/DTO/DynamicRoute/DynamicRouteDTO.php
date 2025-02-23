@@ -11,7 +11,7 @@ use function strlen;
 
 final class DynamicRouteDTO implements DynamicRouteDTOInterface
 {
-    /** @throws InvalidArgumentException Params can't be empty */
+    /** @throws InvalidArgumentException - Params can't be empty. */
     public function __construct(
         protected readonly string $name,
         protected readonly string $description,

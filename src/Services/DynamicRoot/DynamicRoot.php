@@ -7,7 +7,7 @@ namespace Romchik38\Server\Services\DynamicRoot;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootError;
+use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
 
 class DynamicRoot implements DynamicRootInterface
 {
@@ -54,7 +54,7 @@ class DynamicRoot implements DynamicRootInterface
     public function getCurrentRoot(): DynamicRootDTOInterface
     {
         if ($this->currentRoot === null) {
-            throw new EarlyAccessToCurrentRootError('Current dynamic root does\'t setted up');
+            throw new EarlyAccessToCurrentRootErrorException('Current dynamic root does\'t setted up');
         }
         return $this->currentRoot;
     }

@@ -14,7 +14,7 @@ use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Routers\Errors\RouterProccessError;
+use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\ControllerResult;
@@ -220,7 +220,7 @@ class DynamicRootRouterTest extends TestCase
         $this->dynamicRootService->expects($this->once())->method('setCurrentRoot')
             ->with('en')->willReturn(false);
 
-        $this->expectException(RouterProccessError::class);
+        $this->expectException(RouterProccessErrorException::class);
 
         $this->controllersCollection->method('getController')
             ->willReturn(new Controller('some_name'));
