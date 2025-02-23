@@ -17,7 +17,6 @@ use Romchik38\Server\Controllers\Errors\NotFoundException;
 
 use function count;
 use function explode;
-use function is_null;
 
 class PlasticineRouter implements HttpRouterInterface
 {
@@ -43,7 +42,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 1. method check
         $rootController = $this->controllersCollection->getController($method);
-        if (is_null($rootController)) {
+        if ($rootController === null) {
             return $this->methodNotAllowed($this->controllersCollection->getMethods());
         }
 

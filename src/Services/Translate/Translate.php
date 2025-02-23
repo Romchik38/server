@@ -29,7 +29,8 @@ class Translate implements TranslateInterface
 {
     protected string $defaultLang;
     protected string $currentLang;
-    protected string $formatErrorMessage    = 'Translation for string %s is missing. Please create it for default %s language first';
+    protected string $formatErrorMessage    =
+        'Translation for string %s is missing. Please create it for default %s language first';
     protected string $formatErrorDefaultVal = 'Default value for language %s isn\'t set';
 
     /** @var array<string,TranslateEntityDTOInterface>|null $hash */
@@ -37,11 +38,11 @@ class Translate implements TranslateInterface
 
     public function __construct(
         protected readonly TranslateStorageInterface $translateStorage,
-        protected readonly DynamicRootInterface $DynamicRoot,
+        protected readonly DynamicRootInterface $dynamicRoot,
         protected readonly LoggerInterface|null $logger = null,
         protected readonly string $loglevel = LogLevel::DEBUG
     ) {
-        $this->defaultLang = $this->DynamicRoot->getDefaultRoot()->getName();
+        $this->defaultLang = $this->dynamicRoot->getDefaultRoot()->getName();
     }
 
     public function t(string $str): string
@@ -63,16 +64,16 @@ class Translate implements TranslateInterface
 
         /**
          * 3. Check if key exists
-         * @var TranslateEntityDTOInterface $translateDTO*/
-        $translateDTO = $this->hash[$key] ??
+         * @var TranslateEntityDTOInterface $translateDto*/
+        $translateDto = $this->hash[$key] ??
             /** you do not have a translate for given string at all */
             throw new TranslateException(sprintf($this->formatErrorMessage, $key, $this->defaultLang));
 
         /** 4. Check you do not have a translate for given string in default language */
-        $defaultVal = $translateDTO->getPhrase($this->defaultLang) ??
+        $defaultVal = $translateDto->getPhrase($this->defaultLang) ??
             throw new TranslateException(sprintf($this->formatErrorDefaultVal, $this->defaultLang));
 
-        $translated = $translateDTO->getPhrase($language);
+        $translated = $translateDto->getPhrase($language);
 
         /** 5. return by provided language */
         if ($translated !== null) {
@@ -113,6 +114,6 @@ class Translate implements TranslateInterface
 
     protected function setCurrentLanguage(): void
     {
-        $this->currentLang = $this->currentLang ?? $this->DynamicRoot->getCurrentRoot()->getName();
+        $this->currentLang = $this->currentLang ?? $this->dynamicRoot->getCurrentRoot()->getName();
     }
 }

@@ -6,6 +6,6 @@ namespace Romchik38\Server\Config\Errors;
 
 use RuntimeException;
 
-class MissingRequiredParameterInFileError extends RuntimeException
+class MissingRequiredParameterInFileErrorException extends RuntimeException
 {
 }

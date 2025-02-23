@@ -16,6 +16,16 @@
   - `$generateTemplate`
 - [!] removed `CompositeId` models
 - added `phpstan` checks level 8
+- added laminas-coding-standard
+- changed class name:
+  - `MissingRequiredParameterInFile` to `MissingRequiredParameterInFileException`
+  - `View` to `AbstractView`
+  - `CannotCreateMetadataError` to `CannotCreateMetadataErrorException`
+  - `CantCreateControllerTreeElement` to `CantCreateControllerTreeElementException`
+  - `RouterProccessError` to `RouterProccessErrorException`
+  - `` to ``
+  - `` to ``
+
 
 ## v1.14.0
 

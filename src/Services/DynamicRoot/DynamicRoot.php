@@ -21,13 +21,13 @@ class DynamicRoot implements DynamicRootInterface
     public function __construct(
         string $defaultRootName,
         array $rootNamesList,
-        DynamicRootDTOFactoryInterface $DynamicRootDTOFactory
+        DynamicRootDTOFactoryInterface $dynamicRootDtoFactory
     ) {
-        $this->defaultRoot = $DynamicRootDTOFactory->create($defaultRootName);
+        $this->defaultRoot = $dynamicRootDtoFactory->create($defaultRootName);
         $list              = [];
         foreach ($rootNamesList as $rootName) {
-            $rootDTO = $DynamicRootDTOFactory->create($rootName);
-            $list[]  = $rootDTO;
+            $rootDto = $dynamicRootDtoFactory->create($rootName);
+            $list[]  = $rootDto;
         }
         $this->rootList = $list;
     }

@@ -38,6 +38,7 @@ class TempStream implements TempStreamInterface
         }
     }
 
+    /** @param mixed $args */
     public function writeFromCallable(
         callable $fn,
         int $resourceIndex,

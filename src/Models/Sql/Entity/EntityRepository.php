@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Sql\Entity;
 
-use Romchik38\Server\Api\Models\Entity\EntityRepositoryInterface;
 use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Api\Models\Entity\EntityFactoryInterface;
 use Romchik38\Server\Api\Models\Entity\EntityModelInterface;
+use Romchik38\Server\Api\Models\Entity\EntityRepositoryInterface;
+use Romchik38\Server\Models\Errors\CouldNotAddException;
+use Romchik38\Server\Models\Errors\CouldNotDeleteException;
+use Romchik38\Server\Models\Errors\CouldNotSaveException;
+use Romchik38\Server\Models\Errors\NoSuchEntityException;
+use Romchik38\Server\Models\Errors\QueryExeption;
 
 use function count;
 use function implode;
-
-use Romchik38\Server\Models\Errors\{
-    NoSuchEntityException, QueryExeption, CouldNotSaveException,
-    CouldNotDeleteException, CouldNotAddException
-};
 
 class EntityRepository implements EntityRepositoryInterface
 {
@@ -120,7 +120,7 @@ class EntityRepository implements EntityRepositoryInterface
         $params = [];
         foreach ($fields as $field) {
             ++$count;
-            $values[] = $this->entityFieldName . ' = ' . '$' . $count;
+            $values[] = $this->entityFieldName . ' = $' . $count;
             $params[] = $field;
         }
 

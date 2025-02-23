@@ -2,7 +2,7 @@
 
 ## Current
 
-- ? laminas-coding-standard
+- laminas-coding-standard
 
 ## Next
 

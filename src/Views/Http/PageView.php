@@ -6,11 +6,11 @@ namespace Romchik38\Server\Views\Http;
 
 use Closure;
 use Romchik38\Server\Api\Views\Http\HttpViewInterface;
-use Romchik38\Server\Views\View;
+use Romchik38\Server\Views\AbstractView;
 
 use function call_user_func;
 
-class PageView extends View implements HttpViewInterface
+class PageView extends AbstractView implements HttpViewInterface
 {
     /** @var array<string,mixed> $metaData */
     protected array $metaData = [];

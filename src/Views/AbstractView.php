@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 use Romchik38\Server\Api\Views\ViewInterface;
 
-abstract class View implements ViewInterface
+abstract class AbstractView implements ViewInterface
 {
     protected DefaultViewDTOInterface|null $controllerData = null;
     protected ControllerInterface|null $controller         = null;

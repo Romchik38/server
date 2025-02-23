@@ -20,8 +20,10 @@ class ControllerTree implements ControllerTreeInterface
     /**
      * Creates a line from current controller to root parent, without all children.
      */
-    public function getOnlyLineRootControllerDTO(ControllerInterface $controller, string $action): ControllerDTOInterface
-    {
+    public function getOnlyLineRootControllerDTO(
+        ControllerInterface $controller,
+        string $action
+    ): ControllerDTOInterface {
         return $this->createItem(null, $controller, $action);
     }
 
@@ -34,8 +36,11 @@ class ControllerTree implements ControllerTreeInterface
     /**
      * used in getOnlyLineRootControllerDTO
      */
-    protected function createItem(ControllerDTOInterface|null $child, ControllerInterface $controller, string $action = ''): ControllerDTOInterface
-    {
+    protected function createItem(
+        ControllerDTOInterface|null $child,
+        ControllerInterface $controller,
+        string $action = ''
+    ): ControllerDTOInterface {
         /** Case 1 - default */
         /** Case 2 - dynamic */
         $current = $controller;
@@ -171,8 +176,8 @@ class ControllerTree implements ControllerTreeInterface
         array $rowPath
     ): array {
         $allChi           = $rowChi;
-        $dynamicRouteDTOs = $element->getDynamicRoutes();
-        foreach ($dynamicRouteDTOs as $dto) {
+        $dynamicRouteDtos = $element->getDynamicRoutes();
+        foreach ($dynamicRouteDtos as $dto) {
             $dynamicRoute = $dto->name();
             // skip dynamic routes which names equal to children names
             if (array_search($dynamicRoute, $childrenNames) !== false) {

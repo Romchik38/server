@@ -9,6 +9,6 @@ use RuntimeException;
 /**
  * throws during Router execute
  */
-class RouterProccessError extends RuntimeException
+class RouterProccessErrorException extends RuntimeException
 {
 }

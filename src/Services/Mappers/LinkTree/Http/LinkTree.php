@@ -31,14 +31,14 @@ class LinkTree implements LinkTreeInterface
     /**
      * @return LinkTreeDTOInterface Root link with all children tree
      */
-    public function getLinkTreeDTO(ControllerDTOInterface $rootControllerDTO): LinkTreeDTOInterface
+    public function getLinkTreeDTO(ControllerDTOInterface $rootControllerDto): LinkTreeDTOInterface
     {
         /** 1 Set Dynamic root if exist */
         if ($this->dynamicRoot !== null) {
             $this->currentRoot = $this->dynamicRoot->getCurrentRoot()->getName();
         }
 
-        return $this->buildLinkTreeDTOHash($rootControllerDTO);
+        return $this->buildLinkTreeDTOHash($rootControllerDto);
     }
 
     protected function buildLinkTreeDTOHash(ControllerDTOInterface $element): LinkTreeDTOInterface

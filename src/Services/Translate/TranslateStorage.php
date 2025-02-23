@@ -16,7 +16,7 @@ class TranslateStorage implements TranslateStorageInterface
 {
     public function __construct(
         protected readonly TranslateEntityModelRepositoryInterface $translateEntityModelRepository,
-        protected readonly TranslateEntityDTOFactoryInterface $translateEntityDTOFactory
+        protected readonly TranslateEntityDTOFactoryInterface $translateEntityDtoFactory
     ) {
     }
 
@@ -56,7 +56,7 @@ class TranslateStorage implements TranslateStorageInterface
         $hash = [];
 
         foreach ($collection as $itemKey => $languages) {
-            $hash[$itemKey] = $this->translateEntityDTOFactory->create($itemKey, $languages);
+            $hash[$itemKey] = $this->translateEntityDtoFactory->create($itemKey, $languages);
         }
 
         return $hash;

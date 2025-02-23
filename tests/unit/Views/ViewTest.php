@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Views\View;
+use Romchik38\Server\Views\AbstractView as View;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\DefaultView\DefaultViewDTO;
 
