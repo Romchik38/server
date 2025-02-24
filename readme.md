@@ -12,7 +12,6 @@
   - Session
   - Views
     - abstract
-    - json
     - page
     - twig (in progress site2)
   - Server Request (psr-7)

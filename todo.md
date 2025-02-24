@@ -2,12 +2,11 @@
 
 ## Current
 
-- laminas-coding-standard
+- middleware
+  - PSR-15: HTTP
 
 ## Next
 
-- middleware
-  - PSR-15: HTTP
 - Virtual repository
 - dynamic router takes default lang from headers  
 - HEAD method
