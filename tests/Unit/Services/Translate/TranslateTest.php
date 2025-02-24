@@ -16,18 +16,12 @@ use Romchik38\Server\Services\Translate\TranslateStorage;
 
 class TranslateTest extends TestCase
 {
-    protected $dynamicRoot;
-    protected $translateStorage;
-
-    public function setUp(): void
-    {
-        $this->dynamicRoot      = $this->createMock(DynamicRoot::class);
-        $this->translateStorage = $this->createMock(TranslateStorage::class);
-    }
-
     public function testT()
     {
-        $this->translateStorage->method('getDataByLanguages')
+        $dynamicRoot      = $this->createMock(DynamicRoot::class);
+        $translateStorage = $this->createMock(TranslateStorage::class);
+
+        $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
@@ -38,7 +32,7 @@ class TranslateTest extends TestCase
         $dynamicRoot->setCurrentRoot('uk');
 
         $translate = new Translate(
-            $this->translateStorage,
+            $translateStorage,
             $dynamicRoot
         );
 
@@ -47,7 +41,10 @@ class TranslateTest extends TestCase
 
     public function testThrowsErrorBecauseUnknownKey()
     {
-        $this->translateStorage->method('getDataByLanguages')
+        $dynamicRoot      = $this->createMock(DynamicRoot::class);
+        $translateStorage = $this->createMock(TranslateStorage::class);
+
+        $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
@@ -58,10 +55,12 @@ class TranslateTest extends TestCase
         $dynamicRoot->setCurrentRoot('uk');
 
         $this->expectException(TranslateException::class);
-        $this->expectExceptionMessage('Translation for string unknown.key is missing. Please create it for default en language first');
+        $this->expectExceptionMessage(
+            'Translation for string unknown.key is missing. Please create it for default en language first'
+        );
 
         $translate = new Translate(
-            $this->translateStorage,
+            $translateStorage,
             $dynamicRoot
         );
 
@@ -80,7 +79,10 @@ class TranslateTest extends TestCase
      */
     public function testTthrowsErrorBecauseNoDefaultVal()
     {
-        $this->translateStorage->method('getDataByLanguages')
+        $dynamicRoot      = $this->createMock(DynamicRoot::class);
+        $translateStorage = $this->createMock(TranslateStorage::class);
+
+        $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
@@ -94,7 +96,7 @@ class TranslateTest extends TestCase
         $this->expectExceptionMessage('Default value for language gb isn\'t set');
 
         $translate = new Translate(
-            $this->translateStorage,
+            $translateStorage,
             $dynamicRoot
         );
 
@@ -111,7 +113,10 @@ class TranslateTest extends TestCase
      */
     public function testTranslateWithLoggerNoTranslation()
     {
-        $this->translateStorage->method('getDataByLanguages')
+        $dynamicRoot      = $this->createMock(DynamicRoot::class);
+        $translateStorage = $this->createMock(TranslateStorage::class);
+
+        $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
         $dynamicRoot = new DynamicRoot(
@@ -127,7 +132,7 @@ class TranslateTest extends TestCase
         $logger->expects($this->once())->method('log')->with(LogLevel::DEBUG, $logMessage);
 
         $translate = new Translate(
-            $this->translateStorage,
+            $translateStorage,
             $dynamicRoot,
             $logger
         );
@@ -137,9 +142,12 @@ class TranslateTest extends TestCase
 
     public function testTranslateWithSpecificLanguage()
     {
+        $dynamicRoot      = $this->createMock(DynamicRoot::class);
+        $translateStorage = $this->createMock(TranslateStorage::class);
+
         $key              = 'some.key';
         $specificLanguage = 'uk';
-        $this->translateStorage->method('getDataByLanguages')
+        $translateStorage->method('getDataByLanguages')
             ->willReturn([
                 $key => new TranslateEntityDTO(
                     $key,
@@ -149,7 +157,7 @@ class TranslateTest extends TestCase
                 ),
             ]);
 
-        $this->translateStorage
+        $translateStorage
             ->expects($this->once())
             ->method('getAllDataByKey')
             ->with($key)
@@ -164,7 +172,7 @@ class TranslateTest extends TestCase
         $dynamicRoot->setCurrentRoot('en');
 
         $translate = new Translate(
-            $this->translateStorage,
+            $translateStorage,
             $dynamicRoot
         );
 
@@ -172,7 +180,8 @@ class TranslateTest extends TestCase
         $this->assertSame('якась фраза', $res);
     }
 
-    protected function createHash(string $key)
+    /** @return array<string,TranslateEntityDTO> */
+    protected function createHash(string $key): array
     {
         $dto = new TranslateEntityDTO($key, [
             'en' => 'phrase some',

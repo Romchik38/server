@@ -35,8 +35,8 @@ class DynamicActionTest extends TestCase
     public function testGetDynamicRoutes(): void
     {
         $action    = $this->createAction();
-        $routeDTOs = $action->getDynamicRoutes();
-        $this->assertSame(1, count($routeDTOs));
+        $routeDtos = $action->getDynamicRoutes();
+        $this->assertSame(1, count($routeDtos));
     }
 
     public function testGetDescriptionThrowsException(): void

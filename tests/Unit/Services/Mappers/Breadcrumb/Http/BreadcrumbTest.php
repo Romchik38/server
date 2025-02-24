@@ -14,24 +14,12 @@ use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Mappers\Breadcrumb\Http\Breadcrumb;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
-class BreadcrumbTest extends TestCase
+final class BreadcrumbTest extends TestCase
 {
-    protected $controllerTree;
-    protected $dynamicRootForBreadcrumb;
-    protected $controller;
-    protected $dynamicRootDTO;
-    protected string $rootControllerDTOName         = 'root';
-    protected string $rootControllerDTODescription  = 'Home';
-    protected string $aboutControllerDTOName        = 'about';
-    protected string $aboutControllerDTODescription = 'About';
-
-    public function setUp(): void
-    {
-        $this->controllerTree           = $this->createMock(ControllerTree::class);
-        $this->dynamicRootForBreadcrumb = $this->createMock(DynamicRoot::class);
-        $this->controller               = $this->createMock(Controller::class);
-        $this->dynamicRootDTO           = $this->createMock(DynamicRootDTO::class);
-    }
+    protected string $rootControllerDtoName         = 'root';
+    protected string $rootControllerDtoDescription  = 'Home';
+    protected string $aboutControllerDtoName        = 'about';
+    protected string $aboutControllerDtoDescription = 'About';
 
     /**
      * LinkDTOCollection returns 0 results
@@ -39,59 +27,62 @@ class BreadcrumbTest extends TestCase
      */
     public function testGetBreadcrumbDTOWithDynamicRoot(): void
     {
+        $dynamicRootDto           = $this->createMock(DynamicRootDTO::class);
+        $dynamicRootForBreadcrumb = $this->createMock(DynamicRoot::class);
+        $controllerTree           = $this->createMock(ControllerTree::class);
+        $controller               = $this->createMock(Controller::class);
+
         $action = 'about';
 
-        $controllerDTO = $this->createControllerDTO();
+        $controllerDto = $this->createControllerDto();
 
         $language = 'en';
 
-        $emptyString = '';
+        $dynamicRootDto->method('getName')->willReturn($language);
+        $dynamicRootForBreadcrumb->expects($this->once())->method('getCurrentRoot')
+            ->willReturn($dynamicRootDto);
 
-        $this->dynamicRootDTO->method('getName')->willReturn($language);
-        $this->dynamicRootForBreadcrumb->expects($this->once())->method('getCurrentRoot')
-            ->willReturn($this->dynamicRootDTO);
+        $controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
+            ->with($controller, $action)
+            ->willReturn($controllerDto);
 
-        $this->controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
-            ->with($this->controller, $action)
-            ->willReturn($controllerDTO);
+        $breadcrumb = new Breadcrumb($controllerTree, $dynamicRootForBreadcrumb);
 
-        $breadcrumb = new Breadcrumb($this->controllerTree, $this->dynamicRootForBreadcrumb);
+        $breadcrumbDtoAbout = $breadcrumb->getBreadcrumbDTO($controller, $action);
+        $breadcrumbDtoRoot  = $breadcrumbDtoAbout->getPrev();
 
-        $breadcrumbDTOAbout = $breadcrumb->getBreadcrumbDTO($this->controller, $action);
-        $breadcrumbDTORoot  = $breadcrumbDTOAbout->getPrev();
+        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $breadcrumbDtoRoot->getName());
+        $this->assertSame('Home', $breadcrumbDtoRoot->getDescription());
+        $this->assertSame('/en', $breadcrumbDtoRoot->getUrl());
 
-        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $breadcrumbDTORoot->getName());
-        $this->assertSame('Home', $breadcrumbDTORoot->getDescription());
-        $this->assertSame('/en', $breadcrumbDTORoot->getUrl());
-
-        $this->assertSame($this->aboutControllerDTOName, $breadcrumbDTOAbout->getName());
-        $this->assertSame('About', $breadcrumbDTOAbout->getDescription());
-        $this->assertSame('/en/about', $breadcrumbDTOAbout->getUrl());
+        $this->assertSame($this->aboutControllerDtoName, $breadcrumbDtoAbout->getName());
+        $this->assertSame('About', $breadcrumbDtoAbout->getDescription());
+        $this->assertSame('/en/about', $breadcrumbDtoAbout->getUrl());
     }
 
     public function testGetBreadcrumbDTOWithoutDynamicRoot()
     {
-        $action      = 'about';
-        $emptyString = '';
+        $action         = 'about';
+        $controllerTree = $this->createMock(ControllerTree::class);
+        $controller     = $this->createMock(Controller::class);
+        $controllerDto  = $this->createControllerDto();
 
-        $controllerDTO = $this->createControllerDTO();
+        $controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
+            ->with($controller, $action)
+            ->willReturn($controllerDto);
 
-        $this->controllerTree->expects($this->once())->method('getOnlyLineRootControllerDTO')
-            ->with($this->controller, $action)
-            ->willReturn($controllerDTO);
+        $breadcrumb = new Breadcrumb($controllerTree);
 
-        $breadcrumb = new Breadcrumb($this->controllerTree);
+        $breadcrumbDtoAbout = $breadcrumb->getBreadcrumbDTO($controller, $action);
+        $breadcrumbDtoRoot  = $breadcrumbDtoAbout->getPrev();
 
-        $breadcrumbDTOAbout = $breadcrumb->getBreadcrumbDTO($this->controller, $action);
-        $breadcrumbDTORoot  = $breadcrumbDTOAbout->getPrev();
+        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $breadcrumbDtoRoot->getName());
+        $this->assertSame('Home', $breadcrumbDtoRoot->getDescription());
+        $this->assertSame('/', $breadcrumbDtoRoot->getUrl());
 
-        $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $breadcrumbDTORoot->getName());
-        $this->assertSame('Home', $breadcrumbDTORoot->getDescription());
-        $this->assertSame('/', $breadcrumbDTORoot->getUrl());
-
-        $this->assertSame($this->aboutControllerDTOName, $breadcrumbDTOAbout->getName());
-        $this->assertSame('About', $breadcrumbDTOAbout->getDescription());
-        $this->assertSame('/about', $breadcrumbDTOAbout->getUrl());
+        $this->assertSame($this->aboutControllerDtoName, $breadcrumbDtoAbout->getName());
+        $this->assertSame('About', $breadcrumbDtoAbout->getDescription());
+        $this->assertSame('/about', $breadcrumbDtoAbout->getUrl());
     }
 
     /**
@@ -104,17 +95,17 @@ class BreadcrumbTest extends TestCase
     protected function createControllerDTO(): ControllerDTOInterface
     {
         $about = new ControllerDTO(
-            $this->aboutControllerDTOName,
-            [$this->rootControllerDTOName],
+            $this->aboutControllerDtoName,
+            [$this->rootControllerDtoName],
             [],
-            $this->aboutControllerDTODescription
+            $this->aboutControllerDtoDescription
         );
 
         return new ControllerDTO(
-            $this->rootControllerDTOName,
+            $this->rootControllerDtoName,
             [],
             [$about],
-            $this->rootControllerDTODescription
+            $this->rootControllerDtoDescription
         );
     }
 }
