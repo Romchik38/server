@@ -12,27 +12,21 @@ use Romchik38\Server\Models\TranslateEntity\TranslateEntityModelFactory;
 
 use function sprintf;
 
-class TranslateEntityModelRepositoryTest extends TestCase
+final class TranslateEntityModelRepositoryTest extends TestCase
 {
-    protected $database;
-    protected $factory;
-    protected $repository;
-    protected $table = 'table';
-
-    public function setUp(): void
-    {
-        $this->database   = $this->createMock(DatabasePostgresql::class);
-        $this->factory    = $this->createMock(TranslateEntityModelFactory::class);
-        $this->repository = new TranslateEntityModelRepository(
-            $this->database,
-            $this->factory,
-            $this->table,
-            TranslateEntityModel::ID_FIELD
-        );
-    }
+    protected string $table = 'table';
 
     public function testGetListByLanguages()
     {
+        $database   = $this->createMock(DatabasePostgresql::class);
+        $factory    = $this->createMock(TranslateEntityModelFactory::class);
+        $repository = new TranslateEntityModelRepository(
+            $database,
+            $factory,
+            $this->table,
+            TranslateEntityModel::ID_FIELD
+        );
+
         $id1       = 1;
         $key1      = 'some.key1';
         $language1 = 'en';
@@ -61,13 +55,13 @@ class TranslateEntityModelRepositoryTest extends TestCase
             TranslateEntityModel::PHRASE_FIELD   => $phrase2,
         ];
 
-        $this->factory->expects($this->exactly(2))->method('create')
+        $factory->expects($this->exactly(2))->method('create')
             ->willReturn(new TranslateEntityModel(), new TranslateEntityModel());
 
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->with($query, $languages)->willReturn([$databaseResult1, $databaseResult2]);
 
-        [$result1, $result2] = $this->repository->getListByLanguages($languages);
+        [$result1, $result2] = $repository->getListByLanguages($languages);
 
         $this->assertEquals($id1, $result1->getId());
         $this->assertEquals($key1, $result1->getKey());
@@ -82,6 +76,15 @@ class TranslateEntityModelRepositoryTest extends TestCase
 
     public function testGetByKey()
     {
+        $database   = $this->createMock(DatabasePostgresql::class);
+        $factory    = $this->createMock(TranslateEntityModelFactory::class);
+        $repository = new TranslateEntityModelRepository(
+            $database,
+            $factory,
+            $this->table,
+            TranslateEntityModel::ID_FIELD
+        );
+
         $key = 'some.key';
 
         $id1       = 1;
@@ -112,13 +115,13 @@ class TranslateEntityModelRepositoryTest extends TestCase
             TranslateEntityModel::PHRASE_FIELD   => $phrase2,
         ];
 
-        $this->factory->expects($this->exactly(2))->method('create')
+        $factory->expects($this->exactly(2))->method('create')
             ->willReturn(new TranslateEntityModel(), new TranslateEntityModel());
 
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->with($query, [$key])->willReturn([$databaseResult1, $databaseResult2]);
 
-        [$result1, $result2] = $this->repository->getByKey($key);
+        [$result1, $result2] = $repository->getByKey($key);
 
         $this->assertEquals($id1, $result1->getId());
         $this->assertEquals($key, $result1->getKey());

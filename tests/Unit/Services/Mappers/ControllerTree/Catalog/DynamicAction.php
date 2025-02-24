@@ -39,11 +39,11 @@ final class DynamicAction extends AbstractAction implements DynamicActionInterfa
             );
         }
 
-        $controllerDTO = $this->controllerTreeService
+        $controllerDto = $this->controllerTreeService
             ->getOnlyLineRootControllerDTO($this->getController(), $dynamicRoute);
         $response      = new Response();
         $body          = $response->getBody();
-        $body->write(json_encode($controllerDTO));
+        $body->write(json_encode($controllerDto));
         return $response->withBody($body);
     }
 

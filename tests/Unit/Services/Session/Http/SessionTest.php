@@ -11,12 +11,6 @@ use function session_destroy;
 
 class SessionTest extends TestCase
 {
-    // protected
-
-    // public function setUp():void {
-    //     $this->session = ;
-    // }
-
     public function testGetData()
     {
         $key   = 'id';

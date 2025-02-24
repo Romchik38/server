@@ -25,11 +25,11 @@ final class DefaultAction extends AbstractAction implements DefaultActionInterfa
 
     public function execute(): ResponseInterface
     {
-        $controllerDTO = $this->controllerTreeService
+        $controllerDto = $this->controllerTreeService
             ->getOnlyLineRootControllerDTO($this->getController(), '');
         $response      = new Response();
         $body          = $response->getBody();
-        $body->write(json_encode($controllerDTO));
+        $body->write(json_encode($controllerDto));
         return $response->withBody($body);
     }
 

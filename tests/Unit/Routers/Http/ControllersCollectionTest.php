@@ -11,9 +11,9 @@ use Romchik38\Server\Routers\Http\ControllersCollection;
 class ControllersCollectionTest extends TestCase
 {
     protected Controller $controller;
-    protected $controllerName = 'root';
+    protected string $controllerName = 'root';
     protected ControllersCollection $collection;
-    protected $method = 'GET';
+    protected string $method = 'GET';
 
     public function setUp(): void
     {

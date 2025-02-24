@@ -10,14 +10,14 @@ use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
 
 class LinkDTOTest extends TestCase
 {
-    protected LinkDTOInterface $linkDTO;
+    protected LinkDTOInterface $linkDto;
     protected string $name        = 'Home';
     protected string $description = 'Home Page';
     protected string $url         = '/en';
 
     public function setUp(): void
     {
-        $this->linkDTO = new LinkDTO(
+        $this->linkDto = new LinkDTO(
             $this->name,
             $this->description,
             $this->url,
@@ -26,16 +26,16 @@ class LinkDTOTest extends TestCase
 
     public function testGetName()
     {
-        $this->assertSame($this->name, $this->linkDTO->getName());
+        $this->assertSame($this->name, $this->linkDto->getName());
     }
 
     public function testGetDescription()
     {
-        $this->assertSame($this->description, $this->linkDTO->getDescription());
+        $this->assertSame($this->description, $this->linkDto->getDescription());
     }
 
     public function testGetUrl()
     {
-        $this->assertSame($this->url, $this->linkDTO->getUrl());
+        $this->assertSame($this->url, $this->linkDto->getUrl());
     }
 }

@@ -16,33 +16,27 @@ use Romchik38\Server\Models\Model;
 use Romchik38\Server\Services\Errors\CantCreateRedirectException;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 
-class RedirectTest extends TestCase
+final class RedirectTest extends TestCase
 {
-    private $redirectResultDTOFactory;
-    private $request;
-
-    public function setUp(): void
-    {
-        $this->redirectResultDTOFactory = $this->createMock(RedirectResultDTOFactory::class);
-        $this->request                  = $this->createMock(ServerRequestInterface::class);
-    }
-
     /**
      * redirect wasn't found in the database by provided url and method
      */
     public function testExecuteNoRedirect()
     {
+        $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
+        $request                  = $this->createMock(ServerRequestInterface::class);
+
         $requestedUri = $this->createMock(UriInterface::class);
         $requestedUri->method('getScheme')->willReturn('http');
         $requestedUri->method('getHost')->willReturn('example.com');
-        $this->request->method('getUri')->willReturn($requestedUri);
+        $request->method('getUri')->willReturn($requestedUri);
 
         $redirectModel      = $this->createRedirectModel('/index', '/', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
         $redirectService    = new Redirect(
             $redirectRepository,
-            $this->redirectResultDTOFactory,
-            $this->request
+            $redirectResultDtoFactory,
+            $request
         );
 
         $result = $redirectService->execute('/hello', 'GET');
@@ -55,22 +49,25 @@ class RedirectTest extends TestCase
      */
     public function testExecuteFindRedirect()
     {
+        $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
+        $request                  = $this->createMock(ServerRequestInterface::class);
+
         $requestedUri = $this->createMock(UriInterface::class);
         $requestedUri->method('getScheme')->willReturn('http');
         $requestedUri->method('getHost')->willReturn('example.com');
-        $this->request->method('getUri')->willReturn($requestedUri);
+        $request->method('getUri')->willReturn($requestedUri);
 
-        $redirectResultDTO = new RedirectResultDTO('http://example.com/', 301);
-        $this->redirectResultDTOFactory->expects($this->once())
+        $redirectResultDto = new RedirectResultDTO('http://example.com/', 301);
+        $redirectResultDtoFactory->expects($this->once())
             ->method('create')->with('http://example.com/', 301)
-            ->willReturn($redirectResultDTO);
+            ->willReturn($redirectResultDto);
 
         $redirectModel      = $this->createRedirectModel('/index', '/', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
         $redirectService    = new Redirect(
             $redirectRepository,
-            $this->redirectResultDTOFactory,
-            $this->request
+            $redirectResultDtoFactory,
+            $request
         );
 
         $result = $redirectService->execute('/index', 'GET');
@@ -84,10 +81,13 @@ class RedirectTest extends TestCase
      */
     public function testConstructWithEmptySchemaHost()
     {
+        $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
+        $request                  = $this->createMock(ServerRequestInterface::class);
+
         $requestedUri = $this->createMock(UriInterface::class);
         $requestedUri->method('getScheme')->willReturn('');
         $requestedUri->method('getHost')->willReturn('');
-        $this->request->method('getUri')->willReturn($requestedUri);
+        $request->method('getUri')->willReturn($requestedUri);
 
         $this->expectException(CantCreateRedirectException::class);
 
@@ -95,8 +95,8 @@ class RedirectTest extends TestCase
         $redirectRepository = $this->createRepository($redirectModel);
         $redirectService    = new Redirect(
             $redirectRepository,
-            $this->redirectResultDTOFactory,
-            $this->request
+            $redirectResultDtoFactory,
+            $request
         );
     }
 
@@ -128,7 +128,12 @@ class RedirectTest extends TestCase
         int $statusCode,
         string $method
     ): RedirectModelInterface {
-        return new class ($redirectFrom, $redirectTo, $statusCode, $method) extends Model implements RedirectModelInterface {
+        return new class (
+            $redirectFrom,
+            $redirectTo,
+            $statusCode,
+            $method
+        ) extends Model implements RedirectModelInterface {
             public function __construct(
                 protected string $redirectFrom,
                 protected string $redirectTo,

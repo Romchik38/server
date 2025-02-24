@@ -12,17 +12,12 @@ use Romchik38\Server\Services\Translate\TranslateStorage;
 
 use function array_key_exists;
 
-class TranslateStorageTest extends TestCase
+final class TranslateStorageTest extends TestCase
 {
-    protected $repostory;
-
-    public function setUp(): void
-    {
-        $this->repostory = $this->createMock(TranslateEntityModelRepository::class);
-    }
-
     public function testGetDataByLanguages()
     {
+        $repostory = $this->createMock(TranslateEntityModelRepository::class);
+
         $languages = ['en', 'uk'];
 
         $key = 'key.about';
@@ -37,11 +32,11 @@ class TranslateStorageTest extends TestCase
         $model2->setLanguage('uk');
         $model2->setPhrase('фраза1');
 
-        $this->repostory->expects($this->once())->method('getListByLanguages')
+        $repostory->expects($this->once())->method('getListByLanguages')
             ->with($languages)->willReturn([$model1, $model2]);
 
         $translateStorage = new TranslateStorage(
-            $this->repostory,
+            $repostory,
             new TranslateEntityDTOFactory()
         );
 
@@ -57,7 +52,7 @@ class TranslateStorageTest extends TestCase
 
     public function testGetAllDataByKey()
     {
-        $languages = ['en', 'uk'];
+        $repostory = $this->createMock(TranslateEntityModelRepository::class);
 
         $key = 'key.about';
 
@@ -71,11 +66,11 @@ class TranslateStorageTest extends TestCase
         $model2->setLanguage('uk');
         $model2->setPhrase('фраза1');
 
-        $this->repostory->expects($this->once())->method('getByKey')
+        $repostory->expects($this->once())->method('getByKey')
             ->with($key)->willReturn([$model1, $model2]);
 
         $translateStorage = new TranslateStorage(
-            $this->repostory,
+            $repostory,
             new TranslateEntityDTOFactory()
         );
 

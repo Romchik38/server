@@ -9,22 +9,23 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
 use function count;
+use function file_get_contents;
 
-class ControllerTreeTest extends TestCase
+final class ControllerTreeTest extends TestCase
 {
     public function testGetRootControllerDTO(): void
     {
         $root = (include_once __DIR__ . '/bootstrap.php')();
 
         $controllerTree = new ControllerTree();
-        $controllerDTO  = $controllerTree->getRootControllerDTO($root);
+        $controllerDto  = $controllerTree->getRootControllerDTO($root);
 
         /** 1. root */
-        $this->assertSame('root', $controllerDTO->getName());
-        $this->assertSame('Home page', $controllerDTO->getDescription());
+        $this->assertSame('root', $controllerDto->getName());
+        $this->assertSame('Home page', $controllerDto->getDescription());
 
         /** 2. root children */
-        $children = $controllerDTO->getChildren();
+        $children = $controllerDto->getChildren();
         $this->assertSame(3, count($children));
 
         [$products, $about, $contacts] = $children;
@@ -59,8 +60,9 @@ class ControllerTreeTest extends TestCase
         $controllerResult = $root->execute(['root', 'sitemap']);
         $response         = $controllerResult->getResponse();
 
+        $expected = file_get_contents(__DIR__ . '/jsonstring');
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"sitemap","path":["root"],"children":[],"description":"Sitemap page"}],"description":"Home page"}',
+            $expected,
             (string) $response->getBody()
         );
     }
@@ -70,11 +72,12 @@ class ControllerTreeTest extends TestCase
         /** @var ControllerInterface $root */
         $root             = (include_once __DIR__ . '/bootstrap3.php')();
         $controllerResult = $root->execute(['root', 'catalog', 'product-1']);
-        $encodedTree      = $controllerResult->getResponse();
         $response         = $controllerResult->getResponse();
 
+        $expected = file_get_contents(__DIR__ . '/jsonstring2');
+
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"catalog","path":["root"],"children":[{"name":"product-1","path":["root","catalog"],"children":[],"description":"Product 1 page"}],"description":"Products catalog"}],"description":"Home page"}',
+            $expected,
             (string) $response->getBody()
         );
     }

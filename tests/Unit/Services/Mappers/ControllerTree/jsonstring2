@@ -1,0 +1,1 @@
+{"name":"root","path":[],"children":[{"name":"catalog","path":["root"],"children":[{"name":"product-1","path":["root","catalog"],"children":[],"description":"Product 1 page"}],"description":"Products catalog"}],"description":"Home page"}

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Romchik38\Server\Tests\Unit\Routers\Http;
+
 use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,25 +16,16 @@ use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Tests\Unit\Routers\Http\PlasticineRouterTest\Root\DefaultAction;
 
+use function count;
+
 final class PlasticineRouterTest extends TestCase
 {
-    protected $routerResult;
-    protected ControllersCollection $controllerCollection;
-    protected $controller;
-    protected $notFoundController;
-    protected $redirectService;
-
-    public function setUp(): void
-    {
-        $this->controller           = $this->createMock(Controller::class);
-        $this->controllerCollection = new ControllersCollection();
-    }
-
     /** 1. method check  */
     public function testRootControllerNotFound(): void
     {
-        $rootController = new Controller('root');
-        $this->controllerCollection->setController(
+        $rootController       = new Controller('root');
+        $controllerCollection = new ControllersCollection();
+        $controllerCollection->setController(
             $rootController,
             HttpRouterInterface::REQUEST_METHOD_GET
         );
@@ -45,7 +38,7 @@ final class PlasticineRouterTest extends TestCase
 
         $router = new PlasticineRouter(
             new ResponseFactory(),
-            $this->controllerCollection,
+            $controllerCollection,
             $request
         );
 
@@ -57,11 +50,14 @@ final class PlasticineRouterTest extends TestCase
         $this->assertSame('GET', $response->getHeaderLine('Allow'));
     }
 
-    // 2. redirect check
+    /** 2. redirect check */
     public function testExecuteRedirect()
     {
-        $this->controllerCollection->setController(
-            $this->controller,
+        $controller           = $this->createMock(Controller::class);
+        $controllerCollection = new ControllersCollection();
+
+        $controllerCollection->setController(
+            $controller,
             HttpRouterInterface::REQUEST_METHOD_GET
         );
         $uri = $this->createMock(UriInterface::class);
@@ -70,20 +66,20 @@ final class PlasticineRouterTest extends TestCase
         $request->method('getUri')->willReturn($uri);
         $request->method('getMethod')->willReturn('GET');
 
-        $redirectLocation      = 'http://example.com/';
-        $redirectStatusCode    = 301;
-        $redirectResultDTO     = new RedirectResultDTO($redirectLocation, $redirectStatusCode);
-        $this->redirectService = $this->createMock(Redirect::class);
+        $redirectLocation   = 'http://example.com/';
+        $redirectStatusCode = 301;
+        $redirectResultDto  = new RedirectResultDTO($redirectLocation, $redirectStatusCode);
+        $redirectService    = $this->createMock(Redirect::class);
 
-        $this->redirectService->expects($this->once())->method('execute')
-            ->with('/index', 'GET')->willReturn($redirectResultDTO);
+        $redirectService->expects($this->once())->method('execute')
+            ->with('/index', 'GET')->willReturn($redirectResultDto);
 
         $router = new PlasticineRouter(
             new ResponseFactory(),
-            $this->controllerCollection,
+            $controllerCollection,
             $request,
-            $this->notFoundController,
-            $this->redirectService
+            null,
+            $redirectService
         );
 
         $response = $router->execute();
@@ -92,16 +88,17 @@ final class PlasticineRouterTest extends TestCase
         $this->assertSame($redirectStatusCode, $response->getStatusCode());
     }
 
-    // 4. Exec
+    /** 4. Exec */
     public function testExecute(): void
     {
+        $controllerCollection = new ControllersCollection();
         require_once __DIR__ . '/PlasticineRouterTest/Root/DefaultAction.php';
         $rootController = new Controller(
             'root',
             true,
             new DefaultAction()
         );
-        $this->controllerCollection->setController(
+        $controllerCollection->setController(
             $rootController,
             HttpRouterInterface::REQUEST_METHOD_GET
         );
@@ -114,7 +111,7 @@ final class PlasticineRouterTest extends TestCase
 
         $router = new PlasticineRouter(
             new ResponseFactory(),
-            $this->controllerCollection,
+            $controllerCollection,
             $request
         );
 
