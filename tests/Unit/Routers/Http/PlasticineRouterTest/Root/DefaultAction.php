@@ -14,7 +14,7 @@ final class DefaultAction extends AbstractAction implements DefaultActionInterfa
     public function execute(): ResponseInterface
     {
         $response = new Response();
-        $body = $response->getBody();
+        $body     = $response->getBody();
         $body->write('hello world');
         return $response->withBody($body);
     }

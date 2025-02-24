@@ -28,9 +28,9 @@ class ControllersCollectionTest extends TestCase
         $this->assertSame($this->controllerName, $controller->getName());
     }
 
-    /** 
+    /**
      * public function testSetController(){}
-     * 
+     *
      * is tested by setUp() and testGetController()
      */
     public function testGetMethods()

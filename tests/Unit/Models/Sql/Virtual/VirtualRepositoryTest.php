@@ -6,10 +6,13 @@ namespace Romchik38\Server\Tests\Unit\Models\Sql\Virtual;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
-use Romchik38\Server\Models\Sql\Virtual\VirtualRepository;
-use Romchik38\Server\Models\Sql\DatabasePostgresql;
-use Romchik38\Server\Models\ModelFactory;
 use Romchik38\Server\Models\Model;
+use Romchik38\Server\Models\ModelFactory;
+use Romchik38\Server\Models\Sql\DatabasePostgresql;
+use Romchik38\Server\Models\Sql\Virtual\VirtualRepository;
+
+use function count;
+use function implode;
 
 class VirtualRepositoryTest extends TestCase
 {
@@ -20,10 +23,10 @@ class VirtualRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->database = $this->createMock(DatabasePostgresql::class);
-        $this->factory = $this->createMock(ModelFactory::class);
+        $this->database     = $this->createMock(DatabasePostgresql::class);
+        $this->factory      = $this->createMock(ModelFactory::class);
         $this->selectFields = ['table1.*', 'table2.field1', 'table2.field2'];
-        $this->tables = ['table1', 'table2'];
+        $this->tables       = ['table1', 'table2'];
     }
 
     protected function createRepository(): VirtualRepositoryInterface
@@ -50,7 +53,7 @@ class VirtualRepositoryTest extends TestCase
 
         // exec
         $repository = $this->createRepository();
-        $result = $repository->create();
+        $result     = $repository->create();
 
         // 1 new instance creation
         $this->assertSame($entity, $result);
@@ -66,17 +69,17 @@ class VirtualRepositoryTest extends TestCase
     public function testList()
     {
         // prepare data
-        $expression = 'WHERE model_key = $1';
-        $params = ['model_value'];
+        $expression    = 'WHERE model_key = $1';
+        $params        = ['model_value'];
         $expectedQuery = 'SELECT ' . implode(', ', $this->selectFields)
             . ' FROM ' . implode(', ', $this->tables) . ' ' . $expression;
-        $modelData = [
-            'model_key' => 'model_value',
-            'model_key2' => 'model_value2'
+        $modelData     = [
+            'model_key'  => 'model_value',
+            'model_key2' => 'model_value2',
         ];
-        $modelData2 = [
-            'model2_key' => 'model2_value',
-            'model2_key2' => 'model2_value2'
+        $modelData2    = [
+            'model2_key'  => 'model2_value',
+            'model2_key2' => 'model2_value2',
         ];
 
         $this->factory->expects($this->exactly(2))->method('create')
@@ -96,7 +99,7 @@ class VirtualRepositoryTest extends TestCase
 
         // exec
         $repository = $this->createRepository();
-        $result = $repository->list($expression, $params);
+        $result     = $repository->list($expression, $params);
 
         // 2 count of the entities
         $this->assertSame(2, count($result));

@@ -13,7 +13,7 @@ class LinkTreeDTOTest extends TestCase
     public function testGetChildren()
     {
         $child = new LinkTreeDTO('about', 'about page', '/about', []);
-        $dto = new LinkTreeDTO('home', 'home page', '/', [$child]);
+        $dto   = new LinkTreeDTO('home', 'home page', '/', [$child]);
 
         $children = $dto->getChildren();
 
@@ -40,16 +40,16 @@ class LinkTreeDTOTest extends TestCase
 
     public function testCreate()
     {
-        $name = 'home';
+        $name        = 'home';
         $description = 'home page';
-        $url = '/';
+        $url         = '/';
 
-        $childName = 'about';
+        $childName        = 'about';
         $childDescription = 'about page';
-        $childUrl = '/about';
+        $childUrl         = '/about';
 
         $child = new LinkTreeDTO($childName, $childDescription, $childUrl, []);
-        $dto = new LinkTreeDTO($name, $description, $url, [$child]);
+        $dto   = new LinkTreeDTO($name, $description, $url, [$child]);
 
         $this->assertSame($name, $dto->getName());
         $this->assertSame($description, $dto->getDescription());

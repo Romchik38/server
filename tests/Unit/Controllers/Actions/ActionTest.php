@@ -40,18 +40,17 @@ class ActionTest extends TestCase
         $this->assertSame($controller, $action->getController());
     }
 
-    
-
     protected function createAction(): ActionInterface
     {
         return new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): Response
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('ok');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'des ok';

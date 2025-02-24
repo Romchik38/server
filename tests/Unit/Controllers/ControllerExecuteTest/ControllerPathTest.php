@@ -12,7 +12,6 @@ use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
 class ControllerPathTest extends TestCase
 {
@@ -22,11 +21,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Home page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -37,11 +37,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Products page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Products';
@@ -62,7 +63,7 @@ class ControllerPathTest extends TestCase
 
         $root->setChild($products);
 
-        $result = $root->execute(['root', 'products']);
+        $result   = $root->execute(['root', 'products']);
         $response = $result->getResponse();
         $this->assertSame('<h1>Products page<h1>', (string) $response->getBody());
     }
@@ -73,11 +74,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Home page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -88,11 +90,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Products page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Products';
@@ -123,11 +126,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Home page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -138,11 +142,12 @@ class ControllerPathTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Products page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Products';

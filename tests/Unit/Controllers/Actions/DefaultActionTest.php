@@ -14,11 +14,10 @@ class DefaultActionTest extends TestCase
 {
     public function testExecute(): void
     {
-        $action = $this->createDefaultAction();
+        $action   = $this->createDefaultAction();
         $response = $action->execute();
         $this->assertSame('result', (string) $response->getBody());
     }
-
 
     public function testGetDescription(): void
     {
@@ -32,7 +31,7 @@ class DefaultActionTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('result');
                 return $response->withBody($body);
             }

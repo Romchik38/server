@@ -23,11 +23,12 @@ class ControllerLastPartTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Home page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -37,23 +38,28 @@ class ControllerLastPartTest extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content about page');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };
@@ -65,7 +71,7 @@ class ControllerLastPartTest extends TestCase
             $rootDynamicAction
         );
 
-        $result = $root->execute(['root']);
+        $result   = $root->execute(['root']);
         $response = $result->getResponse();
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
@@ -76,11 +82,12 @@ class ControllerLastPartTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>Home page<h1>');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -90,23 +97,28 @@ class ControllerLastPartTest extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content about page');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };
@@ -118,7 +130,7 @@ class ControllerLastPartTest extends TestCase
             $rootDynamicAction
         );
 
-        $result = $root->execute(['root', 'about']);
+        $result   = $root->execute(['root', 'about']);
         $response = $result->getResponse();
         $this->assertSame('Content about page', (string) $response->getBody());
     }

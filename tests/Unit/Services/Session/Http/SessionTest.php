@@ -7,10 +7,11 @@ namespace Romchik38\Server\Tests\Unit\Services\Session\Http;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Services\Session\Http\Session;
 
+use function session_destroy;
+
 class SessionTest extends TestCase
 {
-
-    // protected 
+    // protected
 
     // public function setUp():void {
     //     $this->session = ;
@@ -18,7 +19,7 @@ class SessionTest extends TestCase
 
     public function testGetData()
     {
-        $key = 'id';
+        $key   = 'id';
         $value = 100;
 
         $session = new Session();
@@ -32,7 +33,7 @@ class SessionTest extends TestCase
 
     public function testGetAllData()
     {
-        $key = 'id';
+        $key   = 'id';
         $value = 100;
 
         $session = new Session();
@@ -46,7 +47,7 @@ class SessionTest extends TestCase
 
     public function testSetData()
     {
-        $key = 'id';
+        $key   = 'id';
         $value = 100;
 
         $session = new Session();
@@ -60,7 +61,7 @@ class SessionTest extends TestCase
 
     public function testLogout()
     {
-        $key = 'id';
+        $key   = 'id';
         $value = 100;
 
         $session = new Session();

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
-use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Services\Mappers\LinkTree\Http\LinkTree;
-use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOCollectionInterface;
+use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
+use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
+use Romchik38\Server\Services\Mappers\LinkTree\Http\LinkTree;
 
 class LinkTreeTest extends TestCase
 {
@@ -18,17 +18,16 @@ class LinkTreeTest extends TestCase
     protected $dynamicRootDTO;
     protected $linkDTOCollection;
 
-
     public function setUp(): void
     {
-        $this->dynamicRoot = $this->createMock(DynamicRootInterface::class);
-        $this->dynamicRootDTO = $this->createMock(DynamicRootDTOInterface::class);
+        $this->dynamicRoot       = $this->createMock(DynamicRootInterface::class);
+        $this->dynamicRootDTO    = $this->createMock(DynamicRootDTOInterface::class);
         $this->linkDTOCollection = $this->createMock(LinkDTOCollectionInterface::class);
     }
 
     public function testGetLinkTreeDTOwithDynamicRootandWithCollection(): void
     {
-        $language = 'en';
+        $language          = 'en';
         $rootControllerDTO = $this->createRootControllerDTO();
 
         $this->dynamicRoot->expects($this->once())->method('getCurrentRoot')
@@ -64,7 +63,7 @@ class LinkTreeTest extends TestCase
         $rootControllerDTO = $this->createRootControllerDTO();
 
         $linkTreeService = new LinkTree();
-        $dto = $linkTreeService->getLinkTreeDTO($rootControllerDTO);
+        $dto             = $linkTreeService->getLinkTreeDTO($rootControllerDTO);
 
         $this->assertSame(BreadcrumbInterface::HOME_PLACEHOLDER, $dto->getName());
         $this->assertSame('Home page', $dto->getDescription());
@@ -84,20 +83,18 @@ class LinkTreeTest extends TestCase
         $this->assertSame('/sitemap', $child2->getUrl());
     }
 
-
     protected function createRootControllerDTO(): ControllerDTOInterface
     {
         $child1 = new ControllerDTO('about', ['root'], [], 'About page');
         $child2 = new ControllerDTO('sitemap', ['root'], [], 'Sitemap page');
-        $rootControllerDTO = new ControllerDTO('root', [], [$child1, $child2], 'Home page');
-        return $rootControllerDTO;
+        return new ControllerDTO('root', [], [$child1, $child2], 'Home page');
     }
 
     protected function createLinkDTOs(): array
     {
         return [
             new LinkDTO('Home', 'Home Page', '/en'),
-            new LinkDTO('About', 'About Page', '/en/about')
+            new LinkDTO('About', 'About Page', '/en/about'),
         ];
     }
 }

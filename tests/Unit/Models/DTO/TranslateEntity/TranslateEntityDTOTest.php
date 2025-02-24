@@ -9,11 +9,10 @@ use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
 
 class TranslateEntityDTOTest extends TestCase
 {
-
-    protected $key = 'some.key';
+    protected $key  = 'some.key';
     protected $data = [
         'en' => 'some phrase',
-        'uk' => 'якась фраза'
+        'uk' => 'якась фраза',
     ];
 
     public function testGetKey()

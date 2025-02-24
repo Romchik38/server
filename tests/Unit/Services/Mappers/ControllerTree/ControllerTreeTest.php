@@ -8,15 +8,16 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
+use function count;
+
 class ControllerTreeTest extends TestCase
 {
-
     public function testGetRootControllerDTO(): void
     {
-        $root = (include_once(__DIR__ . '/bootstrap.php'))();
+        $root = (include_once __DIR__ . '/bootstrap.php')();
 
         $controllerTree = new ControllerTree();
-        $controllerDTO = $controllerTree->getRootControllerDTO($root);
+        $controllerDTO  = $controllerTree->getRootControllerDTO($root);
 
         /** 1. root */
         $this->assertSame('root', $controllerDTO->getName());
@@ -54,12 +55,12 @@ class ControllerTreeTest extends TestCase
     public function testGetOnlyLineRootControllerDTOWithEmptyAction()
     {
         /** @var ControllerInterface $root */
-        $root = (include_once(__DIR__ . '/bootstrap2.php'))();
+        $root             = (include_once __DIR__ . '/bootstrap2.php')();
         $controllerResult = $root->execute(['root', 'sitemap']);
-        $response = $controllerResult->getResponse();
+        $response         = $controllerResult->getResponse();
 
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"sitemap","path":["root"],"children":[],"description":"Sitemap page"}],"description":"Home page"}', 
+            '{"name":"root","path":[],"children":[{"name":"sitemap","path":["root"],"children":[],"description":"Sitemap page"}],"description":"Home page"}',
             (string) $response->getBody()
         );
     }
@@ -67,13 +68,13 @@ class ControllerTreeTest extends TestCase
     public function testGetOnlyLineRootControllerDTOWithAction()
     {
         /** @var ControllerInterface $root */
-        $root = (include_once(__DIR__ . '/bootstrap3.php'))();
+        $root             = (include_once __DIR__ . '/bootstrap3.php')();
         $controllerResult = $root->execute(['root', 'catalog', 'product-1']);
-        $encodedTree = $controllerResult->getResponse();
-        $response = $controllerResult->getResponse();
+        $encodedTree      = $controllerResult->getResponse();
+        $response         = $controllerResult->getResponse();
 
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"catalog","path":["root"],"children":[{"name":"product-1","path":["root","catalog"],"children":[],"description":"Product 1 page"}],"description":"Products catalog"}],"description":"Home page"}', 
+            '{"name":"root","path":[],"children":[{"name":"catalog","path":["root"],"children":[{"name":"product-1","path":["root","catalog"],"children":[],"description":"Product 1 page"}],"description":"Products catalog"}],"description":"Home page"}',
             (string) $response->getBody()
         );
     }

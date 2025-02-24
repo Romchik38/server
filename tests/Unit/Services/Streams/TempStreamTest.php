@@ -7,6 +7,9 @@ namespace Romchik38\Server\Tests\Unit\Services\Streams;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Services\Streams\StreamProcessException;
 use Romchik38\Server\Services\Streams\TempStream;
+use RuntimeException;
+
+use function fwrite;
 
 class TempStreamTest extends TestCase
 {
@@ -21,7 +24,7 @@ class TempStreamTest extends TestCase
     public function testWriteFromCallable(): void
     {
         $stream = new TempStream();
-        $fn = function ($resource, string $data) {
+        $fn     = function ($resource, string $data) {
             fwrite($resource, $data);
         };
         $stream->writeFromCallable($fn, 0, null, 'hello');
@@ -32,7 +35,7 @@ class TempStreamTest extends TestCase
     public function testWriteFromCallableCallbackReturnFalse(): void
     {
         $stream = new TempStream();
-        $fn = function ($resource, string $data) {
+        $fn     = function ($resource, string $data) {
             return false;
         };
         $this->expectException(StreamProcessException::class);
@@ -42,8 +45,8 @@ class TempStreamTest extends TestCase
     public function testWriteFromCallableCallbackThrowsException(): void
     {
         $stream = new TempStream();
-        $fn = function ($resource, string $data) {
-            throw new \RuntimeException('error');
+        $fn     = function ($resource, string $data) {
+            throw new RuntimeException('error');
         };
         $this->expectException(StreamProcessException::class);
         $stream->writeFromCallable($fn, 0, null, 'hello');
@@ -52,7 +55,7 @@ class TempStreamTest extends TestCase
     public function testInvokeDoubleCall(): void
     {
         $stream = new TempStream();
-        $fn = function ($resource, string $data) {
+        $fn     = function ($resource, string $data) {
             fwrite($resource, $data);
         };
         $stream->writeFromCallable($fn, 0, null, 'hello');

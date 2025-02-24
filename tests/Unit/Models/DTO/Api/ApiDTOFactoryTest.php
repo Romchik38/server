@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\Api;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\Api\ApiDTOFactory;
 use Romchik38\Server\Models\DTO\Api\ApiDTO;
+use Romchik38\Server\Models\DTO\Api\ApiDTOFactory;
 
 class ApiDTOFactoryTest extends TestCase
 {
     public function testCreate()
     {
-
-        $name = 'some_name';
+        $name        = 'some_name';
         $description = 'some_description';
-        $status = 'success';
-        $result = ['hello api'];
+        $status      = 'success';
+        $result      = ['hello api'];
 
         $factory = new ApiDTOFactory();
-        $dto = $factory->create(
+        $dto     = $factory->create(
             $name,
             $description,
             $status,

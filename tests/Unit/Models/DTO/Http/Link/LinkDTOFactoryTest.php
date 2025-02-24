@@ -12,9 +12,9 @@ class LinkDTOFactoryTest extends TestCase
 {
     public function testCreateThrowsExceptionBecauseName()
     {
-        $name = '';
+        $name        = '';
         $description = 'Home Page';
-        $url = '/en';
+        $url         = '/en';
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -24,9 +24,9 @@ class LinkDTOFactoryTest extends TestCase
 
     public function testCreateThrowsExceptionBecauseDescription()
     {
-        $name = 'Home';
+        $name        = 'Home';
         $description = '';
-        $url = '/en';
+        $url         = '/en';
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -36,9 +36,9 @@ class LinkDTOFactoryTest extends TestCase
 
     public function testCreateThrowsExceptionBecauseUrl()
     {
-        $name = 'Home';
+        $name        = 'Home';
         $description = '';
-        $url = '';
+        $url         = '';
 
         $this->expectException(InvalidArgumentException::class);
 

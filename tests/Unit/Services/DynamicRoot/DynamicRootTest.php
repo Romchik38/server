@@ -6,8 +6,8 @@ namespace Romchik38\Server\Tests\Unit\Services\DynamicRoot;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
-use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
+use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
 
 class DynamicRootTest extends TestCase
@@ -22,7 +22,7 @@ class DynamicRootTest extends TestCase
     public function testGetDefaultRoot()
     {
         $default = 'en';
-        $list = ['en', 'uk'];
+        $list    = ['en', 'uk'];
 
         $this->DynamicRootDTOFactory->expects($this->exactly(3))->method('create')
             ->willReturn(
@@ -32,7 +32,7 @@ class DynamicRootTest extends TestCase
             );
 
         $DynamicRoot = new DynamicRoot($default, $list, $this->DynamicRootDTOFactory);
-        $defaultDTO = $DynamicRoot->getDefaultRoot();
+        $defaultDTO  = $DynamicRoot->getDefaultRoot();
 
         $this->assertSame('en', $defaultDTO->getName());
     }
@@ -40,11 +40,11 @@ class DynamicRootTest extends TestCase
     public function testGetList()
     {
         $default = 'en';
-        $list = ['en', 'uk'];
+        $list    = ['en', 'uk'];
 
-        $firstDTO = new DynamicRootDTO('en');
+        $firstDTO  = new DynamicRootDTO('en');
         $secondDTO = new DynamicRootDTO('en');
-        $thirdDTO = new DynamicRootDTO('uk');
+        $thirdDTO  = new DynamicRootDTO('uk');
 
         $listDTO = [$secondDTO, $thirdDTO];
 
@@ -56,7 +56,7 @@ class DynamicRootTest extends TestCase
             );
 
         $DynamicRoot = new DynamicRoot($default, $list, $this->DynamicRootDTOFactory);
-        $resultList = $DynamicRoot->getRootList();
+        $resultList  = $DynamicRoot->getRootList();
 
         $this->assertSame($listDTO, $resultList);
     }
@@ -64,11 +64,11 @@ class DynamicRootTest extends TestCase
     public function testGetRootNames()
     {
         $default = 'en';
-        $list = ['en', 'uk'];
+        $list    = ['en', 'uk'];
 
-        $firstDTO = new DynamicRootDTO('en');
+        $firstDTO  = new DynamicRootDTO('en');
         $secondDTO = new DynamicRootDTO('en');
-        $thirdDTO = new DynamicRootDTO('uk');
+        $thirdDTO  = new DynamicRootDTO('uk');
 
         $this->DynamicRootDTOFactory->expects($this->exactly(3))->method('create')
             ->willReturn(
@@ -78,7 +78,7 @@ class DynamicRootTest extends TestCase
             );
 
         $DynamicRoot = new DynamicRoot($default, $list, $this->DynamicRootDTOFactory);
-        $resultList = $DynamicRoot->getRootNames();
+        $resultList  = $DynamicRoot->getRootNames();
 
         $this->assertSame($list, $resultList);
     }
@@ -90,11 +90,11 @@ class DynamicRootTest extends TestCase
     public function testGetCurrentRootResult()
     {
         $default = 'en';
-        $list = ['en', 'uk'];
+        $list    = ['en', 'uk'];
 
-        $firstDTO = new DynamicRootDTO('en');
+        $firstDTO  = new DynamicRootDTO('en');
         $secondDTO = new DynamicRootDTO('en');
-        $thirdDTO = new DynamicRootDTO('uk');
+        $thirdDTO  = new DynamicRootDTO('uk');
 
         $this->DynamicRootDTOFactory->method('create')
             ->willReturn(
@@ -116,11 +116,11 @@ class DynamicRootTest extends TestCase
     public function testGetCurrentRootThrowsError()
     {
         $default = 'en';
-        $list = ['en', 'uk'];
+        $list    = ['en', 'uk'];
 
-        $firstDTO = new DynamicRootDTO('en');
+        $firstDTO  = new DynamicRootDTO('en');
         $secondDTO = new DynamicRootDTO('en');
-        $thirdDTO = new DynamicRootDTO('uk');
+        $thirdDTO  = new DynamicRootDTO('uk');
 
         $this->DynamicRootDTOFactory->method('create')
             ->willReturn(

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Views\AbstractView as View;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\DefaultView\DefaultViewDTO;
+use Romchik38\Server\Views\AbstractView as View;
 
 class ViewTest extends TestCase
 {
     /** test controller assign */
     public function testSetController()
     {
-        $view = new class() extends View {
+        $view = new class () extends View {
             public function toString(): string
             {
                 return $this->controller->getName();
@@ -22,8 +22,7 @@ class ViewTest extends TestCase
         };
 
         $controllerName = 'some_name';
-        $controller = new Controller($controllerName);
-
+        $controller     = new Controller($controllerName);
 
         $view->setController($controller);
 
@@ -33,7 +32,7 @@ class ViewTest extends TestCase
     /** test action assign */
     public function testSetControllerWithoutAction()
     {
-        $view = new class() extends View {
+        $view = new class () extends View {
             public function toString(): string
             {
                 return $this->action;
@@ -41,8 +40,7 @@ class ViewTest extends TestCase
         };
 
         $controllerName = 'some_name';
-        $controller = new Controller($controllerName);
-
+        $controller     = new Controller($controllerName);
 
         $view->setController($controller);
 
@@ -52,7 +50,7 @@ class ViewTest extends TestCase
     /** test action assign */
     public function testSetControllerWithAction()
     {
-        $view = new class() extends View {
+        $view = new class () extends View {
             public function toString(): string
             {
                 return $this->action;
@@ -60,9 +58,8 @@ class ViewTest extends TestCase
         };
 
         $controllerName = 'some_name';
-        $actionName = 'some_action';
-        $controller = new Controller($controllerName);
-
+        $actionName     = 'some_action';
+        $controller     = new Controller($controllerName);
 
         $view->setController($controller, $actionName);
 
@@ -71,16 +68,16 @@ class ViewTest extends TestCase
 
     public function testConrollerData()
     {
-        $view = new class() extends View {
+        $view = new class () extends View {
             public function toString(): string
             {
                 return $this->controllerData->getName();
             }
         };
 
-        $name = 'some name';
+        $name        = 'some name';
         $description = 'some description';
-        $dto = new DefaultViewDTO($name, $description);
+        $dto         = new DefaultViewDTO($name, $description);
 
         $view->setControllerData($dto);
 

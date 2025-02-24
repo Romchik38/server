@@ -9,8 +9,8 @@ use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Routers\Http\ControllersCollection;
+use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Tests\Unit\Routers\Http\PlasticineRouterTest\Root\DefaultAction;
 
@@ -19,13 +19,13 @@ final class PlasticineRouterTest extends TestCase
     protected $routerResult;
     protected ControllersCollection $controllerCollection;
     protected $controller;
-    protected $notFoundController = null;
-    protected $redirectService = null;
+    protected $notFoundController;
+    protected $redirectService;
 
     public function setUp(): void
     {
-        $this->controller = $this->createMock(Controller::class);
-        $this->controllerCollection = new ControllersCollection;
+        $this->controller           = $this->createMock(Controller::class);
+        $this->controllerCollection = new ControllersCollection();
     }
 
     /** 1. method check  */
@@ -43,9 +43,8 @@ final class PlasticineRouterTest extends TestCase
         $request->method('getUri')->willReturn($uri);
         $request->method('getMethod')->willReturn('POST');
 
-
         $router = new PlasticineRouter(
-            new ResponseFactory,
+            new ResponseFactory(),
             $this->controllerCollection,
             $request
         );
@@ -71,16 +70,16 @@ final class PlasticineRouterTest extends TestCase
         $request->method('getUri')->willReturn($uri);
         $request->method('getMethod')->willReturn('GET');
 
-        $redirectLocation = 'http://example.com/';
-        $redirectStatusCode = 301;
-        $redirectResultDTO = new RedirectResultDTO($redirectLocation, $redirectStatusCode);
+        $redirectLocation      = 'http://example.com/';
+        $redirectStatusCode    = 301;
+        $redirectResultDTO     = new RedirectResultDTO($redirectLocation, $redirectStatusCode);
         $this->redirectService = $this->createMock(Redirect::class);
 
         $this->redirectService->expects($this->once())->method('execute')
             ->with('/index', 'GET')->willReturn($redirectResultDTO);
 
         $router = new PlasticineRouter(
-            new ResponseFactory,
+            new ResponseFactory(),
             $this->controllerCollection,
             $request,
             $this->notFoundController,
@@ -100,7 +99,7 @@ final class PlasticineRouterTest extends TestCase
         $rootController = new Controller(
             'root',
             true,
-            new DefaultAction
+            new DefaultAction()
         );
         $this->controllerCollection->setController(
             $rootController,
@@ -114,16 +113,15 @@ final class PlasticineRouterTest extends TestCase
         $request->method('getMethod')->willReturn('GET');
 
         $router = new PlasticineRouter(
-            new ResponseFactory,
+            new ResponseFactory(),
             $this->controllerCollection,
             $request
         );
 
-        $response = $router->execute();
+        $response   = $router->execute();
         $statusCode = $response->getStatusCode();
 
         $this->assertSame('hello world', (string) $response->getBody());
         $this->assertSame(200, $statusCode);
     }
-
 }

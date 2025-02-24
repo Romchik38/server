@@ -45,14 +45,15 @@ final class ControllerTest extends TestCase
 
     public function testGetDescriptionDefaultAction(): void
     {
-        $action = new class extends AbstractAction implements DefaultActionInterface {
+        $action     = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('hello world');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -69,14 +70,15 @@ final class ControllerTest extends TestCase
 
     public function testGetDescriptionDynamicAction(): void
     {
-        $action = new class extends AbstractAction implements DynamicActionInterface {
+        $action     = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $dynamicRoute): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>About page</h1>');
                 return $response->withBody($body);
             }
+
             public function getDescription(string $dynamicRoute): string
             {
                 if ($dynamicRoute === 'about') {
@@ -85,10 +87,11 @@ final class ControllerTest extends TestCase
                     throw new DynamicActionLogicException('route not exist');
                 }
             }
+
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'Abou Page')
+                    new DynamicRouteDTO('about', 'Abou Page'),
                 ];
             }
         };
@@ -108,10 +111,11 @@ final class ControllerTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('hello world');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'Home';
@@ -122,10 +126,11 @@ final class ControllerTest extends TestCase
             public function execute(string $dynamicRoute): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('<h1>About page</h1>');
                 return $response->withBody($body);
             }
+
             public function getDescription(string $dynamicRoute): string
             {
                 if ($dynamicRoute === 'about') {
@@ -134,14 +139,15 @@ final class ControllerTest extends TestCase
                     throw new DynamicActionLogicException('route not exist');
                 }
             }
+
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'Abou Page')
+                    new DynamicRouteDTO('about', 'Abou Page'),
                 ];
             }
         };
-        $controller = new Controller(
+        $controller    = new Controller(
             'root',
             true,
             $defaultAction,
@@ -153,7 +159,7 @@ final class ControllerTest extends TestCase
 
     public function testGetChildAndSetChild(): void
     {
-        $root = new Controller(
+        $root     = new Controller(
             'root'
         );
         $products = new Controller(
@@ -168,7 +174,7 @@ final class ControllerTest extends TestCase
 
     public function testGetChildThrowsException(): void
     {
-        $root = new Controller(
+        $root     = new Controller(
             'root'
         );
         $products = new Controller(
@@ -183,7 +189,7 @@ final class ControllerTest extends TestCase
 
     public function testSetChildThrowsError(): void
     {
-        $root = new Controller(
+        $root     = new Controller(
             'root'
         );
         $products = new Controller(
@@ -196,16 +202,16 @@ final class ControllerTest extends TestCase
 
     public function testGetChildren(): void
     {
-        $root = new Controller(
+        $root     = new Controller(
             'root'
         );
         $products = new Controller(
             'products'
         );
-        $reviews = new Controller(
+        $reviews  = new Controller(
             'reviews'
         );
-        $catalog = new Controller(
+        $catalog  = new Controller(
             'catalog'
         );
 
@@ -229,28 +235,29 @@ final class ControllerTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('product reviews');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'Product Reviews';
             }
         };
 
-        $root = new Controller(
+        $root     = new Controller(
             'root'
         );
         $products = new Controller(
             'products'
         );
-        $reviews = new Controller(
+        $reviews  = new Controller(
             'reviews',
             true,
             $reviewsDefaultAction
         );
-        $catalog = new Controller(
+        $catalog  = new Controller(
             'catalog'
         );
 
@@ -268,22 +275,27 @@ final class ControllerTest extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content of ' . $route);
                 return $response->withBody($body);
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };
@@ -295,7 +307,7 @@ final class ControllerTest extends TestCase
             $rootDynamicAction
         );
 
-        $dtos = $root->getDynamicRoutes();
+        $dtos     = $root->getDynamicRoutes();
         $firstDto = $dtos[0];
         $this->assertSame('about', $firstDto->name());
         $this->assertSame('About page', $firstDto->description());
@@ -307,10 +319,11 @@ final class ControllerTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('product reviews');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'Product Reviews';
@@ -320,27 +333,32 @@ final class ControllerTest extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content of ' . $route);
                 return $response->withBody($body);
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };
 
-        $root = new Controller(
+        $root     = new Controller(
             'root',
             true,
             null,
@@ -349,12 +367,12 @@ final class ControllerTest extends TestCase
         $products = new Controller(
             'products'
         );
-        $reviews = new Controller(
+        $reviews  = new Controller(
             'reviews',
             true,
             $reviewsDefaultAction
         );
-        $catalog = new Controller(
+        $catalog  = new Controller(
             'catalog'
         );
 
@@ -374,10 +392,11 @@ final class ControllerTest extends TestCase
             public function execute(): ResponseInterface
             {
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('product reviews');
                 return $response->withBody($body);
             }
+
             public function getDescription(): string
             {
                 return 'Product Reviews';
@@ -387,27 +406,32 @@ final class ControllerTest extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content of ' . $route);
                 return $response->withBody($body);
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };
 
-        $root = new Controller(
+        $root     = new Controller(
             'root',
             true,
             null,
@@ -416,12 +440,12 @@ final class ControllerTest extends TestCase
         $products = new Controller(
             'products'
         );
-        $reviews = new Controller(
+        $reviews  = new Controller(
             'reviews',
             true,
             $reviewsDefaultAction
         );
-        $catalog = new Controller(
+        $catalog  = new Controller(
             'catalog'
         );
 
@@ -434,9 +458,9 @@ final class ControllerTest extends TestCase
 
     public function testGetParents(): void
     {
-        $root = new Controller('root');
+        $root     = new Controller('root');
         $products = new Controller('products');
-        $help = new Controller('help');
+        $help     = new Controller('help');
         $root->setChild($help)->setChild($products);
         $products->setChild($help);
 
@@ -444,11 +468,11 @@ final class ControllerTest extends TestCase
         $this->assertSame([$root, $products], $parents);
     }
 
-    public function testSetCurrentParent():void
+    public function testSetCurrentParent(): void
     {
-        $root = new Controller('root');
+        $root     = new Controller('root');
         $products = new Controller('products');
-        $help = new Controller('help');
+        $help     = new Controller('help');
         $root->setChild($help)->setChild($products);
         $products->setChild($help);
 
@@ -458,9 +482,9 @@ final class ControllerTest extends TestCase
 
     public function testAddParent(): void
     {
-        $root = new Controller('root');
+        $root     = new Controller('root');
         $products = new Controller('products');
-        $help = new Controller('help');
+        $help     = new Controller('help');
         $help->addParent($root);
         $help->addParent($products);
         $this->assertSame([$root, $products], $help->getParents());

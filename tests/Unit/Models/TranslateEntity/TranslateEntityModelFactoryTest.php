@@ -12,7 +12,7 @@ class TranslateEntityModelFactoryTest extends TestCase
     public function testCreate()
     {
         $factory = new TranslateEntityModelFactory();
-        $model = $factory->create();
+        $model   = $factory->create();
 
         $this->assertEquals([], $model->getAllData());
     }

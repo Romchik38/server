@@ -12,7 +12,7 @@ class DynamicRootDTOTest extends TestCase
     public function testGetName()
     {
         $name = 'en';
-        $dto = new DynamicRootDTO($name);
+        $dto  = new DynamicRootDTO($name);
 
         $this->assertSame($name, $dto->getName());
     }

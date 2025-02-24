@@ -13,11 +13,14 @@ use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
+use function count;
+use function sprintf;
+
 class DynamicActionTest extends TestCase
 {
     public function testExecute()
     {
-        $action = $this->createAction();
+        $action   = $this->createAction();
         $response = $action->execute('about');
         $this->assertSame('<h1>About</h1>', (string) $response->getBody());
     }
@@ -31,7 +34,7 @@ class DynamicActionTest extends TestCase
 
     public function testGetDynamicRoutes(): void
     {
-        $action = $this->createAction();
+        $action    = $this->createAction();
         $routeDTOs = $action->getDynamicRoutes();
         $this->assertSame(1, count($routeDTOs));
     }
@@ -60,10 +63,11 @@ class DynamicActionTest extends TestCase
                     );
                 }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write(sprintf('<h1>%s</h1>', $result));
                 return $response->withBody($body);
             }
+
             public function getDynamicRoutes(): array
             {
                 $routes = [];
@@ -76,7 +80,9 @@ class DynamicActionTest extends TestCase
             public function getDescription(string $dynamicRoute): string
             {
                 $description = $this::DATA[$dynamicRoute] ?? null;
-                if ($description !== null) return $description;
+                if ($description !== null) {
+                    return $description;
+                }
 
                 throw new DynamicActionLogicException(sprintf(
                     'descruption for route %s not found',

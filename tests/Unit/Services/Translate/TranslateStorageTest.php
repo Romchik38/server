@@ -10,9 +10,10 @@ use Romchik38\Server\Models\TranslateEntity\Sql\TranslateEntityModelRepository;
 use Romchik38\Server\Models\TranslateEntity\TranslateEntityModel;
 use Romchik38\Server\Services\Translate\TranslateStorage;
 
+use function array_key_exists;
+
 class TranslateStorageTest extends TestCase
 {
-
     protected $repostory;
 
     public function setUp(): void

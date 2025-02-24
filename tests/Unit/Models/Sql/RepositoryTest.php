@@ -12,21 +12,23 @@ use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Model;
-use Romchik38\Server\Models\Sql\Repository;
-use Romchik38\Server\Models\Sql\DatabasePostgresql;
 use Romchik38\Server\Models\ModelFactory;
+use Romchik38\Server\Models\Sql\DatabasePostgresql;
+use Romchik38\Server\Models\Sql\Repository;
+
+use function count;
 
 class RepositoryTest extends TestCase
 {
     private $database;
     private $factory;
-    protected string $table = 'table1';
+    protected string $table            = 'table1';
     protected string $primaryFieldName = 'id';
 
     public function setUp(): void
     {
         $this->database = $this->createMock(DatabasePostgresql::class);
-        $this->factory = $this->createMock(ModelFactory::class);
+        $this->factory  = $this->createMock(ModelFactory::class);
     }
 
     protected function createRepository(): RepositoryInterface
@@ -39,7 +41,7 @@ class RepositoryTest extends TestCase
         );
     }
 
-    /** 
+    /**
      * method add
      * tests
      *   1 factory creation
@@ -52,7 +54,7 @@ class RepositoryTest extends TestCase
         $entity = new Model();
         $entity->setData('model_key1', 'model_value1');
         $entity->setData('model_key2', 'model_value2');
-        $modelData = ['model_key1' => 'model_value1', 'model_key2' => 'model_value2'];
+        $modelData     = ['model_key1' => 'model_value1', 'model_key2' => 'model_value2'];
         $expectedQuery = 'INSERT INTO ' . $this->table
             . ' (model_key1, model_key2) VALUES ($1, $2) RETURNING *';
 
@@ -72,7 +74,7 @@ class RepositoryTest extends TestCase
                 }
             ), ['model_value1', 'model_value2']);
 
-        $repository = $this->createRepository();
+        $repository  = $this->createRepository();
         $addedEntity = $repository->add($entity);
 
         // 3 entity
@@ -83,7 +85,7 @@ class RepositoryTest extends TestCase
     }
 
     /**
-     * method add 
+     * method add
      * throws CouldNotAddException
      */
     public function testAddThrowsError()
@@ -96,7 +98,7 @@ class RepositoryTest extends TestCase
         $repository->add(new Model());
     }
 
-    /** 
+    /**
      * method create
      * tests:
      *   1 factory creation
@@ -110,7 +112,7 @@ class RepositoryTest extends TestCase
         // 1 factory creation
         $this->factory->expects($this->once())->method('create')->willReturn($entity);
 
-        $repository = $this->createRepository();
+        $repository    = $this->createRepository();
         $createdEntity = $repository->create();
 
         // 2 entity
@@ -124,7 +126,7 @@ class RepositoryTest extends TestCase
      */
     public function testDeleteById()
     {
-        $id = 1;
+        $id            = 1;
         $expectedQuery = 'DELETE FROM ' . $this->table . ' WHERE '
             . $this->primaryFieldName . ' = $1';
 
@@ -144,7 +146,7 @@ class RepositoryTest extends TestCase
     }
 
     /**
-     * metyhod deleteById 
+     * metyhod deleteById
      * throws CouldNotDeleteException
      */
     public function testDeleteByIdThrowsError()
@@ -166,11 +168,11 @@ class RepositoryTest extends TestCase
      */
     public function testGetById()
     {
-        $id = 1;
+        $id                = 1;
         $entityFromFactory = new Model();
-        $expectedQuery = 'SELECT ' . $this->table . '.* FROM ' . $this->table
+        $expectedQuery     = 'SELECT ' . $this->table . '.* FROM ' . $this->table
             . ' WHERE ' . $this->primaryFieldName . ' = $1';
-        $modelData = ['model_key1' => 'model_value1', 'model_key2' => 'model_value2'];
+        $modelData         = ['model_key1' => 'model_value1', 'model_key2' => 'model_value2'];
 
         // 1 factory creation
         $this->factory->expects($this->once())->method('create')->willReturn($entityFromFactory);
@@ -188,7 +190,7 @@ class RepositoryTest extends TestCase
             ), [$id]);
 
         $repository = $this->createRepository();
-        $result = $repository->getById($id);
+        $result     = $repository->getById($id);
 
         // 3 entity
         $this->assertSame($entityFromFactory, $result);
@@ -208,7 +210,7 @@ class RepositoryTest extends TestCase
         $this->expectException(NoSuchEntityException::class);
 
         $repository = $this->createRepository();
-        $result = $repository->getById(1);
+        $result     = $repository->getById(1);
     }
 
     /**
@@ -221,16 +223,16 @@ class RepositoryTest extends TestCase
      */
     public function testList()
     {
-        $expression = ' WHERE id = $1';
+        $expression    = ' WHERE id = $1';
         $expectedQuery = 'SELECT ' . $this->table . '.* FROM ' . $this->table . ' ' . $expression;
-        $params = ['model_value'];
-        $modelData = [
-            'model_key' => 'model_value',
-            'model_key2' => 'model_value2'
+        $params        = ['model_value'];
+        $modelData     = [
+            'model_key'  => 'model_value',
+            'model_key2' => 'model_value2',
         ];
-        $modelData2 = [
-            'model2_key' => 'model2_value',
-            'model2_key2' => 'model2_value2'
+        $modelData2    = [
+            'model2_key'  => 'model2_value',
+            'model2_key2' => 'model2_value2',
         ];
 
         // 1 factory creation
@@ -251,7 +253,7 @@ class RepositoryTest extends TestCase
 
         // exec
         $repository = $this->createRepository();
-        $result = $repository->list($expression, $params);
+        $result     = $repository->list($expression, $params);
 
         // 3 count of the entities
         $this->assertSame(2, count($result));
@@ -266,7 +268,6 @@ class RepositoryTest extends TestCase
     /**
      * method save
      * tests
-     *   
      */
     public function testSave()
     {
@@ -281,9 +282,9 @@ class RepositoryTest extends TestCase
             . ' SET model_key1 = $1, model_key2 = $2, '
             . $this->primaryFieldName . ' = $3 WHERE '
             . $this->primaryFieldName . ' = $4 RETURNING *';
-        $modelData = [
+        $modelData     = [
             'model_key1' => 'model_value1',
-            'model_key2' => 'model_value2'
+            'model_key2' => 'model_value2',
         ];
 
         $entityFromFactory = new Model();
@@ -303,7 +304,7 @@ class RepositoryTest extends TestCase
             ), ['model_value1', 'model_value2', $id, $id]);
 
         $repository = $this->createRepository();
-        $result = $repository->save($entity);
+        $result     = $repository->save($entity);
 
         // 3 entity
         $this->assertSame($entityFromFactory, $result);

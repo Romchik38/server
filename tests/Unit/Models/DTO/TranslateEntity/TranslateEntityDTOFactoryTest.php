@@ -11,14 +11,14 @@ class TranslateEntityDTOFactoryTest extends TestCase
 {
     public function testCreate()
     {
-        $key = 'some.key';
+        $key  = 'some.key';
         $data = [
             'en' => 'some phrase',
-            'uk' => 'якась фраза'
+            'uk' => 'якась фраза',
         ];
 
         $factory = new TranslateEntityDTOFactory();
-        $dto = $factory->create($key, $data);
+        $dto     = $factory->create($key, $data);
 
         $this->assertSame($key, $dto->getKey());
         $this->assertSame($data, $dto->getAllData());

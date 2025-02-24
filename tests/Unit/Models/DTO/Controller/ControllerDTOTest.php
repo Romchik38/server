@@ -7,6 +7,8 @@ namespace Romchik38\Server\Tests\Unit\Models\DTO\Controller;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 
+use function json_encode;
+
 class ControllerDTOTest extends TestCase
 {
     public function testGetName()
@@ -35,7 +37,6 @@ class ControllerDTOTest extends TestCase
 
     public function testGetChildren()
     {
-
         $aboutDto = new ControllerDTO(
             'about',
             ['root'],

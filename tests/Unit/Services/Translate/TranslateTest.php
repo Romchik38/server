@@ -8,11 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
 use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
-use Romchik38\Server\Services\Translate\Translate;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Errors\TranslateException;
-use Romchik38\Server\Services\Translate\TranslateStorage;
 use Romchik38\Server\Services\Logger\Loggers\FileLogger;
+use Romchik38\Server\Services\Translate\Translate;
+use Romchik38\Server\Services\Translate\TranslateStorage;
 
 class TranslateTest extends TestCase
 {
@@ -21,7 +21,7 @@ class TranslateTest extends TestCase
 
     public function setUp(): void
     {
-        $this->dynamicRoot = $this->createMock(DynamicRoot::class);
+        $this->dynamicRoot      = $this->createMock(DynamicRoot::class);
         $this->translateStorage = $this->createMock(TranslateStorage::class);
     }
 
@@ -33,7 +33,7 @@ class TranslateTest extends TestCase
         $dynamicRoot = new DynamicRoot(
             'en',
             ['en', 'uk'],
-            new DynamicRootDTOFactory
+            new DynamicRootDTOFactory()
         );
         $dynamicRoot->setCurrentRoot('uk');
 
@@ -53,7 +53,7 @@ class TranslateTest extends TestCase
         $dynamicRoot = new DynamicRoot(
             'en',
             ['en', 'uk'],
-            new DynamicRootDTOFactory
+            new DynamicRootDTOFactory()
         );
         $dynamicRoot->setCurrentRoot('uk');
 
@@ -72,10 +72,10 @@ class TranslateTest extends TestCase
      * We have a key on 'en' and 'uk'
      * Our default language is 'gb'
      * We must have phrase for key on 'gb' or will get an error
-     * 
+     *
      * In other words:
      *   we set new default language, but do not make all translates for it in the database
-     * 
+     *
      * Whant that translate works - load all phrases on the default language before change it
      */
     public function testTthrowsErrorBecauseNoDefaultVal()
@@ -86,7 +86,7 @@ class TranslateTest extends TestCase
         $dynamicRoot = new DynamicRoot(
             'gb',
             ['en', 'uk'],
-            new DynamicRootDTOFactory
+            new DynamicRootDTOFactory()
         );
         $dynamicRoot->setCurrentRoot('uk');
 
@@ -104,7 +104,7 @@ class TranslateTest extends TestCase
     /**
      * Missin translation for given key and language
      * In that case function makes log and returns phrase default language
-     * 
+     *
      * test:
      *    - log
      *    - default phrase
@@ -117,7 +117,7 @@ class TranslateTest extends TestCase
         $dynamicRoot = new DynamicRoot(
             'en',
             ['en', 'gb'],
-            new DynamicRootDTOFactory
+            new DynamicRootDTOFactory()
         );
         $dynamicRoot->setCurrentRoot('gb');
 
@@ -137,15 +137,17 @@ class TranslateTest extends TestCase
 
     public function testTranslateWithSpecificLanguage()
     {
-        $key = 'some.key';
+        $key              = 'some.key';
         $specificLanguage = 'uk';
         $this->translateStorage->method('getDataByLanguages')
-            ->willReturn([$key => new TranslateEntityDTO(
-                $key,
-                [
-                    'en' => 'phrase some',
-                ]
-            )]);
+            ->willReturn([
+                $key => new TranslateEntityDTO(
+                    $key,
+                    [
+                        'en' => 'phrase some',
+                    ]
+                ),
+            ]);
 
         $this->translateStorage
             ->expects($this->once())
@@ -156,7 +158,7 @@ class TranslateTest extends TestCase
         $dynamicRoot = new DynamicRoot(
             'en',
             ['en'],
-            new DynamicRootDTOFactory
+            new DynamicRootDTOFactory()
         );
 
         $dynamicRoot->setCurrentRoot('en');
@@ -174,7 +176,7 @@ class TranslateTest extends TestCase
     {
         $dto = new TranslateEntityDTO($key, [
             'en' => 'phrase some',
-            'uk' => 'якась фраза'
+            'uk' => 'якась фраза',
         ]);
 
         return [$key => $dto];

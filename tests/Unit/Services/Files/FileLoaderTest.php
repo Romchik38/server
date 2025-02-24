@@ -13,7 +13,7 @@ class FileLoaderTest extends TestCase
     public function testLoadDirWithoutSlash(): void
     {
         $fileLoader = new FileLoader(__DIR__);
-        $data = $fileLoader->load('test.txt');
+        $data       = $fileLoader->load('test.txt');
 
         $this->assertSame('hello', $data);
     }
@@ -21,7 +21,7 @@ class FileLoaderTest extends TestCase
     public function testLoadDirWithSlash(): void
     {
         $fileLoader = new FileLoader(__DIR__ . '/');
-        $data = $fileLoader->load('test.txt');
+        $data       = $fileLoader->load('test.txt');
 
         $this->assertSame('hello', $data);
     }
@@ -29,7 +29,7 @@ class FileLoaderTest extends TestCase
     public function testLoadFileHasLeadSlah(): void
     {
         $fileLoader = new FileLoader(__DIR__);
-        $data = $fileLoader->load('/test.txt');
+        $data       = $fileLoader->load('/test.txt');
 
         $this->assertSame('hello', $data);
     }
@@ -38,14 +38,13 @@ class FileLoaderTest extends TestCase
     {
         $this->expectException(FileLoaderException::class);
         $fileLoader = new FileLoader('/not-existing-dir');
-        $data = $fileLoader->load('test.txt');
+        $data       = $fileLoader->load('test.txt');
     }
 
     public function testFileNotExist(): void
     {
         $this->expectException(FileLoaderException::class);
         $fileLoader = new FileLoader(__DIR__);
-        $data = $fileLoader->load('not-exist.txt');
+        $data       = $fileLoader->load('not-exist.txt');
     }
-
 }

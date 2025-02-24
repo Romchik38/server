@@ -18,7 +18,6 @@ use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 class ControllerActionsThrowsError extends TestCase
 {
-
     public function testDefaultActionThrowsNotFoundError(): void
     {
         $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
@@ -49,23 +48,28 @@ class ControllerActionsThrowsError extends TestCase
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
-                if ($route !== 'about') throw new ActionNotFoundException('Not found');
+                if ($route !== 'about') {
+                    throw new ActionNotFoundException('Not found');
+                }
                 $response = new Response();
-                $body = $response->getBody();
+                $body     = $response->getBody();
                 $body->write('Content about page');
                 $response = $response->withBody($body);
                 return $response;
             }
+
             public function getDescription(string $route): string
             {
-                if ($route !== 'about') throw new DynamicActionLogicException('route not found');
+                if ($route !== 'about') {
+                    throw new DynamicActionLogicException('route not found');
+                }
                 return 'Description of about page';
             }
 
             public function getDynamicRoutes(): array
             {
                 return [
-                    new DynamicRouteDTO('about', 'About page')
+                    new DynamicRouteDTO('about', 'About page'),
                 ];
             }
         };

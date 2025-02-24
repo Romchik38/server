@@ -12,31 +12,37 @@ use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
+use function json_encode;
+use function sprintf;
+
 final class DynamicAction extends AbstractAction implements DynamicActionInterface
 {
     public function __construct(
         protected readonly ControllerTreeInterface $controllerTreeService
-    ) {}
+    ) {
+    }
 
     protected array $data = [
         'product-1' => ['Product 1 page', '<h1>Product 1</h1>'],
-        'product-2' => ['Product 2 page', '<h1>Product 2</h1>']
+        'product-2' => ['Product 2 page', '<h1>Product 2</h1>'],
     ];
 
     protected const DESCRIPTION_INDEX = 0;
-    protected const RESPONSE_INDEX = 1;
+    protected const RESPONSE_INDEX    = 1;
 
     public function execute(string $dynamicRoute): ResponseInterface
     {
         $arr = $this->data[$dynamicRoute] ?? null;
-        if ($arr === null) throw new ActionNotFoundException(
-            sprintf('route %s not found', $dynamicRoute)
-        );
+        if ($arr === null) {
+            throw new ActionNotFoundException(
+                sprintf('route %s not found', $dynamicRoute)
+            );
+        }
 
         $controllerDTO = $this->controllerTreeService
             ->getOnlyLineRootControllerDTO($this->getController(), $dynamicRoute);
-        $response = new Response();
-        $body = $response->getBody();
+        $response      = new Response();
+        $body          = $response->getBody();
         $body->write(json_encode($controllerDTO));
         return $response->withBody($body);
     }

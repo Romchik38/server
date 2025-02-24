@@ -11,9 +11,9 @@ use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
 class LinkDTOTest extends TestCase
 {
     protected LinkDTOInterface $linkDTO;
-    protected string $name = 'Home';
+    protected string $name        = 'Home';
     protected string $description = 'Home Page';
-    protected string $url = '/en';
+    protected string $url         = '/en';
 
     public function setUp(): void
     {
