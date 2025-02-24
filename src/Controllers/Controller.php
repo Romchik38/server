@@ -11,7 +11,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Controllers\ControllerResultInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
-use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
+use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
@@ -226,7 +226,7 @@ class Controller implements ControllerInterface
         $name = $child->getName();
         /** root controller must be one */
         if ($name === ControllerTreeInterface::ROOT_NAME) {
-            throw new CantCreateControllerChain(
+            throw new CantCreateControllerChainException(
                 'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
             );
         }

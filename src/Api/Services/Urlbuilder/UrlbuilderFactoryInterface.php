@@ -10,7 +10,7 @@ interface UrlbuilderFactoryInterface
 {
     /**
      * @param array<int,string> $path
-     * @throws InvalidArgumentException params can't be empty
+     * @throws InvalidArgumentException - Params can't be empty.
      * */
     public function create(
         array $path,

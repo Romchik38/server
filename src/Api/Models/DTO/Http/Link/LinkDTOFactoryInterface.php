@@ -9,7 +9,7 @@ use Romchik38\Server\Models\Errors\InvalidArgumentException;
 interface LinkDTOFactoryInterface
 {
     /**
-     * @throws InvalidArgumentException name, description and url length must be greater than 0
+     * @throws InvalidArgumentException - Name, description and url length must be greater than 0.
      */
     public function create(
         string $name,

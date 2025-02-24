@@ -9,7 +9,7 @@ use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 
 interface ControllerTreeInterface
 {
-    const ROOT_NAME = 'root';
+    public const ROOT_NAME = 'root';
     /**
      * Map controller tree to controller dto tree. Used for breadcrumbs.
      *
@@ -25,5 +25,8 @@ interface ControllerTreeInterface
      * @param ControllerInterface $controller Current controller. Only to transfer process control
      * @return ControllerDTOInterface root controller dto
      */
-    public function getOnlyLineRootControllerDTO(ControllerInterface $controller, string $action): ControllerDTOInterface;
+    public function getOnlyLineRootControllerDTO(
+        ControllerInterface $controller,
+        string $action
+    ): ControllerDTOInterface;
 }

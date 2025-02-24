@@ -14,5 +14,5 @@ interface MailerInterface
      *
      * @throws CantSendEmailException
      */
-    public function send(EmailDTOInterface $emailDTO): void;
+    public function send(EmailDTOInterface $emailDto): void;
 }

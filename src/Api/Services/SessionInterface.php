@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Models\ModelInterface;
 
 interface SessionInterface extends ModelInterface
 {
-    const SESSION_MAX_TIME_TO_LOGOUT = 86400;
+    public const SESSION_MAX_TIME_TO_LOGOUT = 86400;
 
     /**
      * Destroy a session

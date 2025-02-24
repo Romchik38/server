@@ -6,7 +6,7 @@ namespace Romchik38\Server\Api\Servers;
 
 interface ServerInterface
 {
-    const SERVER_ERROR_CONTROLLER_NAME = 'server-error';
+    public const SERVER_ERROR_CONTROLLER_NAME = 'server-error';
 
     public function log(): ServerInterface;
 

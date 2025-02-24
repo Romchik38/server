@@ -14,9 +14,9 @@ use Romchik38\Server\Api\Models\DTO\DTOInterface;
  */
 interface LinkDTOInterface extends DTOInterface
 {
-    const NAME_FIELD        = 'name';
-    const DESCRIPTION_FIELD = 'description';
-    const URL_FIELD         = 'url';
+    public const NAME_FIELD        = 'name';
+    public const DESCRIPTION_FIELD = 'description';
+    public const URL_FIELD         = 'url';
 
     public function getName(): string;
 

@@ -12,10 +12,10 @@ interface ControllerDTOInterface extends DTOInterface, JsonSerializable
     /**
      * Used in the jsonSerialize() method
      */
-    const NAME_FIELD        = 'name';
-    const PATH_FIELD        = 'path';
-    const CHILDREN_FIELD    = 'children';
-    const DESCRIPTION_FILED = 'description';
+    public const NAME_FIELD        = 'name';
+    public const PATH_FIELD        = 'path';
+    public const CHILDREN_FIELD    = 'children';
+    public const DESCRIPTION_FILED = 'description';
 
     /**
      * Returns route name

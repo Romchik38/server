@@ -30,7 +30,7 @@
   - `MultiLanguageAction` to `AbstractMultiLanguageAction`
   - `CreateConnectionExeption` to `CreateConnectionException`
   - `Action` to `AbstractAction`
-  - `` to ``
+  - `CantCreateControllerChain` to `CantCreateControllerChainException`
   - `` to ``
 - `Repository` changed type of `$id` param from `mixed` to `int|string`
 

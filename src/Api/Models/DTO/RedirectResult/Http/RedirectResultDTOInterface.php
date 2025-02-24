@@ -12,8 +12,8 @@ use Romchik38\Server\Api\Models\DTO\DTOInterface;
  */
 interface RedirectResultDTOInterface extends DTOInterface
 {
-    const REDIRECT_LOCATION_FIELD    = 'redirect_location';
-    const REDIRECT_STATUS_CODE_FIELD = 'status_code';
+    public const REDIRECT_LOCATION_FIELD    = 'redirect_location';
+    public const REDIRECT_STATUS_CODE_FIELD = 'status_code';
 
     /** A full uri for the Location header */
     public function getRedirectLocation(): string;

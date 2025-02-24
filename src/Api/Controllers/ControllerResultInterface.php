@@ -8,9 +8,9 @@ use Psr\Http\Message\ResponseInterface;
 
 interface ControllerResultInterface
 {
-    const RESPONSE_FIELD = 'response';
-    const PATH_FIELD     = 'path';
-    const TYPE_FIELD     = 'type';
+    public const RESPONSE_FIELD = 'response';
+    public const PATH_FIELD     = 'path';
+    public const TYPE_FIELD     = 'type';
     /**
      * returns result from the action
      *

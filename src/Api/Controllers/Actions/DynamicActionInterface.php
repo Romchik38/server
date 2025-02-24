@@ -15,7 +15,7 @@ interface DynamicActionInterface extends ActionInterface
      * The last part of the chain.
      * Returns the result to client
      *
-     * @throws ActionNotFoundException [if the route is unknown]
+     * @throws ActionNotFoundException - If the route is unknown.
      * @return ResponseInterface Action Response
      */
     public function execute(string $dynamicRoute): ResponseInterface;
@@ -30,7 +30,7 @@ interface DynamicActionInterface extends ActionInterface
 
     /** Description of concrete dynamic route
      *
-     * @throws DynamicActionLogicException When description was not found
+     * @throws DynamicActionLogicException - When description was not found.
      */
     public function getDescription(string $dynamicRoute): string;
 }

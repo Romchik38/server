@@ -31,9 +31,9 @@ interface EntityRepositoryInterface
       * Fields are values of $this->entityFieldName table
       *
       * @param string[] $fields
-      * @throws CouldNotDeleteException [when some errors occures]
-      * @throws NoSuchEntityException [if given entity doesn't present]
-      * @return EntityModelInterface [a fresh copy of the entity already without given fields]
+      * @throws CouldNotDeleteException - When some errors occures.
+      * @throws NoSuchEntityException - If given entity doesn't present.
+      * @return EntityModelInterface - A fresh copy of the entity already without given fields
       */
     public function deleteFields(
         array $fields,

@@ -13,5 +13,7 @@ use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 interface LinkTreeInterface
 {
     /** convert controllerDTO to linkTreeDTO */
-    public function getLinkTreeDTO(ControllerDTOInterface $rootControllerDTO): LinkTreeDTOInterface;
+    public function getLinkTreeDTO(
+        ControllerDTOInterface $rootControllerDto
+    ): LinkTreeDTOInterface;
 }

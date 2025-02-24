@@ -9,8 +9,8 @@ use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootError;
 
 interface DynamicRootInterface
 {
-    const DEFAULT_ROOT_FIELD = 'default_root';
-    const ROOT_LIST_FIELD    = 'root_list';
+    public const DEFAULT_ROOT_FIELD = 'default_root';
+    public const ROOT_LIST_FIELD    = 'root_list';
 
     /** return default root */
     public function getDefaultRoot(): DynamicRootDTOInterface;
@@ -35,7 +35,7 @@ interface DynamicRootInterface
      *    1 step - the current root is setted up in the Router
      *    2 step - then the root can be accessed in the services, controllers etc
      *
-     * @throws EarlyAccessToCurrentRootError When current root wasn't set
+     * @throws EarlyAccessToCurrentRootError - When current root wasn't set.
      * @return DynamicRootDTOInterface The root entity from the current request, setted by Router
      */
     public function getCurrentRoot(): DynamicRootDTOInterface;

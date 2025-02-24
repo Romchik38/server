@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Controllers;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
-use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
+use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 
 interface ControllerInterface
 {
-    const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
-    const PATH_SEPARATOR          = '<>';
-    const PATH_DYNAMIC_ALL        = '*';
+    public const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
+    public const PATH_SEPARATOR          = '<>';
+    public const PATH_DYNAMIC_ALL        = '*';
     /**
      * add parrent to this controller
      */
@@ -23,8 +23,8 @@ interface ControllerInterface
     /**
      * transfers control to next controller
      *
-     * @param array<int,string> $elements - chain path ['controller_name', 'or_action_name']
-     * @throws ControllerLogicException - on empty $elements
+     * @param array<int,string> $elements - Chain path ['controller_name', 'or_action_name']
+     * @throws ControllerLogicException - On empty $elements.
      * @throws NotFoundException
      * */
     public function execute(array $elements): ControllerResultInterface;
@@ -40,7 +40,7 @@ interface ControllerInterface
     /**
      * Controller's description
      *
-     * @throws ControllerLogicException On non existing dynamic route
+     * @throws ControllerLogicException - On non existing dynamic route.
      * */
     public function getDescription(string $dynamicRoute = ''): string;
 
@@ -92,7 +92,7 @@ interface ControllerInterface
      * Add child controller to the children list
      *
      * @param ControllerInterface $child [a child to add]
-     * @throws CantCreateControllerChain when try to add the root controller as a child
+     * @throws CantCreateControllerChainException - When try to add the root controller as a child.
      * @return self - this controller
      */
     public function setChild(ControllerInterface $child): self;

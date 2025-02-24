@@ -10,13 +10,12 @@ use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
-use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
+use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
-class ControllerTest extends TestCase
+final class ControllerTest extends TestCase
 {
     public function testIsPublicDefault(): void
     {
@@ -189,7 +188,7 @@ class ControllerTest extends TestCase
             'products'
         );
 
-        $this->expectException(CantCreateControllerChain::class);
+        $this->expectException(CantCreateControllerChainException::class);
         $products->setChild($root);
     }
 

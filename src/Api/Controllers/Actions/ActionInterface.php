@@ -8,8 +8,8 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 
 interface ActionInterface
 {
-    const TYPE_DEFAULT_ACTION = 'default_action';
-    const TYPE_DYNAMIC_ACTION = 'dynamic_action';
+    public const TYPE_DEFAULT_ACTION = 'default_action';
+    public const TYPE_DYNAMIC_ACTION = 'dynamic_action';
 
     public function getController(): ControllerInterface;
 

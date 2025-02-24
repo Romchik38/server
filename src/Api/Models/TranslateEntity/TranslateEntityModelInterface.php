@@ -9,10 +9,10 @@ use Romchik38\Server\Api\Models\ModelInterface;
 /** Interface for Translate Entity Model */
 interface TranslateEntityModelInterface extends ModelInterface
 {
-    const ID_FIELD       = 'entity_id';
-    const KEY_FIELD      = 'key';
-    const LANGUAGE_FIELD = 'language';
-    const PHRASE_FIELD   = 'phrase';
+    public const ID_FIELD       = 'entity_id';
+    public const KEY_FIELD      = 'key';
+    public const LANGUAGE_FIELD = 'language';
+    public const PHRASE_FIELD   = 'phrase';
 
     public function getId(): int;
 

@@ -8,7 +8,7 @@ use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
 
 interface BreadcrumbDTOInterface extends LinkDTOInterface
 {
-    const PREV_FIELD = 'prev';
+    public const PREV_FIELD = 'prev';
 
     public function getPrev(): BreadcrumbDTOInterface|null;
 }
