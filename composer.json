@@ -12,7 +12,8 @@
 
     "autoload": {
         "psr-4": {
-            "Romchik38\\Server\\": "src/"
+            "Romchik38\\Server\\": "src/",
+            "Romchik38\\Server\\Tests\\": "tests/"
         }
     },
 

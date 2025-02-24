@@ -31,7 +31,6 @@
   - `CreateConnectionExeption` to `CreateConnectionException`
   - `Action` to `AbstractAction`
   - `CantCreateControllerChain` to `CantCreateControllerChainException`
-  - `` to ``
 - `Repository` changed type of `$id` param from `mixed` to `int|string`
 
 ## v1.14.0

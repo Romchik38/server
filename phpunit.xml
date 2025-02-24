@@ -8,7 +8,7 @@
     <!-- rest of the config file -->
     <testsuites>
         <testsuite name="server_unit">
-          <directory>tests/unit</directory>
+          <directory>tests/Unit</directory>
         </testsuite>
       </testsuites>
 </phpunit>
