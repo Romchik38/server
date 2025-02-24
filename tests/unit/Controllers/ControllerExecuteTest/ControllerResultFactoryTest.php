@@ -7,20 +7,17 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
-use Romchik38\Server\Controllers\Errors\ControllerLogicException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 
 class ControllerResultFactoryTest extends TestCase
 {
     public function testReturnResultFromDefault(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -35,7 +32,7 @@ class ControllerResultFactoryTest extends TestCase
             }
         };
 
-        $productsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $productsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -72,7 +69,7 @@ class ControllerResultFactoryTest extends TestCase
 
     public function testReturnResultFromDynamic(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -87,7 +84,7 @@ class ControllerResultFactoryTest extends TestCase
             }
         };
 
-        $productsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $productsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -102,7 +99,7 @@ class ControllerResultFactoryTest extends TestCase
             }
         };
 
-        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');

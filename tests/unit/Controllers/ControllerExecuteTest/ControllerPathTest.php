@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
@@ -16,7 +16,7 @@ class ControllerPathTest extends TestCase
 {
     public function testFindPath(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -31,7 +31,7 @@ class ControllerPathTest extends TestCase
             }
         };
 
-        $productsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $productsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -67,7 +67,7 @@ class ControllerPathTest extends TestCase
 
     public function testNotFindPath(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -82,7 +82,7 @@ class ControllerPathTest extends TestCase
             }
         };
 
-        $productsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $productsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -117,7 +117,7 @@ class ControllerPathTest extends TestCase
 
     public function testEmptyElements(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -132,7 +132,7 @@ class ControllerPathTest extends TestCase
             }
         };
 
-        $productsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $productsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();

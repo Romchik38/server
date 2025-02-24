@@ -10,10 +10,10 @@ use Romchik38\Server\Api\Services\Translate\TranslateInterface;
 /**
  * Must be extended by DefaultAction or DynamicAction
  */
-abstract class MultiLanguageAction extends DynamicRootAction
+abstract class AbstractMultiLanguageAction extends AbstractDynamicRootAction
 {
     public function __construct(
-        protected readonly DynamicRootInterface $DynamicRootService,
+        protected readonly DynamicRootInterface $dynamicRootService,
         protected readonly TranslateInterface $translateService
     ) {
     }
@@ -21,7 +21,7 @@ abstract class MultiLanguageAction extends DynamicRootAction
     /** Use to get current language */
     protected function getLanguage(): string
     {
-        return $this->DynamicRootService->getCurrentRoot()->getName();
+        return $this->dynamicRootService->getCurrentRoot()->getName();
     }
 
      /**
@@ -29,6 +29,6 @@ abstract class MultiLanguageAction extends DynamicRootAction
       * */
     protected function getDefaultLanguage(): string
     {
-        return $this->DynamicRootService->getDefaultRoot()->getName();
+        return $this->dynamicRootService->getDefaultRoot()->getName();
     }
 }

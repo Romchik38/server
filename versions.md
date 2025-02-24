@@ -26,10 +26,10 @@
   - `Logger` to `AbstractLogger`
   - `EarlyAccessToCurrentRootError` to `EarlyAccessToCurrentRootErrorException`
   - `QueryExeption` to `QueryException`
-  - `` to ``
-  - `` to ``
-  - `` to ``
-  - `` to ``
+  - `DynamicRootAction` to `AbstractDynamicRootAction`
+  - `MultiLanguageAction` to `AbstractMultiLanguageAction`
+  - `CreateConnectionExeption` to `CreateConnectionException`
+  - `Action` to `AbstractAction`
   - `` to ``
   - `` to ``
 - `Repository` changed type of `$id` param from `mixed` to `int|string`

@@ -8,11 +8,11 @@ use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
-final class DynamicAction extends Action implements DynamicActionInterface
+final class DynamicAction extends AbstractAction implements DynamicActionInterface
 {
     public function __construct(
         protected readonly ControllerTreeInterface $controllerTreeService

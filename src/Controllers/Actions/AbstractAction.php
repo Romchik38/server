@@ -10,7 +10,7 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 /**
  * Must be extended with DefaultActionInterface or DynamicActionInterface
  */
-abstract class Action implements ActionInterface
+abstract class AbstractAction implements ActionInterface
 {
     protected ControllerInterface $controller;
 

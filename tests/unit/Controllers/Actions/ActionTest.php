@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 
 class ActionTest extends TestCase
@@ -42,7 +42,7 @@ class ActionTest extends TestCase
 
     protected function createAction(): ActionInterface
     {
-        return new class extends Action implements DefaultActionInterface {
+        return new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): Response
             {
                 $response = new Response();

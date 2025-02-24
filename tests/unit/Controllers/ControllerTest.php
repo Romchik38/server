@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChain;
@@ -44,7 +44,7 @@ class ControllerTest extends TestCase
 
     public function testGetDescriptionDefaultAction(): void
     {
-        $action = new class extends Action implements DefaultActionInterface {
+        $action = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -68,7 +68,7 @@ class ControllerTest extends TestCase
 
     public function testGetDescriptionDynamicAction(): void
     {
-        $action = new class extends Action implements DynamicActionInterface {
+        $action = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $dynamicRoute): ResponseInterface
             {
                 $response = new Response();
@@ -103,7 +103,7 @@ class ControllerTest extends TestCase
 
     public function testGetDescriptionSetBoth(): void
     {
-        $defaultAction = new class extends Action implements DefaultActionInterface {
+        $defaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -117,7 +117,7 @@ class ControllerTest extends TestCase
             }
         };
 
-        $dynamicAction = new class extends Action implements DynamicActionInterface {
+        $dynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $dynamicRoute): ResponseInterface
             {
                 $response = new Response();
@@ -224,7 +224,7 @@ class ControllerTest extends TestCase
 
     public function testGetCurrentParent(): void
     {
-        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -264,7 +264,7 @@ class ControllerTest extends TestCase
 
     public function testGetDynamicRoutes(): void
     {
-        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
@@ -302,7 +302,7 @@ class ControllerTest extends TestCase
 
     public function testGetFullPathDefaultRoute(): void
     {
-        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -316,7 +316,7 @@ class ControllerTest extends TestCase
             }
         };
 
-        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');
@@ -369,7 +369,7 @@ class ControllerTest extends TestCase
 
     public function testGetFullPathDynamicRoute()
     {
-        $reviewsDefaultAction = new class extends Action implements DefaultActionInterface {
+        $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();
@@ -383,7 +383,7 @@ class ControllerTest extends TestCase
             }
         };
 
-        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');

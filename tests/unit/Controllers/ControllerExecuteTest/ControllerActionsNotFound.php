@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
@@ -19,7 +19,7 @@ class ControllerActionsThrowsError extends TestCase
 
     public function testDefaultActionThrowsNotFoundError(): void
     {
-        $rootDefaultAction = new class extends Action implements DefaultActionInterface {
+        $rootDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 throw new ActionNotFoundException('not found, sorry');
@@ -44,7 +44,7 @@ class ControllerActionsThrowsError extends TestCase
 
     public function testDynamicActionThrowsNotFoundError(): void
     {
-        $rootDynamicAction = new class extends Action implements DynamicActionInterface {
+        $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
             public function execute(string $route): ResponseInterface
             {
                 if ($route !== 'about') throw new ActionNotFoundException('Not found');

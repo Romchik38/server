@@ -10,10 +10,10 @@ use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 /**
  * Must be extended by DefaultAction or DynamicAction
  */
-abstract class DynamicRootAction extends Action implements ActionInterface
+abstract class AbstractDynamicRootAction extends AbstractAction implements ActionInterface
 {
     public function __construct(
-        protected readonly DynamicRootInterface $DynamicRootService
+        protected readonly DynamicRootInterface $dynamicRootService
     ) {
     }
 }

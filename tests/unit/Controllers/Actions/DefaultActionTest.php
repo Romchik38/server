@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Controllers\Actions\Action;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 
 class DefaultActionTest extends TestCase
 {
@@ -26,7 +26,7 @@ class DefaultActionTest extends TestCase
 
     protected function createDefaultAction(): DefaultActionInterface
     {
-        return new class extends Action implements DefaultActionInterface {
+        return new class extends AbstractAction implements DefaultActionInterface {
             public function execute(): ResponseInterface
             {
                 $response = new Response();

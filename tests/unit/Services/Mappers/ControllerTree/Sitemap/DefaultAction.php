@@ -8,10 +8,9 @@ use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Controllers\Actions\Action;
-use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 
-final class DefaultAction extends Action implements DefaultActionInterface
+final class DefaultAction extends AbstractAction implements DefaultActionInterface
 {
     public function __construct(
         protected readonly ControllerTreeInterface $controllerTreeService

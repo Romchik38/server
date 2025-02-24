@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 use Romchik38\Server\Routers\Http\PlasticineRouter;
-use Romchik38\Server\Results\Http\HttpRouterResult;
 use Romchik38\Server\Routers\Http\ControllersCollection;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 
 final class PlasticineRouterTest extends TestCase
 {
-
     protected $routerResult;
     protected ControllersCollection $controllerCollection;
     protected $controller;

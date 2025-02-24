@@ -7,9 +7,9 @@ namespace Romchik38\Tests\Services\Mappers\ControllerTree\Root;
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 
-final class DefaultAction extends Action implements DefaultActionInterface {
+final class DefaultAction extends AbstractAction implements DefaultActionInterface {
     protected const DATA = [
         'result' => '<h1>Welcome</h1>',
         'description' => 'Home page'

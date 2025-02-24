@@ -6,7 +6,6 @@ namespace Romchik38\Tests\Services\Mappers\ControllerTree;
 
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Controllers\Controller;
-use Romchik38\Server\Results\Controller\ControllerResultFactory;
 use Romchik38\Tests\Services\Mappers\ControllerTree\Root\DefaultAction as RootDefaultAction;
 use Romchik38\Tests\Services\Mappers\ControllerTree\Root\DynamicAction as RootDynamicAction;
 use Romchik38\Tests\Services\Mappers\ControllerTree\Products\DefaultAction as ProductsDefaultAction;

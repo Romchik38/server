@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Controllers\Actions\Action;
+use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
@@ -44,7 +44,7 @@ class DynamicActionTest extends TestCase
 
     protected function createAction(): DynamicActionInterface
     {
-        return new class extends Action implements DynamicActionInterface {
+        return new class extends AbstractAction implements DynamicActionInterface {
             protected const DATA = ['about' => 'About'];
             public function execute(string $dynamicRoute): ResponseInterface
             {

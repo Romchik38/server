@@ -6,7 +6,7 @@ namespace Romchik38\Server\Models\Sql;
 
 use PgSql\Connection;
 use Romchik38\Server\Api\Models\DatabaseInterface;
-use Romchik38\Server\Models\Errors\CreateConnectionExeption;
+use Romchik38\Server\Models\Errors\CreateConnectionException;
 use Romchik38\Server\Models\Errors\DatabaseException;
 use Romchik38\Server\Models\Errors\QueryException;
 
@@ -30,7 +30,7 @@ class DatabasePostgresql implements DatabaseInterface
 
         $connection = pg_connect($config);
         if ($connection === false) {
-            throw new CreateConnectionExeption('Could\'t create connection');
+            throw new CreateConnectionException('Could\'t create connection');
         }
         $this->connection = $connection;
     }
@@ -45,7 +45,7 @@ class DatabasePostgresql implements DatabaseInterface
     public function queryParams(string $query, array $params): array
     {
         if ($this->connection === null) {
-            throw new CreateConnectionExeption('No connection to create a query');
+            throw new CreateConnectionException('No connection to create a query');
         }
         $result = pg_query_params($this->connection, $query, $params);
         if ($result === false) {
