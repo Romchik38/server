@@ -58,3 +58,5 @@ Coming soon. In progress.
 - phpunit
   - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (146 tests, 287 assertions)`
   - tested partially
+- laminas-coding-standard
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`66 / 66 (100%)`

@@ -8,14 +8,8 @@
 
 [see todo](./todo.md)
 
-## v1.14.1
+## v1.15.0
 
-- [n] - `DTO` now can be serialized to json with json_encode
-- [!] - `PageView` method `__construct` params now are type of `Closure`
-  - `$controllerTemplate`
-  - `$generateTemplate`
-- [!] removed `CompositeId` models
-- added `phpstan` checks level 8
 - added laminas-coding-standard
 - changed class name:
   - `MissingRequiredParameterInFile` to `MissingRequiredParameterInFileException`
@@ -32,6 +26,15 @@
   - `Action` to `AbstractAction`
   - `CantCreateControllerChain` to `CantCreateControllerChainException`
 - `Repository` changed type of `$id` param from `mixed` to `int|string`
+
+## v1.14.1
+
+- [n] - `DTO` now can be serialized to json with json_encode
+- [!] - `PageView` method `__construct` params now are type of `Closure`
+  - `$controllerTemplate`
+  - `$generateTemplate`
+- [!] removed `CompositeId` models
+- added `phpstan` checks level 8
 
 ## v1.14.0
 
