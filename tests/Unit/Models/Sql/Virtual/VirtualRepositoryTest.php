@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\Sql\Virtual;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
 use Romchik38\Server\Models\Model;
 use Romchik38\Server\Models\ModelFactory;
 use Romchik38\Server\Models\Sql\DatabasePostgresql;
@@ -14,29 +13,15 @@ use Romchik38\Server\Models\Sql\Virtual\VirtualRepository;
 use function count;
 use function implode;
 
-class VirtualRepositoryTest extends TestCase
+final class VirtualRepositoryTest extends TestCase
 {
-    private $database;
-    private $factory;
     private array $selectFields;
     private array $tables;
 
     public function setUp(): void
     {
-        $this->database     = $this->createMock(DatabasePostgresql::class);
-        $this->factory      = $this->createMock(ModelFactory::class);
         $this->selectFields = ['table1.*', 'table2.field1', 'table2.field2'];
         $this->tables       = ['table1', 'table2'];
-    }
-
-    protected function createRepository(): VirtualRepositoryInterface
-    {
-        return new VirtualRepository(
-            $this->database,
-            $this->factory,
-            $this->selectFields,
-            $this->tables
-        );
     }
 
     /**
@@ -46,14 +31,22 @@ class VirtualRepositoryTest extends TestCase
      */
     public function testCreate()
     {
+        $database   = $this->createMock(DatabasePostgresql::class);
+        $factory    = $this->createMock(ModelFactory::class);
+        $repository = new VirtualRepository(
+            $database,
+            $factory,
+            $this->selectFields,
+            $this->tables
+        );
+
         // prepare data
         $entity = new Model();
 
-        $this->factory->expects($this->once())->method('create')->willReturn($entity);
+        $factory->expects($this->once())->method('create')->willReturn($entity);
 
         // exec
-        $repository = $this->createRepository();
-        $result     = $repository->create();
+        $result = $repository->create();
 
         // 1 new instance creation
         $this->assertSame($entity, $result);
@@ -68,6 +61,15 @@ class VirtualRepositoryTest extends TestCase
      */
     public function testList()
     {
+        $database   = $this->createMock(DatabasePostgresql::class);
+        $factory    = $this->createMock(ModelFactory::class);
+        $repository = new VirtualRepository(
+            $database,
+            $factory,
+            $this->selectFields,
+            $this->tables
+        );
+
         // prepare data
         $expression    = 'WHERE model_key = $1';
         $params        = ['model_value'];
@@ -82,11 +84,11 @@ class VirtualRepositoryTest extends TestCase
             'model2_key2' => 'model2_value2',
         ];
 
-        $this->factory->expects($this->exactly(2))->method('create')
+        $factory->expects($this->exactly(2))->method('create')
             ->willReturn(new Model(), new Model());
 
         // 1 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([$modelData, $modelData2])
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
@@ -98,8 +100,7 @@ class VirtualRepositoryTest extends TestCase
             ), ['model_value']);
 
         // exec
-        $repository = $this->createRepository();
-        $result     = $repository->list($expression, $params);
+        $result = $repository->list($expression, $params);
 
         // 2 count of the entities
         $this->assertSame(2, count($result));

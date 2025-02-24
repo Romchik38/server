@@ -14,34 +14,15 @@ use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Sql\DatabasePostgresql;
 use Romchik38\Server\Models\Sql\Entity\EntityRepository;
 
-class EntityRepositoryTest extends TestCase
+use function file_get_contents;
+
+final class EntityRepositoryTest extends TestCase
 {
-    private $database;
-    private $factory;
-    private $entityTable            = 'entities';
-    private $fieldsTable            = 'entity_field';
-    private $primaryEntityFieldName = 'entity_id';
-    private $entityFieldName        = 'field_name';
-    private $entityValueName        = 'value';
-
-    public function setUp(): void
-    {
-        $this->database = $this->createMock(DatabasePostgresql::class);
-        $this->factory  = $this->createMock(EntityFactory::class);
-    }
-
-    protected function createRepository(): EntityRepository
-    {
-        return new EntityRepository(
-            $this->database,
-            $this->factory,
-            $this->entityTable,
-            $this->fieldsTable,
-            $this->primaryEntityFieldName,
-            $this->entityFieldName,
-            $this->entityValueName
-        );
-    }
+    private string $entityTable            = 'entities';
+    private string $fieldsTable            = 'entity_field';
+    private string $primaryEntityFieldName = 'entity_id';
+    private string $entityFieldName        = 'field_name';
+    private string $entityValueName        = 'value';
 
     /**
      * Add new Entity
@@ -49,8 +30,20 @@ class EntityRepositoryTest extends TestCase
      */
     public function testAdd()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
         $entity->setEntityData('name', 'Test Entity for add method');
         $entity->email_contact_recovery = 'some@email';
 
@@ -65,9 +58,9 @@ class EntityRepositoryTest extends TestCase
             [$this->primaryEntityFieldName => '1', 'name' => 'Test Entity for add method'],
         ];
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
-        $this->database->expects($this->exactly(2))->method('queryParams')
+        $database->expects($this->exactly(2))->method('queryParams')
             ->willReturn($entityRow, $fieldsRow);
 
         $result = $repository->add($entity);
@@ -89,11 +82,22 @@ class EntityRepositoryTest extends TestCase
      */
     public function testAddEntityDataEmptyThrowError()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
 
         $this->expectException(CouldNotAddException::class);
-
         $repository->add($entity);
     }
 
@@ -103,13 +107,25 @@ class EntityRepositoryTest extends TestCase
      */
     public function testAddDatabaseThrowError()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
         $entity->setEntityData('name', 'Test Entity for add method');
         $entity->email_contact_recovery = 'some@email';
 
-        $this->factory->method('create')->willReturn(new EntityModel());
-        $this->database->method('queryParams')->willThrowException(new QueryException('some database error'));
+        $factory->method('create')->willReturn(new EntityModel());
+        $database->method('queryParams')->willThrowException(new QueryException('some database error'));
         $this->expectException(CouldNotAddException::class);
 
         $repository->add($entity);
@@ -121,8 +137,20 @@ class EntityRepositoryTest extends TestCase
      */
     public function testAddFields()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
         $entity->setEntityData($this->primaryEntityFieldName, 1);
         $entity->setEntityData('name', 'Test Entity for add method');
 
@@ -137,10 +165,10 @@ class EntityRepositoryTest extends TestCase
             ],
         ];
 
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn($fieldsRow);
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
         $result = $repository->addFields($fields, $entity);
 
@@ -152,9 +180,21 @@ class EntityRepositoryTest extends TestCase
      */
     public function testCreate()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
-        $this->factory->method('create')->willReturn($entity);
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
+        $factory->method('create')->willReturn($entity);
         $this->assertSame($entity, $repository->create());
     }
 
@@ -164,11 +204,21 @@ class EntityRepositoryTest extends TestCase
      */
     public function testDeleteById()
     {
-        $repository = $this->createRepository();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
 
-        $this->database->method('queryParams')->willThrowException(new QueryException('some database error'));
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $database->method('queryParams')->willThrowException(new QueryException('some database error'));
         $this->expectException(CouldNotDeleteException::class);
-
         $repository->deleteById(1);
     }
 
@@ -179,8 +229,20 @@ class EntityRepositoryTest extends TestCase
      */
     public function testDeleteFields()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
         $entity->setEntityData($this->primaryEntityFieldName, 1);
         $entity->email_contact_recovery = 'some@email';
 
@@ -190,7 +252,7 @@ class EntityRepositoryTest extends TestCase
         $selectEntityQuery = 'SELECT * FROM entities WHERE entity_id = $1';
         $selectFieldQuery  = 'SELECT * FROM entity_field WHERE entity_id = $1';
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
         $fieldsRow = [];
 
@@ -198,7 +260,7 @@ class EntityRepositoryTest extends TestCase
             [$this->primaryEntityFieldName => '1'],
         ];
 
-        $this->database->expects($this->exactly(3))->method('queryParams')
+        $database->expects($this->exactly(3))->method('queryParams')
             ->willReturn([], $entityRow, $fieldsRow)
             ->with($this->callback(
                 function ($param) use ($deleteQuery, $selectEntityQuery, $selectFieldQuery) {
@@ -224,7 +286,19 @@ class EntityRepositoryTest extends TestCase
          */
     public function testGetById()
     {
-        $repository      = $this->createRepository();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
         $id              = 1;
         $fieldNameEmail  = 'email_contact_recovery';
         $fieldValueEmail = 'some@mail.com';
@@ -246,11 +320,11 @@ class EntityRepositoryTest extends TestCase
             [$this->primaryEntityFieldName => '1', 'name' => 'Test Entity for getById method'],
         ];
 
-        $this->database->expects($this->exactly(2))->method('queryParams')
+        $database->expects($this->exactly(2))->method('queryParams')
             ->willReturn($entityRow, $fieldsRow);
 
         $entity = new EntityModel();
-        $this->factory->method('create')->willReturn($entity);
+        $factory->method('create')->willReturn($entity);
 
         $result = $repository->getById($id);
 
@@ -262,10 +336,22 @@ class EntityRepositoryTest extends TestCase
      */
     public function testGetByIdNotFound()
     {
-        $repository = $this->createRepository();
-        $id         = 1;
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
 
-        $this->database->expects($this->once())->method('queryParams')
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $id = 1;
+
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([]);
 
         $this->expectException(NoSuchEntityException::class);
@@ -284,13 +370,25 @@ class EntityRepositoryTest extends TestCase
      */
     public function testListByEntities()
     {
-        $repository  = $this->createRepository();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
         $expression  = 'WHERE ' . $this->primaryEntityFieldName . ' = $1';
         $params      = [1];
         $listQuery   = 'SELECT entities.* FROM entities WHERE entity_id = $1';
         $fieldsQuery = 'SELECT entity_field.* FROM entity_field WHERE entity_id = 1';
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
         $fieldsRow = [
             [
@@ -303,7 +401,7 @@ class EntityRepositoryTest extends TestCase
             [$this->primaryEntityFieldName => '1'],
         ];
 
-        $this->database->method('queryParams')->willReturn($entityRow, $fieldsRow)
+        $database->method('queryParams')->willReturn($entityRow, $fieldsRow)
             ->with($this->callback(
                 function ($param) use ($listQuery, $fieldsQuery) {
                     if (
@@ -330,14 +428,26 @@ class EntityRepositoryTest extends TestCase
         */
     public function testListByFields()
     {
-        $repository = $this->createRepository();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
         $expression = 'WHERE ' . $this->entityFieldName . ' = $1';
         $params     = ['email_contact_recovery'];
 
-        $listQuery   = 'SELECT entities.* FROM entities WHERE entity_id IN (SELECT DISTINCT entity_field.entity_id FROM entity_field WHERE field_name = $1)';
+        $listQuery   = file_get_contents(__DIR__ . '/select1.sql');
         $fieldsQuery = 'SELECT entity_field.* FROM entity_field WHERE entity_id = 1';
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
         $fieldsRow = [
             [
@@ -350,7 +460,7 @@ class EntityRepositoryTest extends TestCase
             [$this->primaryEntityFieldName => '1'],
         ];
 
-        $this->database->method('queryParams')->willReturn($entityRow, $fieldsRow)
+        $database->method('queryParams')->willReturn($entityRow, $fieldsRow)
             ->with($this->callback(
                 function ($param) use ($listQuery, $fieldsQuery) {
                     if (
@@ -377,17 +487,29 @@ class EntityRepositoryTest extends TestCase
      */
     public function testSave()
     {
-        $repository = $this->createRepository();
-        $entity     = new EntityModel();
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(EntityFactory::class);
+
+        $repository = new EntityRepository(
+            $database,
+            $factory,
+            $this->entityTable,
+            $this->fieldsTable,
+            $this->primaryEntityFieldName,
+            $this->entityFieldName,
+            $this->entityValueName
+        );
+
+        $entity = new EntityModel();
         $entity->setEntityData($this->primaryEntityFieldName, 1);
         $entity->setEntityData('name', 'Some name for Save method');
         $entity->email_contact_recovery = 'some@email';
 
         $updateEntityQuery = 'UPDATE entities SET name = $1 WHERE entities.entity_id = $2 RETURNING *';
-        $updateFieldsQuery = 'UPDATE entity_field SET email_contact_recovery = $1 WHERE entity_field.entity_id = $2 RETURNING *';
+        $updateFieldsQuery = file_get_contents(__DIR__ . '/update1.sql');
         $selectQuery       = 'SELECT entity_field.* FROM entity_field WHERE entity_id = 1';
 
-        $this->factory->method('create')->willReturn(new EntityModel());
+        $factory->method('create')->willReturn(new EntityModel());
 
         $entityRow = [
             [$this->primaryEntityFieldName => '1', 'name' => 'Some name for Save method'],
@@ -400,7 +522,7 @@ class EntityRepositoryTest extends TestCase
             ],
         ];
 
-        $this->database->method('queryParams')->willReturn($entityRow, $fieldsRow)
+        $database->method('queryParams')->willReturn($entityRow, $fieldsRow)
         ->with($this->callback(
             function ($param) use ($updateEntityQuery, $updateFieldsQuery, $selectQuery) {
                 if (

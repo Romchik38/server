@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\Sql;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
@@ -18,28 +17,10 @@ use Romchik38\Server\Models\Sql\Repository;
 
 use function count;
 
-class RepositoryTest extends TestCase
+final class RepositoryTest extends TestCase
 {
-    private $database;
-    private $factory;
     protected string $table            = 'table1';
     protected string $primaryFieldName = 'id';
-
-    public function setUp(): void
-    {
-        $this->database = $this->createMock(DatabasePostgresql::class);
-        $this->factory  = $this->createMock(ModelFactory::class);
-    }
-
-    protected function createRepository(): RepositoryInterface
-    {
-        return new Repository(
-            $this->database,
-            $this->factory,
-            $this->table,
-            $this->primaryFieldName
-        );
-    }
 
     /**
      * method add
@@ -51,6 +32,16 @@ class RepositoryTest extends TestCase
      */
     public function testAdd()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         $entity = new Model();
         $entity->setData('model_key1', 'model_value1');
         $entity->setData('model_key2', 'model_value2');
@@ -60,10 +51,10 @@ class RepositoryTest extends TestCase
 
         $entityFromFactory = new Model();
         // 1 factory creation
-        $this->factory->expects($this->once())->method('create')->willReturn($entityFromFactory);
+        $factory->expects($this->once())->method('create')->willReturn($entityFromFactory);
 
         // 2 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([$modelData])
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
@@ -74,7 +65,6 @@ class RepositoryTest extends TestCase
                 }
             ), ['model_value1', 'model_value2']);
 
-        $repository  = $this->createRepository();
         $addedEntity = $repository->add($entity);
 
         // 3 entity
@@ -90,11 +80,20 @@ class RepositoryTest extends TestCase
      */
     public function testAddThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryException());
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
+        $database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotAddException::class);
 
-        $repository = $this->createRepository();
         $repository->add(new Model());
     }
 
@@ -106,13 +105,22 @@ class RepositoryTest extends TestCase
      */
     public function testCreate()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         // prepare data
         $entity = new Model();
 
         // 1 factory creation
-        $this->factory->expects($this->once())->method('create')->willReturn($entity);
+        $factory->expects($this->once())->method('create')->willReturn($entity);
 
-        $repository    = $this->createRepository();
         $createdEntity = $repository->create();
 
         // 2 entity
@@ -126,12 +134,22 @@ class RepositoryTest extends TestCase
      */
     public function testDeleteById()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         $id            = 1;
         $expectedQuery = 'DELETE FROM ' . $this->table . ' WHERE '
             . $this->primaryFieldName . ' = $1';
 
         // 1 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
                     if ($query !== $expectedQuery) {
@@ -141,7 +159,6 @@ class RepositoryTest extends TestCase
                 }
             ), [$id]);
 
-        $repository = $this->createRepository();
         $repository->deleteById($id);
     }
 
@@ -151,10 +168,19 @@ class RepositoryTest extends TestCase
      */
     public function testDeleteByIdThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryException());
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
+        $database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotDeleteException::class);
-        $repository = $this->createRepository();
         $repository->deleteById(1);
     }
 
@@ -168,6 +194,16 @@ class RepositoryTest extends TestCase
      */
     public function testGetById()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         $id                = 1;
         $entityFromFactory = new Model();
         $expectedQuery     = 'SELECT ' . $this->table . '.* FROM ' . $this->table
@@ -175,10 +211,10 @@ class RepositoryTest extends TestCase
         $modelData         = ['model_key1' => 'model_value1', 'model_key2' => 'model_value2'];
 
         // 1 factory creation
-        $this->factory->expects($this->once())->method('create')->willReturn($entityFromFactory);
+        $factory->expects($this->once())->method('create')->willReturn($entityFromFactory);
 
         // 2 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([$modelData])
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
@@ -189,8 +225,7 @@ class RepositoryTest extends TestCase
                 }
             ), [$id]);
 
-        $repository = $this->createRepository();
-        $result     = $repository->getById($id);
+        $result = $repository->getById($id);
 
         // 3 entity
         $this->assertSame($entityFromFactory, $result);
@@ -205,12 +240,20 @@ class RepositoryTest extends TestCase
      */
     public function testGetByIdThrowsError()
     {
-        $this->database->method('queryParams')->willReturn([]);
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
+        $database->method('queryParams')->willReturn([]);
 
         $this->expectException(NoSuchEntityException::class);
-
-        $repository = $this->createRepository();
-        $result     = $repository->getById(1);
+        $repository->getById(1);
     }
 
     /**
@@ -223,6 +266,16 @@ class RepositoryTest extends TestCase
      */
     public function testList()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         $expression    = ' WHERE id = $1';
         $expectedQuery = 'SELECT ' . $this->table . '.* FROM ' . $this->table . ' ' . $expression;
         $params        = ['model_value'];
@@ -236,11 +289,11 @@ class RepositoryTest extends TestCase
         ];
 
         // 1 factory creation
-        $this->factory->expects($this->exactly(2))->method('create')
+        $factory->expects($this->exactly(2))->method('create')
             ->willReturn(new Model(), new Model());
 
         // 2 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([$modelData, $modelData2])
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
@@ -252,8 +305,7 @@ class RepositoryTest extends TestCase
             ), ['model_value']);
 
         // exec
-        $repository = $this->createRepository();
-        $result     = $repository->list($expression, $params);
+        $result = $repository->list($expression, $params);
 
         // 3 count of the entities
         $this->assertSame(2, count($result));
@@ -271,6 +323,16 @@ class RepositoryTest extends TestCase
      */
     public function testSave()
     {
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
         $id = 1;
 
         $entity = new Model();
@@ -289,10 +351,10 @@ class RepositoryTest extends TestCase
 
         $entityFromFactory = new Model();
         // 1 factory creation
-        $this->factory->method('create')->willReturn($entityFromFactory);
+        $factory->method('create')->willReturn($entityFromFactory);
 
         // 2 query and params
-        $this->database->expects($this->once())->method('queryParams')
+        $database->expects($this->once())->method('queryParams')
             ->willReturn([$modelData])
             ->with($this->callback(
                 function ($query) use ($expectedQuery) {
@@ -303,8 +365,7 @@ class RepositoryTest extends TestCase
                 }
             ), ['model_value1', 'model_value2', $id, $id]);
 
-        $repository = $this->createRepository();
-        $result     = $repository->save($entity);
+        $result = $repository->save($entity);
 
         // 3 entity
         $this->assertSame($entityFromFactory, $result);
@@ -319,11 +380,19 @@ class RepositoryTest extends TestCase
      */
     public function testSaveThrowsError()
     {
-        $this->database->method('queryParams')->willThrowException(new QueryException());
+        $database = $this->createMock(DatabasePostgresql::class);
+        $factory  = $this->createMock(ModelFactory::class);
+
+        $repository = new Repository(
+            $database,
+            $factory,
+            $this->table,
+            $this->primaryFieldName
+        );
+
+        $database->method('queryParams')->willThrowException(new QueryException());
 
         $this->expectException(CouldNotSaveException::class);
-
-        $repository = $this->createRepository();
         $repository->save(new Model());
     }
 }

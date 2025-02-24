@@ -7,6 +7,7 @@ namespace Romchik38\Server\Tests\Unit\Models\DTO\Controller;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 
+use function file_get_contents;
 use function json_encode;
 
 class ControllerDTOTest extends TestCase
@@ -72,8 +73,10 @@ class ControllerDTOTest extends TestCase
 
         $res = json_encode($rootDto);
 
+        $expected = file_get_contents(__DIR__ . '/jsontext');
+
         $this->assertSame(
-            '{"name":"root","path":[],"children":[{"name":"about","path":["root"],"children":[],"description":"About"}],"description":"Home"}',
+            $expected,
             $res
         );
     }

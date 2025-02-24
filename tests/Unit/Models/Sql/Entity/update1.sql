@@ -1,0 +1,1 @@
+UPDATE entity_field SET email_contact_recovery = $1 WHERE entity_field.entity_id = $2 RETURNING *

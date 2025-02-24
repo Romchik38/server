@@ -9,10 +9,10 @@ use Romchik38\Server\Models\TranslateEntity\TranslateEntityModel;
 
 class TranslateEntityModelTest extends TestCase
 {
-    protected $id       = 1;
-    protected $key      = 'some.key';
-    protected $language = 'en';
-    protected $phrase   = 'some phrase';
+    protected int $id          = 1;
+    protected string $key      = 'some.key';
+    protected string $language = 'en';
+    protected string $phrase   = 'some phrase';
 
     public function testGetId()
     {

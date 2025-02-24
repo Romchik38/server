@@ -1,0 +1,1 @@
+SELECT entities.* FROM entities WHERE entity_id IN (SELECT DISTINCT entity_field.entity_id FROM entity_field WHERE field_name = $1)
