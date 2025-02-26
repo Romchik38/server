@@ -9,6 +9,7 @@ use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Controllers\ControllerResultInterface;
+use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
@@ -55,6 +56,9 @@ class Controller implements ControllerInterface
     /** @var array<string,ControllerInterface> $children */
     protected array $children = [];
 
+    /** @var array<int,RequestMiddlewareInterface> $requestMiddlewares */
+    protected array $requestMiddlewares = [];
+
     /** @var array<int,ControllerInterface> $parents */
     protected array $parents = [];
 
@@ -73,6 +77,12 @@ class Controller implements ControllerInterface
         if ($this->dynamicAction !== null) {
             $this->dynamicAction->setController($this);
         }
+    }
+
+    public function addRequestMiddleware(RequestMiddlewareInterface $middleware): self
+    {
+        $this->requestMiddlewares[] = $middleware;
+        return $this;
     }
 
     public function addParent(ControllerInterface $parent): void
@@ -219,6 +229,11 @@ class Controller implements ControllerInterface
     public function getParents(): array
     {
         return $this->parents;
+    }
+
+    public function requestMiddlewares(): array
+    {
+        return $this->requestMiddlewares;
     }
 
     public function setChild(ControllerInterface $child): Controller
