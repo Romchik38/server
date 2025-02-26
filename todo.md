@@ -4,8 +4,17 @@
 
 - middleware
   - RequestMiddleware
-  - ResponseMiddleware
-  - tests
+    - [+] Interface
+    - Controller
+      - `addRequestMiddleware`
+      - `requestMiddlewares`
+      - tests
+  - ResponseMiddlewareInterface
+    - Interface
+    - Controller
+      - `addResponseMiddleware`
+      - `responseMiddlewares`
+      - tests
 - controller execute tests
 
 ## Next
