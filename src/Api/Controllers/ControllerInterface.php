@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Controllers;
 
+use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
@@ -15,6 +16,12 @@ interface ControllerInterface
     public const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
     public const PATH_SEPARATOR          = '<>';
     public const PATH_DYNAMIC_ALL        = '*';
+
+    /**
+     * Add Request middleware to collection
+     */
+    public function addRequestMiddleware(RequestMiddlewareInterface $middleware): self;
+
     /**
      * add parrent to this controller
      */
@@ -87,6 +94,11 @@ interface ControllerInterface
      * @return array<int,ControllerInterface> - [parents]
      */
     public function getParents(): array;
+
+    /**
+     * @return array<int,RequestMiddlewareInterface> - A list of request middlewares or empty array
+     */
+    public function requestMiddlewares(): array;
 
     /**
      * Add child controller to the children list

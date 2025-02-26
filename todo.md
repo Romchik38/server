@@ -5,6 +5,9 @@
 - middleware
   - RequestMiddleware
     - [+] Interface
+    - [+] ControllerInterface
+      - `addRequestMiddleware`
+      - `requestMiddlewares`
     - Controller
       - `addRequestMiddleware`
       - `requestMiddlewares`
