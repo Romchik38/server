@@ -8,6 +8,27 @@
 
 [see todo](./todo.md)
 
+## v1.15.2
+
+- removed
+  - `MissingRequiredParameterInFileErrorException`
+  - `ActionProcessException`
+  - `EntityLogicException`
+  - `src/Models/Errors/InvalidArgumentException.php`
+  - `RepositoryConsistencyException`
+  - `CantCreateViewException`
+- moved to module folders
+  - `EarlyAccessToCurrentRootErrorException`
+  - `CantCreateControllerTreeElementException`
+  - `CantCreateRedirectException`
+  - `CantSendEmailException`
+  - `SessionDoesnWorkException`
+  - `TranslateException`
+- changed Controller return type from `ControllerResultInterface` to `ResponseInterface`
+- removed
+  - `ControllerResult`
+  - `ControllerResultInterface`
+
 ## v1.15.1
 
 [n] Request middleware - `RequestMiddlewareInterface`, controller execution and tests

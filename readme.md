@@ -4,7 +4,7 @@
 ![phpunit](https://placehold.co/15x15/c5f015/c5f015.png) `phpunit: partially`
 ![status](https://placehold.co/15x15/f03c15/f03c15.png) `status: development`
 
-## Features (v1.15.1)
+## Features (v1.15.2)
 
 - Http
   - Server
