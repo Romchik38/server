@@ -9,9 +9,9 @@ use Psr\Log\LogLevel;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
 use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
-use Romchik38\Server\Services\Errors\TranslateException;
 use Romchik38\Server\Services\Logger\Loggers\FileLogger;
 use Romchik38\Server\Services\Translate\Translate;
+use Romchik38\Server\Services\Translate\TranslateException;
 use Romchik38\Server\Services\Translate\TranslateStorage;
 
 class TranslateTest extends TestCase

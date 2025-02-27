@@ -16,6 +16,8 @@
     - `CantCreateControllerTreeElementException`
     - `CantCreateRedirectException`
     - `CantSendEmailException`
+    - `SessionDoesnWorkException`
+    - `TranslateException`
 - types from ControllerResult
 
 ## Next
