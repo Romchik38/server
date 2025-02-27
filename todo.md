@@ -6,19 +6,25 @@
   - RequestMiddleware
     - [+] Interface
     - [+] ControllerInterface
-      - `addRequestMiddleware`
-      - `requestMiddlewares`
+      - [+] `addRequestMiddleware`
+      - [+] `requestMiddlewares`
     - Controller
-      - `addRequestMiddleware`
-      - `requestMiddlewares`
-      - tests
+      - [+] `addRequestMiddleware`
+      - [+] `requestMiddlewares`
+      - [+] `tests`
   - ResponseMiddlewareInterface
     - Interface
     - Controller
       - `addResponseMiddleware`
       - `responseMiddlewares`
       - tests
-- controller execute tests
+- Controller execute
+  - logic
+    - RequestMiddleware
+    - ResponseMiddleware
+  - tests
+    - RequestMiddleware
+    - ResponseMiddleware
 
 ## Next
 

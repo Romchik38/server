@@ -6,9 +6,11 @@ namespace Romchik38\Server\Tests\Unit\Controllers;
 
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
+use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
@@ -488,5 +490,19 @@ final class ControllerTest extends TestCase
         $help->addParent($root);
         $help->addParent($products);
         $this->assertSame([$root, $products], $help->getParents());
+    }
+
+    public function testAddRequestMiddleware(): void
+    {
+        $root = new Controller('root');
+        $middleware = new class implements RequestMiddlewareInterface
+        {
+            public function __invoke(): ?ResponseInterface
+            {
+                return null;
+            }
+        };
+        $root->addRequestMiddleware($middleware);
+        $this->assertSame($middleware, $root->requestMiddlewares()[0]);
     }
 }
