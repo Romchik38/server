@@ -107,8 +107,12 @@ class Controller implements ControllerInterface
         if ($route === $this->path) {
             // excute request middlewares
             $requestMiddlewareResult = $this->executeRequestMiddlewares();
-            if($requestMiddlewareResult !== null){
-                return $requestMiddlewareResult;
+            if ($requestMiddlewareResult !== null) {
+                return new ControllerResult(
+                    $requestMiddlewareResult,
+                    $this->getFullPath(),
+                    RequestMiddlewareInterface::TYPE
+                );
             }
             if (count($elements) === 0) {
                 // execute this default action
@@ -266,9 +270,9 @@ class Controller implements ControllerInterface
 
     private function executeRequestMiddlewares(): ?ResponseInterface
     {
-        foreach($this->requestMiddlewares as $middleware){
+        foreach ($this->requestMiddlewares as $middleware) {
             $result = $middleware();
-            if($result !== null){
+            if ($result !== null) {
                 return $result;
             }
         }

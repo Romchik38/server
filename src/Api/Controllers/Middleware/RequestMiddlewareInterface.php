@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 
 interface RequestMiddlewareInterface
 {
+    public const TYPE = 'request_middleware';
     /**
      * Does own job and make a decision:
      *   - stop execution and return a response

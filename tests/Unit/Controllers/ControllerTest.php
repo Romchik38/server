@@ -6,7 +6,6 @@ namespace Romchik38\Server\Tests\Unit\Controllers;
 
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
@@ -494,7 +493,7 @@ final class ControllerTest extends TestCase
 
     public function testAddRequestMiddleware(): void
     {
-        $root = new Controller('root');
+        $root       = new Controller('root');
         $middleware = new class implements RequestMiddlewareInterface
         {
             public function __invoke(): ?ResponseInterface

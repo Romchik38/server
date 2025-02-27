@@ -20,10 +20,10 @@
       - tests
 - Controller execute
   - logic
-    - RequestMiddleware
+    - [+] RequestMiddleware
     - ResponseMiddleware
   - tests
-    - RequestMiddleware
+    - [+] RequestMiddleware
     - ResponseMiddleware
 
 ## Next
@@ -32,5 +32,6 @@
   - config/error
   - tempstream
   - errors, that do not handle server code
+  - types from ControllerResult
 - dynamic router takes default lang from headers  
 - HEAD method
