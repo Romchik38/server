@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Session\Http;
 
 use Romchik38\Server\Api\Services\SessionInterface;
-use Romchik38\Server\Services\Errors\SessionDoesnWorkException;
 
 use function session_destroy;
 use function session_id;
