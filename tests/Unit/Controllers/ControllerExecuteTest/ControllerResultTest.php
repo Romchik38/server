@@ -15,7 +15,7 @@ use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
 use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
-class ControllerResultFactoryTest extends TestCase
+class ControllerResultTest extends TestCase
 {
     public function testReturnResultFromDefault(): void
     {
@@ -65,8 +65,7 @@ class ControllerResultFactoryTest extends TestCase
 
         $root->setChild($products);
 
-        $result   = $root->execute(['root', 'products']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'products']);
         $this->assertSame('<h1>Products page<h1>', (string) $response->getBody());
     }
 
@@ -148,8 +147,7 @@ class ControllerResultFactoryTest extends TestCase
 
         $root->setChild($products);
 
-        $result   = $root->execute(['root', 'about']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'about']);
         $this->assertSame('Content about page', (string) $response->getBody());
     }
 }

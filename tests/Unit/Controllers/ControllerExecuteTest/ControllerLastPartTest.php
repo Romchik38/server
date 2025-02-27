@@ -71,8 +71,7 @@ class ControllerLastPartTest extends TestCase
             $rootDynamicAction
         );
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
 
@@ -130,8 +129,7 @@ class ControllerLastPartTest extends TestCase
             $rootDynamicAction
         );
 
-        $result   = $root->execute(['root', 'about']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'about']);
         $this->assertSame('Content about page', (string) $response->getBody());
     }
 }

@@ -35,8 +35,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $root->addRequestMiddleware($middleware);
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
 
@@ -60,8 +59,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $root->addRequestMiddleware($middleware);
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('from middleware', (string) $response->getBody());
     }
 
@@ -95,8 +93,7 @@ final class RequestMiddlewareTest extends TestCase
             ->addRequestMiddleware($middleware1)
             ->addRequestMiddleware($middleware2);
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('from middleware2', (string) $response->getBody());
     }
 

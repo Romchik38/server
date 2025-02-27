@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Romchik38\Server\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Api\Controllers\ControllerResultInterface;
 use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
@@ -107,7 +105,7 @@ class Controller implements ControllerInterface
     /**
      * @todo test
      * */
-    public function execute(array $elements): ControllerResultInterface
+    public function execute(array $elements): ResponseInterface
     {
         if (count($elements) === 0) {
             throw new ControllerLogicException('Controller error: path not found');
@@ -118,11 +116,7 @@ class Controller implements ControllerInterface
             // excute request middlewares
             $requestMiddlewareResult = $this->executeRequestMiddlewares();
             if ($requestMiddlewareResult !== null) {
-                return new ControllerResult(
-                    $requestMiddlewareResult,
-                    $this->getFullPath(),
-                    RequestMiddlewareInterface::TYPE
-                );
+                return $requestMiddlewareResult;
             }
             if (count($elements) === 0) {
                 // execute this default action
@@ -131,12 +125,7 @@ class Controller implements ControllerInterface
                     try {
                         $response = $this->action->execute();
                         // execute response middlewares
-                        $responseMiddlewareDefault = $this->executeResponseMiddlewares($response);
-                        return new ControllerResult(
-                            $responseMiddlewareDefault,
-                            $fullPath,
-                            ActionInterface::TYPE_DEFAULT_ACTION
-                        );
+                        return $this->executeResponseMiddlewares($response);
                     } catch (ActionNotFoundException) {
                         // 1.2.1.1.1.2 - catch NotFound Action Error and throw own
                         throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
@@ -153,13 +142,7 @@ class Controller implements ControllerInterface
                     $nextController->setCurrentParent($this);
                     $nextControllerResult = $nextController->execute($elements);
                     // execute response middlewares
-                    $nextControllerResponse = $nextControllerResult->getResponse();
-                    $responseMiddlewareNext = $this->executeResponseMiddlewares($nextControllerResponse);
-                    return new ControllerResult(
-                        $responseMiddlewareNext,
-                        $nextControllerResult->getPath(),
-                        $nextControllerResult->getType()
-                    );
+                    return $this->executeResponseMiddlewares($nextControllerResult);
                 } catch (NoSuchControllerException $e) {
                     // we do not have next controller
                     // execute dynamic action
@@ -169,15 +152,9 @@ class Controller implements ControllerInterface
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                         }
                         try {
-                            $fullPath = $this->getFullPath($nextRoute);
                             $response = $this->dynamicAction->execute($nextRoute);
                             // execute response middlewares
-                            $responseMiddlewareDynamic = $this->executeResponseMiddlewares($response);
-                            return new ControllerResult(
-                                $responseMiddlewareDynamic,
-                                $fullPath,
-                                ActionInterface::TYPE_DYNAMIC_ACTION
-                            );
+                            return $this->executeResponseMiddlewares($response);
                         } catch (ActionNotFoundException $e) {
                             //  1.2.1.2.1 - throw NotFoundException
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
@@ -255,6 +232,7 @@ class Controller implements ControllerInterface
         return $this->dynamicAction->getDynamicRoutes();
     }
 
+    /** @todo check on usage in other classes */
     public function getFullPath(string $route = ''): array
     {
         $fullPath = [$this->path];

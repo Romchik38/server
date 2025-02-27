@@ -56,9 +56,8 @@ final class ControllerTreeTest extends TestCase
     public function testGetOnlyLineRootControllerDTOWithEmptyAction()
     {
         /** @var ControllerInterface $root */
-        $root             = (include_once __DIR__ . '/bootstrap2.php')();
-        $controllerResult = $root->execute(['root', 'sitemap']);
-        $response         = $controllerResult->getResponse();
+        $root     = (include_once __DIR__ . '/bootstrap2.php')();
+        $response = $root->execute(['root', 'sitemap']);
 
         $expected = file_get_contents(__DIR__ . '/jsonstring');
         $this->assertSame(
@@ -70,9 +69,8 @@ final class ControllerTreeTest extends TestCase
     public function testGetOnlyLineRootControllerDTOWithAction()
     {
         /** @var ControllerInterface $root */
-        $root             = (include_once __DIR__ . '/bootstrap3.php')();
-        $controllerResult = $root->execute(['root', 'catalog', 'product-1']);
-        $response         = $controllerResult->getResponse();
+        $root     = (include_once __DIR__ . '/bootstrap3.php')();
+        $response = $root->execute(['root', 'catalog', 'product-1']);
 
         $expected = file_get_contents(__DIR__ . '/jsonstring2');
 

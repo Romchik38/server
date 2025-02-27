@@ -43,8 +43,7 @@ final class ResponseMiddlewareTest extends TestCase
 
         $root->addResponseMiddleware($middleware);
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
@@ -82,8 +81,7 @@ final class ResponseMiddlewareTest extends TestCase
             ->addResponseMiddleware($middleware1)
             ->addResponseMiddleware($middleware2);
 
-        $result   = $root->execute(['root']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root']);
         $this->assertSame('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertSame('max-age=600', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
@@ -118,8 +116,7 @@ final class ResponseMiddlewareTest extends TestCase
             ->setChild($homePage)
             ->addResponseMiddleware($middleware);
 
-        $result   = $root->execute(['root', 'homepage']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'homepage']);
         $this->assertSame('max-age=6001', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
@@ -148,8 +145,7 @@ final class ResponseMiddlewareTest extends TestCase
 
         $root->addResponseMiddleware($middleware);
 
-        $result   = $root->execute(['root', 'about']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'about']);
         $this->assertSame('no-cache', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('Response from About', (string) $response->getBody());
     }

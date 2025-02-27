@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Controllers;
 
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
@@ -40,7 +41,7 @@ interface ControllerInterface
      * @throws ControllerLogicException - On empty $elements.
      * @throws NotFoundException
      * */
-    public function execute(array $elements): ControllerResultInterface;
+    public function execute(array $elements): ResponseInterface;
 
     /**
      * can controller be shown to user in the controllerTree

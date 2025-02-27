@@ -55,8 +55,7 @@ class DefaultServer implements HttpServerInterface
             // try to show the page
             try {
                 $responseServerError = $this->serverErrorController
-                ->execute([$this::SERVER_ERROR_CONTROLLER_NAME])
-                ->getResponse();
+                    ->execute([$this::SERVER_ERROR_CONTROLLER_NAME]);
 
                 $this->sendHeaders($responseServerError->getHeaders());
                 echo (string) $responseServerError->getBody();

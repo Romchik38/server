@@ -25,6 +25,9 @@
     - `DynamicRootRouter`
     - `PlasticineRouter`
   - tests
+  - remove
+    - `ControllerResult`
+    - `ControllerResultInterface`
 
 ## Next
 

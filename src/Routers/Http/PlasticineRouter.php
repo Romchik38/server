@@ -74,8 +74,7 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 4. Exec
         try {
-            $controllerResult = $rootController->execute($elements);
-            return $controllerResult->getResponse();
+            return $rootController->execute($elements);
         } catch (NotFoundException) {
             return $this->pageNotFound();
         }

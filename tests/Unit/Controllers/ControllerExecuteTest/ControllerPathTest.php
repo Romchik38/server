@@ -63,8 +63,7 @@ class ControllerPathTest extends TestCase
 
         $root->setChild($products);
 
-        $result   = $root->execute(['root', 'products']);
-        $response = $result->getResponse();
+        $response = $root->execute(['root', 'products']);
         $this->assertSame('<h1>Products page<h1>', (string) $response->getBody());
     }
 

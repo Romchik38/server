@@ -59,7 +59,7 @@ trait RouterTrait
         if ($this->notFoundController !== null) {
             $response = $this->notFoundController->execute([
                 HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME,
-            ])->getResponse();
+            ]);
             $response = $response->withStatus(404);
         } else {
             $response = $this->responseFactory->createResponse(404);

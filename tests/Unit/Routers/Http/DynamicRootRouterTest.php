@@ -9,11 +9,9 @@ use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Controller;
-use Romchik38\Server\Controllers\ControllerResult;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
@@ -263,12 +261,7 @@ class DynamicRootRouterTest extends TestCase
         $response       = new Response();
         $body           = $response->getBody();
         $body->write('Product #1');
-        $response         = $response->withBody($body);
-        $controllerResult = new ControllerResult(
-            $response,
-            ['en', 'products'],
-            ActionInterface::TYPE_DEFAULT_ACTION
-        );
+        $response = $response->withBody($body);
 
         $request->method('getUri')->willReturn($uri);
         $request->method('getMethod')->willReturn('GET');
@@ -287,7 +280,7 @@ class DynamicRootRouterTest extends TestCase
         $controllersCollection->method('getController')->willReturn($controller);
 
         $controller->expects($this->once())->method('execute')
-            ->with([ControllerTreeInterface::ROOT_NAME, 'products'])->willReturn($controllerResult);
+            ->with([ControllerTreeInterface::ROOT_NAME, 'products'])->willReturn($response);
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
@@ -379,12 +372,7 @@ class DynamicRootRouterTest extends TestCase
         $response       = new Response();
         $body           = $response->getBody();
         $body->write('<h1>Page not found</h1>');
-        $response         = $response->withBody($body);
-        $controllerResult = new ControllerResult(
-            $response,
-            [HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME],
-            ActionInterface::TYPE_DEFAULT_ACTION
-        );
+        $response = $response->withBody($body);
 
         $request->method('getUri')->willReturn($uri);
         $request->method('getMethod')->willReturn('GET');
@@ -411,7 +399,7 @@ class DynamicRootRouterTest extends TestCase
                     return false;
                 }
             }))
-            ->willReturn($controllerResult);
+            ->willReturn($response);
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),

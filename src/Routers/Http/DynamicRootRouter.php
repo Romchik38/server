@@ -124,8 +124,7 @@ class DynamicRootRouter implements HttpRouterInterface
 
         try {
             // 9. Exec
-            $controllerResult = $controller->execute($elements);
-            return $controllerResult->getResponse();
+            return $controller->execute($elements);
         } catch (NotFoundException) {
             // 11. Show page not found
             return $this->pageNotFound();
