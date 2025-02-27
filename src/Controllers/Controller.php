@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Controllers;
 
+use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
@@ -34,6 +35,9 @@ use function strlen;
  *      1.1 - there is a next controller
  *          - transfer control to next controller
  *      1.2 - if there is no next controller
+ *          ..... - excute request middlewares
+ *                  - middleware return a response - stop execution and return this response.
+ *                  - middleware return null - do nothing
  *          1.2.1 - execute action if dynamic not present
  *              1.2.1.1 - if action present
  *                  1.2.1.1.1 - execute
@@ -101,6 +105,11 @@ class Controller implements ControllerInterface
 
         $route = array_shift($elements);
         if ($route === $this->path) {
+            // excute request middlewares
+            $requestMiddlewareResult = $this->executeRequestMiddlewares();
+            if($requestMiddlewareResult !== null){
+                return $requestMiddlewareResult;
+            }
             if (count($elements) === 0) {
                 // execute this default action
                 $fullPath = $this->getFullPath();
@@ -253,5 +262,16 @@ class Controller implements ControllerInterface
     public function setCurrentParent(ControllerInterface $currentParent): void
     {
         $this->currentParent = $currentParent;
+    }
+
+    private function executeRequestMiddlewares(): ?ResponseInterface
+    {
+        foreach($this->requestMiddlewares as $middleware){
+            $result = $middleware();
+            if($result !== null){
+                return $result;
+            }
+        }
+        return null;
     }
 }
