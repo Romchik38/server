@@ -5,7 +5,14 @@
 - remove
   - [+] config/error `MissingRequiredParameterInFileErrorException`
   - errors, that do not handle server code
-  - types from ControllerResult
+    - `ActionProcessException`
+    - `EntityLogicException`
+    - `src/Models/Errors/InvalidArgumentException.php`
+    - `RepositoryConsistencyException`
+    - `CantCreateViewException`
+- move
+  - error to their module folders
+- types from ControllerResult
 
 ## Next
 

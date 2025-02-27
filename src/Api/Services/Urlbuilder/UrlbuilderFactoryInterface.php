@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Services\Urlbuilder;
 
-use Romchik38\Server\Models\Errors\InvalidArgumentException;
+use InvalidArgumentException;
 
 interface UrlbuilderFactoryInterface
 {

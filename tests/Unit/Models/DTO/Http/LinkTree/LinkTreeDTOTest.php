@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Tests\Unit\Models\DTO\Http\LinkTree;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTO;
-use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 class LinkTreeDTOTest extends TestCase
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Urlbuilder\Http;
 
+use InvalidArgumentException;
 use Romchik38\Server\Api\Services\Urlbuilder\UrlbuilderFactoryInterface;
 use Romchik38\Server\Api\Services\Urlbuilder\UrlbuilderInterface;
-use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 use function count;
 use function strlen;

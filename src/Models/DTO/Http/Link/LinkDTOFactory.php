@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\DTO\Http\Link;
 
+use InvalidArgumentException;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
-use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 use function strlen;
 

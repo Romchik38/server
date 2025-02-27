@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\DTO\DynamicRoute;
 
+use InvalidArgumentException;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
-use Romchik38\Server\Models\Errors\InvalidArgumentException;
 
 use function strlen;
 
