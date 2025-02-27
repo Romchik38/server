@@ -13,6 +13,7 @@
 - move
   - error to their module folders
     - `EarlyAccessToCurrentRootErrorException`
+    - `CantCreateControllerTreeElementException`
 - types from ControllerResult
 
 ## Next

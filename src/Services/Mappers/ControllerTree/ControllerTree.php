@@ -8,7 +8,6 @@ use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
-use Romchik38\Server\Services\Errors\CantCreateControllerTreeElementException;
 
 use function array_search;
 use function array_unshift;
