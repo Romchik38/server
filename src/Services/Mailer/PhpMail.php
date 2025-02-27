@@ -6,7 +6,6 @@ namespace Romchik38\Server\Services\Mailer;
 
 use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
 use Romchik38\Server\Api\Services\MailerInterface;
-use Romchik38\Server\Services\Errors\CantSendEmailException;
 
 use function mail;
 

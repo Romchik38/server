@@ -15,6 +15,7 @@
     - `EarlyAccessToCurrentRootErrorException`
     - `CantCreateControllerTreeElementException`
     - `CantCreateRedirectException`
+    - `CantSendEmailException`
 - types from ControllerResult
 
 ## Next

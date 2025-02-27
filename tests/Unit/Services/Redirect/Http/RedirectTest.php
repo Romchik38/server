@@ -13,7 +13,7 @@ use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Model;
-use Romchik38\Server\Services\Errors\CantCreateRedirectException;
+use Romchik38\Server\Services\Redirect\Http\CantCreateRedirectException;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 
 final class RedirectTest extends TestCase

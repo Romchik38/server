@@ -9,8 +9,8 @@ use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Models\DTO\Email\EmailDTOFactoryInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Romchik38\Server\Api\Services\MailerInterface;
-use Romchik38\Server\Services\Errors\CantSendEmailException;
 use Romchik38\Server\Services\Logger\AbstractLogger;
+use Romchik38\Server\Services\Mailer\CantSendEmailException;
 
 use function count;
 use function implode;
@@ -71,7 +71,7 @@ class EmailLogger extends AbstractLogger
         // send
         try {
             $this->mailer->send($emailDto);
-        } catch (CantSendEmailException $e) {
+        } catch (CantSendEmailException) {
             $writeErrors[] = $item;
         }
 
