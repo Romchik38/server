@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Services\DynamicRoot;
 
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
-use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootError;
+use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
 
 interface DynamicRootInterface
 {
@@ -35,7 +35,7 @@ interface DynamicRootInterface
      *    1 step - the current root is setted up in the Router
      *    2 step - then the root can be accessed in the services, controllers etc
      *
-     * @throws EarlyAccessToCurrentRootError - When current root wasn't set.
+     * @throws EarlyAccessToCurrentRootErrorException - When current root wasn't set.
      * @return DynamicRootDTOInterface The root entity from the current request, setted by Router
      */
     public function getCurrentRoot(): DynamicRootDTOInterface;

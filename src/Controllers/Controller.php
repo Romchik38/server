@@ -130,7 +130,13 @@ class Controller implements ControllerInterface
                 if ($this->action !== null) {
                     try {
                         $response = $this->action->execute();
-                        return new ControllerResult($response, $fullPath, ActionInterface::TYPE_DEFAULT_ACTION);
+                        // execute response middlewares
+                        $responseMiddlewareDefault = $this->executeResponseMiddlewares($response);
+                        return new ControllerResult(
+                            $responseMiddlewareDefault,
+                            $fullPath,
+                            ActionInterface::TYPE_DEFAULT_ACTION
+                        );
                     } catch (ActionNotFoundException) {
                         // 1.2.1.1.1.2 - catch NotFound Action Error and throw own
                         throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
@@ -145,10 +151,18 @@ class Controller implements ControllerInterface
                 try {
                     $nextController = $this->getChild($nextRoute);
                     $nextController->setCurrentParent($this);
-                    return $nextController->execute($elements);
+                    $nextControllerResult = $nextController->execute($elements);
+                    // execute response middlewares
+                    $nextControllerResponse = $nextControllerResult->getResponse();
+                    $responseMiddlewareNext = $this->executeResponseMiddlewares($nextControllerResponse);
+                    return new ControllerResult(
+                        $responseMiddlewareNext,
+                        $nextControllerResult->getPath(),
+                        $nextControllerResult->getType()
+                    );
                 } catch (NoSuchControllerException $e) {
                     // we do not have next controller
-                    // execute dinamic action
+                    // execute dynamic action
                     if (count($elements) === 1) {
                         if ($this->dynamicAction === null) {
                             //1.2.3.1 - throw NotFoundException
@@ -157,7 +171,13 @@ class Controller implements ControllerInterface
                         try {
                             $fullPath = $this->getFullPath($nextRoute);
                             $response = $this->dynamicAction->execute($nextRoute);
-                            return new ControllerResult($response, $fullPath, ActionInterface::TYPE_DYNAMIC_ACTION);
+                            // execute response middlewares
+                            $responseMiddlewareDynamic = $this->executeResponseMiddlewares($response);
+                            return new ControllerResult(
+                                $responseMiddlewareDynamic,
+                                $fullPath,
+                                ActionInterface::TYPE_DYNAMIC_ACTION
+                            );
                         } catch (ActionNotFoundException $e) {
                             //  1.2.1.2.1 - throw NotFoundException
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
@@ -292,5 +312,15 @@ class Controller implements ControllerInterface
             }
         }
         return null;
+    }
+
+    private function executeResponseMiddlewares(
+        ResponseInterface $response
+    ): ResponseInterface {
+        $middlewareResponse = $response;
+        foreach ($this->responseMiddlewares as $middleware) {
+            $middlewareResponse = $middleware($middlewareResponse);
+        }
+        return $middlewareResponse;
     }
 }

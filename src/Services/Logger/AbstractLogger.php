@@ -77,7 +77,7 @@ abstract class AbstractLogger extends PsrAbstractLogger implements LoggerServerI
         }
 
         // interpolate replacement values into the message and return
-        return strtr($message, $replace);
+        return strtr((string) $message, $replace);
     }
 
     /**
