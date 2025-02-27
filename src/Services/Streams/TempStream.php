@@ -7,8 +7,8 @@ namespace Romchik38\Server\Services\Streams;
 use Exception;
 
 use function fclose;
-use function fgets;
 use function fopen;
+use function fread;
 use function fwrite;
 use function rewind;
 use function sprintf;
@@ -69,13 +69,23 @@ class TempStream implements TempStreamInterface
             throw new StreamProcessException('Cannot rewind stream');
         }
 
-        $data = '';
-        while (true) {
-            $chunk = fgets($this->fp);
-            if ($chunk === false) {
-                break;
+        $data  = '';
+        $chank = fread($this->fp, 1024);
+        if ($chank === false) {
+            fclose($this->fp);
+            throw new StreamProcessException(
+                sprintf('Cannot read from stream')
+            );
+        }
+        while ($chank !== '') {
+            $data .= $chank;
+            $chank = fread($this->fp, 1024);
+            if ($chank === false) {
+                fclose($this->fp);
+                throw new StreamProcessException(
+                    sprintf('Cannot close temp stream')
+                );
             }
-            $data .= $chunk;
         }
 
         if (fclose($this->fp) === false) {

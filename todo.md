@@ -3,8 +3,7 @@
 ## Current
 
 - remove
-  - config/error
-  - tempstream
+  - [+] config/error `MissingRequiredParameterInFileErrorException`
   - errors, that do not handle server code
   - types from ControllerResult
 
