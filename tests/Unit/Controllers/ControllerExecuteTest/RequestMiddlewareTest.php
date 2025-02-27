@@ -13,7 +13,7 @@ use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 
-final class ControllerMiddlewareTest extends TestCase
+final class RequestMiddlewareTest extends TestCase
 {
     public function testRequestMiddlewareReturnNull(): void
     {

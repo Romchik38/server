@@ -21,10 +21,11 @@
 - Controller execute
   - logic
     - [+] RequestMiddleware
-    - ResponseMiddleware
+    - [+] ResponseMiddleware
   - tests
     - [+] RequestMiddleware
-    - ResponseMiddleware
+    - [+] ResponseMiddleware
+- docs
 
 ## Next
 
