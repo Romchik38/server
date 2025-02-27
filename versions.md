@@ -8,6 +8,12 @@
 
 [see todo](./todo.md)
 
+## v1.15.1
+
+[n] Request middleware - `RequestMiddlewareInterface`, controller execution and tests
+[n] Response middleware - `ResponseMiddlewareInterface`, controller execution and tests
+[n] docs - updated controller docs, added middleware section
+
 ## v1.15.0
 
 - added laminas-coding-standard

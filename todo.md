@@ -2,31 +2,6 @@
 
 ## Current
 
-- middleware
-  - RequestMiddleware
-    - [+] Interface
-    - [+] ControllerInterface
-      - [+] `addRequestMiddleware`
-      - [+] `requestMiddlewares`
-    - Controller
-      - [+] `addRequestMiddleware`
-      - [+] `requestMiddlewares`
-      - [+] `tests`
-  - ResponseMiddlewareInterface
-    - [+] Interface
-    - [+] Controller
-      - [+] `addResponseMiddleware`
-      - [+] `responseMiddlewares`
-      - [+] tests
-- Controller execute
-  - logic
-    - [+] RequestMiddleware
-    - [+] ResponseMiddleware
-  - tests
-    - [+] RequestMiddleware
-    - [+] ResponseMiddleware
-- docs
-
 ## Next
 
 - remove
