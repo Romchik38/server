@@ -10,7 +10,6 @@ use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterfa
 use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Services\Errors\CantCreateRedirectException;
 
 use function in_array;
 

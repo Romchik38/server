@@ -14,6 +14,7 @@
   - error to their module folders
     - `EarlyAccessToCurrentRootErrorException`
     - `CantCreateControllerTreeElementException`
+    - `CantCreateRedirectException`
 - types from ControllerResult
 
 ## Next
