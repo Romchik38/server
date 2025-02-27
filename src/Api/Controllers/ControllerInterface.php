@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Controllers;
 
 use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
+use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Controllers\Errors\ControllerLogicException;
@@ -21,6 +22,11 @@ interface ControllerInterface
      * Add Request middleware to collection
      */
     public function addRequestMiddleware(RequestMiddlewareInterface $middleware): self;
+
+     /**
+     * Add Response middleware to collection
+     */
+    public function addResponseMiddleware(ResponseMiddlewareInterface $middleware): self;
 
     /**
      * add parrent to this controller
@@ -99,6 +105,11 @@ interface ControllerInterface
      * @return array<int,RequestMiddlewareInterface> - A list of request middlewares or empty array
      */
     public function requestMiddlewares(): array;
+
+    /**
+     * @return array<int,ResponseMiddlewareInterface> - A list of response middlewares or empty array
+     */
+    public function responseMiddlewares(): array;
 
     /**
      * Add child controller to the children list
