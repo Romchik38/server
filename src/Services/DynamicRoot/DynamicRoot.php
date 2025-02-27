@@ -7,7 +7,6 @@ namespace Romchik38\Server\Services\DynamicRoot;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
 
 class DynamicRoot implements DynamicRootInterface
 {

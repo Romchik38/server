@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDtoFactory;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
-use Romchik38\Server\Services\Errors\EarlyAccessToCurrentRootErrorException;
+use Romchik38\Server\Services\DynamicRoot\EarlyAccessToCurrentRootErrorException;
 
 final class DynamicRootTest extends TestCase
 {

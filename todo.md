@@ -12,6 +12,7 @@
     - `CantCreateViewException`
 - move
   - error to their module folders
+    - `EarlyAccessToCurrentRootErrorException`
 - types from ControllerResult
 
 ## Next
