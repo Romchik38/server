@@ -12,5 +12,5 @@ interface ResponseMiddlewareInterface
     /**
      * Modify a response after action execution
      */
-    public function __invoke(): ResponseInterface;
+    public function __invoke(ResponseInterface $response): ResponseInterface;
 }

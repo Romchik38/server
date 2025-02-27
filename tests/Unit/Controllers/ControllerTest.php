@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
 use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
+use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
 use Romchik38\Server\Controllers\Actions\AbstractAction;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
@@ -503,5 +504,20 @@ final class ControllerTest extends TestCase
         };
         $root->addRequestMiddleware($middleware);
         $this->assertSame($middleware, $root->requestMiddlewares()[0]);
+    }
+
+    public function testAddResponseMiddleware(): void
+    {
+        $root       = new Controller('root');
+        $middleware = new class implements ResponseMiddlewareInterface
+        {
+            public function __invoke(ResponseInterface $response): ResponseInterface
+            {
+                return $response;
+            }
+        };
+
+        $root->addResponseMiddleware($middleware);
+        $this->assertSame($middleware, $root->responseMiddlewares()[0]);
     }
 }

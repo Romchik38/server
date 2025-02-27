@@ -24,8 +24,8 @@ interface ControllerInterface
     public function addRequestMiddleware(RequestMiddlewareInterface $middleware): self;
 
      /**
-     * Add Response middleware to collection
-     */
+      * Add Response middleware to collection
+      */
     public function addResponseMiddleware(ResponseMiddlewareInterface $middleware): self;
 
     /**

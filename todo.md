@@ -13,11 +13,11 @@
       - [+] `requestMiddlewares`
       - [+] `tests`
   - ResponseMiddlewareInterface
-    - Interface
-    - Controller
-      - `addResponseMiddleware`
-      - `responseMiddlewares`
-      - tests
+    - [+] Interface
+    - [+] Controller
+      - [+] `addResponseMiddleware`
+      - [+] `responseMiddlewares`
+      - [+] tests
 - Controller execute
   - logic
     - [+] RequestMiddleware
