@@ -6,6 +6,6 @@ namespace Romchik38\Server\Controllers;
 
 interface PathInterface
 {
-    /** @return array<int,string> - Non empty array of non empty strings */
+    /** @return array<int,string> */
     public function __invoke(): array;
 }

@@ -7,17 +7,10 @@ namespace Romchik38\Server\Controllers;
 use InvalidArgumentException;
 
 use function count;
-use function explode;
-use function gettype;
-use function mb_ord;
-use function sprintf;
-use function strlen;
 
-final class Path implements PathInterface
+class Path implements PathInterface
 {
-    public const ENCODING = "UTF-8";
-
-    /** @var array<int,string> $parts */
+    /** @var array<int,Name> $parts */
     protected array $parts;
 
     /** @param array<int,string> $parts */
@@ -28,33 +21,18 @@ final class Path implements PathInterface
         if ($len === 0) {
             throw new InvalidArgumentException('Parts is empty');
         }
-        for ($i = 0; $i < $len; $i++) {
-            $part = $parts[$i];
-            if (gettype($part) !== 'string') {
-                throw new InvalidArgumentException('Path part must be a string');
-            }
-            if (strlen($part) === 0) {
-                throw new InvalidArgumentException('Path part is empty');
-            }
-            $chars = explode('', $part);
-            foreach ($chars as $char) {
-                $code = mb_ord($char, $this::ENCODING);
-                if ($code < 97 || $code > 122) {
-                    throw new InvalidArgumentException(
-                        sprintf(
-                            'Part %s contain not allowed character %s',
-                            $part,
-                            $char
-                        )
-                    );
-                }
-            }
+        $this->parts = [];
+        foreach ($parts as $part) {
+            $this->parts[] = new Name($part);
         }
-        $this->parts = $parts;
     }
 
     public function __invoke(): array
     {
-        return $this->parts;
+        $parts = [];
+        foreach ($this->parts as $part) {
+            $parts[] = $part();
+        }
+        return $parts;
     }
 }

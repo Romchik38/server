@@ -15,7 +15,7 @@ class Target implements TargetInterface
     public function fromPath(PathInterface $path): string
     {
         $parts     = $path();
-        $firstPath = $path[0];
+        $firstPath = $parts[0];
         if ($firstPath === ControllerTreeInterface::ROOT_NAME) {
             $parts = array_slice($parts, 1);
         }

@@ -14,7 +14,7 @@ use function in_array;
 use function sprintf;
 use function strlen;
 
-class Url
+class Urlbuilder implements UrlbuilderInterface
 {
     protected readonly string $prefix;
 
@@ -44,12 +44,9 @@ class Url
         }
     }
 
-    /**
-     * @param array<string,string> $params - Key/value for query string
-     * */
     public function fromPath(
         PathInterface $path,
-        $params = [],
+        array $params = [],
         string $fragment = ''
     ): string {
         $fragmentPart = $fragment;
