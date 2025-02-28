@@ -2,10 +2,11 @@
 
 ## Current
 
-- @todos
 - Urlbuilder
   - controller has an uniqe id
   - retriving path by id from root
+  - create url from path
+  - tests
 
 ## Next
 
