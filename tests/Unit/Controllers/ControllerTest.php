@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Tests\Unit\Controllers;
 
+use InvalidArgumentException;
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -519,5 +520,11 @@ final class ControllerTest extends TestCase
 
         $root->addResponseMiddleware($middleware);
         $this->assertSame($middleware, $root->responseMiddlewares()[0]);
+    }
+
+    public function testPathCannotBeEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Controller('');
     }
 }

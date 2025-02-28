@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Controllers;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
@@ -70,13 +71,15 @@ class Controller implements ControllerInterface
 
     protected ControllerInterface|null $currentParent = null;
 
-    /** @todo $path can not  be empty */
     public function __construct(
         protected readonly string $path,
         protected readonly bool $publicity = false,
         protected readonly DefaultActionInterface|null $action = null,
         protected readonly DynamicActionInterface|null $dynamicAction = null
     ) {
+        if (strlen($path) === 0) {
+            throw new InvalidArgumentException('Path is empy');
+        }
         if ($this->action !== null) {
             $this->action->setController($this);
         }
