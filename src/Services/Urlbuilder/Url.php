@@ -6,6 +6,13 @@ namespace Romchik38\Server\Services\Urlbuilder;
 
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
+use Romchik38\Server\Controllers\PathInterface;
+
+use function count;
+use function implode;
+use function in_array;
+use function sprintf;
+use function strlen;
 
 class Url
 {
@@ -15,15 +22,18 @@ class Url
     protected array $schemes = ['http', 'https'];
 
     public function __construct(
-        string $scheme = '',
-        string $authority = ''
+        protected readonly RequestInterface $request,
+        protected readonly TargetInterface $target
     ) {
+        $uri       = $request->getUri();
+        $scheme    = $uri->getScheme();
+        $authority = $uri->getAuthority();
         if ($scheme === '' && $authority === '') {
             $this->prefix = '';
         } else {
             if ($scheme === '') {
                 throw new InvalidArgumentException('Scheme is empty');
-            } elseif (!in_array($scheme, $this->schemes)) {
+            } elseif (! in_array($scheme, $this->schemes)) {
                 throw new InvalidArgumentException('Invalid scheme: ' . $scheme);
             }
             if ($authority === '') {
@@ -34,10 +44,27 @@ class Url
         }
     }
 
-    public static function fromRequest(RequestInterface $request): self
-    {
-        $uri = $request->getUri();
-
-        return new self($uri->getScheme(), $uri->getAuthority());
+    /**
+     * @param array<string,string> $params - Key/value for query string
+     * */
+    public function fromPath(
+        PathInterface $path,
+        $params = [],
+        string $fragment = ''
+    ): string {
+        $fragmentPart = $fragment;
+        if (strlen($fragment) !== 0) {
+            $fragmentPart = '#' . $fragment;
+        }
+        $paramPart  = '';
+        $paramItems = [];
+        foreach ($params as $key => $value) {
+            $paramItems[] = sprintf('%s=%s', $key, $value);
+        }
+        if (count($paramItems) > 0) {
+            $paramPart = '?' . implode('&', $paramItems);
+        }
+        $targetPart = $this->target->fromPath($path);
+        return $this->prefix . $targetPart . $paramPart . $fragmentPart;
     }
 }
