@@ -9,6 +9,7 @@ use Romchik38\Server\Api\Services\Urlbuilder\UrlbuilderInterface;
 use function implode;
 use function sprintf;
 
+/** @deprecated */
 class Urlbuilder implements UrlbuilderInterface
 {
     protected readonly string $prefix;
