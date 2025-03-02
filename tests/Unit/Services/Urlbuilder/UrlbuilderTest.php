@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\Urlbuilder;
 
 use InvalidArgumentException;
-use Laminas\Diactoros\Request;
+use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Controllers\Path;
@@ -16,7 +16,7 @@ final class UrlbuilderTest extends TestCase
 {
     public function testFromPath(): void
     {
-        $request = (new Request())
+        $request = (new ServerRequest())
             ->withUri(new Uri('http://example.com'))
             ->withMethod('GET');
 
@@ -33,7 +33,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathEmptyAuthority(): void
     {
-        $request    = new Request();
+        $request    = new ServerRequest();
         $requestUri = $request->getUri()->withScheme('http');
         $request    = $request->withUri($requestUri);
 
@@ -46,7 +46,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathEmptyScheme(): void
     {
-        $request    = new Request();
+        $request    = new ServerRequest();
         $requestUri = $request->getUri()->withHost('example.com');
         $request    = $request->withUri($requestUri);
 
@@ -59,7 +59,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathEmptyAuthorityAndScheme(): void
     {
-        $request = new Request();
+        $request = new ServerRequest();
 
         $url = new Urlbuilder(
             $request,
@@ -74,7 +74,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParam(): void
     {
-        $request = (new Request())
+        $request = (new ServerRequest())
         ->withUri(new Uri('http://example.com'))
         ->withMethod('GET');
 
@@ -91,7 +91,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParams(): void
     {
-        $request = (new Request())
+        $request = (new ServerRequest())
         ->withUri(new Uri('http://example.com'))
         ->withMethod('GET');
 
@@ -108,7 +108,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithFragment(): void
     {
-        $request = (new Request())
+        $request = (new ServerRequest())
         ->withUri(new Uri('http://example.com'))
         ->withMethod('GET');
 
@@ -125,7 +125,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParamsAndFragment(): void
     {
-        $request = (new Request())
+        $request = (new ServerRequest())
         ->withUri(new Uri('http://example.com'))
         ->withMethod('GET');
 

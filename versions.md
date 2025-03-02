@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- `Urlbuiler` - changed request property type from `RequestInterface` to `ServerRequestInterface` because it uses incoming server request to form an uri
+
 ## v1.15.3
 
 - [n] Controller path refactoring is started:

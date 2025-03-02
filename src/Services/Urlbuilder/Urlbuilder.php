@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Urlbuilder;
 
 use InvalidArgumentException;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Controllers\PathInterface;
 
 use function count;
@@ -22,7 +22,7 @@ class Urlbuilder implements UrlbuilderInterface
     protected array $schemes = ['http', 'https'];
 
     public function __construct(
-        protected readonly RequestInterface $request,
+        protected readonly ServerRequestInterface $request,
         protected readonly TargetInterface $target
     ) {
         $uri       = $request->getUri();
