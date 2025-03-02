@@ -11,6 +11,7 @@ use Romchik38\Server\Api\Services\Urlbuilder\UrlbuilderInterface;
 use function count;
 use function strlen;
 
+/** @deprecated */
 class UrlbuilderFactory implements UrlbuilderFactoryInterface
 {
     public function __construct(

@@ -71,4 +71,72 @@ final class UrlbuilderTest extends TestCase
         $uri = $url->fromPath($path);
         $this->assertSame('/product', $uri);
     }
+
+    public function testFromPathWithParam(): void
+    {
+        $request = (new Request())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $path = new Path(['root', 'product']);
+
+        $uri = $url->fromPath($path, ['id' => '1']);
+        $this->assertSame('http://example.com/product?id=1', $uri);
+    }
+
+    public function testFromPathWithParams(): void
+    {
+        $request = (new Request())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $path = new Path(['root', 'product']);
+
+        $uri = $url->fromPath($path, ['id' => '1', 'color' => 'red']);
+        $this->assertSame('http://example.com/product?id=1&color=red', $uri);
+    }
+
+    public function testFromPathWithFragment(): void
+    {
+        $request = (new Request())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $path = new Path(['root', 'product']);
+
+        $uri = $url->fromPath($path, [], 'fregment1');
+        $this->assertSame('http://example.com/product#fregment1', $uri);
+    }
+
+    public function testFromPathWithParamsAndFragment(): void
+    {
+        $request = (new Request())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $path = new Path(['root', 'product']);
+
+        $uri = $url->fromPath($path, ['id' => '1', 'color' => 'red'], 'fr1');
+        $this->assertSame('http://example.com/product?id=1&color=red#fr1', $uri);
+    }
 }
