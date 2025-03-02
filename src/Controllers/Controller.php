@@ -72,13 +72,13 @@ class Controller implements ControllerInterface
     protected ControllerInterface|null $currentParent = null;
 
     public function __construct(
-        protected readonly string $path,
+        protected readonly string $name,
         protected readonly bool $publicity = false,
         protected readonly DefaultActionInterface|null $action = null,
         protected readonly DynamicActionInterface|null $dynamicAction = null
     ) {
-        if (strlen($path) === 0) {
-            throw new InvalidArgumentException('Path is empy');
+        if (strlen($name) === 0) {
+            throw new InvalidArgumentException('Controller name is empty');
         }
         if ($this->action !== null) {
             $this->action->setController($this);
@@ -115,7 +115,7 @@ class Controller implements ControllerInterface
         }
 
         $route = array_shift($elements);
-        if ($route === $this->path) {
+        if ($route === $this->name) {
             // excute request middlewares
             $requestMiddlewareResult = $this->executeRequestMiddlewares();
             if ($requestMiddlewareResult !== null) {
@@ -181,14 +181,14 @@ class Controller implements ControllerInterface
 
     public function getName(): string
     {
-        return $this->path;
+        return $this->name;
     }
 
     public function getDescription(string $dynamicRoute = ''): string
     {
         if (strlen($dynamicRoute) === 0) {
             if ($this->action === null) {
-                return $this->path;
+                return $this->name;
             } else {
                 return $this->action->getDescription();
             }
@@ -238,7 +238,7 @@ class Controller implements ControllerInterface
     /** @todo check on usage in other classes */
     public function getFullPath(string $route = ''): array
     {
-        $fullPath = [$this->path];
+        $fullPath = [$this->name];
         if ($route !== '') {
             array_push($fullPath, $route);
         }
