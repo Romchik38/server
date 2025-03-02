@@ -8,6 +8,16 @@
 
 [see todo](./todo.md)
 
+## v1.15.3
+
+- [n] Controller path refactoring is started:
+  - changed `Controller` property `path` to `name`
+  - added new entity `Path` which represents a query path
+  - adden new entity `Name`. This is a controller name and used to construct an url
+  - added service `Urlbuilder`
+  - added helper class `Target` to creat request target for non dynamic root
+  - tests
+
 ## v1.15.2
 
 - removed
