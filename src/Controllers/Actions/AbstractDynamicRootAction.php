@@ -13,7 +13,7 @@ use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 abstract class AbstractDynamicRootAction extends AbstractAction implements ActionInterface
 {
     public function __construct(
-        protected readonly DynamicRootInterface $dynamicRootService
+        protected DynamicRootInterface $dynamicRootService
     ) {
     }
 }

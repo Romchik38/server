@@ -13,8 +13,8 @@ use Romchik38\Server\Api\Services\Translate\TranslateInterface;
 abstract class AbstractMultiLanguageAction extends AbstractDynamicRootAction
 {
     public function __construct(
-        protected readonly DynamicRootInterface $dynamicRootService,
-        protected readonly TranslateInterface $translateService
+        protected DynamicRootInterface $dynamicRootService,
+        protected TranslateInterface $translateService
     ) {
     }
 
