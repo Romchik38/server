@@ -12,6 +12,7 @@
 - [f] DynamicRootRouter - add port to redirect or replace with authority
 - [n] `Urlbuilder` - added `DynamicTarget` to create dynamic urls
 - [!] removed `DynamicRootDTOFactoryInterface` and DynamicRootDTOFactory`
+- [!] refactored `DynamicRoot` - all classes/interfaces at the same namespace
 
 ## v1.15.3
 

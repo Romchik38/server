@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\DynamicRoot;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
+use Romchik38\Server\Services\DynamicRoot\DynamicRootDTO;
 
 class DynamicRootDTOTest extends TestCase
 {

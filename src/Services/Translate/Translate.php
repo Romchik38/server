@@ -7,9 +7,9 @@ namespace Romchik38\Server\Services\Translate;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
-use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateInterface;
 use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
+use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
 use function count;
 use function sprintf;

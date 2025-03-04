@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\DynamicRoot;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\DynamicRoot\EarlyAccessToCurrentRootErrorException;
 
@@ -55,10 +54,6 @@ final class DynamicRootTest extends TestCase
     {
         $default = 'en';
         $list    = ['en', 'uk'];
-
-        $firstDto  = new DynamicRootDTO('en');
-        $secondDto = new DynamicRootDTO('en');
-        $thirdDto  = new DynamicRootDTO('uk');
 
         $dynamicRoot = new DynamicRoot($default, $list);
         $dynamicRoot->setCurrentRoot('uk');

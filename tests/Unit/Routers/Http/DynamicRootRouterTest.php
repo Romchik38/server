@@ -13,12 +13,12 @@ use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Controller;
 use Romchik38\Server\Controllers\Errors\NotFoundException;
-use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
 use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
 use Romchik38\Server\Routers\Http\ControllersCollection;
 use Romchik38\Server\Routers\Http\DynamicRootRouter;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Services\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 
 class DynamicRootRouterTest extends TestCase

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Urlbuilder;
 
-use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\PathInterface;
+use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
 use function implode;
 

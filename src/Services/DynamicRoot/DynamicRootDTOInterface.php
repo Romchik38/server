@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\DynamicRoot;
+namespace Romchik38\Server\Services\DynamicRoot;
 
 /** language entity */
 interface DynamicRootDTOInterface
