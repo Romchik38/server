@@ -2,7 +2,6 @@
 
 ## Current
 
-- [f] DynamicRootRouter - add port to redirect or replace with authority
 - [n] Urlbuilder
   - DynamicTarget
 

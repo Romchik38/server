@@ -8,7 +8,8 @@
 
 [see todo](./todo.md)
 
-- `Urlbuiler` - changed request property type from `RequestInterface` to `ServerRequestInterface` because it uses incoming server request to form an uri
+- [f] `Urlbuiler` - changed request property type from `RequestInterface` to `ServerRequestInterface` because it uses incoming server request to form an uri
+- [f] DynamicRootRouter - add port to redirect or replace with authority
 
 ## v1.15.3
 
