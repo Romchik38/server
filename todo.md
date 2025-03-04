@@ -2,8 +2,10 @@
 
 ## Current
 
-- [n] Urlbuilder
-  - DynamicTarget
+- remove `DynamicRootDTOFactory`
+  - refactor classes
+  - refactor tests
+  - remove
 
 ## Next
 
