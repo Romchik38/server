@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [!] removed `UrlbuilderInterface`, `UrlbuilderFactoryInterface`, Http `Urlbuilder`, Http UrlbuilderFactory`
+
 ## v1.16.0
 
 - [f] `Urlbuiler` - changed request property type from `RequestInterface` to `ServerRequestInterface` because it uses incoming server request to form an uri
