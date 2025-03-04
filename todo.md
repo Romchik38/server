@@ -2,6 +2,13 @@
 
 ## Current
 
+- `Urlbuilder` add from array
+- remove
+  - `UrlbuilderInterface`
+  - `UrlbuilderFactoryInterface`
+  - Http `Urlbuilder`
+  - Http `UrlbuilderFactory`
+
 ## Next
 
 - @todos
