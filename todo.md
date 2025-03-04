@@ -2,11 +2,6 @@
 
 ## Current
 
-- remove `DynamicRootDTOFactory`
-  - refactor classes
-  - refactor tests
-  - remove
-
 ## Next
 
 - @todos

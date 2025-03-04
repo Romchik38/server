@@ -11,6 +11,7 @@
 - [f] `Urlbuiler` - changed request property type from `RequestInterface` to `ServerRequestInterface` because it uses incoming server request to form an uri
 - [f] DynamicRootRouter - add port to redirect or replace with authority
 - [n] `Urlbuilder` - added `DynamicTarget` to create dynamic urls
+- [!] removed `DynamicRootDTOFactoryInterface` and DynamicRootDTOFactory`
 
 ## v1.15.3
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\DynamicRoot;
 
-use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOFactoryInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Api\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTO;
 
 class DynamicRoot implements DynamicRootInterface
 {
@@ -19,13 +19,12 @@ class DynamicRoot implements DynamicRootInterface
     /** @param array<int,string> $rootNamesList */
     public function __construct(
         string $defaultRootName,
-        array $rootNamesList,
-        DynamicRootDTOFactoryInterface $dynamicRootDtoFactory
+        array $rootNamesList
     ) {
-        $this->defaultRoot = $dynamicRootDtoFactory->create($defaultRootName);
+        $this->defaultRoot = new DynamicRootDTO($defaultRootName);
         $list              = [];
         foreach ($rootNamesList as $rootName) {
-            $rootDto = $dynamicRootDtoFactory->create($rootName);
+            $rootDto = new DynamicRootDTO($rootName);
             $list[]  = $rootDto;
         }
         $this->rootList = $list;

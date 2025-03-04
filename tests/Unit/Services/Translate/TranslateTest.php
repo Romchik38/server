@@ -6,7 +6,6 @@ namespace Romchik38\Server\Tests\Unit\Services\Translate;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
-use Romchik38\Server\Models\DTO\DynamicRoot\DynamicRootDTOFactory;
 use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Logger\Loggers\FileLogger;
@@ -24,11 +23,7 @@ class TranslateTest extends TestCase
         $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
-        $dynamicRoot = new DynamicRoot(
-            'en',
-            ['en', 'uk'],
-            new DynamicRootDTOFactory()
-        );
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
         $dynamicRoot->setCurrentRoot('uk');
 
         $translate = new Translate(
@@ -47,11 +42,7 @@ class TranslateTest extends TestCase
         $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
-        $dynamicRoot = new DynamicRoot(
-            'en',
-            ['en', 'uk'],
-            new DynamicRootDTOFactory()
-        );
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
         $dynamicRoot->setCurrentRoot('uk');
 
         $this->expectException(TranslateException::class);
@@ -85,11 +76,7 @@ class TranslateTest extends TestCase
         $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
-        $dynamicRoot = new DynamicRoot(
-            'gb',
-            ['en', 'uk'],
-            new DynamicRootDTOFactory()
-        );
+        $dynamicRoot = new DynamicRoot('gb', ['en', 'uk']);
         $dynamicRoot->setCurrentRoot('uk');
 
         $this->expectException(TranslateException::class);
@@ -119,11 +106,7 @@ class TranslateTest extends TestCase
         $translateStorage->method('getDataByLanguages')
             ->willReturn($this->createHash('some.key'));
 
-        $dynamicRoot = new DynamicRoot(
-            'en',
-            ['en', 'gb'],
-            new DynamicRootDTOFactory()
-        );
+        $dynamicRoot = new DynamicRoot('en', ['en', 'gb']);
         $dynamicRoot->setCurrentRoot('gb');
 
         $logger = $this->createMock(FileLogger::class);
@@ -163,11 +146,7 @@ class TranslateTest extends TestCase
             ->with($key)
             ->willReturn($this->createHash($key));
 
-        $dynamicRoot = new DynamicRoot(
-            'en',
-            ['en'],
-            new DynamicRootDTOFactory()
-        );
+        $dynamicRoot = new DynamicRoot('en', ['en']);
 
         $dynamicRoot->setCurrentRoot('en');
 
