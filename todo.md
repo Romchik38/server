@@ -2,8 +2,6 @@
 
 ## Current
 
-- `Urlbuilder` add from array
-
 ## Next
 
 - @todos
