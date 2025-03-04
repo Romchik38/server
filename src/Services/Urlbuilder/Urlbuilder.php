@@ -6,6 +6,7 @@ namespace Romchik38\Server\Services\Urlbuilder;
 
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
+use Romchik38\Server\Controllers\Path;
 use Romchik38\Server\Controllers\PathInterface;
 
 use function count;
@@ -42,6 +43,15 @@ class Urlbuilder implements UrlbuilderInterface
 
             $this->prefix = sprintf('%s://%s', $scheme, $authority);
         }
+    }
+
+    public function fromArray(
+        array $parts,
+        array $params = [],
+        string $fragment = ''
+    ): string {
+        $path = new Path($parts);
+        return $this->fromPath($path, $params, $fragment);
     }
 
     public function fromPath(

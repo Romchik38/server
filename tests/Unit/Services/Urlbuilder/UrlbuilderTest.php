@@ -139,4 +139,71 @@ final class UrlbuilderTest extends TestCase
         $uri = $url->fromPath($path, ['id' => '1', 'color' => 'red'], 'fr1');
         $this->assertSame('http://example.com/product?id=1&color=red#fr1', $uri);
     }
+
+    public function testFromArray(): void
+    {
+        $request = (new ServerRequest())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $uri = $url->fromArray(['root', 'product']);
+        $this->assertSame('http://example.com/product', $uri);
+    }
+
+    public function testFromArrayWithParams(): void
+    {
+        $request = (new ServerRequest())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $uri = $url->fromArray(
+            ['root', 'product'],
+            ['id' => '1', 'color' => 'red']
+        );
+        $this->assertSame('http://example.com/product?id=1&color=red', $uri);
+    }
+
+    public function testFromArrayWithFragment(): void
+    {
+        $request = (new ServerRequest())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $uri = $url->fromArray(['root', 'product'], [], 'fregment1');
+        $this->assertSame('http://example.com/product#fregment1', $uri);
+    }
+
+    public function testFromArrayWithParamsAndFragment(): void
+    {
+        $request = (new ServerRequest())
+        ->withUri(new Uri('http://example.com'))
+        ->withMethod('GET');
+
+        $url = new Urlbuilder(
+            $request,
+            new Target()
+        );
+
+        $uri = $url->fromArray(
+            ['root', 'product'],
+            ['id' => '1', 'color' => 'red'],
+            'fr1'
+        );
+        $this->assertSame('http://example.com/product?id=1&color=red#fr1', $uri);
+    }
 }
