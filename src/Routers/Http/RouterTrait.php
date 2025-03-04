@@ -14,7 +14,7 @@ trait RouterTrait
 {
     protected function normalizeRedirectUrl(
         string $url,
-        string $host,
+        string $authority,
         string $scheme
     ): string {
         if (str_starts_with($url, 'http') || str_starts_with($url, 'https')) {
@@ -24,14 +24,14 @@ trait RouterTrait
             return sprintf(
                 '%s://%s%s',
                 $scheme,
-                $host,
+                $authority,
                 $url
             );
         }
         return sprintf(
             '%s://%s/%s',
             $scheme,
-            $host,
+            $authority,
             $url
         );
     }

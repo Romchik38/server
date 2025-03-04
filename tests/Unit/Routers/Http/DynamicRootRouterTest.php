@@ -6,9 +6,9 @@ namespace Romchik38\Server\Tests\Unit\Routers\Http;
 
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Controllers\Controller;
@@ -29,19 +29,14 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteRedirectToDefaultRootFromSlash()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
-
-        $request->expects($this->once())->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->expects($this->once())->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -67,19 +62,14 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteRedirectToDefaultRootPlusPathFromSlashPath()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/products');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
-
-        $request->expects($this->once())->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->expects($this->once())->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -108,19 +98,14 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteMethodNotAllowed()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/en/products');
+        $request = new ServerRequest([], [], $uri, 'PUT');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('PUT');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -148,21 +133,16 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteRedirect()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/en/products');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $redirectService       = $this->createMock(Redirect::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto    = new DynamicRootDTO('en');
         $rootNames         = ['en', 'uk'];
         $redirectResultDto = new RedirectResultDTO('/en/newproducts', 301);
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -198,20 +178,15 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteThrowsRouterProccessError()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/en/products');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $redirectService       = $this->createMock(Redirect::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -246,25 +221,20 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteControllerReturnResult()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/en/products');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
         $response       = new Response();
         $body           = $response->getBody();
         $body->write('Product #1');
         $response = $response->withBody($body);
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -302,22 +272,16 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteControllerThrowsNotFoundErrorWithoutController()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri     = new Uri('http://example.com/en/products');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
-        $notFoundController    = $this->createMock(Controller::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);
@@ -356,26 +320,20 @@ class DynamicRootRouterTest extends TestCase
      */
     public function testExecuteControllerThrowsNotFoundErrorWithController()
     {
-        $request               = $this->createMock(ServerRequestInterface::class);
-        $uri                   = $this->createMock(UriInterface::class);
+        $uri                   = new Uri('http://example.com/en/products');
+        $request               = new ServerRequest([], [], $uri, 'GET');
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
         $notFoundController    = $this->createMock(Controller::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $uri->method('getScheme')->willReturn('http');
-        $uri->method('getHost')->willReturn('example.com');
-        $uri->method('getPath')->willReturn('/en/products');
         $defaultRootDto = new DynamicRootDTO('en');
         $rootNames      = ['en', 'uk'];
         $response       = new Response();
         $body           = $response->getBody();
         $body->write('<h1>Page not found</h1>');
         $response = $response->withBody($body);
-
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
 
         $dynamicRootService->method('getDefaultRoot')
             ->willReturn($defaultRootDto);

@@ -39,12 +39,13 @@ class DynamicRootRouter implements HttpRouterInterface
     public function execute(): ResponseInterface
     {
         // 0. define
-        $uri    = $this->request->getUri();
-        $scheme = $uri->getScheme();
-        $host   = $uri->getHost();
-        $method = $this->request->getMethod();
-        $path   = $uri->getPath();
-        [$url]  = explode('?', $path);
+        $uri       = $this->request->getUri();
+        $scheme    = $uri->getScheme();
+        $host      = $uri->getHost();
+        $authority = $uri->getAuthority();
+        $method    = $this->request->getMethod();
+        $path      = $uri->getPath();
+        [$url]     = explode('?', $path);
 
         $defaultRoot = $this->dynamicRootService->getDefaultRoot();
         $rootList    = $this->dynamicRootService->getRootNames();
@@ -64,7 +65,7 @@ class DynamicRootRouter implements HttpRouterInterface
         if (count($elements) === 0) {
             $redirectLine = $scheme
                 . RedirectInterface::SCHEME_HOST_DELIMITER
-                . $host
+                . $authority
                 . '/'
                 . $defaultRoot->getName();
             return ($this->responseFactory->createResponse(301))
@@ -77,7 +78,7 @@ class DynamicRootRouter implements HttpRouterInterface
         if (array_search($rootName, $rootList, true) === false) {
             $redirectLinePlusPath = $scheme
                 . RedirectInterface::SCHEME_HOST_DELIMITER
-                . $host
+                . $authority
                 . '/'
                 . $defaultRoot->getName()
                 . $path;
@@ -99,7 +100,7 @@ class DynamicRootRouter implements HttpRouterInterface
             if ($redirectResult !== null) {
                 $url = $this->normalizeRedirectUrl(
                     $redirectResult->getRedirectLocation(),
-                    $host,
+                    $authority,
                     $scheme
                 );
                 return $this->redirect($url, $redirectResult);
