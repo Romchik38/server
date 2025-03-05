@@ -2,6 +2,8 @@
 
 ## Current
 
+- `Session` move public function to `SessionInterface`
+
 ## Next
 
 - @todos
