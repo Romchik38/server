@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+## v1.16.1
+
 - [!] removed `UrlbuilderInterface`, `UrlbuilderFactoryInterface`, Http `Urlbuilder`, Http UrlbuilderFactory`
 - [n] `Urlbuilder` - added new function `fromArray`
 
