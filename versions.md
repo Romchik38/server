@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [f] `Session` - public functions moved to `SessionInterface`
+
 ## v1.16.1
 
 - [!] removed `UrlbuilderInterface`, `UrlbuilderFactoryInterface`, Http `Urlbuilder`, Http UrlbuilderFactory`

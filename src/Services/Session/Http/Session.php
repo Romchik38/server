@@ -26,12 +26,11 @@ class Session implements SessionInterface
         }
     }
 
-    public function getData(string $key): mixed
+    public function getData(string $key): ?string
     {
         return $_SESSION[$key] ?? null;
     }
 
-    /** @return array<string,string> */
     public function getAllData(): array
     {
         return $_SESSION;
@@ -47,7 +46,7 @@ class Session implements SessionInterface
         session_destroy();
     }
 
-    public function setData(string $key, mixed $value): SessionInterface
+    public function setData(string $key, string $value): SessionInterface
     {
         $_SESSION[$key] = $value;
         return $this;

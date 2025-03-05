@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Services;
 
-use Romchik38\Server\Api\Models\ModelInterface;
-
-interface SessionInterface extends ModelInterface
+interface SessionInterface
 {
     public const SESSION_MAX_TIME_TO_LOGOUT = 86400;
 
@@ -14,4 +12,11 @@ interface SessionInterface extends ModelInterface
      * Destroy a session
      */
     public function logout(): void;
+
+    /** @return array<string,string> */
+    public function getAllData(): array;
+
+    public function getData(string $key): ?string;
+
+    public function setData(string $key, string $value): SessionInterface;
 }

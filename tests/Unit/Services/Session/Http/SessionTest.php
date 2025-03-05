@@ -14,7 +14,7 @@ class SessionTest extends TestCase
     public function testGetData()
     {
         $key   = 'id';
-        $value = 100;
+        $value = '100';
 
         $session = new Session();
 
@@ -28,13 +28,13 @@ class SessionTest extends TestCase
     public function testGetAllData()
     {
         $key   = 'id';
-        $value = 100;
+        $value = '100';
 
         $session = new Session();
 
         $_SESSION[$key] = $value;
 
-        $this->assertSame(['id' => 100], $session->getAllData());
+        $this->assertSame(['id' => '100'], $session->getAllData());
 
         session_destroy();
     }
@@ -42,7 +42,7 @@ class SessionTest extends TestCase
     public function testSetData()
     {
         $key   = 'id';
-        $value = 100;
+        $value = '100';
 
         $session = new Session();
 
@@ -56,7 +56,7 @@ class SessionTest extends TestCase
     public function testLogout()
     {
         $key   = 'id';
-        $value = 100;
+        $value = '100';
 
         $session = new Session();
 
