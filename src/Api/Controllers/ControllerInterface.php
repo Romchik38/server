@@ -48,6 +48,9 @@ interface ControllerInterface
      */
     public function isPublic(): bool;
 
+    /** @return string - Controller unique id. Based on the name if not set */
+    public function getId(): string;
+
     /** @return string controller name */
     public function getName(): string;
 

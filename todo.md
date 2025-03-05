@@ -3,6 +3,8 @@
 ## Current
 
 - controller has an uniqe id
+  - [+] created id
+  - [-] check unique
 
 ## Next
 

@@ -60,6 +60,9 @@ class Controller implements ControllerInterface
     /** @var array<string,ControllerInterface> $children */
     protected array $children = [];
 
+    /** used to explicitly identify a controller */
+    protected readonly string $id;
+
     /** @var array<int,RequestMiddlewareInterface> $requestMiddlewares */
     protected array $requestMiddlewares = [];
 
@@ -75,7 +78,8 @@ class Controller implements ControllerInterface
         protected readonly string $name,
         protected readonly bool $publicity = false,
         protected readonly DefaultActionInterface|null $action = null,
-        protected readonly DynamicActionInterface|null $dynamicAction = null
+        protected readonly DynamicActionInterface|null $dynamicAction = null,
+        string $id = ''
     ) {
         if (strlen($name) === 0) {
             throw new InvalidArgumentException('Controller name is empty');
@@ -85,6 +89,11 @@ class Controller implements ControllerInterface
         }
         if ($this->dynamicAction !== null) {
             $this->dynamicAction->setController($this);
+        }
+        if ($id === '') {
+            $this->id = $name;
+        } else {
+            $this->id = $id;
         }
     }
 
@@ -177,6 +186,11 @@ class Controller implements ControllerInterface
     public function isPublic(): bool
     {
         return $this->publicity;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
