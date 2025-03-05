@@ -8,7 +8,10 @@
 
 [see todo](./todo.md)
 
+## v1.16.2
+
 - [f] `Session` - public functions moved to `SessionInterface`
+- [n] `Controller` - has an unique id. Based on the name if not set.
 
 ## v1.16.1
 
