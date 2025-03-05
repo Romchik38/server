@@ -527,4 +527,16 @@ final class ControllerTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Controller('');
     }
+
+    public function testGetIdBasedOnName(): void
+    {
+        $root = new Controller('root');
+        $this->assertSame('root', $root->getId());
+    }
+
+    public function testGetId(): void
+    {
+        $root = new Controller('root', true, null, null, 'some_id');
+        $this->assertSame('some_id', $root->getId());
+    }
 }
