@@ -56,4 +56,71 @@ class DatabasePostgresql implements DatabaseInterface
         pg_free_result($result);
         return $arr;
     }
+
+    public function transactionStart(): void
+    {
+        if ($this->connection === null) {
+            throw new DatabaseTransactionException('No connection to create a query');
+        }
+
+        $status = pg_transaction_status($this->connection);
+        if ($status !== PGSQL_TRANSACTION_IDLE) {
+            throw new DatabaseTransactionException('Transaction no idle');
+        }
+
+        $result = pg_query($this->connection, 'BEGIN');
+        if ($result === false) {
+            throw new DatabaseTransactionException('Could not start transaction');
+        }
+    }
+
+    public function transactionEnd(): void
+    {
+        if ($this->connection === null) {
+            throw new DatabaseTransactionException('No connection to create a query');
+        }
+
+        $status = pg_transaction_status($this->connection);
+        if ($status !== PGSQL_TRANSACTION_INTRANS) {
+            throw new DatabaseTransactionException('Transaction no idle in transaction block');
+        }
+
+        $result = pg_query($this->connection, 'COMMIT');
+        if ($result === false) {
+            throw new DatabaseTransactionException('Could not start transaction');
+        }
+    }
+
+    public function transactionRollback(): void
+    {
+        if ($this->connection === null) {
+            throw new DatabaseTransactionException('No connection to create a query');
+        }
+
+        $result = pg_query($this->connection, 'ROLLBACK');
+        if ($result === false) {
+            throw new DatabaseTransactionException('Could not rollback transaction');
+        }
+    }
+
+    public function transactionQueryParams(string $query, array $params): array
+    {
+        if ($this->connection === null) {
+            throw new DatabaseTransactionException('No connection to create a query');
+        }
+
+        $status = pg_transaction_status($this->connection);
+        if ($status !== PGSQL_TRANSACTION_INTRANS) {
+            throw new DatabaseTransactionException('Transaction no idle in transaction block');
+        }
+
+        $result = pg_query_params($this->connection, $query, $params);
+        if ($result === false) {
+            $errMsg = pg_last_error($this->connection);
+            throw new QueryException($errMsg);
+        }
+        $arr = pg_fetch_all($result);
+        pg_free_result($result);
+        return $arr;
+    }
 }

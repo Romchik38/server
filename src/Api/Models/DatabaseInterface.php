@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Api\Models;
 
 use Romchik38\Server\Models\Errors\QueryException;
+use Romchik38\Server\Models\Sql\DatabaseTransactionException;
 
 interface DatabaseInterface
 {
@@ -14,4 +15,25 @@ interface DatabaseInterface
      * @return array<array<string,string>>
      * */
     public function queryParams(string $query, array $params): array;
+
+     /**
+     * @throws DatabaseTransactionException
+     * */
+    public function transactionStart(): void;
+
+     /**
+     * @throws DatabaseTransactionException
+     * */
+    public function transactionEnd(): void;
+
+    /**
+     * @throws DatabaseTransactionException
+     * */
+    public function transactionRollback(): void;
+
+    /**
+     * @throws DatabaseTransactionException
+     * @throws QueryException
+     * */
+    public function transactionQueryParams(string $query, array $params): array;
 }
