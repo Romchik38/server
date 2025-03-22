@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [n] `DatabasePostgresql` - added function to work with transactions
+
 ## v1.16.2
 
 - [f] `Session` - public functions moved to `SessionInterface`
