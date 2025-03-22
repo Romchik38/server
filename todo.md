@@ -2,7 +2,6 @@
 
 ## Current
 
-- controller name can contain number
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
