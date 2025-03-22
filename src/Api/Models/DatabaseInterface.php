@@ -16,12 +16,12 @@ interface DatabaseInterface
      * */
     public function queryParams(string $query, array $params): array;
 
-     /**
+    /**
      * @throws DatabaseTransactionException
      * */
     public function transactionStart(): void;
 
-     /**
+    /**
      * @throws DatabaseTransactionException
      * */
     public function transactionEnd(): void;
@@ -32,8 +32,10 @@ interface DatabaseInterface
     public function transactionRollback(): void;
 
     /**
+     * @param array<int,int|string> $params
      * @throws DatabaseTransactionException
      * @throws QueryException
+     * @return array<array<string,string>>
      * */
     public function transactionQueryParams(string $query, array $params): array;
 }

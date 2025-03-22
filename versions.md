@@ -9,6 +9,7 @@
 [see todo](./todo.md)
 
 - [n] `DatabasePostgresql` - added function to work with transactions
+- [n] Controller `Name` can contain number
 
 ## v1.16.2
 

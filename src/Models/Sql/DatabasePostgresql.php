@@ -16,7 +16,12 @@ use function pg_connect;
 use function pg_fetch_all;
 use function pg_free_result;
 use function pg_last_error;
+use function pg_query;
 use function pg_query_params;
+use function pg_transaction_status;
+
+use const PGSQL_TRANSACTION_IDLE;
+use const PGSQL_TRANSACTION_INTRANS;
 
 class DatabasePostgresql implements DatabaseInterface
 {

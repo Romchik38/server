@@ -18,8 +18,8 @@ final class NameTest extends TestCase
 
     public function testDigits(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        new Name('a1');
+        $n1 = new Name('a1a');
+        $this->assertSame('a1a', $n1());
     }
 
     public function testNotAscii(): void
