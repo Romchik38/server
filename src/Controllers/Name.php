@@ -11,7 +11,7 @@ use function sprintf;
 
 class Name
 {
-    public const PATTERN = '/^[a-z1-9]+$/';
+    public const PATTERN = '/^[a-z0-9]+$/';
 
     public function __construct(
         private readonly string $name

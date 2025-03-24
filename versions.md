@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [f] Controller `Name` can contain 0
+
 ## v1.16.3
 
 - [n] `DatabasePostgresql` - added function to work with transactions
