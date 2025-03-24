@@ -2,6 +2,14 @@
 
 ## Current
 
+- `PostgresDatabase` must not show warnings
+
+  ```php
+  ob_start();
+  $result = pg_query_params($this->connection, $query, $params);
+  $tempVar = ob_get_clean();
+  ```
+
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
