@@ -11,6 +11,8 @@ use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Sql\DatabaseInterface;
 
 use function extension_loaded;
+use function ob_get_clean;
+use function ob_start;
 use function pg_close;
 use function pg_connect;
 use function pg_fetch_all;
@@ -33,10 +35,11 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseException('Required extension: pgsql');
         }
 
-        /** @todo warning */
+        ob_start();
         $connection = pg_connect($config);
+        $flushVar = ob_get_clean();
         if ($connection === false) {
-            throw new CreateConnectionException('Could\'t create connection');
+            throw new CreateConnectionException($flushVar);
         }
         $this->connection = $connection;
     }
@@ -53,14 +56,15 @@ class DatabasePostgresql implements DatabaseInterface
         if ($this->connection === null) {
             throw new CreateConnectionException('No connection to create a query');
         }
-        /** @todo warning */
+
+        ob_start();
         $result = pg_query_params($this->connection, $query, $params);
+        $flushVar = ob_get_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new QueryException($errMsg);
         }
         $arr = pg_fetch_all($result);
-        /** @todo warning */
         pg_free_result($result);
         return $arr;
     }
