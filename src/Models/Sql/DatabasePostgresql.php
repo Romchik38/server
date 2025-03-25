@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Models\Sql;
 
 use PgSql\Connection;
-use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Models\Errors\CreateConnectionException;
 use Romchik38\Server\Models\Errors\DatabaseException;
 use Romchik38\Server\Models\Errors\QueryException;
+use Romchik38\Server\Models\Sql\DatabaseInterface;
 
 use function extension_loaded;
 use function pg_close;

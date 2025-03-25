@@ -16,10 +16,16 @@ final class NameTest extends TestCase
         new Name('');
     }
 
-    public function testDigits(): void
+    public function testDigitsChars(): void
     {
         $n1 = new Name('a1a');
         $this->assertSame('a1a', $n1());
+    }
+
+    public function testDigits(): void
+    {
+        $n1 = new Name('0123');
+        $this->assertSame('0123', $n1());
     }
 
     public function testNotAscii(): void
@@ -32,5 +38,11 @@ final class NameTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         new Name('Product');
+    }
+
+    public function testDash(): void
+    {
+        $n1 = new Name('a-1a');
+        $this->assertSame('a-1a', $n1());
     }
 }

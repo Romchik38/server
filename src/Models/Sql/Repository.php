@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Sql;
 
-use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\RepositoryInterface;
@@ -13,6 +12,7 @@ use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Errors\QueryException;
+use Romchik38\Server\Models\Sql\DatabaseInterface;
 
 use function count;
 use function implode;

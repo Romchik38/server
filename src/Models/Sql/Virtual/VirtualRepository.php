@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models\Sql\Virtual;
 
-use Romchik38\Server\Api\Models\DatabaseInterface;
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
+use Romchik38\Server\Models\Sql\DatabaseInterface;
 
 use function implode;
 
