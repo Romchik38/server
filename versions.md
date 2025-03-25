@@ -8,7 +8,7 @@
 
 [see todo](./todo.md)
 
-- [f] Controller `Name` can contain 0
+- [f] Controller `Name` can contain `0` and `-`
 
 ## v1.16.3
 

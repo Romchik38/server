@@ -2,7 +2,6 @@
 
 ## Current
 
-- Name can contain `-`
 - `PostgresDatabase` must not show warnings
 
   ```php
