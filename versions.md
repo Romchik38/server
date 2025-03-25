@@ -10,6 +10,7 @@
 
 - [f] Controller `Name` can contain `0` and `-`
 - [!] `DatabaseInterface` moved to models
+- [n] `PostgresDatabase` does not show html warnings
 
 ## v1.16.3
 

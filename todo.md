@@ -2,8 +2,6 @@
 
 ## Current
 
-- `PostgresDatabase` must not show warnings
-
   ```php
   ob_start();
   $result = pg_query_params($this->connection, $query, $params);

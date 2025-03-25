@@ -21,6 +21,7 @@ use function pg_last_error;
 use function pg_query;
 use function pg_query_params;
 use function pg_transaction_status;
+use function sprintf;
 
 use const PGSQL_TRANSACTION_IDLE;
 use const PGSQL_TRANSACTION_INTRANS;
@@ -37,9 +38,12 @@ class DatabasePostgresql implements DatabaseInterface
 
         ob_start();
         $connection = pg_connect($config);
-        $flushVar = ob_get_clean();
+        $flushVar   = ob_get_clean();
         if ($connection === false) {
-            throw new CreateConnectionException($flushVar);
+            throw new CreateConnectionException(sprintf(
+                'Could not create connection: %s',
+                $flushVar
+            ));
         }
         $this->connection = $connection;
     }
@@ -58,11 +62,11 @@ class DatabasePostgresql implements DatabaseInterface
         }
 
         ob_start();
-        $result = pg_query_params($this->connection, $query, $params);
+        $result   = pg_query_params($this->connection, $query, $params);
         $flushVar = ob_get_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
-            throw new QueryException($errMsg);
+            throw new QueryException(sprintf('Query Error: %s', $errMsg));
         }
         $arr = pg_fetch_all($result);
         pg_free_result($result);
@@ -79,10 +83,15 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new DatabaseTransactionException('Transaction no idle');
         }
-        /** @todo warning */
-        $result = pg_query($this->connection, 'BEGIN');
+        ob_start();
+        $result   = pg_query($this->connection, 'BEGIN');
+        $flushVar = ob_get_clean();
         if ($result === false) {
-            throw new DatabaseTransactionException('Could not start transaction');
+            $errMsg = pg_last_error($this->connection);
+            throw new DatabaseTransactionException(sprintf(
+                'Could not start transaction: %s',
+                $errMsg
+            ));
         }
     }
 
@@ -96,10 +105,15 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
-        /** @todo warning */
-        $result = pg_query($this->connection, 'COMMIT');
+        ob_start();
+        $result   = pg_query($this->connection, 'COMMIT');
+        $flushVar = ob_get_clean();
         if ($result === false) {
-            throw new DatabaseTransactionException('Could not start transaction');
+            $errMsg = pg_last_error($this->connection);
+            throw new DatabaseTransactionException(sprintf(
+                'Could not end transaction: %s',
+                $errMsg
+            ));
         }
     }
 
@@ -108,10 +122,15 @@ class DatabasePostgresql implements DatabaseInterface
         if ($this->connection === null) {
             throw new DatabaseTransactionException('No connection to create a query');
         }
-        /** @todo warning */
-        $result = pg_query($this->connection, 'ROLLBACK');
+        ob_start();
+        $result   = pg_query($this->connection, 'ROLLBACK');
+        $flushVar = ob_get_clean();
         if ($result === false) {
-            throw new DatabaseTransactionException('Could not rollback transaction');
+            $errMsg = pg_last_error($this->connection);
+            throw new DatabaseTransactionException(sprintf(
+                'Could not rollback transaction: %s',
+                $errMsg
+            ));
         }
     }
 
@@ -125,14 +144,19 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
-        /** @todo warning */
-        $result = pg_query_params($this->connection, $query, $params);
+
+        ob_start();
+        $result   = pg_query_params($this->connection, $query, $params);
+        $flushVar = ob_get_clean();
+
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
-            throw new QueryException($errMsg);
+            throw new QueryException(sprintf(
+                'Query error: %s',
+                $errMsg
+            ));
         }
         $arr = pg_fetch_all($result);
-        /** @todo warning */
         pg_free_result($result);
         return $arr;
     }
