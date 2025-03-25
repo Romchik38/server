@@ -33,6 +33,7 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseException('Required extension: pgsql');
         }
 
+        /** @todo warning */
         $connection = pg_connect($config);
         if ($connection === false) {
             throw new CreateConnectionException('Could\'t create connection');
@@ -52,12 +53,14 @@ class DatabasePostgresql implements DatabaseInterface
         if ($this->connection === null) {
             throw new CreateConnectionException('No connection to create a query');
         }
+        /** @todo warning */
         $result = pg_query_params($this->connection, $query, $params);
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new QueryException($errMsg);
         }
         $arr = pg_fetch_all($result);
+        /** @todo warning */
         pg_free_result($result);
         return $arr;
     }
@@ -72,7 +75,7 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new DatabaseTransactionException('Transaction no idle');
         }
-
+        /** @todo warning */
         $result = pg_query($this->connection, 'BEGIN');
         if ($result === false) {
             throw new DatabaseTransactionException('Could not start transaction');
@@ -89,7 +92,7 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
-
+        /** @todo warning */
         $result = pg_query($this->connection, 'COMMIT');
         if ($result === false) {
             throw new DatabaseTransactionException('Could not start transaction');
@@ -101,7 +104,7 @@ class DatabasePostgresql implements DatabaseInterface
         if ($this->connection === null) {
             throw new DatabaseTransactionException('No connection to create a query');
         }
-
+        /** @todo warning */
         $result = pg_query($this->connection, 'ROLLBACK');
         if ($result === false) {
             throw new DatabaseTransactionException('Could not rollback transaction');
@@ -118,13 +121,14 @@ class DatabasePostgresql implements DatabaseInterface
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
-
+        /** @todo warning */
         $result = pg_query_params($this->connection, $query, $params);
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new QueryException($errMsg);
         }
         $arr = pg_fetch_all($result);
+        /** @todo warning */
         pg_free_result($result);
         return $arr;
     }
