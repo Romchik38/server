@@ -2,11 +2,21 @@
 
 ## Current
 
-  ```php
-  ob_start();
-  $result = pg_query_params($this->connection, $query, $params);
-  $tempVar = ob_get_clean();
-  ```
+- translate
+  - move interfaces to `Translate` folder
+    - `TranslateEntityDTO`
+    - `TranslateInterface`
+    - `TranslateStorageInterface`
+  - depracate
+    - `TranslateStorage`
+    - `TranslateEntityModelRepositoryInterface`
+    - `TranslateEntityDTOFactoryInterface`
+    - `TranslateEntityModel`
+    - `TranslateEntityModelFactory`
+  - translate service
+    - depend only on
+      - `TranslateStorageInterface`
+      - `TranslateEntityDTO`
 
 - controller has an uniqe id
   - [+] created id
