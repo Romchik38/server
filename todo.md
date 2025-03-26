@@ -21,7 +21,8 @@
     - depend only on
       - `TranslateStorageInterface`
       - `TranslateEntityDTOInterface`
-
+    - remove `hash`
+    - [+] remove var `currentLang`
 - controller has an uniqe id
   - [+] created id
   - [-] check unique

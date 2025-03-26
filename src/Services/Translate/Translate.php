@@ -20,11 +20,12 @@ use function sprintf;
  * Returns translated string for current language,
  *   otherwise returns the string for default language
  *   otherwise throws an error (so the key must be in the translate storage)
+ * 
+ * @api
  */
 class Translate implements TranslateInterface
 {
     protected string $defaultLang;
-    protected string $currentLang;
     protected string $formatErrorMessage    =
         'Translation for string %s is missing. Please create it for default %s language first';
     protected string $formatErrorDefaultVal = 'Default value for language %s isn\'t set';
@@ -43,18 +44,17 @@ class Translate implements TranslateInterface
 
     public function t(string $str): string
     {
-        $this->setCurrentLanguage();
-        return $this->translate($str, $this->currentLang);
+        return $this->translate($str, $this->getCurrentLanguage());
     }
 
     public function translate(string $key, string $language): string
     {
-        $this->setCurrentLanguage();
+        $currentLang = $this->getCurrentLanguage();
 
         /** 1. Fill the hash */
         if ($this->hash === null) {
             $this->hash = $this->translateStorage->getDataByLanguages(
-                [$this->defaultLang, $this->currentLang]
+                [$this->defaultLang, $currentLang]
             );
         }
 
@@ -77,7 +77,7 @@ class Translate implements TranslateInterface
         }
 
         /** 6. Check for specific language (get all translates for the given key)*/
-        if ($language !== $this->defaultLang && $language !== $this->currentLang) {
+        if ($language !== $this->defaultLang && $language !== $currentLang) {
             $array = $this->translateStorage->getAllDataByKey($key);
             if (count($array) === 1) {
                 $dto              = $array[$key];
@@ -108,8 +108,8 @@ class Translate implements TranslateInterface
         return $defaultVal;
     }
 
-    protected function setCurrentLanguage(): void
+    protected function getCurrentLanguage(): string
     {
-        $this->currentLang = $this->currentLang ?? $this->dynamicRoot->getCurrentRoot()->getName();
+        return $this->dynamicRoot->getCurrentRoot()->getName();
     }
 }
