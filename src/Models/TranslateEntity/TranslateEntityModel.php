@@ -7,6 +7,7 @@ namespace Romchik38\Server\Models\TranslateEntity;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelInterface;
 use Romchik38\Server\Models\Model;
 
+/** @deprecated */
 class TranslateEntityModel extends Model implements TranslateEntityModelInterface
 {
     public function getId(): int

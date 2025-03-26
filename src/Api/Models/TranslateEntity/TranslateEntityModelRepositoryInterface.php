@@ -6,6 +6,7 @@ namespace Romchik38\Server\Api\Models\TranslateEntity;
 
 use Romchik38\Server\Api\Models\RepositoryInterface;
 
+/** @deprecated */
 interface TranslateEntityModelRepositoryInterface extends RepositoryInterface
 {
     /**

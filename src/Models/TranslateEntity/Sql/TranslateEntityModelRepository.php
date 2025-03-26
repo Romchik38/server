@@ -11,6 +11,7 @@ use Romchik38\Server\Models\Sql\Repository;
 use function count;
 use function implode;
 
+/** @deprecated */
 class TranslateEntityModelRepository extends Repository implements TranslateEntityModelRepositoryInterface
 {
     public function getListByLanguages(array $languages): array

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\TranslateEntity;
+namespace Romchik38\Server\Services\Translate;
 
-use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
 use Romchik38\Server\Models\DTO;
 
 class TranslateEntityDTO extends DTO implements TranslateEntityDTOInterface

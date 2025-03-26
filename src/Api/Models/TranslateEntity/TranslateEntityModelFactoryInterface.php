@@ -6,6 +6,7 @@ namespace Romchik38\Server\Api\Models\TranslateEntity;
 
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
 
+/** @deprecated */
 interface TranslateEntityModelFactoryInterface extends ModelFactoryInterface
 {
     /**

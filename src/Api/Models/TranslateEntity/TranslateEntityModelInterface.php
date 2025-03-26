@@ -6,7 +6,11 @@ namespace Romchik38\Server\Api\Models\TranslateEntity;
 
 use Romchik38\Server\Api\Models\ModelInterface;
 
-/** Interface for Translate Entity Model */
+/** 
+ * Interface for Translate Entity Model 
+ * 
+ * @deprecated
+ * */
 interface TranslateEntityModelInterface extends ModelInterface
 {
     public const ID_FIELD       = 'entity_id';

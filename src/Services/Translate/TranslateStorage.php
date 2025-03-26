@@ -8,10 +8,10 @@ use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOFactoryInt
 use Romchik38\Server\Api\Models\DTO\TranslateEntity\TranslateEntityDTOInterface;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelInterface;
 use Romchik38\Server\Api\Models\TranslateEntity\TranslateEntityModelRepositoryInterface;
-use Romchik38\Server\Api\Services\Translate\TranslateStorageInterface;
 
 use function array_key_exists;
 
+/** @deprecated */
 class TranslateStorage implements TranslateStorageInterface
 {
     public function __construct(

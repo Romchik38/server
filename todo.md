@@ -4,19 +4,23 @@
 
 - translate
   - move interfaces to `Translate` folder
-    - `TranslateEntityDTO`
-    - `TranslateInterface`
-    - `TranslateStorageInterface`
+    - [+] `TranslateEntityDTO`
+    - [+] `TranslateEntityDTOInterface`
+    - [+] `TranslateInterface`
+    - [+] `TranslateStorageInterface`
   - depracate
-    - `TranslateStorage`
-    - `TranslateEntityModelRepositoryInterface`
-    - `TranslateEntityDTOFactoryInterface`
-    - `TranslateEntityModel`
-    - `TranslateEntityModelFactory`
+    - [+] `TranslateStorage`
+    - [+] `TranslateEntityModelRepositoryInterface`
+    - [+] `TranslateEntityDTOFactoryInterface`
+    - [+] `TranslateEntityModelInterface`
+    - [+] `TranslateEntityModelFactoryInterface`
+    - [+] `TranslateEntityModel`
+    - [+] `TranslateEntityModelFactory`
+    - [+] `TranslateEntityModelRepository`
   - translate service
     - depend only on
       - `TranslateStorageInterface`
-      - `TranslateEntityDTO`
+      - `TranslateEntityDTOInterface`
 
 - controller has an uniqe id
   - [+] created id
