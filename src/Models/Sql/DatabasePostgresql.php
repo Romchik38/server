@@ -11,6 +11,7 @@ use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Sql\DatabaseInterface;
 
 use function extension_loaded;
+use function ob_end_clean;
 use function ob_get_clean;
 use function ob_start;
 use function pg_close;
@@ -40,8 +41,11 @@ class DatabasePostgresql implements DatabaseInterface
         $connection = pg_connect($config);
         $flushVar   = ob_get_clean();
         if ($connection === false) {
+            if ($flushVar === false) {
+                $flushVar = '';
+            }
             throw new CreateConnectionException(sprintf(
-                'Could not create connection: %s',
+                'Could not create connection %s',
                 $flushVar
             ));
         }
@@ -62,8 +66,8 @@ class DatabasePostgresql implements DatabaseInterface
         }
 
         ob_start();
-        $result   = pg_query_params($this->connection, $query, $params);
-        $flushVar = ob_get_clean();
+        $result = pg_query_params($this->connection, $query, $params);
+        ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new QueryException(sprintf('Query Error: %s', $errMsg));
@@ -84,8 +88,8 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseTransactionException('Transaction no idle');
         }
         ob_start();
-        $result   = pg_query($this->connection, 'BEGIN');
-        $flushVar = ob_get_clean();
+        $result = pg_query($this->connection, 'BEGIN');
+        ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new DatabaseTransactionException(sprintf(
@@ -106,8 +110,8 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
         ob_start();
-        $result   = pg_query($this->connection, 'COMMIT');
-        $flushVar = ob_get_clean();
+        $result = pg_query($this->connection, 'COMMIT');
+        ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new DatabaseTransactionException(sprintf(
@@ -123,8 +127,8 @@ class DatabasePostgresql implements DatabaseInterface
             throw new DatabaseTransactionException('No connection to create a query');
         }
         ob_start();
-        $result   = pg_query($this->connection, 'ROLLBACK');
-        $flushVar = ob_get_clean();
+        $result = pg_query($this->connection, 'ROLLBACK');
+        ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new DatabaseTransactionException(sprintf(
@@ -146,8 +150,8 @@ class DatabasePostgresql implements DatabaseInterface
         }
 
         ob_start();
-        $result   = pg_query_params($this->connection, $query, $params);
-        $flushVar = ob_get_clean();
+        $result = pg_query_params($this->connection, $query, $params);
+        ob_end_clean();
 
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
