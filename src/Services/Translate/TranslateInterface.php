@@ -9,8 +9,8 @@ use Romchik38\Server\Services\Translate\TranslateException;
 interface TranslateInterface
 {
     /**
-     * Returns 
-     *  - translation in the current language 
+     * Returns
+     *  - translation in the current language
      *  - or in the default language in case there is no translation in the current language
      *  - or the key, if no translate
      *

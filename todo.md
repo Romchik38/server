@@ -8,8 +8,10 @@
     - [+] `TranslateEntityDTOInterface`
     - [+] `TranslateInterface`
     - [+] `TranslateStorageInterface`
-  - depracate
+  - remove
     - [+] `TranslateStorage`
+    - [+] `TranslateEntityDTOFactory`
+  - depracate
     - [+] `TranslateEntityModelRepositoryInterface`
     - [+] `TranslateEntityDTOFactoryInterface`
     - [+] `TranslateEntityModelInterface`

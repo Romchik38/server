@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Services\Translate;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 
-use function count;
 use function sprintf;
 
 /**
@@ -19,8 +17,6 @@ use function sprintf;
  * Returns translated string for current language,
  *   otherwise returns the string for default language
  *   otherwise throws an error (so the key must be in the translate storage)
- * 
- * @api
  */
 abstract class AbstractTranslate implements TranslateInterface
 {
@@ -39,7 +35,7 @@ abstract class AbstractTranslate implements TranslateInterface
     {
         try {
             $translateDto = $this->translateStorage->getByKey($key);
-        } catch(NoSuchTranslateException) {
+        } catch (NoSuchTranslateException) {
             $this->doLog(sprintf(
                 'Translate key %s does not exist',
                 $key
@@ -50,8 +46,8 @@ abstract class AbstractTranslate implements TranslateInterface
         $translated = $translateDto->getPhrase($language);
         if ($translated !== null) {
             return $translated;
-        } 
-        
+        }
+
         $this->doLog(sprintf(
             'Translate key %s does not have translate in %s language',
             $key,
@@ -71,7 +67,8 @@ abstract class AbstractTranslate implements TranslateInterface
         return $translated;
     }
 
-    protected function doLog(string $message): void {
+    protected function doLog(string $message): void
+    {
         if ($this->logger !== null) {
             $this->logger->log($this->loglevel, $message);
         }

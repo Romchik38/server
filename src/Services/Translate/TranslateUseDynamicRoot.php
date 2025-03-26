@@ -9,7 +9,6 @@ use Psr\Log\LogLevel;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Services\DynamicRoot\EarlyAccessToCurrentRootErrorException;
 
-use function count;
 use function sprintf;
 
 /**
@@ -21,10 +20,8 @@ use function sprintf;
  * Returns translated string for current language,
  *   otherwise returns the string for default language
  *   otherwise throws an error (so the key must be in the translate storage)
- * 
- * @api
  */
-final class TranslateUseDefaultRoot extends AbstractTranslate
+final class TranslateUseDynamicRoot extends AbstractTranslate
 {
     protected string $defaultLang;
 
@@ -42,7 +39,7 @@ final class TranslateUseDefaultRoot extends AbstractTranslate
     {
         try {
             $currentLanguage = $this->dynamicRoot->getCurrentRoot()->getName();
-        } catch(EarlyAccessToCurrentRootErrorException) {
+        } catch (EarlyAccessToCurrentRootErrorException) {
             throw new TranslateException('Current language does not set');
         }
         return $this->translate($key, $currentLanguage);
@@ -52,7 +49,7 @@ final class TranslateUseDefaultRoot extends AbstractTranslate
     {
         try {
             $translateDto = $this->translateStorage->getByKey($key);
-        } catch(NoSuchTranslateException) {
+        } catch (NoSuchTranslateException) {
             $this->doLog(sprintf(
                 'Translate key %s does not exist',
                 $key
@@ -63,8 +60,8 @@ final class TranslateUseDefaultRoot extends AbstractTranslate
         $translated = $translateDto->getPhrase($language);
         if ($translated !== null) {
             return $translated;
-        } 
-        
+        }
+
         $this->doLog(sprintf(
             'Translate key %s does not have translate in %s language',
             $key,
@@ -84,7 +81,8 @@ final class TranslateUseDefaultRoot extends AbstractTranslate
         return $translated;
     }
 
-    protected function doLog(string $message): void {
+    protected function doLog(string $message): void
+    {
         if ($this->logger !== null) {
             $this->logger->log($this->loglevel, $message);
         }

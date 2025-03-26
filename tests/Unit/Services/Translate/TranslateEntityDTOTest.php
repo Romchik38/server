@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\TranslateEntity;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\TranslateEntity\TranslateEntityDTO;
+use Romchik38\Server\Services\Translate\TranslateEntityDTO;
 
 class TranslateEntityDTOTest extends TestCase
 {
