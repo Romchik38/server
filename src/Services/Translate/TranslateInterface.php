@@ -9,22 +9,23 @@ use Romchik38\Server\Services\Translate\TranslateException;
 interface TranslateInterface
 {
     /**
-     * Translation in the current language or the default language in case
-     *  there is no translation in the current language
+     * Returns 
+     *  - translation in the current language 
+     *  - or in the default language in case there is no translation in the current language
+     *  - or the key, if no translate
      *
-     * @param string $str - A Phrase to translate.
-     * @throws TranslateException - A bad key or no translation for it in default language.
+     * @param string $key - A Phrase to translate.
+     * @throws TranslateException - Current language does not set.
      * @return string Translated string
      */
-    public function t(string $str): string;
+    public function t(string $key): string;
 
     /**
      * Translate a phrase by provided language
      *
-     * @param string $key A phrase to translate
-     * @param string $language Translation language
-     * @throws TranslateException A bad key or no translation for it in default language.
-     * @return string Translated string
+     * @param string $key - A phrase to translate
+     * @param string $language - A language
+     * @return string - Translated string or key on fail
      */
     public function translate(string $key, string $language): string;
 }

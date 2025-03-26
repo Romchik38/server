@@ -23,6 +23,8 @@
       - `TranslateEntityDTOInterface`
     - remove `hash`
     - [+] remove var `currentLang`
+  - add `AbstractTranslate`
+  - refactor `Translate` to `TranslateUseDefaultRoot`
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
