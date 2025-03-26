@@ -9,7 +9,7 @@ use Romchik38\Server\Models\DTO;
 class TranslateEntityDTO extends DTO implements TranslateEntityDTOInterface
 {
     /**
-     * @param array<string,string> $data [key => value, ...]
+     * @param array<string,string> $data - [language => phrase, ...]
      */
     public function __construct(
         protected readonly string $key,
