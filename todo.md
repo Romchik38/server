@@ -5,7 +5,7 @@
 - translate
   - translate storage must throw `TranslateStorageException` on errors except not found
   - refactor `TranslateUseDynamicRoot` - must catch `TranslateStorageException`
-
+- Controller name characters
 
 - controller has an uniqe id
   - [+] created id
