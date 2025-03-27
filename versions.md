@@ -8,6 +8,32 @@
 
 [see todo](./todo.md)
 
+## v1.17.0
+
+- [!] Refactored `Translate` service
+  - moved interfaces to `Translate` folder
+    - `TranslateEntityDTO`
+    - `TranslateEntityDTOInterface`
+    - `TranslateInterface`
+    - `TranslateStorageInterface`
+  - removed
+    - `TranslateStorage`
+    - `TranslateEntityDTOFactory`
+  - depracate
+    - `TranslateEntityModelRepositoryInterface`
+    - `TranslateEntityDTOFactoryInterface`
+    - `TranslateEntityModelInterface`
+    - `TranslateEntityModelFactoryInterface`
+    - `TranslateEntityModel`
+    - `TranslateEntityModelFactory`
+    - `TranslateEntityModelRepository`
+  - translate service
+    - removed `hash`
+    - removed @var `currentLang`
+    - renamed to `TranslateUseDynamicRoot`
+    - add `AbstractTranslate` class
+    - added tests
+
 ## v1.16.4
 
 - [f] Controller `Name` can contain `0` and `-`
