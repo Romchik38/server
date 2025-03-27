@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\DTO\TranslateEntity;
+namespace Romchik38\Server\Tests\Unit\Services\Translate;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Services\Translate\TranslateEntityDTO;

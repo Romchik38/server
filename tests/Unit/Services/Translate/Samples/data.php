@@ -12,4 +12,7 @@ return [
     'key2' => [
         'en' => 'Description key2',
     ],
+    'key4' => [
+        'fr' => 'bonjour',
+    ],
 ];

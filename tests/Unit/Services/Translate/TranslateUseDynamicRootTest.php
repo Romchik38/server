@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\Translate;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LogLevel;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Services\Translate\TranslateException;
 use Romchik38\Server\Services\Translate\TranslateUseDynamicRoot;
+use Romchik38\Server\Tests\Unit\Services\Translate\Samples\Logger;
 use Romchik38\Server\Tests\Unit\Services\Translate\Samples\Storage;
 
 class TranslateUseDynamicRootTest extends TestCase
@@ -15,7 +16,6 @@ class TranslateUseDynamicRootTest extends TestCase
     public function testT()
     {
         $data = include __DIR__ . '/Samples/data.php';
-        include_once __DIR__ . '/Samples/Storage.php';
 
         $storage = new Storage($data);
 
@@ -30,139 +30,103 @@ class TranslateUseDynamicRootTest extends TestCase
         $this->assertSame('Опис ключа 1', $translate->t('key1'));
     }
 
-    // public function testThrowsErrorBecauseUnknownKey()
-    // {
-    //     $dynamicRoot      = $this->createMock(DynamicRoot::class);
-    //     $translateStorage = $this->createMock(TranslateStorage::class);
+    public function testTthrowsError(): void
+    {
+        $data = include __DIR__ . '/Samples/data.php';
 
-    //     $translateStorage->method('getDataByLanguages')
-    //         ->willReturn($this->createHash('some.key'));
+        $storage = new Storage($data);
 
-    //     $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
-    //     $dynamicRoot->setCurrentRoot('uk');
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
 
-    //     $this->expectException(TranslateException::class);
-    //     $this->expectExceptionMessage(
-    //         'Translation for string unknown.key is missing. Please create it for default en language first'
-    //     );
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot
+        );
 
-    //     $translate = new Translate(
-    //         $translateStorage,
-    //         $dynamicRoot
-    //     );
+        $this->expectException(TranslateException::class);
+        $this->assertSame('Опис ключа 1', $translate->t('key1'));
+    }
 
-    //     $translate->t('unknown.key');
-    // }
+    public function testTranslateFindRequestedTranslate(): void
+    {
+        $data = include __DIR__ . '/Samples/data.php';
 
-    // /**
-    //  * We have a key on 'en' and 'uk'
-    //  * Our default language is 'gb'
-    //  * We must have phrase for key on 'gb' or will get an error
-    //  *
-    //  * In other words:
-    //  *   we set new default language, but do not make all translates for it in the database
-    //  *
-    //  * Whant that translate works - load all phrases on the default language before change it
-    //  */
-    // public function testTthrowsErrorBecauseNoDefaultVal()
-    // {
-    //     $dynamicRoot      = $this->createMock(DynamicRoot::class);
-    //     $translateStorage = $this->createMock(TranslateStorage::class);
+        $storage = new Storage($data);
 
-    //     $translateStorage->method('getDataByLanguages')
-    //         ->willReturn($this->createHash('some.key'));
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
 
-    //     $dynamicRoot = new DynamicRoot('gb', ['en', 'uk']);
-    //     $dynamicRoot->setCurrentRoot('uk');
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot
+        );
 
-    //     $this->expectException(TranslateException::class);
-    //     $this->expectExceptionMessage('Default value for language gb isn\'t set');
+        $this->assertSame('Опис ключа 1', $translate->translate('key1', 'uk'));
+    }
 
-    //     $translate = new Translate(
-    //         $translateStorage,
-    //         $dynamicRoot
-    //     );
+    /** With logging */
+    public function testTranslateReturnsTranslateForDefaultLanguage(): void
+    {
+        $data = include __DIR__ . '/Samples/data.php';
 
-    //     $translate->t('some.key');
-    // }
+        $storage = new Storage($data);
 
-    // /**
-    //  * Missin translation for given key and language
-    //  * In that case function makes log and returns phrase default language
-    //  *
-    //  * test:
-    //  *    - log
-    //  *    - default phrase
-    //  */
-    // public function testTranslateWithLoggerNoTranslation()
-    // {
-    //     $dynamicRoot      = $this->createMock(DynamicRoot::class);
-    //     $translateStorage = $this->createMock(TranslateStorage::class);
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
 
-    //     $translateStorage->method('getDataByLanguages')
-    //         ->willReturn($this->createHash('some.key'));
+        $logger    = new Logger();
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot,
+            $logger
+        );
 
-    //     $dynamicRoot = new DynamicRoot('en', ['en', 'gb']);
-    //     $dynamicRoot->setCurrentRoot('gb');
+        $this->assertSame('Description key2', $translate->translate('key2', 'uk'));
+        $this->assertSame('debug', $logger->level);
+        $this->assertSame('Translate key key2 does not have translate in uk language', $logger->message);
+    }
 
-    //     $logger = $this->createMock(FileLogger::class);
+    /** With logging */
+    public function testTranslateReturnsKeyBecauseOfItDoesNotExist(): void
+    {
+        $data = include __DIR__ . '/Samples/data.php';
 
-    //     $logMessage = Translate::class . ': Missed translation for key some.key language gb';
-    //     $logger->expects($this->once())->method('log')->with(LogLevel::DEBUG, $logMessage);
+        $storage = new Storage($data);
 
-    //     $translate = new Translate(
-    //         $translateStorage,
-    //         $dynamicRoot,
-    //         $logger
-    //     );
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
 
-    //     $this->assertSame('phrase some', $translate->t('some.key'));
-    // }
+        $logger    = new Logger();
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot,
+            $logger
+        );
 
-    // public function testTranslateWithSpecificLanguage()
-    // {
-    //     $dynamicRoot      = $this->createMock(DynamicRoot::class);
-    //     $translateStorage = $this->createMock(TranslateStorage::class);
+        $this->assertSame('key3', $translate->translate('key3', 'uk'));
+        $this->assertSame('debug', $logger->level);
+        $this->assertSame('Translate key key3 does not exist', $logger->message);
+    }
 
-    //     $key              = 'some.key';
-    //     $specificLanguage = 'uk';
-    //     $translateStorage->method('getDataByLanguages')
-    //         ->willReturn([
-    //             $key => new TranslateEntityDTO(
-    //                 $key,
-    //                 [
-    //                     'en' => 'phrase some',
-    //                 ]
-    //             ),
-    //         ]);
+    /** With logging */
+    public function testTranslateReturnsKeyBecauseOfMissingTranslates(): void
+    {
+        $data    = include __DIR__ . '/Samples/data.php';
+        $storage = new Storage($data);
 
-    //     $translateStorage
-    //         ->expects($this->once())
-    //         ->method('getAllDataByKey')
-    //         ->with($key)
-    //         ->willReturn($this->createHash($key));
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
 
-    //     $dynamicRoot = new DynamicRoot('en', ['en']);
+        $logger = new Logger();
 
-    //     $dynamicRoot->setCurrentRoot('en');
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot,
+            $logger
+        );
 
-    //     $translate = new Translate(
-    //         $translateStorage,
-    //         $dynamicRoot
-    //     );
-
-    //     $res = $translate->translate($key, $specificLanguage);
-    //     $this->assertSame('якась фраза', $res);
-    // }
-
-    // /** @return array<string,TranslateEntityDTO> */
-    // protected function createHash(string $key): array
-    // {
-    //     $dto = new TranslateEntityDTO($key, [
-    //         'en' => 'phrase some',
-    //         'uk' => 'якась фраза',
-    //     ]);
-
-    //     return [$key => $dto];
-    // }
+        $this->assertSame('key4', $translate->translate('key4', 'uk'));
+        $this->assertSame('debug', $logger->level);
+        $this->assertSame('Translate key key4 does not have translate in en default language', $logger->message);
+    }
 }
