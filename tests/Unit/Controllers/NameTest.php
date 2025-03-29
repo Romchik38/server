@@ -36,13 +36,49 @@ final class NameTest extends TestCase
 
     public function testUpperCase(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        new Name('Product');
+        $n1 = new Name('Product');
+        $this->assertSame('Product', $n1());
     }
 
     public function testDash(): void
     {
         $n1 = new Name('a-1a');
         $this->assertSame('a-1a', $n1());
+    }
+
+    public function testExclamationMark(): void
+    {
+        $n1 = new Name('!');
+        $this->assertSame('!', $n1());
+    }
+
+    public function testDollar(): void
+    {
+        $n1 = new Name('$');
+        $this->assertSame('$', $n1());
+    }
+
+    public function testUnderscore(): void
+    {
+        $n1 = new Name('_');
+        $this->assertSame('_', $n1());
+    }
+
+    public function testDotComma(): void
+    {
+        $n1 = new Name('.,');
+        $this->assertSame('.,', $n1());
+    }
+
+    public function testPlusStarSingleQuote(): void
+    {
+        $n1 = new Name('+*\'');
+        $this->assertSame('+*\'', $n1());
+    }
+
+    public function testParentheses(): void
+    {
+        $n1 = new Name('()');
+        $this->assertSame('()', $n1());
     }
 }

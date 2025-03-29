@@ -11,14 +11,15 @@ use function sprintf;
 
 class Name
 {
-    public const PATTERN = '/^[a-z0-9-]+$/';
+    public const NAME    = 'Name';
+    public const PATTERN = '/^[a-zA-Z0-9$\-_.+!*\'(),]+$/';
 
     public function __construct(
         private readonly string $name
     ) {
         if (preg_match($this::PATTERN, $name) !== 1) {
             throw new InvalidArgumentException(
-                sprintf('Name %s is invalid', $name)
+                sprintf('%s %s is invalid', $this::NAME, $name)
             );
         }
     }

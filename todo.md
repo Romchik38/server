@@ -2,8 +2,6 @@
 
 ## Current
 
-- Controller name characters
-
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
