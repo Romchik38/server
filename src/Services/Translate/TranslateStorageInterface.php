@@ -8,6 +8,7 @@ interface TranslateStorageInterface
 {
     /**
      * @throws NoSuchTranslateException
+     * @throws TranslateStorageException - On any database errors.
      */
     public function getByKey(string $key): TranslateEntityDTOInterface;
 }

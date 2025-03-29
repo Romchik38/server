@@ -8,6 +8,11 @@
 
 [see todo](./todo.md)
 
+- [n] Translate Storage that implements `TranslateStorageInterface` must use `TranslateStorageException` on any database/structure errors
+- [n] `TranslateUseDynamicRoot` when catch a`TranslateStorageException`:
+  - do log
+  - return the key
+
 ## v1.17.0
 
 - [!] Refactored `Translate` service

@@ -10,6 +10,7 @@ use Romchik38\Server\Services\Translate\TranslateException;
 use Romchik38\Server\Services\Translate\TranslateUseDynamicRoot;
 use Romchik38\Server\Tests\Unit\Services\Translate\Samples\Logger;
 use Romchik38\Server\Tests\Unit\Services\Translate\Samples\Storage;
+use Romchik38\Server\Tests\Unit\Services\Translate\Samples\Storage2;
 
 class TranslateUseDynamicRootTest extends TestCase
 {
@@ -128,5 +129,28 @@ class TranslateUseDynamicRootTest extends TestCase
         $this->assertSame('key4', $translate->translate('key4', 'uk'));
         $this->assertSame('debug', $logger->level);
         $this->assertSame('Translate key key4 does not have translate in en default language', $logger->message);
+    }
+
+    /** With logging */
+    public function testStorageThrowsError(): void
+    {
+        $storage = new Storage2([]);
+
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
+
+        $logger = new Logger();
+
+        $translate = new TranslateUseDynamicRoot(
+            $storage,
+            $dynamicRoot,
+            $logger
+        );
+
+        $this->assertSame('key', $translate->t('key'));
+        $this->assertSame(
+            'Error while getting a translate key from storage: Database is down',
+            $logger->message
+        );
     }
 }

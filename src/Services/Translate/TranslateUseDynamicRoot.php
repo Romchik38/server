@@ -55,6 +55,12 @@ final class TranslateUseDynamicRoot extends AbstractTranslate
                 $key
             ));
             return $key;
+        } catch (TranslateStorageException $e) {
+            $this->doLog(sprintf(
+                'Error while getting a translate key from storage: %s',
+                $e->getMessage()
+            ));
+            return $key;
         }
 
         $translated = $translateDto->getPhrase($language);
