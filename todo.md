@@ -2,6 +2,8 @@
 
 ## Current
 
+- controller name must containe `%`
+
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
