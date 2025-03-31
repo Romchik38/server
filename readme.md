@@ -56,7 +56,7 @@ Coming soon. In progress.
 - phpstan level 8
   - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`[OK] No errors`  
 - phpunit
-  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (171 tests, 317 assertions)`
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (175 tests, 328 assertions)`
   - tested partially
 - laminas-coding-standard
   - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`66 / 66 (100%)`

@@ -8,8 +8,17 @@
 
 [see todo](./todo.md)
 
+## v1.18.0
+
 - [n] Controller `Name` can contain percent sign `%`
-- [!] - renamed `DatabaseInterface` to `DatabaseSqlInterface`
+- [n] `DatabasePostgresql`
+  - added Integration tests
+  - new functions `close`, `connectionStatus`, `isConnected`
+  - refactored other functions
+  - `transactionStart` takes isolation level
+  - `__construct` takes flag to create a new connection
+- [!] removed `CreateConnectionException`
+- [!] renamed `DatabaseInterface` to `DatabaseSqlInterface`
 
 ## v1.17.1
 

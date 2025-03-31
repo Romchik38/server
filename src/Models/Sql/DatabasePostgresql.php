@@ -86,6 +86,17 @@ class DatabasePostgresql implements DatabaseSqlInterface
 
     public function queryParams(string $query, array $params): array
     {
+        if ($this->isConnected === false) {
+            throw new QueryException(
+                'Connection is closed. Query is not possible'
+            );
+        }
+
+        $status = pg_transaction_status($this->connection);
+        if ($status !== PGSQL_TRANSACTION_IDLE) {
+            throw new QueryException('Could not send a query, connection is in transaction');
+        }
+
         ob_start();
         $result = pg_query_params($this->connection, $query, $params);
         ob_end_clean();
@@ -98,10 +109,15 @@ class DatabasePostgresql implements DatabaseSqlInterface
         return $arr;
     }
 
-    /** @todo test */
     public function transactionStart(
         string $level = self::ISOLATION_LEVEL_READ_COMMITTED
     ): void {
+        if ($this->isConnected === false) {
+            throw new DatabaseTransactionException(
+                'Connection is closed. Transaction start is not possible'
+            );
+        }
+
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new DatabaseTransactionException('Transaction no idle');
@@ -121,9 +137,13 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
-    /** @todo test */
     public function transactionEnd(): void
     {
+        if ($this->isConnected === false) {
+            throw new DatabaseTransactionException(
+                'Connection is closed. Transaction end is not possible'
+            );
+        }
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
@@ -140,9 +160,14 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
-    /** @todo test */
     public function transactionRollback(): void
     {
+        if ($this->isConnected === false) {
+            throw new DatabaseTransactionException(
+                'Connection is closed. Transaction rollback is not possible'
+            );
+        }
+
         ob_start();
         $result = pg_query($this->connection, 'ROLLBACK');
         ob_end_clean();
@@ -155,9 +180,14 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
-    /** @todo test */
     public function transactionQueryParams(string $query, array $params): array
     {
+        if ($this->isConnected === false) {
+            throw new QueryException(
+                'Connection is closed. Transaction query is not possible'
+            );
+        }
+
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
