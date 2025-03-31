@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [n] Controller `Name` can contain percent sign `%`
+
 ## v1.17.1
 
 - [n] Controller `Name` can contain unreserved characters
