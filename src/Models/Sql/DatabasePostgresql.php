@@ -16,6 +16,7 @@ use function ob_get_clean;
 use function ob_start;
 use function pg_close;
 use function pg_connect;
+use function pg_connection_status;
 use function pg_fetch_all;
 use function pg_free_result;
 use function pg_last_error;
@@ -29,16 +30,24 @@ use const PGSQL_TRANSACTION_INTRANS;
 
 class DatabasePostgresql implements DatabaseSqlInterface
 {
-    private Connection|null $connection = null;
+    private Connection $connection;
+    private bool $isConnectionOpen;
 
-    public function __construct(string $config)
+    /**
+     * @todo test on error
+     * @param int $flags
+     *   0                              - last used connection (default)
+     *   2 (PGSQL_CONNECT_FORCE_NEW)    - new
+     *   4 (PGSQL_CONNECT_ASYNC)        - asynchronous connection
+     * */
+    public function __construct(string $config, int $flags = 0)
     {
         if (extension_loaded('pgsql') === false) {
             throw new DatabaseException('Required extension: pgsql');
         }
 
         ob_start();
-        $connection = pg_connect($config);
+        $connection = pg_connect($config, $flags);
         $flushVar   = ob_get_clean();
         if ($connection === false) {
             if ($flushVar === false) {
@@ -48,23 +57,32 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 'Could not create connection %s',
                 $flushVar
             ));
+        } else {
+            $this->connection       = $connection;
+            $this->isConnectionOpen = true;
         }
-        $this->connection = $connection;
     }
 
-    public function __destruct()
+    public function close(): void
     {
-        if ($this->connection !== null) {
+        if ($this->isConnectionOpen === true) {
             pg_close($this->connection);
+            $this->isConnectionOpen = false;
         }
     }
 
+    public function connectionStatus(): int
+    {
+        if ($this->isConnectionOpen === true) {
+            return pg_connection_status($this->connection);
+        } else {
+            throw new DatabaseException('PostgreSQL connection has already been closed');
+        }
+    }
+
+    /** @todo test */
     public function queryParams(string $query, array $params): array
     {
-        if ($this->connection === null) {
-            throw new CreateConnectionException('No connection to create a query');
-        }
-
         ob_start();
         $result = pg_query_params($this->connection, $query, $params);
         ob_end_clean();
@@ -77,12 +95,9 @@ class DatabasePostgresql implements DatabaseSqlInterface
         return $arr;
     }
 
+    /** @todo test */
     public function transactionStart(): void
     {
-        if ($this->connection === null) {
-            throw new DatabaseTransactionException('No connection to create a query');
-        }
-
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new DatabaseTransactionException('Transaction no idle');
@@ -99,12 +114,9 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
+    /** @todo test */
     public function transactionEnd(): void
     {
-        if ($this->connection === null) {
-            throw new DatabaseTransactionException('No connection to create a query');
-        }
-
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
@@ -121,11 +133,9 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
+    /** @todo test */
     public function transactionRollback(): void
     {
-        if ($this->connection === null) {
-            throw new DatabaseTransactionException('No connection to create a query');
-        }
         ob_start();
         $result = pg_query($this->connection, 'ROLLBACK');
         ob_end_clean();
@@ -138,12 +148,9 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
+    /** @todo test */
     public function transactionQueryParams(string $query, array $params): array
     {
-        if ($this->connection === null) {
-            throw new DatabaseTransactionException('No connection to create a query');
-        }
-
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');

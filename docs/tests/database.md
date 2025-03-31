@@ -13,3 +13,5 @@ To run integration tests use:
 3. Test database is ready. You can connect `psql -U testuser testdb -h localhost`
 
 4. After that you can run integration tests from `tests/Integration`
+
+5. Next time just run `docker container start pg-container`
