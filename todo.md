@@ -2,7 +2,7 @@
 
 ## Current
 
-- controller name must containe `%`
+- `PostgresDatabase` integration tests
 
 - controller has an uniqe id
   - [+] created id

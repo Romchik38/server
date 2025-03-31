@@ -81,4 +81,10 @@ final class NameTest extends TestCase
         $n1 = new Name('()');
         $this->assertSame('()', $n1());
     }
+
+    public function testPercent(): void
+    {
+        $n1 = new Name('as%AC');
+        $this->assertSame('as%AC', $n1());
+    }
 }
