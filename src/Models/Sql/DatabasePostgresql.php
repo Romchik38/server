@@ -8,7 +8,7 @@ use PgSql\Connection;
 use Romchik38\Server\Models\Errors\CreateConnectionException;
 use Romchik38\Server\Models\Errors\DatabaseException;
 use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseInterface;
+use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
 
 use function extension_loaded;
 use function ob_end_clean;
@@ -27,7 +27,7 @@ use function sprintf;
 use const PGSQL_TRANSACTION_IDLE;
 use const PGSQL_TRANSACTION_INTRANS;
 
-class DatabasePostgresql implements DatabaseInterface
+class DatabasePostgresql implements DatabaseSqlInterface
 {
     private Connection|null $connection = null;
 

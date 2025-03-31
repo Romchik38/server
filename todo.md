@@ -2,7 +2,7 @@
 
 ## Current
 
-- `PostgresDatabase` integration tests
+- Integration tests `DatabasePostgresql`
 
 - controller has an uniqe id
   - [+] created id

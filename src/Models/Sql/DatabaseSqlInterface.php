@@ -7,7 +7,7 @@ namespace Romchik38\Server\Models\Sql;
 use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Sql\DatabaseTransactionException;
 
-interface DatabaseInterface
+interface DatabaseSqlInterface
 {
     /**
      * @param array<int,int|string> $params

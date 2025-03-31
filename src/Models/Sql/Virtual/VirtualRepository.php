@@ -7,7 +7,7 @@ namespace Romchik38\Server\Models\Sql\Virtual;
 use Romchik38\Server\Api\Models\ModelFactoryInterface;
 use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Api\Models\Virtual\VirtualRepositoryInterface;
-use Romchik38\Server\Models\Sql\DatabaseInterface;
+use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
 
 use function implode;
 
@@ -18,7 +18,7 @@ class VirtualRepository implements VirtualRepositoryInterface
      * @param array<int,string> $tables
      * */
     public function __construct(
-        protected DatabaseInterface $database,
+        protected DatabaseSqlInterface $database,
         protected ModelFactoryInterface $modelFactory,
         protected array $selectFields,
         protected array $tables

@@ -12,7 +12,7 @@ use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
 use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseInterface;
+use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
 
 use function count;
 use function implode;
@@ -20,7 +20,7 @@ use function implode;
 class Repository implements RepositoryInterface
 {
     public function __construct(
-        protected DatabaseInterface $database,
+        protected DatabaseSqlInterface $database,
         protected ModelFactoryInterface $modelFactory,
         protected string $table,
         protected string $primaryFieldName
