@@ -3,6 +3,7 @@
 ## Current
 
 - Integration tests `DatabasePostgresql`
+- remove `CreateConnectionException`
 
 - controller has an uniqe id
   - [+] created id

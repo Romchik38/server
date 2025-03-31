@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Models\Sql;
 
 use PgSql\Connection;
-use Romchik38\Server\Models\Errors\CreateConnectionException;
 use Romchik38\Server\Models\Errors\DatabaseException;
 use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
@@ -31,14 +30,14 @@ use const PGSQL_TRANSACTION_INTRANS;
 class DatabasePostgresql implements DatabaseSqlInterface
 {
     private Connection $connection;
-    private bool $isConnectionOpen;
+    private bool $isConnected;
 
     /**
-     * @todo test on error
      * @param int $flags
      *   0                              - last used connection (default)
      *   2 (PGSQL_CONNECT_FORCE_NEW)    - new
      *   4 (PGSQL_CONNECT_ASYNC)        - asynchronous connection
+     * @throws DatabaseException - On missing pgsql extension and problem with a connection.
      * */
     public function __construct(string $config, int $flags = 0)
     {
@@ -53,34 +52,38 @@ class DatabasePostgresql implements DatabaseSqlInterface
             if ($flushVar === false) {
                 $flushVar = '';
             }
-            throw new CreateConnectionException(sprintf(
+            throw new DatabaseException(sprintf(
                 'Could not create connection %s',
                 $flushVar
             ));
         } else {
-            $this->connection       = $connection;
-            $this->isConnectionOpen = true;
+            $this->connection  = $connection;
+            $this->isConnected = true;
         }
     }
 
     public function close(): void
     {
-        if ($this->isConnectionOpen === true) {
+        if ($this->isConnected === true) {
             pg_close($this->connection);
-            $this->isConnectionOpen = false;
+            $this->isConnected = false;
         }
     }
 
     public function connectionStatus(): int
     {
-        if ($this->isConnectionOpen === true) {
+        if ($this->isConnected === true) {
             return pg_connection_status($this->connection);
         } else {
             throw new DatabaseException('PostgreSQL connection has already been closed');
         }
     }
 
-    /** @todo test */
+    public function isConnected(): bool
+    {
+        return $this->isConnected;
+    }
+
     public function queryParams(string $query, array $params): array
     {
         ob_start();
@@ -96,14 +99,18 @@ class DatabasePostgresql implements DatabaseSqlInterface
     }
 
     /** @todo test */
-    public function transactionStart(): void
-    {
+    public function transactionStart(
+        string $level = self::ISOLATION_LEVEL_READ_COMMITTED
+    ): void {
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new DatabaseTransactionException('Transaction no idle');
         }
         ob_start();
-        $result = pg_query($this->connection, 'BEGIN');
+        $result = pg_query($this->connection, sprintf(
+            'BEGIN ISOLATION LEVEL %s',
+            $level
+        ));
         ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
