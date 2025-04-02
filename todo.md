@@ -2,6 +2,8 @@
 
 ## Current
 
+- `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
+
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
