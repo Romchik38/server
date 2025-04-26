@@ -6,6 +6,11 @@
 - `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
 - `DatabasePostgresql` functions `queryParams` return  associatively array only
 
+- VO
+  - id in
+  - id string
+  - field
+
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
