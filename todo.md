@@ -3,6 +3,9 @@
 ## Current
 
 - structure
+  - move Routers to Http
+
+- structure
 - move DTO to folder
 
 - check why not found is logs (see const `NOT_FOUND_ERROR_MESSAGE`)
@@ -14,9 +17,13 @@
   - id string
   - field
 
+- controller and action uses Request
+
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
+
+- HandlerRouter
 
 ## Next
 
