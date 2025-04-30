@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Controller\Actions;
 
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Services\Translate\TranslateInterface;
+use Romchik38\Server\Utils\Translate\TranslateInterface;
 
 /**
  * Must be extended by DefaultAction or DynamicAction
