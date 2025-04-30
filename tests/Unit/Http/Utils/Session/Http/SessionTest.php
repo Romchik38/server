@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Session\Http;
+namespace Romchik38\Server\Tests\Unit\Http\Utils\Session\Http;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Services\Session\Http\Session;
+use Romchik38\Server\Http\Utils\Session\Session;
 
 use function session_destroy;
 
