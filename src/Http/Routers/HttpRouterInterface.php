@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Routers\Http;
+namespace Romchik38\Server\Http\Routers;
 
 use Psr\Http\Message\ResponseInterface;
 

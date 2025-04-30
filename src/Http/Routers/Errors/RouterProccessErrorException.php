@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Routers\Errors;
+namespace Romchik38\Server\Http\Routers\Errors;
 
 use RuntimeException;
 

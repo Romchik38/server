@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Servers\Http;
 
 use Exception;
-use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Servers\Http\HttpServerInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
+use Romchik38\Server\Http\Routers\HttpRouterInterface;
 
 use function header;
 use function http_response_code;

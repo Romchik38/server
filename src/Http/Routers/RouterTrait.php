@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Routers\Http;
+namespace Romchik38\Server\Http\Routers;
 
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 
 use function sprintf;
 use function str_starts_with;

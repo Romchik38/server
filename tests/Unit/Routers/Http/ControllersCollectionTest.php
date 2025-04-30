@@ -6,7 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Routers\Http;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;
-use Romchik38\Server\Routers\Http\ControllersCollection;
+use Romchik38\Server\Http\Controller\ControllersCollection;
 
 class ControllersCollectionTest extends TestCase
 {

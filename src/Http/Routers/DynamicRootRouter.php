@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Routers\Http;
+namespace Romchik38\Server\Http\Routers;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
-use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
-use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
+use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
-use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
+use Romchik38\Server\Http\Routers\Errors\RouterProccessErrorException;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
 use function array_search;

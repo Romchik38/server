@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Routers\Http;
-
-use Romchik38\Server\Http\Controller\ControllerInterface;
+namespace Romchik38\Server\Http\Controller;
 
 /**
  * Creates a collection of key => value, where:

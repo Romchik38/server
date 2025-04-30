@@ -8,11 +8,11 @@ use Laminas\Diactoros\ResponseFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
 use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\ControllersCollection;
+use Romchik38\Server\Http\Routers\HttpRouterInterface;
+use Romchik38\Server\Http\Routers\PlasticineRouter;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Routers\Http\ControllersCollection;
-use Romchik38\Server\Routers\Http\PlasticineRouter;
 use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Tests\Unit\Routers\Http\PlasticineRouterTest\Root\DefaultAction;
 
