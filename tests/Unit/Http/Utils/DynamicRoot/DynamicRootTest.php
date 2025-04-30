@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\DynamicRoot;
+namespace Romchik38\Server\Tests\Unit\Http\Utils\DynamicRoot;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
-use Romchik38\Server\Services\DynamicRoot\EarlyAccessToCurrentRootErrorException;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Http\Utils\DynamicRoot\EarlyAccessToCurrentRootErrorException;
 
 final class DynamicRootTest extends TestCase
 {

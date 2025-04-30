@@ -9,8 +9,8 @@ use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTO;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
-use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootDTO;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootDTO;
 use Romchik38\Server\Services\Mappers\Breadcrumb\Http\Breadcrumb;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 

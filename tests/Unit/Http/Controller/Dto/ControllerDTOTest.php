@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\DTO\Controller;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Dto;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTO;

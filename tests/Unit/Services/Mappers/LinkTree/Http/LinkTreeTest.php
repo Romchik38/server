@@ -8,9 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTO;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootDTOInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootDTOInterface;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Services\Mappers\LinkTree\Http\LinkTree;
 
 use function count;

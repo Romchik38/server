@@ -6,7 +6,7 @@ namespace Romchik38\Server\Services\Urlbuilder;
 
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\PathInterface;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
 
 use function implode;
 

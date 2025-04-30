@@ -13,7 +13,7 @@ use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Routers\Errors\RouterProccessErrorException;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
 
 use function array_search;
 use function array_shift;

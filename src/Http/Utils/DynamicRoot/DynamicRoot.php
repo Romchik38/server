@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\DynamicRoot;
+namespace Romchik38\Server\Http\Utils\DynamicRoot;
 
 class DynamicRoot implements DynamicRootInterface
 {

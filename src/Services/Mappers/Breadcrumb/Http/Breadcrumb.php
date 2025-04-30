@@ -9,8 +9,8 @@ use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
 use function array_merge;
 use function array_push;

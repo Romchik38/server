@@ -6,8 +6,8 @@ namespace Romchik38\Server\Utils\Translate;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Services\DynamicRoot\EarlyAccessToCurrentRootErrorException;
+use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Utils\DynamicRoot\EarlyAccessToCurrentRootErrorException;
 
 use function sprintf;
 
