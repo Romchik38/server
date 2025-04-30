@@ -6,9 +6,9 @@ namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Sitemap;
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Controllers\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 
 use function json_encode;
 

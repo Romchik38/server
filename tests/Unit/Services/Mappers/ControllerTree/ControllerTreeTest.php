@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Controllers\ControllerInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
 
 use function count;

@@ -6,8 +6,8 @@ namespace Romchik38\Server\Services\Urlbuilder;
 
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
-use Romchik38\Server\Controllers\Path;
-use Romchik38\Server\Controllers\PathInterface;
+use Romchik38\Server\Http\Controller\Path;
+use Romchik38\Server\Http\Controller\PathInterface;
 
 use function count;
 use function implode;

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Controllers\Actions;
+namespace Romchik38\Server\Http\Controller\Actions;
 
 use Psr\Http\Message\ResponseInterface;
+use Romchik38\Server\Http\Controller\Actions\ActionInterface;
 
 interface DefaultActionInterface extends ActionInterface
 {

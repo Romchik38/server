@@ -6,10 +6,10 @@ namespace Romchik38\Server\Tests\Unit\Controllers\Actions;
 
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Controllers\Actions\ActionInterface;
-use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Controllers\Actions\AbstractAction;
-use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Http\Controller\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\ActionInterface;
+use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
+use Romchik38\Server\Http\Controller\Controller;
 
 class ActionTest extends TestCase
 {

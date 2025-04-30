@@ -7,13 +7,12 @@ namespace Romchik38\Server\Routers\Http;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\ControllerInterface;
+use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
@@ -121,7 +120,7 @@ class DynamicRootRouter implements HttpRouterInterface
 
         /**
          * 8. replace $rootName with 'root' */
-        $elements[0] = ControllerTreeInterface::ROOT_NAME;
+        $elements[0] = ControllerInterface::ROOT_NAME;
 
         try {
             // 9. Exec

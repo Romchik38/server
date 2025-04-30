@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Services\Mappers;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 
 interface ControllerTreeInterface
 {
-    public const ROOT_NAME = 'root';
     /**
      * Map controller tree to controller dto tree. Used for breadcrumbs.
      *

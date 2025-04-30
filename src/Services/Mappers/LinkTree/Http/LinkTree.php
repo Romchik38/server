@@ -7,8 +7,8 @@ namespace Romchik38\Server\Services\Mappers\LinkTree\Http;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Api\Services\Mappers\LinkTree\Http\LinkTreeInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
@@ -21,7 +21,7 @@ use function implode;
  */
 class LinkTree implements LinkTreeInterface
 {
-    protected string $currentRoot = ControllerTreeInterface::ROOT_NAME;
+    protected string $currentRoot = ControllerInterface::ROOT_NAME;
 
     public function __construct(
         protected DynamicRootInterface|null $dynamicRoot = null
@@ -52,15 +52,15 @@ class LinkTree implements LinkTreeInterface
         $path[0] = $this->currentRoot;
 
         $firstPath = $path[0];
-        if ($firstPath === ControllerTreeInterface::ROOT_NAME) {
+        if ($firstPath === ControllerInterface::ROOT_NAME) {
             $path = array_slice($path, 1);
         }
 
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
+        if ($name === ControllerInterface::ROOT_NAME) {
             $name = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 
-        if ($description === ControllerTreeInterface::ROOT_NAME) {
+        if ($description === ControllerInterface::ROOT_NAME) {
             $description = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 

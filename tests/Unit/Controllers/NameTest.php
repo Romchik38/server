@@ -6,7 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Controllers;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Controllers\Name;
+use Romchik38\Server\Http\Controller\Name;
 
 final class NameTest extends TestCase
 {

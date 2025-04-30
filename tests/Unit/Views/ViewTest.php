@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Models\DTO\DefaultView\DefaultViewDTO;
 use Romchik38\Server\Views\AbstractView as View;
 

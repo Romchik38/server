@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Controllers;
+namespace Romchik38\Server\Http\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
-use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
 use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
-use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
-use Romchik38\Server\Controllers\Errors\ControllerLogicException;
-use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\Errors\CantCreateControllerChainException;
+use Romchik38\Server\Http\Controller\Errors\ControllerLogicException;
+use Romchik38\Server\Http\Controller\Errors\NoSuchControllerException;
+use Romchik38\Server\Http\Controller\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
+use Romchik38\Server\Http\Controller\Middleware\ResponseMiddlewareInterface;
 
 interface ControllerInterface
 {
+    public const ROOT_NAME               = 'root';
     public const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
     public const PATH_SEPARATOR          = '<>';
     public const PATH_DYNAMIC_ALL        = '*';

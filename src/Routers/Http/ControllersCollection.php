@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Routers\Http;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Routers\Http\ControllersCollectionInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 
 use function array_keys;
 

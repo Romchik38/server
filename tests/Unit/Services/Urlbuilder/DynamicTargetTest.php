@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\Urlbuilder;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Controllers\Path;
+use Romchik38\Server\Http\Controller\Path;
 use Romchik38\Server\Services\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Services\Urlbuilder\DynamicTarget;
 

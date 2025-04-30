@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Controllers\Actions;
+namespace Romchik38\Server\Http\Controller\Actions;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 
 interface ActionInterface
 {

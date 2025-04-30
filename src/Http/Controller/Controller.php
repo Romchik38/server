@@ -2,22 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Controllers;
+namespace Romchik38\Server\Http\Controller;
 
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
-use Romchik38\Server\Api\Controllers\Middleware\ResponseMiddlewareInterface;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
-use Romchik38\Server\Controllers\Errors\CantCreateControllerChainException;
-use Romchik38\Server\Controllers\Errors\ControllerLogicException;
-use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
-use Romchik38\Server\Controllers\Errors\NoSuchControllerException;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
+use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
+use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
+use Romchik38\Server\Http\Controller\Errors\CantCreateControllerChainException;
+use Romchik38\Server\Http\Controller\Errors\ControllerLogicException;
+use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
+use Romchik38\Server\Http\Controller\Errors\NoSuchControllerException;
+use Romchik38\Server\Http\Controller\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
+use Romchik38\Server\Http\Controller\Middleware\ResponseMiddlewareInterface;
 
 use function array_push;
 use function array_shift;
@@ -114,9 +112,6 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    /**
-     * @todo test
-     * */
     public function execute(array $elements): ResponseInterface
     {
         if (count($elements) === 0) {
@@ -283,10 +278,11 @@ class Controller implements ControllerInterface
     {
         $name = $child->getName();
         /** root controller must be one */
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
-            throw new CantCreateControllerChainException(
-                'Controller with name ' . ControllerTreeInterface::ROOT_NAME . '  can\'t be a child'
-            );
+        if ($name === self::ROOT_NAME) {
+            throw new CantCreateControllerChainException(sprintf(
+                'Controller with name %s can\'t be a child',
+                self::ROOT_NAME
+            ));
         }
         $this->children[$name] = $child;
         $child->addParent($this);

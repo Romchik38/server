@@ -7,12 +7,12 @@ namespace Romchik38\Server\Tests\Unit\Controllers\ControllerExecuteTest;
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Api\Controllers\Actions\DynamicActionInterface;
-use Romchik38\Server\Controllers\Actions\AbstractAction;
-use Romchik38\Server\Controllers\Controller;
-use Romchik38\Server\Controllers\Errors\ActionNotFoundException;
-use Romchik38\Server\Controllers\Errors\DynamicActionLogicException;
+use Romchik38\Server\Http\Controller\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
+use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
+use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
+use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
 use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 class ControllerLastPartTest extends TestCase

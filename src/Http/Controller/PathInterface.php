@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Controllers;
+namespace Romchik38\Server\Http\Controller;
 
 interface PathInterface
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Mappers\Breadcrumb\Http;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;
 
@@ -20,7 +20,7 @@ use function implode;
 
 class Breadcrumb implements BreadcrumbInterface
 {
-    protected string $currentRoot = ControllerTreeInterface::ROOT_NAME;
+    protected string $currentRoot = ControllerInterface::ROOT_NAME;
 
     public function __construct(
         protected ControllerTreeInterface $controllerTreeService,
@@ -74,11 +74,11 @@ class Breadcrumb implements BreadcrumbInterface
         $path[0] = $this->currentRoot;
 
         $firstPath = $path[0];
-        if ($firstPath === ControllerTreeInterface::ROOT_NAME) {
+        if ($firstPath === ControllerInterface::ROOT_NAME) {
             $path = array_slice($path, 1);
         }
 
-        if ($name === ControllerTreeInterface::ROOT_NAME) {
+        if ($name === ControllerInterface::ROOT_NAME) {
             $name = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 

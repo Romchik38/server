@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Urlbuilder;
 
-use Romchik38\Server\Controllers\PathInterface;
+use Romchik38\Server\Http\Controller\PathInterface;
 
 interface UrlbuilderInterface
 {

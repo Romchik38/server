@@ -8,10 +8,10 @@ use Laminas\Diactoros\Response;
 use Laminas\Diactoros\Response\HtmlResponse;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Controllers\Actions\DefaultActionInterface;
-use Romchik38\Server\Api\Controllers\Middleware\RequestMiddlewareInterface;
-use Romchik38\Server\Controllers\Actions\AbstractAction;
-use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Http\Controller\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
+use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
 
 final class RequestMiddlewareTest extends TestCase
 {

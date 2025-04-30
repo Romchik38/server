@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Services\Mappers\ControllerTree;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
 
 use function array_search;

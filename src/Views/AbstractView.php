@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Views;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 use Romchik38\Server\Api\Views\ViewInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 
 abstract class AbstractView implements ViewInterface
 {

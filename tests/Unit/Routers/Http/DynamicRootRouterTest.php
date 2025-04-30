@@ -10,9 +10,9 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Api\Routers\Http\HttpRouterInterface;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
-use Romchik38\Server\Controllers\Controller;
-use Romchik38\Server\Controllers\Errors\NotFoundException;
+use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\ControllerInterface;
+use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
 use Romchik38\Server\Routers\Errors\RouterProccessErrorException;
 use Romchik38\Server\Routers\Http\ControllersCollection;
@@ -250,7 +250,7 @@ class DynamicRootRouterTest extends TestCase
         $controllersCollection->method('getController')->willReturn($controller);
 
         $controller->expects($this->once())->method('execute')
-            ->with([ControllerTreeInterface::ROOT_NAME, 'products'])->willReturn($response);
+            ->with([ControllerInterface::ROOT_NAME, 'products'])->willReturn($response);
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),

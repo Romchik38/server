@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
 use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 
 interface BreadcrumbInterface
 {

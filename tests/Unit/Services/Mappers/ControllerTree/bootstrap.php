@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree;
 
-use Romchik38\Server\Api\Controllers\ControllerInterface;
-use Romchik38\Server\Controllers\Controller;
+use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Products\DefaultAction as ProductsDefaultAction;
 use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Products\DynamicAction as ProductsDynamicAction;
 use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Root\DefaultAction as RootDefaultAction;

@@ -6,7 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Controllers;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Controllers\Path;
+use Romchik38\Server\Http\Controller\Path;
 
 final class PathTest extends TestCase
 {
