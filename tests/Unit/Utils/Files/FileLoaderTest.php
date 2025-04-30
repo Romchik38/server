@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Files;
+namespace Romchik38\Server\Tests\Unit\Utils\Files;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Services\Files\FileLoader;
-use Romchik38\Server\Services\Files\FileLoaderException;
+use Romchik38\Server\Utils\Files\FileLoader;
+use Romchik38\Server\Utils\Files\FileLoaderException;
 
 class FileLoaderTest extends TestCase
 {
@@ -45,6 +45,6 @@ class FileLoaderTest extends TestCase
     {
         $this->expectException(FileLoaderException::class);
         $fileLoader = new FileLoader(__DIR__);
-        $data       = $fileLoader->load('not-exist.txt');
+        $fileLoader->load('not-exist.txt');
     }
 }

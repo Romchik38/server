@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Files;
-
-use Romchik38\Server\Api\Services\FileLoaderInterface;
+namespace Romchik38\Server\Utils\Files;
 
 use function fclose;
 use function file_exists;
