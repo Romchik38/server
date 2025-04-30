@@ -3,7 +3,6 @@
 ## Current
 
 - structure
-  - move Routers to Http
 
 - structure
 - move DTO to folder

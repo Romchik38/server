@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Servers\Http;
+namespace Romchik38\Server\Http\Servers;
 
 use Exception;
-use Romchik38\Server\Api\Servers\Http\HttpServerInterface;
 use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Routers\HttpRouterInterface;
