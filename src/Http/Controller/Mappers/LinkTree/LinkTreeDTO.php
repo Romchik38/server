@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\Http\LinkTree;
+namespace Romchik38\Server\Http\Controller\Mappers\LinkTree;
 
 use InvalidArgumentException;
-use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
-use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
+use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTO;
+use Romchik38\Server\Http\Controller\Mappers\LinkTree\LinkTreeDTOInterface;
 
 use function strlen;
 
@@ -26,7 +26,7 @@ class LinkTreeDTO extends LinkDTO implements LinkTreeDTOInterface
         string $name,
         string $description,
         string $url,
-        array $children
+        protected readonly array $children
     ) {
         if (
             strlen($name) === 0 ||
@@ -37,11 +37,10 @@ class LinkTreeDTO extends LinkDTO implements LinkTreeDTOInterface
         }
 
         parent::__construct($name, $description, $url);
-        $this->data[self::CHILDREN_FIELD] = $children;
     }
 
     public function getChildren(): array
     {
-        return $this->data[self::CHILDREN_FIELD];
+        return $this->children;
     }
 }

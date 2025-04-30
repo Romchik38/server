@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\DTO\Http\Link;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\Link;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\Http\Link\LinkDTOFactory;
+use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTOFactory;
 
 class LinkDTOFactoryTest extends TestCase
 {

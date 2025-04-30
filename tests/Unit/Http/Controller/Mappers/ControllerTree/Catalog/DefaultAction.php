@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Catalog;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Catalog;
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;

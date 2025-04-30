@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Mappers\LinkTree\Http;
+namespace Romchik38\Server\Http\Controller\Mappers\LinkTree;
 
-use Romchik38\Server\Api\Models\DTO\Http\LinkTree\LinkTreeDTOInterface;
-use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Api\Services\Mappers\LinkTree\Http\LinkTreeInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
 use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Models\DTO\Http\LinkTree\LinkTreeDTO;
 
 use function array_push;
 use function array_slice;

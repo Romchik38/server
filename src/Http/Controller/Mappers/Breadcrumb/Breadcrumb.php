@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Controller\Mappers\Breadcrumb;
 
-use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
-use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTreeInterface;
 use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
-use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
 
 use function array_merge;
 use function array_push;
@@ -18,6 +15,7 @@ use function array_slice;
 use function count;
 use function implode;
 
+/** @todo refactor - create BreadcrumbUseDynamicRoot */
 class Breadcrumb implements BreadcrumbInterface
 {
     protected string $currentRoot = ControllerInterface::ROOT_NAME;

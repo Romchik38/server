@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\Http\Link;
+namespace Romchik38\Server\Http\Controller\Mappers\Link;
 
 use InvalidArgumentException;
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOFactoryInterface;
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
 
 use function strlen;
 

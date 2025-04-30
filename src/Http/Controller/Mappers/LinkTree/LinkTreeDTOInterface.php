@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\Http\LinkTree;
+namespace Romchik38\Server\Http\Controller\Mappers\LinkTree;
 
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
+use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTOInterface;
 
 /**
  * Represents a controller's tree

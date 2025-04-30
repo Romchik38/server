@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\Http\Link;
-
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
+namespace Romchik38\Server\Http\Controller\Mappers\Link;
 
 /**
  * Represents a html link entity
@@ -12,7 +10,7 @@ use Romchik38\Server\Api\Models\DTO\DTOInterface;
  *   a innerText    name
  *   a title        description
  */
-interface LinkDTOInterface extends DTOInterface
+interface LinkDTOInterface
 {
     public const NAME_FIELD        = 'name';
     public const DESCRIPTION_FIELD = 'description';

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree;
 
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Controller\ControllerInterface;
-use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
-use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Products\DefaultAction as ProductsDefaultAction;
-use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Products\DynamicAction as ProductsDynamicAction;
-use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Root\DefaultAction as RootDefaultAction;
-use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Root\DynamicAction as RootDynamicAction;
-use Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree\Sitemap\DefaultAction as SitemapDefaultAction;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
+use Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Products\DefaultAction as ProductsDefaultAction;
+use Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Products\DynamicAction as ProductsDynamicAction;
+use Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Root\DefaultAction as RootDefaultAction;
+use Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Root\DynamicAction as RootDynamicAction;
+use Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Sitemap\DefaultAction as SitemapDefaultAction;
 
 return function (): ControllerInterface {
     include_once __DIR__ . '/Root/DefaultAction.php';

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http;
+namespace Romchik38\Server\Http\Controller\Mappers\Breadcrumb;
 
-use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 
 interface BreadcrumbInterface
@@ -13,5 +12,8 @@ interface BreadcrumbInterface
     /**
      * Return a chain of breadcrumbs
      */
-    public function getBreadcrumbDTO(ControllerInterface $controller, string $action): BreadcrumbDTOInterface;
+    public function getBreadcrumbDTO(
+        ControllerInterface $controller,
+        string $action
+    ): BreadcrumbDTOInterface;
 }

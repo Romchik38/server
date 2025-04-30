@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Mappers\ControllerTree;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\ControllerInterface;
-use Romchik38\Server\Services\Mappers\ControllerTree\ControllerTree;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
 
 use function count;
 use function file_get_contents;

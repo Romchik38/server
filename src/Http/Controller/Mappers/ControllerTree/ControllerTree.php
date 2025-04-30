@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Mappers\ControllerTree;
+namespace Romchik38\Server\Http\Controller\Mappers\ControllerTree;
 
-use Romchik38\Server\Api\Services\Mappers\ControllerTreeInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTO;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;

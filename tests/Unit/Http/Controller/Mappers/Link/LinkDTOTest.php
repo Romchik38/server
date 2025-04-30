@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\DTO\Http\Link;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\Link;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
-use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
+use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTO;
+use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTOInterface;
 
 class LinkDTOTest extends TestCase
 {

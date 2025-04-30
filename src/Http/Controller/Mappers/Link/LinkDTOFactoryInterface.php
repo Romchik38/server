@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\Http\Link;
+namespace Romchik38\Server\Http\Controller\Mappers\Link;
 
 use InvalidArgumentException;
 

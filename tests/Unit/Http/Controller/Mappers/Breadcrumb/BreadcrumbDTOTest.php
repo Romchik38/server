@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\DTO\Http\Breadcrumb;
+namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\Breadcrumb;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\DTO\Http\Breadcrumb\BreadcrumbDTOInterface;
-use Romchik38\Server\Models\DTO\Http\Breadcrumb\BreadcrumbDTO;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbDTO;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbDTOInterface;
 
 class BreadcrumbDTOTest extends TestCase
 {

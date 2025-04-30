@@ -2,38 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\Http\Link;
-
-use Romchik38\Server\Api\Models\DTO\Http\Link\LinkDTOInterface;
-use Romchik38\Server\Models\DTO;
+namespace Romchik38\Server\Http\Controller\Mappers\Link;
 
 /**
  * LinkDTOFactoryInterface is responsible to create the entity
  */
-class LinkDTO extends DTO implements LinkDTOInterface
+class LinkDTO implements LinkDTOInterface
 {
     public function __construct(
-        string $name,
-        string $description,
-        string $url,
+        protected readonly string $name,
+        protected readonly string $description,
+        protected readonly string $url,
     ) {
-        $this->data[LinkDTOInterface::NAME_FIELD]        = $name;
-        $this->data[LinkDTOInterface::DESCRIPTION_FIELD] = $description;
-        $this->data[LinkDTOInterface::URL_FIELD]         = $url;
     }
 
     public function getName(): string
     {
-        return $this->data[LinkDTOInterface::NAME_FIELD];
+        return $this->name;
     }
 
     public function getDescription(): string
     {
-        return $this->data[LinkDTOInterface::DESCRIPTION_FIELD];
+        return $this->description;
     }
 
     public function getUrl(): string
     {
-        return $this->data[LinkDTOInterface::URL_FIELD];
+        return $this->url;
     }
 }

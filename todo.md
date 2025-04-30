@@ -6,6 +6,8 @@
   - mappers
 
 - structure
+  - folders
+  - docs
 
 - check why not found is logs (see const `NOT_FOUND_ERROR_MESSAGE`)
 - `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
