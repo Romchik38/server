@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Streams;
+namespace Romchik38\Server\Utils\Streams;
 
 /** Accepts data from function as a resource and converts it to a string */
 interface TempStreamInterface

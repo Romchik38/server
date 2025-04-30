@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Streams;
+namespace Romchik38\Server\Utils\Streams;
 
 use Exception;
 

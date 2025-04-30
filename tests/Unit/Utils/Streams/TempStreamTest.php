@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Streams;
+namespace Romchik38\Server\Tests\Unit\Utils\Streams;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Services\Streams\StreamProcessException;
-use Romchik38\Server\Services\Streams\TempStream;
+use Romchik38\Server\Utils\Streams\StreamProcessException;
+use Romchik38\Server\Utils\Streams\TempStream;
 use RuntimeException;
 
 use function fwrite;
@@ -61,6 +61,6 @@ class TempStreamTest extends TestCase
         $stream->writeFromCallable($fn, 0, null, 'hello');
         $firstData = $stream();
         $this->expectException(StreamProcessException::class);
-        $secondData = $stream();
+        $stream();
     }
 }
