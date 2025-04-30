@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Views;
+namespace Romchik38\Server\Http\Views;
 
 use Romchik38\Server\Api\Models\DTO\DefaultView\DefaultViewDTOInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
-use Romchik38\Server\Views\Http\Errors\ViewBuildException;
+use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 
 interface ViewInterface
 {

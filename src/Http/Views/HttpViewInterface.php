@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Views\Http;
-
-use Romchik38\Server\Api\Views\ViewInterface;
+namespace Romchik38\Server\Http\Views;
 
 interface HttpViewInterface extends ViewInterface
 {

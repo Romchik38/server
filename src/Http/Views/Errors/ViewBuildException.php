@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Views\Http\Errors;
+namespace Romchik38\Server\Http\Views\Errors;
 
 use RuntimeException;
 

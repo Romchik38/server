@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Views\Http;
+namespace Romchik38\Server\Http\Views;
 
 use Closure;
-use Romchik38\Server\Api\Views\Http\HttpViewInterface;
-use Romchik38\Server\Views\AbstractView;
 
 use function call_user_func;
 
