@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Services;
-
-use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
-use Romchik38\Server\Services\Mailer\CantSendEmailException;
+namespace Romchik38\Server\Utils\Mailer;
 
 interface MailerInterface
 {

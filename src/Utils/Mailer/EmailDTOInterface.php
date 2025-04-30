@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\Email;
+namespace Romchik38\Server\Utils\Mailer;
 
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
-
-interface EmailDTOInterface extends DTOInterface
+interface EmailDTOInterface
 {
     public const EMAIL   = 'email';
     public const SUBJECT = 'subject';

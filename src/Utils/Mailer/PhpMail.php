@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Mailer;
-
-use Romchik38\Server\Api\Models\DTO\Email\EmailDTOInterface;
-use Romchik38\Server\Api\Services\MailerInterface;
+namespace Romchik38\Server\Utils\Mailer;
 
 use function mail;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Mailer;
+namespace Romchik38\Server\Utils\Mailer;
 
 use RuntimeException;
 

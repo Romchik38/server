@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Services;
+namespace Romchik38\Server\Utils\Logger\DeferredLogger;
 
-use Psr\Log\LoggerInterface;
-
-interface LoggerServerInterface extends LoggerInterface
+interface DeferredLoggerInterface
 {
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 

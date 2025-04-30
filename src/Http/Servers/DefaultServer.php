@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Servers;
 
 use Exception;
-use Romchik38\Server\Api\Services\LoggerServerInterface;
+use Psr\Log\LoggerInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Routers\HttpRouterInterface;
 
@@ -19,17 +19,8 @@ class DefaultServer implements HttpServerInterface
     public function __construct(
         protected HttpRouterInterface $router,
         protected ControllerInterface $serverErrorController,
-        protected LoggerServerInterface|null $logger = null
+        protected LoggerInterface|null $logger = null
     ) {
-    }
-
-    public function log(): DefaultServer
-    {
-        if ($this->logger !== null) {
-            $this->logger->sendAllLogs();
-        }
-
-        return $this;
     }
 
     public function run(): DefaultServer

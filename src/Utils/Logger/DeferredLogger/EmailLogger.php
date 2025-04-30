@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Logger\Loggers;
+namespace Romchik38\Server\Utils\Logger\DeferredLogger;
 
 use DateTime;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Romchik38\Server\Api\Models\DTO\Email\EmailDTOFactoryInterface;
-use Romchik38\Server\Api\Services\LoggerServerInterface;
-use Romchik38\Server\Api\Services\MailerInterface;
-use Romchik38\Server\Services\Logger\AbstractLogger;
-use Romchik38\Server\Services\Mailer\CantSendEmailException;
+use Romchik38\Server\Utils\Logger\AbstractLogger;
+use Romchik38\Server\Utils\Mailer\CantSendEmailException;
+use Romchik38\Server\Utils\Mailer\EmailDTOFactoryInterface;
+use Romchik38\Server\Utils\Mailer\MailerInterface;
 
 use function count;
 use function implode;
 use function phpversion;
 
-class EmailLogger extends AbstractLogger
+class EmailLogger extends AbstractLogger implements DeferredLoggerInterface
 {
     public function __construct(
         int $logLevel,
@@ -24,7 +24,7 @@ class EmailLogger extends AbstractLogger
         protected EmailDTOFactoryInterface $emailDtoFactory,
         protected string $recipient,
         protected string $sender,
-        protected LoggerServerInterface|null $alternativeLogger = null,
+        LoggerInterface|null $alternativeLogger = null,
     ) {
         parent::__construct($logLevel, $alternativeLogger);
     }
@@ -44,7 +44,7 @@ class EmailLogger extends AbstractLogger
         $writeErrors    = [];
         $messagesToSent = [];
         $date           = new DateTime();
-        $dateString     = $date->format(LoggerServerInterface::DATE_TIME_FORMAT);
+        $dateString     = $date->format(DeferredLoggerInterface::DATE_TIME_FORMAT);
         foreach ($this->messages as $item) {
             [$level, $message] = $item;
 

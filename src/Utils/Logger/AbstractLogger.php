@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Logger;
+namespace Romchik38\Server\Utils\Logger;
 
 use Psr\Log\AbstractLogger as PsrAbstractLogger;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Romchik38\Server\Api\Services\LoggerServerInterface;
 use Stringable;
 
 use function is_array;
@@ -14,14 +14,14 @@ use function is_object;
 use function method_exists;
 use function strtr;
 
-abstract class AbstractLogger extends PsrAbstractLogger implements LoggerServerInterface
+abstract class AbstractLogger extends PsrAbstractLogger
 {
     /** @var array <int,array<int,string>> $messages */
     protected array $messages = [];
 
     public function __construct(
         protected readonly int $logLevel,
-        protected LoggerServerInterface|null $alternativeLogger = null
+        protected LoggerInterface|null $alternativeLogger = null
     ) {
     }
 

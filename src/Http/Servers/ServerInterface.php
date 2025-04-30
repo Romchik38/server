@@ -8,7 +8,5 @@ interface ServerInterface
 {
     public const SERVER_ERROR_CONTROLLER_NAME = 'server-error';
 
-    public function log(): ServerInterface;
-
     public function run(): ServerInterface;
 }
