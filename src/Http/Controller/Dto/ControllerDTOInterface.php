@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO\Controller;
+namespace Romchik38\Server\Http\Controller\Dto;
 
 use JsonSerializable;
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
 
-interface ControllerDTOInterface extends DTOInterface, JsonSerializable
+interface ControllerDTOInterface extends JsonSerializable
 {
     /**
      * Used in the jsonSerialize() method

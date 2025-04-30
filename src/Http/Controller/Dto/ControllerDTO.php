@@ -2,22 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\Controller;
+namespace Romchik38\Server\Http\Controller\Dto;
 
-use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
-use Romchik38\Server\Models\DTO;
-
-final class ControllerDTO extends DTO implements ControllerDTOInterface
+final class ControllerDTO implements ControllerDTOInterface
 {
     /**
      * @param array<int,ControllerDTOInterface> $children
      * @param array<int,string> $path
      */
     public function __construct(
-        protected readonly string $name,
-        protected array $path,
-        protected array $children,
-        protected readonly string $description
+        private readonly string $name,
+        private array $path,
+        private array $children,
+        private readonly string $description
     ) {
     }
 

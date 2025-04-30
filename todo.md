@@ -2,9 +2,6 @@
 
 ## Current
 
-- Controller
-  - move DTO to folder
-
 - structure
 - move DTO to folder
 

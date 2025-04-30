@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Services\Mappers\LinkTree\Http;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Api\Models\DTO\Controller\ControllerDTOInterface;
 use Romchik38\Server\Api\Services\Mappers\Breadcrumb\Http\BreadcrumbInterface;
-use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
+use Romchik38\Server\Http\Controller\Dto\ControllerDTO;
+use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Models\DTO\Http\Link\LinkDTO;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootDTOInterface;
 use Romchik38\Server\Services\DynamicRoot\DynamicRootInterface;

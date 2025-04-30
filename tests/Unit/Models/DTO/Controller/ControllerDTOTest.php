@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\Controller;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\Controller\ControllerDTO;
+use Romchik38\Server\Http\Controller\Dto\ControllerDTO;
 
 use function file_get_contents;
 use function json_encode;

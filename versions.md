@@ -8,7 +8,9 @@
 
 [see todo](./todo.md)
 
-- Controller moved to  Http folder
+- Controller
+  - files moved to Http folder
+  - DTO moved from Models to Http folder
 
 ## v1.18.0
 
