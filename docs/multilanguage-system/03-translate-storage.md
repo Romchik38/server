@@ -1,30 +1,6 @@
 # TranslateStorage
 
-Class `Romchik38\Server\Services\Translate\TranslateStorage`
+You must implement `Romchik38\Server\Utils\Translate\TranslateStorageInterface` to use translate.
 
-- Map Database Models to TranslateEntityDTO
-- Returns a hash, where *key* is a key to translate, *value* - `TranslateEntityDTOInterface`
-
-1. Init
-2. Usage
-
-## 1. Init
-
-Required dependencies:
-
-- Repository
-- DTO Factory
-
-## 2. Usage
-
-- get data by languages
-
-```php
-$translateStorage->getDataByLanguages(['en', 'uk']);
-```
-
-- get data by key
-
-```php
-$translateStorage->getAllDataByKey('some.key');
-```
+It has only one method `getByKey` and it must return `TranslateEntityDTOInterface`.
+So `TranslateStorage` is look like just `repository`. It goes to the database, takes rows,  fill a Dto and returns it back to translate. Not so hard.

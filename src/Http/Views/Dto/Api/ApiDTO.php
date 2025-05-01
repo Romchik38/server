@@ -26,4 +26,14 @@ class ApiDTO extends DefaultViewDTO implements ApiDTOInterface
     {
         return $this->result;
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            self::DEFAULT_NAME_FIELD        => $this->name,
+            self::DEFAULT_DESCRIPTION_FIELD => $this->description,
+            self::STATUS_FIELD              => $this->status,
+            self::RESULT_FIELD              => $this->result,
+        ];
+    }
 }

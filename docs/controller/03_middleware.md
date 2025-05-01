@@ -6,8 +6,8 @@ Middleware is an interceptor, that sits between routing system and actions.
 
 Middlewares can be one of two types:
 
-- [Request Middleware](./../../src/Api/Controllers/Middleware/RequestMiddlewareInterface.php)
-- [Response Middleware](./../../src/Api/Controllers/Middleware/ResponseMiddlewareInterface.php)
+- [Request Middleware](./../../src/Http/Controller/Middleware/RequestMiddlewareInterface.php)
+- [Response Middleware](./../../src/Http/Controller/Middleware/ResponseMiddlewareInterface.php)
 
 ## Request Middleware
 

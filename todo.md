@@ -2,30 +2,26 @@
 
 ## Current
 
-- structure
-  - folders
-  - test database
-  - docs
-
 - check why not found is logs (see const `NOT_FOUND_ERROR_MESSAGE`)
 - `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
 - `DatabasePostgresql` functions `queryParams` return  associatively array only
 
-- dto must be serializable `extends JsonSerializable`
-  - default view
-  - api
 - VO
   - id in
   - id string
   - field
-
-- controller and action uses Request
 
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
 
 - HandlerRouter
+  - main router
+  - redirect handler
+  - dynamic root handler
+  - controller handler
+  - not found handler
+  - handlers, controller and action uses a Request and returns a Response
 
 ## Next
 
