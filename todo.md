@@ -4,6 +4,7 @@
 
 - structure
   - folders
+  - test database
   - docs
 
 - check why not found is logs (see const `NOT_FOUND_ERROR_MESSAGE`)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\Sql;
+namespace Romchik38\Server\Persist\Sql;
 
 use RuntimeException;
 

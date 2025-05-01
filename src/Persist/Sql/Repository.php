@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\Sql;
+namespace Romchik38\Server\Persist\Sql;
 
-use Romchik38\Server\Api\Models\ModelFactoryInterface;
-use Romchik38\Server\Api\Models\ModelInterface;
-use Romchik38\Server\Api\Models\RepositoryInterface;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
+use Romchik38\Server\Models\ModelFactoryInterface;
+use Romchik38\Server\Models\ModelInterface;
+use Romchik38\Server\Models\RepositoryInterface;
 
 use function count;
 use function implode;

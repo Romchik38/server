@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models;
-
-use Romchik38\Server\Api\Models\ModelInterface;
+namespace Romchik38\Server\Models;
 
 interface ModelFactoryInterface
 {

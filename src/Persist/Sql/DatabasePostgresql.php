@@ -2,12 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\Sql;
+namespace Romchik38\Server\Persist\Sql;
 
 use PgSql\Connection;
-use Romchik38\Server\Models\Errors\DatabaseException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
 
 use function extension_loaded;
 use function ob_end_clean;
@@ -79,6 +76,7 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
+    /** @todo refactor - must check connection */
     public function isConnected(): bool
     {
         return $this->isConnected;

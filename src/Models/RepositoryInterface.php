@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models;
+namespace Romchik38\Server\Models;
 
-use Romchik38\Server\Api\Models\ModelInterface;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;

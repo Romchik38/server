@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models;
 
-use Romchik38\Server\Api\Models\ModelInterface;
-
 use function array_key_exists;
 
 class Model implements ModelInterface

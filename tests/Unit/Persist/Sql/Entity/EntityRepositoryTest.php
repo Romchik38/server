@@ -10,9 +10,9 @@ use Romchik38\Server\Models\EntityModel;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabasePostgresql;
-use Romchik38\Server\Models\Sql\Entity\EntityRepository;
+use Romchik38\Server\Persist\Sql\DatabasePostgresql;
+use Romchik38\Server\Persist\Sql\Entity\EntityRepository;
+use Romchik38\Server\Persist\Sql\QueryException;
 
 use function file_get_contents;
 

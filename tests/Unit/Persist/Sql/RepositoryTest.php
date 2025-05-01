@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Models\Sql;
+namespace Romchik38\Server\Tests\Unit\Persist\Sql;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryException;
 use Romchik38\Server\Models\Model;
 use Romchik38\Server\Models\ModelFactory;
-use Romchik38\Server\Models\Sql\DatabasePostgresql;
-use Romchik38\Server\Models\Sql\Repository;
+use Romchik38\Server\Persist\Sql\DatabasePostgresql;
+use Romchik38\Server\Persist\Sql\QueryException;
+use Romchik38\Server\Persist\Sql\Repository;
 
 use function count;
 

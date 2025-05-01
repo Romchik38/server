@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\Sql\Entity;
+namespace Romchik38\Server\Persist\Sql\Entity;
 
-use Romchik38\Server\Api\Models\Entity\EntityFactoryInterface;
-use Romchik38\Server\Api\Models\Entity\EntityModelInterface;
-use Romchik38\Server\Api\Models\Entity\EntityRepositoryInterface;
+use Romchik38\Server\Models\EntityFactoryInterface;
+use Romchik38\Server\Models\EntityModelInterface;
+use Romchik38\Server\Models\EntityRepositoryInterface;
 use Romchik38\Server\Models\Errors\CouldNotAddException;
 use Romchik38\Server\Models\Errors\CouldNotDeleteException;
 use Romchik38\Server\Models\Errors\CouldNotSaveException;
 use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseSqlInterface;
+use Romchik38\Server\Persist\Sql\DatabaseSqlInterface;
+use Romchik38\Server\Persist\Sql\QueryException;
 
 use function count;
 use function implode;

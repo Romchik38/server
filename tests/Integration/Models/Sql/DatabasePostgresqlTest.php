@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Integration\Models\Sql;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\Errors\DatabaseException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabasePostgresql;
-use Romchik38\Server\Models\Sql\DatabaseTransactionException;
+use Romchik38\Server\Persist\Sql\DatabaseException;
+use Romchik38\Server\Persist\Sql\DatabasePostgresql;
+use Romchik38\Server\Persist\Sql\DatabaseTransactionException;
+use Romchik38\Server\Persist\Sql\QueryException;
 use RuntimeException;
 
 use function pg_close;

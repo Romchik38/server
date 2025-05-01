@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\Sql;
-
-use Romchik38\Server\Models\Errors\DatabaseException;
-use Romchik38\Server\Models\Errors\QueryException;
-use Romchik38\Server\Models\Sql\DatabaseTransactionException;
+namespace Romchik38\Server\Persist\Sql;
 
 interface DatabaseSqlInterface
 {
