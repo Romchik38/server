@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Utils\DynamicRoot;
 
-/** language entity */
+/** dynamic root entity */
 interface DynamicRootDTOInterface
 {
     public function getName(): string;

@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Utils\Translate;
 
-use Romchik38\Server\Models\DTO;
-
-class TranslateEntityDTO extends DTO implements TranslateEntityDTOInterface
+class TranslateEntityDTO implements TranslateEntityDTOInterface
 {
     /**
-     * @param array<string,string> $data - [language => phrase, ...]
+     * @param array<string,string> $phrases - [language => phrase, ...]
      */
     public function __construct(
         protected readonly string $key,
-        array $data
+        protected array $phrases
     ) {
-        foreach ($data as $language => $phrase) {
-            $this->data[$language] = $phrase;
-        }
     }
 
     public function getKey(): string
@@ -27,6 +22,6 @@ class TranslateEntityDTO extends DTO implements TranslateEntityDTOInterface
 
     public function getPhrase(string $language): string|null
     {
-        return $this->data[$language] ?? null;
+        return $this->phrases[$language] ?? null;
     }
 }

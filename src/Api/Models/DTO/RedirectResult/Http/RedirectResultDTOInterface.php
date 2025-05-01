@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Api\Models\DTO\RedirectResult\Http;
 
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
+use Romchik38\Server\Models\DTOInterface;
 
 /**
  * used in RedirectInterface

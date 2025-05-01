@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Models;
 
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
-
+/** @deprecated */
 class DTO implements DTOInterface
 {
     /** @var array<string,mixed> */

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\DTO;
+namespace Romchik38\Server\Models;
 
 use JsonSerializable;
 
+/** @deprecated */
 interface DTOInterface extends JsonSerializable
 {
     public function getData(string $key): mixed;

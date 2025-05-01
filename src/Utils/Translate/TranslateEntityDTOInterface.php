@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Utils\Translate;
 
-use Romchik38\Server\Api\Models\DTO\DTOInterface;
-
-interface TranslateEntityDTOInterface extends DTOInterface
+interface TranslateEntityDTOInterface
 {
     /** returns translate key */
     public function getKey(): string;
