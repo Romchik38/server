@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\Api;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\Api\ApiDTO;
-use Romchik38\Server\Models\DTO\Api\ApiDTOFactory;
+use Romchik38\Server\Http\Views\Dto\Api\ApiDTO;
+use Romchik38\Server\Http\Views\Dto\Api\ApiDTOFactory;
 
 class ApiDTOFactoryTest extends TestCase
 {

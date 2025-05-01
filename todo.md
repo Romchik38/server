@@ -13,6 +13,9 @@
 - `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
 - `DatabasePostgresql` functions `queryParams` return  associatively array only
 
+- dto must be serializable
+  - default view
+  - api
 - VO
   - id in
   - id string

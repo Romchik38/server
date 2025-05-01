@@ -7,7 +7,7 @@ namespace Romchik38\Server\Tests\Unit\Http\Views;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Views\AbstractView as View;
-use Romchik38\Server\Models\DTO\DefaultView\DefaultViewDTO;
+use Romchik38\Server\Http\Views\Dto\DefaultViewDTO;
 
 class ViewTest extends TestCase
 {
