@@ -10,10 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Controller\ControllersCollection;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\Redirect;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTO;
 use Romchik38\Server\Http\Routers\HttpRouterInterface;
 use Romchik38\Server\Http\Routers\PlasticineRouter;
-use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Services\Redirect\Http\Redirect;
 use Romchik38\Server\Tests\Unit\Http\Routers\PlasticineRouterTest\Root\DefaultAction;
 
 use function count;

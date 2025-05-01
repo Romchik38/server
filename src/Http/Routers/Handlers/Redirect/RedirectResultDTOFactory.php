@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\RedirectResult\Http;
-
-use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOFactoryInterface;
-use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
+namespace Romchik38\Server\Http\Routers\Handlers\Redirect;
 
 class RedirectResultDTOFactory implements RedirectResultDTOFactoryInterface
 {

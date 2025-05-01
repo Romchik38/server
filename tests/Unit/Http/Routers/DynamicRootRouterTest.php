@@ -15,11 +15,11 @@ use Romchik38\Server\Http\Controller\ControllersCollection;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Routers\DynamicRootRouter;
 use Romchik38\Server\Http\Routers\Errors\RouterProccessErrorException;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\Redirect;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTO;
 use Romchik38\Server\Http\Routers\HttpRouterInterface;
 use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootDTO;
-use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Services\Redirect\Http\Redirect;
 
 class DynamicRootRouterTest extends TestCase
 {

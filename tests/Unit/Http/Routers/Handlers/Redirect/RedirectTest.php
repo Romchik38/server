@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Services\Redirect\Http;
+namespace Romchik38\Server\Tests\Unit\Http\Routers\Handlers\Redirect;
 
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UriInterface;
-use Romchik38\Server\Api\Models\Redirect\RedirectModelInterface;
-use Romchik38\Server\Api\Models\Redirect\RedirectRepositoryInterface;
-use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTO;
-use Romchik38\Server\Models\DTO\RedirectResult\Http\RedirectResultDTOFactory;
-use Romchik38\Server\Models\Errors\NoSuchEntityException;
-use Romchik38\Server\Models\Model;
-use Romchik38\Server\Services\Redirect\Http\CantCreateRedirectException;
-use Romchik38\Server\Services\Redirect\Http\Redirect;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\Exceptions\CantCreateRedirectException;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\Exceptions\NoSuchRedirectException;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\Redirect;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectModelInterface;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTO;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTOFactory;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RepositoryInterface;
 
 final class RedirectTest extends TestCase
 {
@@ -26,10 +26,8 @@ final class RedirectTest extends TestCase
         $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
         $request                  = $this->createMock(ServerRequestInterface::class);
 
-        $requestedUri = $this->createMock(UriInterface::class);
-        $requestedUri->method('getScheme')->willReturn('http');
-        $requestedUri->method('getHost')->willReturn('example.com');
-        $request->method('getUri')->willReturn($requestedUri);
+        $uri     = new Uri('http://example.com/');
+        $request = new ServerRequest([], [], $uri, 'GET');
 
         $redirectModel      = $this->createRedirectModel('/index', '/', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
@@ -52,10 +50,8 @@ final class RedirectTest extends TestCase
         $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
         $request                  = $this->createMock(ServerRequestInterface::class);
 
-        $requestedUri = $this->createMock(UriInterface::class);
-        $requestedUri->method('getScheme')->willReturn('http');
-        $requestedUri->method('getHost')->willReturn('example.com');
-        $request->method('getUri')->willReturn($requestedUri);
+        $uri     = new Uri('http://example.com/');
+        $request = new ServerRequest([], [], $uri, 'GET');
 
         $redirectResultDto = new RedirectResultDTO('http://example.com/', 301);
         $redirectResultDtoFactory->expects($this->once())
@@ -84,25 +80,23 @@ final class RedirectTest extends TestCase
         $redirectResultDtoFactory = $this->createMock(RedirectResultDTOFactory::class);
         $request                  = $this->createMock(ServerRequestInterface::class);
 
-        $requestedUri = $this->createMock(UriInterface::class);
-        $requestedUri->method('getScheme')->willReturn('');
-        $requestedUri->method('getHost')->willReturn('');
-        $request->method('getUri')->willReturn($requestedUri);
+        $uri     = new Uri('/');
+        $request = new ServerRequest([], [], $uri, 'GET');
 
         $this->expectException(CantCreateRedirectException::class);
 
         $redirectModel      = $this->createRedirectModel('/index', '/', 301, 'GET');
         $redirectRepository = $this->createRepository($redirectModel);
-        $redirectService    = new Redirect(
+        new Redirect(
             $redirectRepository,
             $redirectResultDtoFactory,
             $request
         );
     }
 
-    protected function createRepository(RedirectModelInterface $redirectModel): RedirectRepositoryInterface
+    private function createRepository(RedirectModelInterface $redirectModel): RepositoryInterface
     {
-        return new class ($redirectModel) implements RedirectRepositoryInterface {
+        return new class ($redirectModel) implements RepositoryInterface {
             public function __construct(
                 protected RedirectModelInterface $redirectModel
             ) {
@@ -116,13 +110,13 @@ final class RedirectTest extends TestCase
                 ) {
                     return $this->redirectModel;
                 } else {
-                    throw new NoSuchEntityException('no such entity in database');
+                    throw new NoSuchRedirectException('no such entity in database');
                 }
             }
         };
     }
 
-    protected function createRedirectModel(
+    private function createRedirectModel(
         string $redirectFrom,
         string $redirectTo,
         int $statusCode,
@@ -133,7 +127,7 @@ final class RedirectTest extends TestCase
             $redirectTo,
             $statusCode,
             $method
-        ) extends Model implements RedirectModelInterface {
+        ) implements RedirectModelInterface {
             public function __construct(
                 protected string $redirectFrom,
                 protected string $redirectTo,

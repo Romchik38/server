@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Services\Redirect\Http;
+namespace Romchik38\Server\Http\Routers\Handlers\Redirect\Exceptions;
 
 use Exception;
 

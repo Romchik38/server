@@ -7,12 +7,12 @@ namespace Romchik38\Server\Http\Routers;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Romchik38\Server\Api\Models\DTO\RedirectResult\Http\RedirectResultDTOInterface;
-use Romchik38\Server\Api\Services\Redirect\Http\RedirectInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Routers\Errors\RouterProccessErrorException;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectInterface;
+use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTOInterface;
 use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
 
 use function array_search;

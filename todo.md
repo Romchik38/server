@@ -3,9 +3,6 @@
 ## Current
 
 - structure
-  - mappers
-
-- structure
   - folders
   - docs
 

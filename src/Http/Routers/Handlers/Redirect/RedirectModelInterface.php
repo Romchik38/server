@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Api\Models\Redirect;
+namespace Romchik38\Server\Http\Routers\Handlers\Redirect;
 
-use Romchik38\Server\Api\Models\ModelInterface;
-
-interface RedirectModelInterface extends ModelInterface
+interface RedirectModelInterface
 {
     public function getRedirectFrom(): string;
 
