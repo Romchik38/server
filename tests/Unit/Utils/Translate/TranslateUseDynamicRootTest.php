@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Utils\Translate;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Tests\Unit\Utils\Translate\Samples\Logger;
 use Romchik38\Server\Tests\Unit\Utils\Translate\Samples\Storage;
 use Romchik38\Server\Tests\Unit\Utils\Translate\Samples\Storage2;

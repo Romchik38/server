@@ -6,7 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Http\Utils\Urlbuilder;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Path;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRoot;
 use Romchik38\Server\Http\Utils\Urlbuilder\DynamicTarget;
 
 final class DynamicTargetTest extends TestCase

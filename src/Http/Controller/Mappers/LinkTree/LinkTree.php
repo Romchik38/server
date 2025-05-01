@@ -7,7 +7,7 @@ namespace Romchik38\Server\Http\Controller\Mappers\LinkTree;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
 use function array_push;
 use function array_slice;

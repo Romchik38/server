@@ -11,8 +11,8 @@ use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\Breadcrumb;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
 use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRoot;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootDTO;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRoot;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootDTO;
 
 final class BreadcrumbTest extends TestCase
 {

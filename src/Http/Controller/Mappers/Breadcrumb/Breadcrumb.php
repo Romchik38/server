@@ -7,7 +7,7 @@ namespace Romchik38\Server\Http\Controller\Mappers\Breadcrumb;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTreeInterface;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
 use function array_merge;
 use function array_push;

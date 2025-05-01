@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Controller\Actions;
 
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 use Romchik38\Server\Utils\Translate\TranslateInterface;
 
 /**

@@ -10,8 +10,8 @@ use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
 use Romchik38\Server\Http\Controller\Mappers\Link\LinkDTO;
 use Romchik38\Server\Http\Controller\Mappers\LinkTree\LinkTree;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootDTOInterface;
-use Romchik38\Server\Http\Utils\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootDTOInterface;
+use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
 use function count;
 
