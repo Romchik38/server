@@ -6,7 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Services\Urlbuilder;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Path;
-use Romchik38\Server\Services\Urlbuilder\Target;
+use Romchik38\Server\Http\Utils\Urlbuilder\Target;
 
 final class TargetTest extends TestCase
 {

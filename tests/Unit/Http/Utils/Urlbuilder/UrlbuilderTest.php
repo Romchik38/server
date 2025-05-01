@@ -9,8 +9,8 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Path;
-use Romchik38\Server\Services\Urlbuilder\Target;
-use Romchik38\Server\Services\Urlbuilder\Urlbuilder;
+use Romchik38\Server\Http\Utils\Urlbuilder\Target;
+use Romchik38\Server\Http\Utils\Urlbuilder\Urlbuilder;
 
 final class UrlbuilderTest extends TestCase
 {
