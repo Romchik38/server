@@ -1,6 +1,6 @@
 # Translate
 
-Class `Romchik38\Server\Services\Translate\Translate`
+Class `Romchik38\Server\Utils\Translate\TranslateUseDynamicRoot`
 
 1. Init
 2. Usage

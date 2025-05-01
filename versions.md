@@ -8,9 +8,9 @@
 
 [see todo](./todo.md)
 
-- Controller
-  - files moved to Http folder
-  - DTO moved from Models to Http folder
+## v1.19.0
+
+- [!] fully refactored progect structure.
 
 ## v1.18.0
 

@@ -21,4 +21,12 @@ class DefaultViewDTO implements DefaultViewDTOInterface
     {
         return $this->name;
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            self::DEFAULT_NAME_FIELD        => $this->name,
+            self::DEFAULT_DESCRIPTION_FIELD => $this->description,
+        ];
+    }
 }
