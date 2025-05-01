@@ -9,9 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
+use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
 use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
-use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 use function count;
 use function sprintf;

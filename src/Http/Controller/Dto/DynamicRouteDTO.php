@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Models\DTO\DynamicRoute;
+namespace Romchik38\Server\Http\Controller\Dto;
 
 use InvalidArgumentException;
-use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 
 use function strlen;
 

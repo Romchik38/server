@@ -11,10 +11,10 @@ use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
 use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
-use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
 
 class ControllerActionsThrowsError extends TestCase
 {

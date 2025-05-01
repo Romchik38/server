@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Controller\Actions;
 
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
 use Romchik38\Server\Http\Controller\Actions\ActionInterface;
+use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTOInterface;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
 use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Models\DTO\DynamicRoute;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Models\DTO\DynamicRoute\DynamicRouteDTO;
+use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
 
 class DynamicRouteDTOTest extends TestCase
 {

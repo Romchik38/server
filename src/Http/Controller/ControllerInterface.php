@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Romchik38\Server\Api\Models\DTO\DynamicRoute\DynamicRouteDTOInterface;
+use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTOInterface;
 use Romchik38\Server\Http\Controller\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Http\Controller\Errors\ControllerLogicException;
 use Romchik38\Server\Http\Controller\Errors\NoSuchControllerException;
