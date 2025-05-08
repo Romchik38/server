@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [n] `OrderBy` to create sql SearchCriteria
+
 ## v1.19.0
 
 - [!] fully refactored progect structure.
