@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Persist\Sql;
 
 use PgSql\Connection;
+use RuntimeException;
 
 use function extension_loaded;
 use function ob_end_clean;
@@ -21,9 +22,15 @@ use function pg_query_params;
 use function pg_transaction_status;
 use function sprintf;
 
+use const PGSQL_CONNECTION_OK;
 use const PGSQL_TRANSACTION_IDLE;
 use const PGSQL_TRANSACTION_INTRANS;
 
+/**
+ * The Class represents a single database connection.
+ * Connection is opened on the start and can be closed later.
+ * It is not possible to reopen closed connection.
+ */
 class DatabasePostgresql implements DatabaseSqlInterface
 {
     private Connection $connection;
@@ -67,16 +74,6 @@ class DatabasePostgresql implements DatabaseSqlInterface
         }
     }
 
-    public function connectionStatus(): int
-    {
-        if ($this->isConnected === true) {
-            return pg_connection_status($this->connection);
-        } else {
-            throw new DatabaseException('PostgreSQL connection has already been closed');
-        }
-    }
-
-    /** @todo refactor - must check connection */
     public function isConnected(): bool
     {
         return $this->isConnected;
@@ -84,17 +81,20 @@ class DatabasePostgresql implements DatabaseSqlInterface
 
     public function queryParams(string $query, array $params): array
     {
-        if ($this->isConnected === false) {
-            throw new QueryException(
-                'Connection is closed. Query is not possible'
-            );
+        try {
+            $this->checkConnectionIsOk();
+        } catch (RuntimeException $e) {
+            throw new QueryException(sprintf(
+                '%s.%s',
+                $e->getMessage(),
+                'Query is not possible'
+            ));
         }
 
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_IDLE) {
             throw new QueryException('Could not send a query, connection is in transaction');
         }
-
         ob_start();
         $result = pg_query_params($this->connection, $query, $params);
         ob_end_clean();
@@ -110,10 +110,14 @@ class DatabasePostgresql implements DatabaseSqlInterface
     public function transactionStart(
         string $level = self::ISOLATION_LEVEL_READ_COMMITTED
     ): void {
-        if ($this->isConnected === false) {
-            throw new DatabaseTransactionException(
-                'Connection is closed. Transaction start is not possible'
-            );
+        try {
+            $this->checkConnectionIsOk();
+        } catch (RuntimeException $e) {
+            throw new DatabaseTransactionException(sprintf(
+                '%s.%s',
+                $e->getMessage(),
+                'Transaction start is not possible'
+            ));
         }
 
         $status = pg_transaction_status($this->connection);
@@ -137,11 +141,16 @@ class DatabasePostgresql implements DatabaseSqlInterface
 
     public function transactionEnd(): void
     {
-        if ($this->isConnected === false) {
-            throw new DatabaseTransactionException(
-                'Connection is closed. Transaction end is not possible'
-            );
+        try {
+            $this->checkConnectionIsOk();
+        } catch (RuntimeException $e) {
+            throw new DatabaseTransactionException(sprintf(
+                '%s.%s',
+                $e->getMessage(),
+                'Transaction end is not possible'
+            ));
         }
+
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
@@ -160,15 +169,19 @@ class DatabasePostgresql implements DatabaseSqlInterface
 
     public function transactionRollback(): void
     {
-        if ($this->isConnected === false) {
-            throw new DatabaseTransactionException(
-                'Connection is closed. Transaction rollback is not possible'
-            );
+        try {
+            $this->checkConnectionIsOk();
+        } catch (RuntimeException $e) {
+            throw new DatabaseTransactionException(sprintf(
+                '%s.%s',
+                $e->getMessage(),
+                'Transaction rollback is not possible'
+            ));
         }
 
-        ob_start();
-        $result = pg_query($this->connection, 'ROLLBACK');
-        ob_end_clean();
+         ob_start();
+         $result = pg_query($this->connection, 'ROLLBACK');
+         ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new DatabaseTransactionException(sprintf(
@@ -180,30 +193,42 @@ class DatabasePostgresql implements DatabaseSqlInterface
 
     public function transactionQueryParams(string $query, array $params): array
     {
-        if ($this->isConnected === false) {
-            throw new QueryException(
-                'Connection is closed. Transaction query is not possible'
-            );
+        try {
+            $this->checkConnectionIsOk();
+        } catch (RuntimeException $e) {
+            throw new QueryException(sprintf(
+                '%s.%s',
+                $e->getMessage(),
+                'Query is not possible'
+            ));
         }
 
         $status = pg_transaction_status($this->connection);
         if ($status !== PGSQL_TRANSACTION_INTRANS) {
             throw new DatabaseTransactionException('Transaction no idle in transaction block');
         }
-
         ob_start();
         $result = pg_query_params($this->connection, $query, $params);
         ob_end_clean();
-
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
-            throw new QueryException(sprintf(
-                'Query error: %s',
-                $errMsg
-            ));
+            throw new QueryException(sprintf('Query error: %s', $errMsg));
         }
         $arr = pg_fetch_all($result);
         pg_free_result($result);
         return $arr;
+    }
+
+    /** @throws RuntimeException */
+    protected function checkConnectionIsOk(): void
+    {
+        if ($this->isConnected === false) {
+            throw new RuntimeException('PostgreSQL connection has already been closed');
+        } else {
+            $status = pg_connection_status($this->connection);
+            if ($status !== PGSQL_CONNECTION_OK) {
+                throw new RuntimeException('PostgreSQL connection is bad');
+            }
+        }
     }
 }

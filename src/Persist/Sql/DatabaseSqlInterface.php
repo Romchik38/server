@@ -14,15 +14,6 @@ interface DatabaseSqlInterface
     public function close(): void;
 
     /**
-     * Must return
-     *  - PGSQL_CONNECTION_OK
-     *  - PGSQL_CONNECTION_BAD
-     *
-     * @throws DatabaseException - When connection was already closed.
-     * */
-    public function connectionStatus(): int;
-
-    /**
      * True  - connection is open
      * False - connection is closed
      */
@@ -31,7 +22,7 @@ interface DatabaseSqlInterface
     /**
      * @param array<int,int|string> $params
      * @throws QueryException
-     * @return array<array<string,string>>
+     * @return array<array<string,string|null>>
      * */
     public function queryParams(string $query, array $params): array;
 
@@ -56,7 +47,7 @@ interface DatabaseSqlInterface
      * @param array<int,int|string> $params
      * @throws DatabaseTransactionException
      * @throws QueryException
-     * @return array<array<string,string>>
+     * @return array<array<string,string|null>>
      * */
     public function transactionQueryParams(string $query, array $params): array;
 }

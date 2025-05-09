@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Integration\Models\Sql;
 
 use PHPUnit\Framework\TestCase;
-use Romchik38\Server\Persist\Sql\DatabaseException;
 use Romchik38\Server\Persist\Sql\DatabasePostgresql;
 use Romchik38\Server\Persist\Sql\DatabaseTransactionException;
 use Romchik38\Server\Persist\Sql\QueryException;
@@ -17,7 +16,6 @@ use function pg_query;
 use function sprintf;
 
 use const PGSQL_CONNECT_FORCE_NEW;
-use const PGSQL_CONNECTION_OK;
 
 final class DatabasePostgresqlTest extends TestCase
 {
@@ -26,62 +24,29 @@ final class DatabasePostgresqlTest extends TestCase
     protected function setUp(): void
     {
         $this->connectionParams = include __DIR__ . '/connection-params.php';
-        $connection             = pg_connect($this->connectionParams);
+        $connection             = pg_connect($this->connectionParams, PGSQL_CONNECT_FORCE_NEW);
         if ($connection === false) {
             $message = 'Looks like test postgresql database not works. Read docs/tests/database.md';
             throw new RuntimeException($message);
         } else {
             $products = include __DIR__ . '/Samples/product.php';
             pg_query($connection, 'DROP TABLE IF EXISTS products');
-            pg_query($connection, 'CREATE TABLE products (id serial primary key, name text)');
+            pg_query($connection, 'CREATE TABLE products (id serial primary key, name text, price float)');
             foreach ($products as $product) {
+                $name = $product[1];
+                if ($name === null) {
+                    $namePh = 'NULL';
+                } else {
+                    $namePh = sprintf('\'%s\'', $name);
+                }
                 pg_query($connection, sprintf(
-                    'INSERT INTO products (id, name) values (\'%s\', \'%s\')',
+                    'INSERT INTO products (id, name) values (\'%s\', %s)',
                     $product[0],
-                    $product[1]
+                    $namePh
                 ));
             }
             pg_close($connection);
         }
-    }
-
-    public function testConnectionSuccess(): void
-    {
-        $database         = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $connectionStatus = $database->connectionStatus();
-        $this->assertSame(PGSQL_CONNECTION_OK, $connectionStatus);
-    }
-
-    public function testConnectionThrowsError(): void
-    {
-        $this->expectException(DatabaseException::class);
-        @new DatabasePostgresql('not exist');
-    }
-
-    public function testConnectionStatus(): void
-    {
-        $database         = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $connectionStatus = $database->connectionStatus();
-        $this->assertSame(PGSQL_CONNECTION_OK, $connectionStatus);
-        $database->close();
-    }
-
-    public function testConnectionStatusThrowsError(): void
-    {
-        $database = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $database->close();
-        $this->expectException(DatabaseException::class);
-        $database->connectionStatus();
-        $database->close();
     }
 
     public function testIsConnected(): void
@@ -287,5 +252,17 @@ final class DatabasePostgresqlTest extends TestCase
         $this->expectException(QueryException::class);
         @$database->transactionQueryParams('Wrong query', []);
         $database->close();
+    }
+
+    public function testQueryParamsReturnArrayWithNull(): void
+    {
+        $database = new DatabasePostgresql(
+            $this->connectionParams,
+            PGSQL_CONNECT_FORCE_NEW
+        );
+        $query    = 'SELECT name, price from products WHERE id = $1';
+        $params   = [4];
+        $rows     = $database->queryParams($query, $params);
+        $this->assertSame(null, $rows[0]['name']);
     }
 }

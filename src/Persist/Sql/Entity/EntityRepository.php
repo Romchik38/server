@@ -258,8 +258,8 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * create an entity from row
      *
-     * @param array<string,string> $entityRow
-     * @param array<int,array<string,string>> $fieldsRow
+     * @param array<string,string|null> $entityRow
+     * @param array<int,array<string,string|null>> $fieldsRow
      */
     protected function createFromRow(
         array $entityRow,
@@ -284,7 +284,7 @@ class EntityRepository implements EntityRepositoryInterface
      *
      * @param array<string,string> $fields [field_name => field_value, ...]
      * @throws CouldNotAddException
-     * @return array<array<string,string>>
+     * @return array<array<string,string|null>>
      */
     protected function insertFields(array $fields, int $entityId): array
     {
@@ -327,7 +327,7 @@ class EntityRepository implements EntityRepositoryInterface
     /**
      * create entities by given array with entity id
      *
-     * @param array<array<string,string>> $arr [array of raw entites got from entity primary table]
+     * @param array<array<string,string|null>> $arr [array of raw entites got from entity primary table]
      * @return EntityModelInterface[] [array of entites]
      */
     protected function selectFields(array $arr): array

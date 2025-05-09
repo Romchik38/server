@@ -118,7 +118,7 @@ class Repository implements RepositoryInterface
     /**
      *  Create an entity from provided row
      *
-     * @param array<string,string> $row
+     * @param array<string,string|null> $row
      */
     protected function createFromRow(array $row): ModelInterface
     {

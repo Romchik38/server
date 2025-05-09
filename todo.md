@@ -2,9 +2,6 @@
 
 ## Current
 
-- `DatabasePostgresql` functions `queryParams` and `transactionQueryParams` can return `null`
-- `DatabasePostgresql` functions `queryParams` return  associatively array only
-
 - VO
   - id in
   - id string

@@ -9,6 +9,11 @@
 [see todo](./todo.md)
 
 - [n] `OrderBy` to create sql SearchCriteria
+- `DatabasePostgresql`
+  - [f!] functions `queryParams` and `transactionQueryParams` can return `null`
+  - refactor methods behavior
+    - check connection is opened and is ok
+    - `queryParams` does not throw DatabaseExcaption
 
 ## v1.19.0
 
