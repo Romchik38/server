@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+## v1.19.1
+
 - [n] `OrderBy` to create sql SearchCriteria
 - `DatabasePostgresql`
   - [f!] functions `queryParams` and `transactionQueryParams` can return `null`
