@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Routers;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 use function sprintf;
 use function str_starts_with;
@@ -53,12 +54,10 @@ trait RouterTrait
      /**
       * set the result to 404 - Not Found
       */
-    protected function pageNotFound(): ResponseInterface
+    protected function pageNotFound(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->execute([
-                HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME,
-            ]);
+            $response = $this->notFoundController->handle($request);
             $response = $response->withStatus(404);
         } else {
             $response = $this->responseFactory->createResponse(404);

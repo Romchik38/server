@@ -249,8 +249,8 @@ class DynamicRootRouterTest extends TestCase
 
         $controllersCollection->method('getController')->willReturn($controller);
 
-        $controller->expects($this->once())->method('execute')
-            ->with([ControllerInterface::ROOT_NAME, 'products'])->willReturn($response);
+        $controller->expects($this->once())->method('handle')
+            ->with($request)->willReturn($response);
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
@@ -295,7 +295,7 @@ class DynamicRootRouterTest extends TestCase
 
         $controllersCollection->method('getController')->willReturn($controller);
 
-        $controller->method('execute')->willThrowException(new NotFoundException('not found'));
+        $controller->method('handle')->willThrowException(new NotFoundException('not found'));
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
@@ -347,9 +347,9 @@ class DynamicRootRouterTest extends TestCase
 
         $controllersCollection->method('getController')->willReturn($controller);
 
-        $controller->method('execute')->willThrowException(new NotFoundException('not found'));
+        $controller->method('handle')->willThrowException(new NotFoundException('not found'));
 
-        $notFoundController->expects($this->once())->method('execute')
+        $notFoundController->expects($this->once())->method('handle')
             ->with($this->callback(function ($param) {
                 if ([HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME] === $param) {
                     return true;

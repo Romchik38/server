@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Controller;
 
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTOInterface;
 use Romchik38\Server\Http\Controller\Errors\CantCreateControllerChainException;
 use Romchik38\Server\Http\Controller\Errors\ControllerLogicException;
 use Romchik38\Server\Http\Controller\Errors\NoSuchControllerException;
-use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Http\Controller\Middleware\ResponseMiddlewareInterface;
 
-interface ControllerInterface
+interface ControllerInterface extends RequestHandlerInterface
 {
+    public const REQUEST_ELEMENTS_NAME   = 'elements';
     public const ROOT_NAME               = 'root';
     public const NOT_FOUND_ERROR_MESSAGE = 'Requested url was not found on the server. Please check it and try again.';
     public const PATH_SEPARATOR          = '<>';
@@ -34,15 +34,6 @@ interface ControllerInterface
      * add parrent to this controller
      */
     public function addParent(ControllerInterface $parent): void;
-
-    /**
-     * transfers control to next controller
-     *
-     * @param array<int,string> $elements - Chain path ['controller_name', 'or_action_name']
-     * @throws ControllerLogicException - On empty $elements.
-     * @throws NotFoundException
-     * */
-    public function execute(array $elements): ResponseInterface;
 
     /**
      * can controller be shown to user in the controllerTree

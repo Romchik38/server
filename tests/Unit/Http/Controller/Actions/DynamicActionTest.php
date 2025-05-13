@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Http\Controller\Actions;
 
 use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
+use Romchik38\Server\Http\Controller\Actions\ActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
@@ -20,16 +24,24 @@ class DynamicActionTest extends TestCase
 {
     public function testExecute()
     {
+        $uri     = new Uri('http://example.com/about');
+        $request = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ActionInterface::TYPE_DYNAMIC_ACTION, 'about');
+
         $action   = $this->createAction();
-        $response = $action->execute('about');
+        $response = $action->handle($request);
         $this->assertSame('<h1>About</h1>', (string) $response->getBody());
     }
 
     public function testExecuteThrowsNotFound(): void
     {
+        $uri     = new Uri('http://example.com/contacts');
+        $request = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ActionInterface::TYPE_DYNAMIC_ACTION, 'contacts');
+
         $action = $this->createAction();
         $this->expectException(ActionNotFoundException::class);
-        $action->execute('contacts');
+        $action->handle($request);
     }
 
     public function testGetDynamicRoutes(): void
@@ -51,9 +63,10 @@ class DynamicActionTest extends TestCase
     {
         return new class extends AbstractAction implements DynamicActionInterface {
             protected const DATA = ['about' => 'About'];
-            public function execute(string $dynamicRoute): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
-                $result = $this::DATA[$dynamicRoute] ?? null;
+                $dynamicRoute = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
+                $result       = $this::DATA[$dynamicRoute] ?? null;
                 if ($result === null) {
                     throw new ActionNotFoundException(
                         sprintf(

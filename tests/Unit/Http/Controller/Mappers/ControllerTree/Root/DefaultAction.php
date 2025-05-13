@@ -6,6 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Roo
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 
@@ -16,7 +17,7 @@ final class DefaultAction extends AbstractAction implements DefaultActionInterfa
         'description' => 'Home page',
     ];
 
-    public function execute(): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $response = new Response();
         $body     = $response->getBody();

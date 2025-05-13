@@ -6,6 +6,7 @@ namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree\Cat
 
 use Laminas\Diactoros\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
@@ -30,8 +31,9 @@ final class DynamicAction extends AbstractAction implements DynamicActionInterfa
     protected const DESCRIPTION_INDEX = 0;
     protected const RESPONSE_INDEX    = 1;
 
-    public function execute(string $dynamicRoute): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $dynamicRoute = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
         $arr = $this->data[$dynamicRoute] ?? null;
         if ($arr === null) {
             throw new ActionNotFoundException(

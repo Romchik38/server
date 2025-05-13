@@ -6,12 +6,16 @@ namespace Romchik38\Server\Tests\Unit\Http\Controller;
 
 use InvalidArgumentException;
 use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Dto\DynamicRouteDTO;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
 use Romchik38\Server\Http\Controller\Errors\CantCreateControllerChainException;
@@ -49,7 +53,7 @@ final class ControllerTest extends TestCase
     public function testGetDescriptionDefaultAction(): void
     {
         $action     = new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -74,7 +78,7 @@ final class ControllerTest extends TestCase
     public function testGetDescriptionDynamicAction(): void
     {
         $action     = new class extends AbstractAction implements DynamicActionInterface {
-            public function execute(string $dynamicRoute): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -111,7 +115,7 @@ final class ControllerTest extends TestCase
     public function testGetDescriptionSetBoth(): void
     {
         $defaultAction = new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -126,7 +130,7 @@ final class ControllerTest extends TestCase
         };
 
         $dynamicAction = new class extends AbstractAction implements DynamicActionInterface {
-            public function execute(string $dynamicRoute): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -235,7 +239,7 @@ final class ControllerTest extends TestCase
     public function testGetCurrentParent(): void
     {
         $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -267,7 +271,12 @@ final class ControllerTest extends TestCase
         $root->setChild($products)->setChild($catalog);
         $products->setChild($reviews);
 
-        $root->execute(['root', 'products', 'reviews']);
+        $elements = ['root', 'products', 'reviews'];
+        $uri      = new Uri('http://example.com/products/reviews');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $root->handle($request);
 
         $this->assertSame($products, $reviews->getCurrentParent());
         $this->assertSame(null, $root->getCurrentParent());
@@ -276,8 +285,9 @@ final class ControllerTest extends TestCase
     public function testGetDynamicRoutes(): void
     {
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
-            public function execute(string $route): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
+                $route = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
                 if ($route !== 'about') {
                     throw new ActionNotFoundException('Not found');
                 }
@@ -319,7 +329,7 @@ final class ControllerTest extends TestCase
     public function testGetFullPathDefaultRoute(): void
     {
         $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -334,8 +344,9 @@ final class ControllerTest extends TestCase
         };
 
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
-            public function execute(string $route): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
+                $route = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
                 if ($route !== 'about') {
                     throw new ActionNotFoundException('Not found');
                 }
@@ -382,7 +393,12 @@ final class ControllerTest extends TestCase
         $root->setChild($products)->setChild($catalog);
         $products->setChild($reviews);
 
-        $root->execute(['root', 'products', 'reviews']);
+        $elements = ['root', 'products', 'reviews'];
+        $uri      = new Uri('http://example.com/products/reviews');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $root->handle($request);
 
         // $this->assertSame(['root', 'about'], $root->getFullPath('about'));
         $fullPath = $reviews->getFullPath();
@@ -392,7 +408,7 @@ final class ControllerTest extends TestCase
     public function testGetFullPathDynamicRoute()
     {
         $reviewsDefaultAction = new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -407,8 +423,9 @@ final class ControllerTest extends TestCase
         };
 
         $rootDynamicAction = new class extends AbstractAction implements DynamicActionInterface {
-            public function execute(string $route): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
+                $route = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
                 if ($route !== 'about') {
                     throw new ActionNotFoundException('Not found');
                 }
@@ -455,7 +472,12 @@ final class ControllerTest extends TestCase
         $root->setChild($products)->setChild($catalog);
         $products->setChild($reviews);
 
-        $root->execute(['root', 'products', 'reviews']);
+        $elements = ['root', 'products', 'reviews'];
+        $uri      = new Uri('http://example.com/products/reviews');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $root->handle($request);
         $this->assertSame(['root', 'about'], $root->getFullPath('about'));
     }
 

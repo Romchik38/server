@@ -6,6 +6,8 @@ namespace Romchik38\Server\Http\Controller;
 
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Romchik38\Server\Http\Controller\Actions\ActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
@@ -21,6 +23,7 @@ use function array_push;
 use function array_shift;
 use function array_unshift;
 use function count;
+use function is_array;
 use function sprintf;
 use function strlen;
 
@@ -112,8 +115,18 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    public function execute(array $elements): ResponseInterface
+    /* transfers control to next controller
+     *
+     * @param array<int,string> $elements - Chain path ['controller_name', 'or_action_name']
+     * @throws ControllerLogicException - On empty $elements.
+     * @throws NotFoundException
+     * */
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $elements = $request->getAttribute(self::REQUEST_ELEMENTS_NAME);
+        if (! is_array($elements)) {
+            throw new ControllerLogicException('Controller error: param elements is invalid');
+        }
         if (count($elements) === 0) {
             throw new ControllerLogicException('Controller error: path not found');
         }
@@ -127,10 +140,9 @@ class Controller implements ControllerInterface
             }
             if (count($elements) === 0) {
                 // execute this default action
-                $fullPath = $this->getFullPath();
                 if ($this->action !== null) {
                     try {
-                        $response = $this->action->execute();
+                        $response = $this->action->handle($request);
                         // execute response middlewares
                         return $this->executeResponseMiddlewares($response);
                     } catch (ActionNotFoundException) {
@@ -147,7 +159,8 @@ class Controller implements ControllerInterface
                 try {
                     $nextController = $this->getChild($nextRoute);
                     $nextController->setCurrentParent($this);
-                    $nextControllerResult = $nextController->execute($elements);
+                    $nextRequest          = $request->withAttribute(self::REQUEST_ELEMENTS_NAME, $elements);
+                    $nextControllerResult = $nextController->handle($nextRequest);
                     // execute response middlewares
                     return $this->executeResponseMiddlewares($nextControllerResult);
                 } catch (NoSuchControllerException $e) {
@@ -159,10 +172,11 @@ class Controller implements ControllerInterface
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                         }
                         try {
-                            $response = $this->dynamicAction->execute($nextRoute);
+                            $dynamicRequest = $request->withAttribute(ActionInterface::TYPE_DYNAMIC_ACTION, $nextRoute);
+                            $response       = $this->dynamicAction->handle($dynamicRequest);
                             // execute response middlewares
                             return $this->executeResponseMiddlewares($response);
-                        } catch (ActionNotFoundException $e) {
+                        } catch (ActionNotFoundException) {
                             //  1.2.1.2.1 - throw NotFoundException
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                         }

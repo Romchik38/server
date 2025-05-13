@@ -6,6 +6,8 @@ namespace Romchik38\Server\Tests\Unit\Http\Controller\Actions;
 
 use Laminas\Diactoros\Response;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\ActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
@@ -43,7 +45,7 @@ class ActionTest extends TestCase
     protected function createAction(): ActionInterface
     {
         return new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): Response
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();

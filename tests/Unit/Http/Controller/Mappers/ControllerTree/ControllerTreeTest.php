@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Tests\Unit\Http\Controller\Mappers\ControllerTree;
 
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
@@ -57,7 +59,10 @@ final class ControllerTreeTest extends TestCase
     {
         /** @var ControllerInterface $root */
         $root     = (include_once __DIR__ . '/bootstrap2.php')();
-        $response = $root->execute(['root', 'sitemap']);
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, ['root', 'sitemap']);
+        $response = $root->handle($request);
 
         $expected = file_get_contents(__DIR__ . '/jsonstring');
         $this->assertSame(
@@ -70,7 +75,12 @@ final class ControllerTreeTest extends TestCase
     {
         /** @var ControllerInterface $root */
         $root     = (include_once __DIR__ . '/bootstrap3.php')();
-        $response = $root->execute(['root', 'catalog', 'product-1']);
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, ['root', 'catalog', 'product-1']);
+        $response = $root->handle($request);
+
+        $response = $root->handle($request);
 
         $expected = file_get_contents(__DIR__ . '/jsonstring2');
 

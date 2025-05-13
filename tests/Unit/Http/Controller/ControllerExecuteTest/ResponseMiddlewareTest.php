@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Http\Controller\ControllerExecuteTest;
 
 use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\AbstractAction;
 use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 use Romchik38\Server\Http\Controller\Actions\DynamicActionInterface;
 use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Errors\ActionNotFoundException;
 use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
 use Romchik38\Server\Http\Controller\Middleware\ResponseMiddlewareInterface;
@@ -43,7 +47,12 @@ final class ResponseMiddlewareTest extends TestCase
 
         $root->addResponseMiddleware($middleware);
 
-        $response = $root->execute(['root']);
+        $elements = ['root'];
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $response = $root->handle($request);
         $this->assertSame('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
@@ -81,7 +90,12 @@ final class ResponseMiddlewareTest extends TestCase
             ->addResponseMiddleware($middleware1)
             ->addResponseMiddleware($middleware2);
 
-        $response = $root->execute(['root']);
+        $elements = ['root'];
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $response = $root->handle($request);
         $this->assertSame('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertSame('max-age=600', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
@@ -116,7 +130,13 @@ final class ResponseMiddlewareTest extends TestCase
             ->setChild($homePage)
             ->addResponseMiddleware($middleware);
 
-        $response = $root->execute(['root', 'homepage']);
+        $elements = ['root', 'homepage'];
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $response = $root->handle($request);
+
         $this->assertSame('max-age=6001', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('<h1>Home page<h1>', (string) $response->getBody());
     }
@@ -145,7 +165,13 @@ final class ResponseMiddlewareTest extends TestCase
 
         $root->addResponseMiddleware($middleware);
 
-        $response = $root->execute(['root', 'about']);
+        $elements = ['root', 'about'];
+        $uri      = new Uri('http://example.com');
+        $request  = new ServerRequest([], [], $uri, 'GET')
+        ->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+
+        $response = $root->handle($request);
+
         $this->assertSame('no-cache', $response->getHeaderLine('Cache-Control'));
         $this->assertSame('Response from About', (string) $response->getBody());
     }
@@ -153,7 +179,7 @@ final class ResponseMiddlewareTest extends TestCase
     private function createDefaultAction(): DefaultActionInterface
     {
         return new class extends AbstractAction implements DefaultActionInterface {
-            public function execute(): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $response = new Response();
                 $body     = $response->getBody();
@@ -177,8 +203,9 @@ final class ResponseMiddlewareTest extends TestCase
                 'about' => 'About',
             ];
 
-            public function execute(string $route): ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
+                $route = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
                 $route = $this->routes[$route] ?? null;
                 if ($route === null) {
                     throw new ActionNotFoundException(
