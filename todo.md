@@ -2,6 +2,15 @@
 
 ## Current
 
+- controller
+  - interface
+  - class
+
+- controller and action use the Request
+  - controller
+  - action
+  - router
+
 - VO
   - id in
   - id string
