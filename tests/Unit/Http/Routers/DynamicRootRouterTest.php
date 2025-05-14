@@ -45,12 +45,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame('http://example.com/en', $response->getHeaderLine('Location'));
         $this->assertSame(301, $response->getStatusCode());
     }
@@ -78,12 +77,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame(
             'http://example.com/en/products',
             $response->getHeaderLine('Location')
@@ -117,12 +115,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame('GET', $response->getHeaderLine('Allow'));
         $this->assertSame('Method Not Allowed', (string) $response->getBody());
     }
@@ -157,14 +154,13 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection,
             null,
             $redirectService
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame(
             'http://example.com/en/newproducts',
             $response->getHeaderLine('Location')
@@ -205,12 +201,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $router->execute();
+        $router->handle($request);
     }
 
     /**
@@ -253,12 +248,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('Product #1', (string) $response->getBody());
     }
@@ -298,12 +292,11 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame(
             HttpRouterInterface::NOT_FOUND_MESSAGE,
             (string) $response->getBody()
@@ -353,13 +346,12 @@ class DynamicRootRouterTest extends TestCase
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
-            $request,
             $dynamicRootService,
             $controllersCollection,
             $notFoundController
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
         $this->assertSame(
             '<h1>Page not found</h1>',
             (string) $response->getBody()

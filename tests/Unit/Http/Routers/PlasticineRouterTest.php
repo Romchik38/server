@@ -41,10 +41,9 @@ final class PlasticineRouterTest extends TestCase
         $router = new PlasticineRouter(
             new ResponseFactory(),
             $controllerCollection,
-            $request
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
 
         $headers = $response->getHeaders();
         $this->assertSame(1, count($headers));
@@ -79,12 +78,11 @@ final class PlasticineRouterTest extends TestCase
         $router = new PlasticineRouter(
             new ResponseFactory(),
             $controllerCollection,
-            $request,
             null,
             $redirectService
         );
 
-        $response = $router->execute();
+        $response = $router->handle($request);
 
         $this->assertSame($redirectLocation, $response->getHeaderLine('Location'));
         $this->assertSame($redirectStatusCode, $response->getStatusCode());
@@ -111,10 +109,9 @@ final class PlasticineRouterTest extends TestCase
         $router = new PlasticineRouter(
             new ResponseFactory(),
             $controllerCollection,
-            $request
         );
 
-        $response   = $router->execute();
+        $response   = $router->handle($request);
         $statusCode = $response->getStatusCode();
 
         $this->assertSame('hello world', (string) $response->getBody());

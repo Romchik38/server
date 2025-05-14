@@ -7,6 +7,7 @@ namespace Romchik38\Server\Http\Routers;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
@@ -20,13 +21,12 @@ use function array_shift;
 use function count;
 use function explode;
 
-class DynamicRootRouter implements HttpRouterInterface
+class DynamicRootRouter implements HttpRouterInterface, RequestHandlerInterface
 {
     use RouterTrait;
 
     public function __construct(
         protected ResponseFactoryInterface $responseFactory,
-        protected ServerRequestInterface $request,
         protected DynamicRootInterface $dynamicRootService,
         protected ControllersCollectionInterface $controllersCollection,
         protected ControllerInterface | null $notFoundController = null,
@@ -34,13 +34,13 @@ class DynamicRootRouter implements HttpRouterInterface
     ) {
     }
 
-    public function execute(): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         // 0. define
-        $uri       = $this->request->getUri();
+        $uri       = $request->getUri();
         $scheme    = $uri->getScheme();
         $authority = $uri->getAuthority();
-        $method    = $this->request->getMethod();
+        $method    = $request->getMethod();
         $path      = $uri->getPath();
         [$url]     = explode('?', $path);
 
@@ -122,11 +122,11 @@ class DynamicRootRouter implements HttpRouterInterface
 
         try {
             // 9. Exec
-            $request = $this->request->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+            $request = $request->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
             return $controller->handle($request);
         } catch (NotFoundException) {
             // 11. Show page not found
-            return $this->pageNotFound($this->request);
+            return $this->pageNotFound($request);
         }
     }
 

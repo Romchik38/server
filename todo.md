@@ -2,6 +2,15 @@
 
 ## Current
 
+- routers
+  - `HttpRouterInterface` removed method execute
+  - `PlasticineRouter`
+    - method `execute` renamed to `handle` with `request` param
+    - removed `ServerRequestInterface` property
+  - `DynamicRootRouter`
+    - method `execute` renamed to `handle` with `request` param
+    - removed `ServerRequestInterface` property
+
 - server
   - `ServerInterface` deprecated
   - `run` method renamed to `handle` with `request` param
@@ -10,13 +19,7 @@
   - changed property `$router` from `HttpRouterInterface` to `RequestHandlerInterface`
 
 - controller
-  - interface
-  - class
-
-- controller and action use the Request
-  - controller
-  - action
-  - router
+  - method `execute` changed to `handle` with `request` param
 
 - HandlerRouter
   - main router

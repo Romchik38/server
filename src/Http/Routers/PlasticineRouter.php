@@ -7,6 +7,7 @@ namespace Romchik38\Server\Http\Routers;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
@@ -16,23 +17,22 @@ use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTOInterface;
 use function count;
 use function explode;
 
-class PlasticineRouter implements HttpRouterInterface
+class PlasticineRouter implements HttpRouterInterface, RequestHandlerInterface
 {
     use RouterTrait;
 
     public function __construct(
         protected ResponseFactoryInterface $responseFactory,
         protected readonly ControllersCollectionInterface $controllersCollection,
-        protected readonly ServerRequestInterface $request,
         protected readonly ControllerInterface | null $notFoundController = null,
         protected readonly RedirectInterface|null $redirectService = null
     ) {
     }
 
-    public function execute(): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $uri    = $this->request->getUri();
-        $method = $this->request->getMethod();
+        $uri    = $request->getUri();
+        $method = $request->getMethod();
         $host   = $uri->getHost();
         $scheme = $uri->getScheme();
         $path   = $uri->getPath();
@@ -72,10 +72,10 @@ class PlasticineRouter implements HttpRouterInterface
 
         // 4. Exec
         try {
-            $request = $this->request->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
+            $request = $request->withAttribute(ControllerInterface::REQUEST_ELEMENTS_NAME, $elements);
             return $rootController->handle($request);
         } catch (NotFoundException) {
-            return $this->pageNotFound($this->request);
+            return $this->pageNotFound($request);
         }
     }
 
