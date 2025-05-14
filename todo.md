@@ -2,25 +2,6 @@
 
 ## Current
 
-- routers
-  - `HttpRouterInterface` removed method execute
-  - `PlasticineRouter`
-    - method `execute` renamed to `handle` with `request` param
-    - removed `ServerRequestInterface` property
-  - `DynamicRootRouter`
-    - method `execute` renamed to `handle` with `request` param
-    - removed `ServerRequestInterface` property
-
-- server
-  - `ServerInterface` deprecated
-  - `run` method renamed to `handle` with `request` param
-  - changed property `serverErrorController` to `RequestHandlerInterface`
-  - server now uses `RequestHandlerInterface` to gracefully work with error
-  - changed property `$router` from `HttpRouterInterface` to `RequestHandlerInterface`
-
-- controller
-  - method `execute` changed to `handle` with `request` param
-
 - HandlerRouter
   - main router
   - redirect handler
