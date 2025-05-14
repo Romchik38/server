@@ -2,6 +2,8 @@
 
 ## Current
 
+- controller `Name` - add throw to doc block
+
 - HandlerRouter
   - main router
   - redirect handler
