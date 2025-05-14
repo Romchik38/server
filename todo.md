@@ -2,15 +2,12 @@
 
 ## Current
 
-- middlewares use `RequestHandlerInterface`
-
 - HandlerRouter
   - main router
   - redirect handler
   - dynamic root handler
   - controller handler
   - not found handler
-  - handlers, controller and action uses a Request and returns a Response
 
 - VO
   - id in

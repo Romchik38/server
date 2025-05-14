@@ -134,7 +134,7 @@ class Controller implements ControllerInterface
         $route = array_shift($elements);
         if ($route === $this->name) {
             // excute request middlewares
-            $requestMiddlewareResult = $this->executeRequestMiddlewares();
+            $requestMiddlewareResult = $this->executeRequestMiddlewares($request);
             if ($requestMiddlewareResult !== null) {
                 return $requestMiddlewareResult;
             }
@@ -308,10 +308,10 @@ class Controller implements ControllerInterface
         $this->currentParent = $currentParent;
     }
 
-    private function executeRequestMiddlewares(): ?ResponseInterface
+    private function executeRequestMiddlewares(ServerRequestInterface $request): ?ResponseInterface
     {
         foreach ($this->requestMiddlewares as $middleware) {
-            $result = $middleware();
+            $result = $middleware($request);
             if ($result !== null) {
                 return $result;
             }

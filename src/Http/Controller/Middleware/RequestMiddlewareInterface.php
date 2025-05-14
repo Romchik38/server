@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Controller\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface RequestMiddlewareInterface
 {
@@ -15,5 +16,5 @@ interface RequestMiddlewareInterface
      *      OR
      *   - continue execution and return null
      */
-    public function __invoke(): ?ResponseInterface;
+    public function __invoke(ServerRequestInterface $request): ?ResponseInterface;
 }

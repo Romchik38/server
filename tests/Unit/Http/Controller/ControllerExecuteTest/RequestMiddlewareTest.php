@@ -25,7 +25,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $middleware = new class implements RequestMiddlewareInterface
         {
-            public function __invoke(): ?ResponseInterface
+            public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
                 return null;
             }
@@ -54,7 +54,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $middleware = new class implements RequestMiddlewareInterface
         {
-            public function __invoke(): ?ResponseInterface
+            public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
                 return new HtmlResponse('from middleware');
             }
@@ -83,7 +83,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $middleware1 = new class implements RequestMiddlewareInterface
         {
-            public function __invoke(): ?ResponseInterface
+            public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
                 return null;
             }
@@ -91,7 +91,7 @@ final class RequestMiddlewareTest extends TestCase
 
         $middleware2 = new class implements RequestMiddlewareInterface
         {
-            public function __invoke(): ?ResponseInterface
+            public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
                 return new HtmlResponse('from middleware2');
             }

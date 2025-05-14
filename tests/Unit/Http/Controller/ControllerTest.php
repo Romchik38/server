@@ -520,7 +520,7 @@ final class ControllerTest extends TestCase
         $root       = new Controller('root');
         $middleware = new class implements RequestMiddlewareInterface
         {
-            public function __invoke(): ?ResponseInterface
+            public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
                 return null;
             }

@@ -8,6 +8,10 @@
 
 [see todo](./todo.md)
 
+## v.1.21.0
+
+- [!]`RequestMiddlewareInterface` method `__invoke` takes a `request` as a param
+
 ## v1.20.0
 
 - [!] routers
