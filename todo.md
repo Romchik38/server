@@ -2,6 +2,13 @@
 
 ## Current
 
+- server
+  - `ServerInterface` deprecated
+  - `run` method renamed to `handle` with `request` param
+  - changed property `serverErrorController` to `RequestHandlerInterface`
+  - server now uses `RequestHandlerInterface` to gracefully work with error
+  - changed property `$router` from `HttpRouterInterface` to `RequestHandlerInterface`
+
 - controller
   - interface
   - class
@@ -11,6 +18,14 @@
   - action
   - router
 
+- HandlerRouter
+  - main router
+  - redirect handler
+  - dynamic root handler
+  - controller handler
+  - not found handler
+  - handlers, controller and action uses a Request and returns a Response
+
 - VO
   - id in
   - id string
@@ -19,14 +34,6 @@
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
-
-- HandlerRouter
-  - main router
-  - redirect handler
-  - dynamic root handler
-  - controller handler
-  - not found handler
-  - handlers, controller and action uses a Request and returns a Response
 
 ## Next
 

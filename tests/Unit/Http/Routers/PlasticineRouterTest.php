@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Http\Routers;
 
 use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -103,11 +105,8 @@ final class PlasticineRouterTest extends TestCase
             HttpRouterInterface::REQUEST_METHOD_GET
         );
 
-        $uri = $this->createMock(UriInterface::class);
-        $uri->method('getPath')->willReturn('/');
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getUri')->willReturn($uri);
-        $request->method('getMethod')->willReturn('GET');
+        $uri     = new Uri('http://example.com');
+        $request = new ServerRequest([], [], $uri, 'GET');
 
         $router = new PlasticineRouter(
             new ResponseFactory(),

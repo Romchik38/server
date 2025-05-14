@@ -115,9 +115,9 @@ class Controller implements ControllerInterface
         $this->parents[] = $parent;
     }
 
-    /* transfers control to next controller
+    /**
+     * Transfers control to next controller
      *
-     * @param array<int,string> $elements - Chain path ['controller_name', 'or_action_name']
      * @throws ControllerLogicException - On empty $elements.
      * @throws NotFoundException
      * */

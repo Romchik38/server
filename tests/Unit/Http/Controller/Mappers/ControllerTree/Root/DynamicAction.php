@@ -27,7 +27,7 @@ final class DynamicAction extends AbstractAction implements DynamicActionInterfa
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $dynamicRoute = $request->getAttribute(self::TYPE_DYNAMIC_ACTION);
-        $arr = $this->data[$dynamicRoute] ?? null;
+        $arr          = $this->data[$dynamicRoute] ?? null;
         if ($arr === null) {
             throw new ActionNotFoundException(
                 sprintf('route %s not found', $dynamicRoute)

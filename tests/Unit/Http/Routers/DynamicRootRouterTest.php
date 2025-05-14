@@ -10,7 +10,6 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;
-use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\ControllersCollection;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Routers\DynamicRootRouter;
@@ -250,7 +249,7 @@ class DynamicRootRouterTest extends TestCase
         $controllersCollection->method('getController')->willReturn($controller);
 
         $controller->expects($this->once())->method('handle')
-            ->with($request)->willReturn($response);
+            ->willReturn($response);
 
         $router = new DynamicRootRouter(
             new ResponseFactory(),
@@ -350,13 +349,6 @@ class DynamicRootRouterTest extends TestCase
         $controller->method('handle')->willThrowException(new NotFoundException('not found'));
 
         $notFoundController->expects($this->once())->method('handle')
-            ->with($this->callback(function ($param) {
-                if ([HttpRouterInterface::NOT_FOUND_CONTROLLER_NAME] === $param) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }))
             ->willReturn($response);
 
         $router = new DynamicRootRouter(

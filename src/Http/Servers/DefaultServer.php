@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Servers;
 
 use Exception;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use Romchik38\Server\Http\Controller\ControllerInterface;
-use Romchik38\Server\Http\Routers\HttpRouterInterface;
 
 use function header;
 use function http_response_code;
@@ -17,16 +17,16 @@ use function sprintf;
 class DefaultServer implements HttpServerInterface
 {
     public function __construct(
-        protected HttpRouterInterface $router,
-        protected ControllerInterface $serverErrorController,
+        protected RequestHandlerInterface $router,
+        protected RequestHandlerInterface $serverErrorController,
         protected LoggerInterface|null $logger = null
     ) {
     }
 
-    public function run(): DefaultServer
+    public function handle(ServerRequestInterface $request): void
     {
         try {
-            $response   = $this->router->execute();
+            $response   = $this->router->handle($request);
             $headers    = $response->getHeaders();
             $statusCode = $response->getStatusCode();
 
@@ -42,24 +42,21 @@ class DefaultServer implements HttpServerInterface
                 $this->logger->error($e->getMessage());
             }
             http_response_code($this::DEFAULT_SERVER_ERROR_CODE);
-            // try to show the page
+            // try to handle the error
             try {
-                $responseServerError = $this->serverErrorController
-                    ->execute([$this::SERVER_ERROR_CONTROLLER_NAME]);
-
+                $errorRequest        = $request->withAttribute(self::REQUEST_ERROR_ATTRIBUTE_NAME, $e);
+                $responseServerError = $this->serverErrorController->handle($errorRequest);
                 $this->sendHeaders($responseServerError->getHeaders());
                 echo (string) $responseServerError->getBody();
             } catch (Exception $e) {
                 // log error from server error controller
                 if ($this->logger) {
-                    $this->logger->error($e->getMessage());
+                    $this->logger->error('Server error controller throws an error: ' . $e->getMessage());
                 }
                 // show only a message
                 echo $this::DEFAULT_SERVER_ERROR_MESSAGE;
             }
         }
-
-        return $this;
     }
 
     /** @param array<string, array<int, string>> $headers */

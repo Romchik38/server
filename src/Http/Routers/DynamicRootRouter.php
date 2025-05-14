@@ -39,7 +39,6 @@ class DynamicRootRouter implements HttpRouterInterface
         // 0. define
         $uri       = $this->request->getUri();
         $scheme    = $uri->getScheme();
-        $host      = $uri->getHost();
         $authority = $uri->getAuthority();
         $method    = $this->request->getMethod();
         $path      = $uri->getPath();
