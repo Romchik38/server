@@ -2,6 +2,8 @@
 
 ## Current
 
+- middlewares use `RequestHandlerInterface`
+
 - HandlerRouter
   - main router
   - redirect handler
