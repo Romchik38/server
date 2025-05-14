@@ -13,6 +13,7 @@ class Name
 {
     public const PATTERN = '/^[a-zA-Z0-9$\-_.+!*\'(),%]+$/';
 
+    /** @throws InvalidArgumentException */
     public function __construct(
         private readonly string $name
     ) {
