@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Utils\Urlbuilder;
 
 use InvalidArgumentException;
-use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Path;
 use Romchik38\Server\Http\Controller\PathInterface;
 
@@ -22,13 +21,16 @@ class Urlbuilder implements UrlbuilderInterface
     /** @var array<int,string> $schemes */
     protected array $schemes = ['http', 'https'];
 
+    /**
+     * Use two cases to build the url:
+     *   case 1: relative url - scheme and authority must be empty both
+     *   case 2: absolute url - scheme and authority non empty both and scheme http or https
+     */
     public function __construct(
-        protected readonly ServerRequestInterface $request,
-        protected readonly TargetInterface $target
+        protected readonly TargetInterface $target,
+        string $scheme = '',
+        string $authority = ''
     ) {
-        $uri       = $request->getUri();
-        $scheme    = $uri->getScheme();
-        $authority = $uri->getAuthority();
         if ($scheme === '' && $authority === '') {
             $this->prefix = '';
         } else {

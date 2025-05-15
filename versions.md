@@ -8,7 +8,11 @@
 
 [see todo](./todo.md)
 
-## v.1.21.0
+## v1.22.0
+
+- [!] `Urlbuilder` - removed `request` from dep
+
+## v1.21.0
 
 - [!]`RequestMiddlewareInterface` method `__invoke` takes a `request` as a param
 
