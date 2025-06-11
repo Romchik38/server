@@ -11,6 +11,8 @@ use Romchik38\Server\Http\Controller\ControllerInterface;
  */
 abstract class AbstractAction implements ActionInterface
 {
+    use RequestHandlerTrait;
+
     protected ControllerInterface $controller;
 
     public function getController(): ControllerInterface

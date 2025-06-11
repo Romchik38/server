@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [n] `RequestHandlerTrait` - method `serializeAcceptHeader` helps serialize accept header
+
 ## v1.22.0
 
 - [!] `Urlbuilder` - removed `request` from dep
