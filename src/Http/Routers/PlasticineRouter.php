@@ -24,7 +24,7 @@ class PlasticineRouter implements HttpRouterInterface, RequestHandlerInterface
     public function __construct(
         protected ResponseFactoryInterface $responseFactory,
         protected readonly ControllersCollectionInterface $controllersCollection,
-        protected readonly ControllerInterface | null $notFoundController = null,
+        protected RequestHandlerInterface | null $notFoundHandler = null,
         protected readonly RedirectInterface|null $redirectService = null
     ) {
     }

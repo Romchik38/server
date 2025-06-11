@@ -29,7 +29,7 @@ class DynamicRootRouter implements HttpRouterInterface, RequestHandlerInterface
         protected ResponseFactoryInterface $responseFactory,
         protected DynamicRootInterface $dynamicRootService,
         protected ControllersCollectionInterface $controllersCollection,
-        protected ControllerInterface | null $notFoundController = null,
+        protected RequestHandlerInterface | null $notFoundHandler = null,
         protected RedirectInterface|null $redirectService = null
     ) {
     }

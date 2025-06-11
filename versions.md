@@ -9,6 +9,10 @@
 [see todo](./todo.md)
 
 - [n] `RequestHandlerTrait` - method `serializeAcceptHeader` helps serialize accept header
+- [!] refactored routers - changed not found handler name and type, refactored tests
+  - `DynamicRootRouter`
+  - `PlasticineRouter`
+  - `RouterTrait`
 
 ## v1.22.0
 

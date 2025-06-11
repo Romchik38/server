@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Romchik38\Server\Tests\Unit\Http\Routers;
 
 use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\TextResponse;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Controller\ControllersCollection;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
@@ -257,6 +261,7 @@ class DynamicRootRouterTest extends TestCase
         $this->assertSame('Product #1', (string) $response->getBody());
     }
 
+    /** @todo refactor */
     /**
      * # 11. Show page not found
      *
@@ -268,23 +273,15 @@ class DynamicRootRouterTest extends TestCase
         $uri     = new Uri('http://example.com/en/products');
         $request = new ServerRequest([], [], $uri, 'GET');
 
-        $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $defaultRootDto = new DynamicRootDTO('en');
-        $rootNames      = ['en', 'uk'];
-
-        $dynamicRootService->method('getDefaultRoot')
-            ->willReturn($defaultRootDto);
-
-        $dynamicRootService->method('getRootNames')
-            ->willReturn($rootNames);
+        $defaulRootName     = 'en';
+        $rootNames          = ['en', 'uk'];
+        $dynamicRootService = new DynamicRoot($defaulRootName, $rootNames);
 
         $redirectService->method('execute')->willReturn(null);
-
-        $dynamicRootService->method('setCurrentRoot')->willReturn(true);
 
         $controllersCollection->method('getController')->willReturn($controller);
 
@@ -304,6 +301,7 @@ class DynamicRootRouterTest extends TestCase
         $this->assertSame(404, $response->getStatusCode());
     }
 
+    /** @todo refactor */
     /**
      * # 11. Show page not found
      *
@@ -317,43 +315,34 @@ class DynamicRootRouterTest extends TestCase
         $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
-        $notFoundController    = $this->createMock(Controller::class);
+        $notFoundHandler       = new class implements RequestHandlerInterface {
+            public function handle(ServerRequestInterface $request): ResponseInterface
+            {
+                return new TextResponse('404 page');
+            }
+        };
         $controllersCollection = $this->createMock(ControllersCollection::class);
 
-        $defaultRootDto = new DynamicRootDTO('en');
-        $rootNames      = ['en', 'uk'];
-        $response       = new Response();
-        $body           = $response->getBody();
-        $body->write('<h1>Page not found</h1>');
-        $response = $response->withBody($body);
-
-        $dynamicRootService->method('getDefaultRoot')
-            ->willReturn($defaultRootDto);
-
-        $dynamicRootService->method('getRootNames')
-            ->willReturn($rootNames);
+        $defaulRootName     = 'en';
+        $rootNames          = ['en', 'uk'];
+        $dynamicRootService = new DynamicRoot($defaulRootName, $rootNames);
 
         $redirectService->method('execute')->willReturn(null);
-
-        $dynamicRootService->method('setCurrentRoot')->willReturn(true);
 
         $controllersCollection->method('getController')->willReturn($controller);
 
         $controller->method('handle')->willThrowException(new NotFoundException('not found'));
 
-        $notFoundController->expects($this->once())->method('handle')
-            ->willReturn($response);
-
         $router = new DynamicRootRouter(
             new ResponseFactory(),
             $dynamicRootService,
             $controllersCollection,
-            $notFoundController
+            $notFoundHandler
         );
 
         $response = $router->handle($request);
         $this->assertSame(
-            '<h1>Page not found</h1>',
+            '404 page',
             (string) $response->getBody()
         );
         $this->assertSame(404, $response->getStatusCode());

@@ -56,8 +56,8 @@ trait RouterTrait
       */
     protected function pageNotFound(ServerRequestInterface $request): ResponseInterface
     {
-        if ($this->notFoundController !== null) {
-            $response = $this->notFoundController->handle($request);
+        if ($this->notFoundHandler !== null) {
+            $response = $this->notFoundHandler->handle($request);
             $response = $response->withStatus(404);
         } else {
             $response = $this->responseFactory->createResponse(404);
