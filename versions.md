@@ -13,6 +13,7 @@
   - `DynamicRootRouter`
   - `PlasticineRouter`
   - `RouterTrait`
+- [!] `LinkTree` encode url parts
 
 ## v1.22.0
 

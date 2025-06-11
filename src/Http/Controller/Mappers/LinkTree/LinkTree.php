@@ -61,7 +61,7 @@ class LinkTree implements LinkTreeInterface
             $description = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 
-        $url = '/' . implode('/', $path);
+        $url = '/' . implode('/', array_map(fn($part)=> urlencode($part), $path));
 
         $children    = $element->getChildren();
         $dtoChildren = [];
