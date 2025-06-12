@@ -2,8 +2,6 @@
 
 ## Current
 
-- Fileloader can be constructed withou deps
-
 - HandlerRouter
   - main router
   - redirect handler

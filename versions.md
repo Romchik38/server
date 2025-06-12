@@ -15,6 +15,9 @@
   - `RouterTrait`
 - [!] `LinkTree` encode url parts
 - [f] `DatabaseSqlInterface` methods `queryParams` and `transactionQueryParams` accept array with null
+- [!] `Fileloader`
+  - removed `__construct`
+  - changed `load` logic
 
 ## v1.22.0
 
