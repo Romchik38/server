@@ -9,9 +9,11 @@ use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
 use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
+use function array_map;
 use function array_push;
 use function array_slice;
 use function implode;
+use function urlencode;
 
 /**
  * Maps ControllerDTO to LinkTreeDTO

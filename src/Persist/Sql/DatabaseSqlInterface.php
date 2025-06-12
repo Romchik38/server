@@ -20,7 +20,7 @@ interface DatabaseSqlInterface
     public function isConnected(): bool;
 
     /**
-     * @param array<int,int|string> $params
+     * @param array<int,int|string|null> $params
      * @throws QueryException
      * @return array<array<string,string|null>>
      * */
@@ -44,7 +44,7 @@ interface DatabaseSqlInterface
     public function transactionRollback(): void;
 
     /**
-     * @param array<int,int|string> $params
+     * @param array<int,int|string|null> $params
      * @throws DatabaseTransactionException
      * @throws QueryException
      * @return array<array<string,string|null>>
