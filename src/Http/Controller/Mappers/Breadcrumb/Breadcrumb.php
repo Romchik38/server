@@ -15,7 +15,6 @@ use function array_slice;
 use function count;
 use function implode;
 
-/** @todo refactor - create BreadcrumbUseDynamicRoot */
 class Breadcrumb implements BreadcrumbInterface
 {
     protected string $currentRoot = ControllerInterface::ROOT_NAME;

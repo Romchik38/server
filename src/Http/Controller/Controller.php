@@ -258,7 +258,6 @@ class Controller implements ControllerInterface
         return $this->dynamicAction->getDynamicRoutes();
     }
 
-    /** @todo check on usage in other classes */
     public function getFullPath(string $route = ''): array
     {
         $fullPath = [$this->name];

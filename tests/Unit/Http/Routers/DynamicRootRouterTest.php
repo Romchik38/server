@@ -261,14 +261,13 @@ class DynamicRootRouterTest extends TestCase
         $this->assertSame('Product #1', (string) $response->getBody());
     }
 
-    /** @todo refactor */
     /**
      * # 11. Show page not found
      *
      * throws not found error
      * without notfoundController
      */
-    public function testExecuteControllerThrowsNotFoundErrorWithoutController()
+    public function testExecuteControllerThrowsNotFoundErrorWithoutHandler()
     {
         $uri     = new Uri('http://example.com/en/products');
         $request = new ServerRequest([], [], $uri, 'GET');
@@ -301,18 +300,16 @@ class DynamicRootRouterTest extends TestCase
         $this->assertSame(404, $response->getStatusCode());
     }
 
-    /** @todo refactor */
     /**
      * # 11. Show page not found
      *
      * throws not found error
      * with notfoundController
      */
-    public function testExecuteControllerThrowsNotFoundErrorWithController()
+    public function testExecuteControllerThrowsNotFoundErrorWithHandler()
     {
         $uri                   = new Uri('http://example.com/en/products');
         $request               = new ServerRequest([], [], $uri, 'GET');
-        $dynamicRootService    = $this->createMock(DynamicRoot::class);
         $controller            = $this->createMock(Controller::class);
         $redirectService       = $this->createMock(Redirect::class);
         $notFoundHandler       = new class implements RequestHandlerInterface {
