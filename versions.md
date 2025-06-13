@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [!] `HttpRouterInterface` - removed constant `NOT_FOUND_CONTROLLER_NAME`
+
 ## v1.23.0
 
 - [n] `RequestHandlerTrait` - method `serializeAcceptHeader` helps serialize accept header
