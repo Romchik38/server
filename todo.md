@@ -2,6 +2,11 @@
 
 ## Current
 
+## Next
+
+- Controller tree
+  - can indicate about action not present, so Linktree will form blank url
+
 - HandlerRouter
   - main router
   - redirect handler
@@ -17,8 +22,6 @@
 - controller has an uniqe id
   - [+] created id
   - [-] check unique
-
-## Next
 
 - retriving path by id from root
 - dynamic router takes default lang from headers  
