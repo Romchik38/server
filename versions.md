@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+## v1.24.0
+
 - [!] `HttpRouterInterface` - removed constant `NOT_FOUND_CONTROLLER_NAME`
 - [!] - `DatabaseSqlInterface` and `DatabasePostgresql` - removed `transactionQueryParams`
 - [!] - `DatabasePostgresql` - refactored `queryParams` can be used in transaction
