@@ -42,12 +42,4 @@ interface DatabaseSqlInterface
      * @throws DatabaseTransactionException
      * */
     public function transactionRollback(): void;
-
-    /**
-     * @param array<int,int|string|null> $params
-     * @throws DatabaseTransactionException
-     * @throws QueryException
-     * @return array<array<string,string|null>>
-     * */
-    public function transactionQueryParams(string $query, array $params): array;
 }

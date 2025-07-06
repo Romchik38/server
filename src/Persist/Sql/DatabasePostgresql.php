@@ -85,16 +85,12 @@ class DatabasePostgresql implements DatabaseSqlInterface
             $this->checkConnectionIsOk();
         } catch (RuntimeException $e) {
             throw new QueryException(sprintf(
-                '%s.%s',
-                $e->getMessage(),
-                'Query is not possible'
+                '%s:%s',
+                'Query is not possible',
+                $e->getMessage()
             ));
         }
 
-        $status = pg_transaction_status($this->connection);
-        if ($status !== PGSQL_TRANSACTION_IDLE) {
-            throw new QueryException('Could not send a query, connection is in transaction');
-        }
         ob_start();
         $result = pg_query_params($this->connection, $query, $params);
         ob_end_clean();
@@ -189,34 +185,6 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 $errMsg
             ));
         }
-    }
-
-    public function transactionQueryParams(string $query, array $params): array
-    {
-        try {
-            $this->checkConnectionIsOk();
-        } catch (RuntimeException $e) {
-            throw new QueryException(sprintf(
-                '%s.%s',
-                $e->getMessage(),
-                'Query is not possible'
-            ));
-        }
-
-        $status = pg_transaction_status($this->connection);
-        if ($status !== PGSQL_TRANSACTION_INTRANS) {
-            throw new DatabaseTransactionException('Transaction no idle in transaction block');
-        }
-        ob_start();
-        $result = pg_query_params($this->connection, $query, $params);
-        ob_end_clean();
-        if ($result === false) {
-            $errMsg = pg_last_error($this->connection);
-            throw new QueryException(sprintf('Query error: %s', $errMsg));
-        }
-        $arr = pg_fetch_all($result);
-        pg_free_result($result);
-        return $arr;
     }
 
     /** @throws RuntimeException */

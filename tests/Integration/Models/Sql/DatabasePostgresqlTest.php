@@ -103,7 +103,7 @@ final class DatabasePostgresqlTest extends TestCase
         $database->transactionStart();
         $query  = 'SELECT name from products WHERE id = $1';
         $params = [1];
-        $rows   = $database->transactionQueryParams($query, $params);
+        $rows   = $database->queryParams($query, $params);
         $database->transactionEnd();
         $this->assertSame('Product 1', $rows[0]['name']);
         $database->close();
@@ -184,7 +184,7 @@ final class DatabasePostgresqlTest extends TestCase
         $queryUpdate = 'UPDATE products SET name = \'some name\' WHERE id = $1';
         $querySelect = 'SELECT name from products WHERE id = $1';
         $params      = [1];
-        $database->transactionQueryParams($queryUpdate, $params);
+        $database->queryParams($queryUpdate, $params);
         $database->transactionRollback();
         $rows = $database->queryParams($querySelect, $params);
         $this->assertSame('Product 1', $rows[0]['name']);
@@ -200,58 +200,6 @@ final class DatabasePostgresqlTest extends TestCase
         $database->close();
         $this->expectException(DatabaseTransactionException::class);
         $database->transactionRollback();
-    }
-
-    public function testTransactionQueryParamsThrowsErrorOnClosedConnection(): void
-    {
-        $database = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $database->transactionStart();
-        $database->close();
-        $this->expectException(QueryException::class);
-        @$database->transactionQueryParams('Select now()', []);
-    }
-
-    public function testTransactionQueryParamsThrowsErrorOnNonTransactionCall(): void
-    {
-        $database = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $this->expectException(DatabaseTransactionException::class);
-        $database->transactionQueryParams('Select now()', []);
-    }
-
-    public function testTransactionQueryParams(): void
-    {
-        $database = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-
-        $database->transactionStart();
-        $queryUpdate = 'UPDATE products SET name = \'some name\' WHERE id = $1';
-        $querySelect = 'SELECT name from products WHERE id = $1';
-        $params      = [1];
-        $database->transactionQueryParams($queryUpdate, $params);
-        $database->transactionEnd();
-        $rows = $database->queryParams($querySelect, $params);
-        $this->assertSame('some name', $rows[0]['name']);
-        $database->close();
-    }
-
-    public function testTransactionQueryParamsThrowsErrorOnWrongQuery(): void
-    {
-        $database = new DatabasePostgresql(
-            $this->connectionParams,
-            PGSQL_CONNECT_FORCE_NEW
-        );
-        $database->transactionStart();
-        $this->expectException(QueryException::class);
-        @$database->transactionQueryParams('Wrong query', []);
-        $database->close();
     }
 
     public function testQueryParamsReturnArrayWithNull(): void
