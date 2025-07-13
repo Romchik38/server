@@ -8,6 +8,11 @@
 
 [see todo](./todo.md)
 
+## v1.24.2
+
+- [n] - Added Value objects to Domain - `Text` and `NonEmpty`. Created tests for them
+- [n] - `Vo` now `Stringable`
+
 ## v1.24.1
 
 - [n] - Added Value objects to Domain - `Vo`, `Number` and `Positive`. Created tests for them

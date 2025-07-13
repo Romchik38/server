@@ -15,7 +15,6 @@
   - not found handler
 
 - VO
-  - id string
   - field
 
 - controller has an uniqe id
