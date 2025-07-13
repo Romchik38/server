@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Domain\VO\Text;
 
-use Romchik38\Server\Domain\VO\Vo;
+use Romchik38\Server\Domain\VO\AbstractVo;
 
-class Text extends Vo
+class Text extends AbstractVo
 {
     public const NAME = 'text';
 
