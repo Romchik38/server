@@ -8,6 +8,10 @@
 
 [see todo](./todo.md)
 
+## v1.24.1
+
+- [n] - Added Value objects to Domain - `Vo`, `Number` and `Positive`. Created tests for them
+
 ## v1.24.0
 
 - [!] `HttpRouterInterface` - removed constant `NOT_FOUND_CONTROLLER_NAME`
