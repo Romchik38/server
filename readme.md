@@ -33,6 +33,7 @@
 - Sitemap system
 - [multilanguage system](./docs/multilanguage-system/01-readme.md)
 - Urlbuilder
+- Domain Value Objects
 
 ## Examples
 
