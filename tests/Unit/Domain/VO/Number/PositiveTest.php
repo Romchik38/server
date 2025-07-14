@@ -43,4 +43,11 @@ final class PositiveTest extends TestCase
         $p = new Positive(1);
         $this->assertSame(Positive::NAME, $p->getName());
     }
+
+    public function testInstance(): void
+    {
+        $p = Positive::fromString('1');
+
+        $this->assertSame(true, $p instanceof Positive);
+    }
 }

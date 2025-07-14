@@ -29,7 +29,7 @@ class Number extends AbstractVo
     }
 
     /** @throws InvalidArgumentException */
-    public static function fromString(string $value): self
+    public static function fromString(string $value): static
     {
         $oldValue = $value;
         $intId    = (int) $value;
@@ -38,6 +38,6 @@ class Number extends AbstractVo
             throw new InvalidArgumentException(sprintf('param %s %s is invalid', static::NAME, $value));
         }
 
-        return new self($intId);
+        return new static($intId);
     }
 }

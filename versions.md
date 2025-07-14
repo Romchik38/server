@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [f] - refactored `Number` -  method `fromString` returns static
+
 ## v1.24.2
 
 - [n] - Added Value objects to Domain - `Text` and `NonEmpty`. Created tests for them
