@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+## v1.24.3
+
 - [f] - refactored `Number` -  method `fromString` returns static
 
 ## v1.24.2

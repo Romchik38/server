@@ -9,6 +9,7 @@ use Romchik38\Server\Domain\VO\AbstractVo;
 
 use function sprintf;
 
+/** @phpstan-consistent-constructor */
 class Number extends AbstractVo
 {
     public const NAME = 'number';
@@ -28,7 +29,6 @@ class Number extends AbstractVo
         return (string) $this->value;
     }
 
-    /** @throws InvalidArgumentException */
     public static function fromString(string $value): static
     {
         $oldValue = $value;
