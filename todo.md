@@ -15,7 +15,10 @@
   - not found handler
 
 - VO
-  - field
+  - inheritance NAME ffom vo
+  - set of values
+  - pattern
+  - error message
 
 - controller has an uniqe id
   - [+] created id
