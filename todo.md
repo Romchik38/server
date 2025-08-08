@@ -2,6 +2,17 @@
 
 ## Current
 
+- Session
+  - set name
+
+- VO
+  - change value from private to protected
+  - inheritance NAME ffom vo
+  - set of values
+  - pattern
+  - non negative
+  - error message
+
 ## Next
 
 - Controller tree
