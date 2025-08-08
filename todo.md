@@ -2,13 +2,6 @@
 
 ## Current
 
-- VO
-  - inheritance NAME ffom vo
-  - set of values
-  - pattern
-  - non negative
-  - error message
-
 ## Next
 
 - Controller tree
@@ -22,12 +15,8 @@
   - not found handler
 
 - VO
-  - change value from private to protected
-  - inheritance NAME ffom vo
   - set of values
   - pattern
-  - non negative
-  - error message
 
 - controller has an uniqe id
   - [+] created id
