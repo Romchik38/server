@@ -8,6 +8,8 @@
 
 [see todo](./todo.md)
 
+- [n] `Session` - session name can be set via `__construct`
+
 ## v1.24.3
 
 - [f] - refactored `Number` -  method `fromString` returns static

@@ -15,8 +15,12 @@ class Session implements SessionInterface
 {
     protected int $maxTimeToLogout = SessionInterface::SESSION_MAX_TIME_TO_LOGOUT;
 
-    public function __construct()
-    {
+    public function __construct(
+        string $sessionName = ''
+    ) {
+        if ($sessionName !== '') {
+            session_name($sessionName);
+        }
         session_start();
         $sessionId = session_id();
         if (($sessionId === false) || ($sessionId === '')) {
