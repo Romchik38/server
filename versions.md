@@ -9,6 +9,8 @@
 [see todo](./todo.md)
 
 - [n] `Session` - session name can be set via `__construct`
+- VO:
+  - [f] `$value` visibility changed from `private` to `protected`
 
 ## v1.24.3
 

@@ -11,7 +11,7 @@ class Text extends AbstractVo
     public const NAME = 'text';
 
     public function __construct(
-        private readonly string $value
+        protected readonly string $value
     ) {
     }
 

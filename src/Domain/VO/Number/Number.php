@@ -15,7 +15,7 @@ class Number extends AbstractVo
     public const NAME = 'number';
 
     public function __construct(
-        private readonly int $value
+        protected readonly int $value
     ) {
     }
 

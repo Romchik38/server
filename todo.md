@@ -3,7 +3,6 @@
 ## Current
 
 - VO
-  - change value from private to protected
   - inheritance NAME ffom vo
   - set of values
   - pattern
