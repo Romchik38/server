@@ -7,14 +7,13 @@ namespace Romchik38\Server\Tests\Unit\Services\Urlbuilder;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Path;
-use Romchik38\Server\Http\Utils\Urlbuilder\Target;
 use Romchik38\Server\Http\Utils\Urlbuilder\Urlbuilder;
 
 final class UrlbuilderTest extends TestCase
 {
     public function testFromPath(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $path = new Path(['root', 'product']);
 
@@ -25,18 +24,18 @@ final class UrlbuilderTest extends TestCase
     public function testFromPathEmptyAuthority(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Urlbuilder(new Target(), 'http');
+        new Urlbuilder('http');
     }
 
     public function testFromPathEmptyScheme(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Urlbuilder(new Target(), '', 'example.com');
+        new Urlbuilder('', 'example.com');
     }
 
     public function testFromPathEmptyAuthorityAndScheme(): void
     {
-        $url = new Urlbuilder(new Target());
+        $url = new Urlbuilder();
 
         $path = new Path(['root', 'product']);
 
@@ -46,7 +45,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParam(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $path = new Path(['root', 'product']);
 
@@ -56,7 +55,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParams(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $path = new Path(['root', 'product']);
 
@@ -66,7 +65,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithFragment(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $path = new Path(['root', 'product']);
 
@@ -76,7 +75,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromPathWithParamsAndFragment(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $path = new Path(['root', 'product']);
 
@@ -86,7 +85,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromArray(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $uri = $url->fromArray(['root', 'product']);
         $this->assertSame('http://example.com/product', $uri);
@@ -94,7 +93,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromArrayWithParams(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $uri = $url->fromArray(
             ['root', 'product'],
@@ -105,7 +104,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromArrayWithFragment(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $uri = $url->fromArray(['root', 'product'], [], 'fregment1');
         $this->assertSame('http://example.com/product#fregment1', $uri);
@@ -113,7 +112,7 @@ final class UrlbuilderTest extends TestCase
 
     public function testFromArrayWithParamsAndFragment(): void
     {
-        $url = new Urlbuilder(new Target(), 'http', 'example.com');
+        $url = new Urlbuilder('http', 'example.com');
 
         $uri = $url->fromArray(
             ['root', 'product'],

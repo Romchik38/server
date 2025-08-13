@@ -10,7 +10,7 @@ use Romchik38\Server\Http\Controller\Path;
 
 use function array_unshift;
 
-class StaticUrlbuilder extends Urlbuilder implements StaticUrlbuilderInterface
+class StaticUrlbuilder extends AbstractUrlbuilder implements StaticUrlbuilderInterface
 {
     public readonly bool $hasRootName;
 
