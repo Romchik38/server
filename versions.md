@@ -3,10 +3,19 @@
 [n] - new  
 [!] - breaking changes  
 [f] - fix  
+[r] - refactor
 
 ## Next
 
 [see todo](./todo.md)
+
+## v1.25.0
+
+- Urlbuilder
+  - [!] class `Urlbuilder`
+    - [!] main logic moved `AbstractUrlbuilder`
+    - [n] uses `Target` as defaults and extends from `AbstractUrlbuilder`
+  - [n] added `DynamicUrlbuilder` - uses `DynamicTarget` as defaults
 
 ## v1.24.5
 
