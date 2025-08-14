@@ -15,6 +15,7 @@
   - not found handler
 
 - VO
+  - add `JsonSerializable`
   - set of values
   - pattern
 
