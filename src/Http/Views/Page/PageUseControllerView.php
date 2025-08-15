@@ -10,8 +10,7 @@ use Romchik38\Server\Http\Views\AbstractControllerView;
 
 use function call_user_func;
 
-/** @todo refactor */
-class PageView extends AbstractControllerView
+class PageUseControllerView extends AbstractControllerView
 {
     public function __construct(
         protected readonly Closure $generateTemplate,

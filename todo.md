@@ -3,10 +3,9 @@
 ## Current
 
 - View
-  - Add Single view
-  - rename `AbstractView` to `AbstractControllerView`
-  - implement new `AbstractView` with metadata interface
   - tests
+    - `MetaData`
+    - `PageUseControllerView`
 
 ## Next
 
