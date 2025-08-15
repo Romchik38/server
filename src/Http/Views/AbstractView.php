@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Views;
 
-use Romchik38\Server\Http\Controller\ControllerInterface;
-use Romchik38\Server\Http\Views\Dto\DefaultViewDTOInterface;
+use MetadataInterface;
 
 abstract class AbstractView implements ViewInterface
 {
-    protected DefaultViewDTOInterface|null $controllerData = null;
-    protected ControllerInterface|null $controller         = null;
-    protected string $action                               = '';
+    /** @var array<string,mixed> $metaData */
+    protected array $metaData = [];
 
-    public function setController(
-        ControllerInterface $controller,
-        string $action = ''
-    ): ViewInterface {
-        $this->controller = $controller;
-        $this->action     = $action;
-        return $this;
+    public function __construct(
+        private readonly ?MetaDataInterface $metaDataService = null
+    ) {
     }
 
-    public function setControllerData(DefaultViewDTOInterface $data): ViewInterface
+    protected function prepareMetaData(): void
     {
-        $this->controllerData = $data;
-        return $this;
-    }
+        if ($this->metaDataService === null) {
+            return;
+        }
 
-    abstract public function toString(): string;
+        $metaData = $this->metaDataService->getAllData();
+        foreach ($metaData as $key => $value) {
+            $this->metaData[$key] = $value;
+        }
+    }
 }

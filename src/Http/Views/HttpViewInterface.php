@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Views;
 
+/** @deprecated */
 interface HttpViewInterface extends ViewInterface
 {
     /**

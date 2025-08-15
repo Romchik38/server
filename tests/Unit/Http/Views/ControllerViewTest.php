@@ -9,6 +9,7 @@ use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Views\AbstractView as View;
 use Romchik38\Server\Http\Views\Dto\DefaultViewDTO;
 
+/** @todo refactor */
 class ViewTest extends TestCase
 {
     /** test controller assign */
