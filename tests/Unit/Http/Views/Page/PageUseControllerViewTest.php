@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Http\Views;
+namespace Romchik38\Server\Tests\Unit\Http\Views\Page;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;

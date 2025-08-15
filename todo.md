@@ -3,8 +3,6 @@
 ## Current
 
 - View
-  - create `PageUseSingleView`
-  - test `PageUseSingleView`
   - add `TwigView`
 
 ## Next

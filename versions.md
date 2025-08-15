@@ -9,6 +9,10 @@
 
 [see todo](./todo.md)
 
+- [!] fully refactored all view classes and interfaces
+- added `PageUseSingleView`
+- added `PageUseControllerView`
+
 ## v1.25.0
 
 - Urlbuilder
