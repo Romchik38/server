@@ -9,6 +9,8 @@
 
 [see todo](./todo.md)
 
+## v1.26.0
+
 - [!] fully refactored all view classes and interfaces
 - added `PageUseSingleView`
 - added `PageUseControllerView`
