@@ -2,9 +2,6 @@
 
 ## Current
 
-- View
-  - add `TwigView`
-
 ## Next
 
 - Controller tree

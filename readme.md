@@ -12,7 +12,6 @@
 - Views
   - abstract
   - page
-  - twig (in progress site2)
 - Server Request (psr-7)
 - Response (psr-7)
 - [Controller system](./docs/controller/00_readme.md)
@@ -57,10 +56,10 @@ Coming soon. In progress.
 - phpstan level 8
   - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`[OK] No errors`  
 - phpunit
-  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (176 tests, 330 assertions)`
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`OK (206 tests, 359 assertions)`
   - tested partially
 - laminas-coding-standard
-  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`66 / 66 (100%)`
+  - ![passes](https://placehold.co/15x15/0dbc79/0dbc79.png)`79 / 79 (100%)`
 
 ## Docs
 
