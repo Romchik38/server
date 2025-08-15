@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Views\Page;
 
 use Closure;
-use MetaDataInterface;
 use Romchik38\Server\Http\Views\AbstractControllerView;
+use Romchik38\Server\Http\Views\MetaDataInterface;
 
 use function call_user_func;
 
@@ -28,7 +28,11 @@ class PageUseControllerView extends AbstractControllerView
         /**
          * 2. generate html from controller template
          */
-        $controllerResult = call_user_func($this->controllerTemplate, $this->controllerData);
+        $controllerResult = call_user_func(
+            $this->controllerTemplate,
+            $this->metaData,
+            $this->controllerData
+        );
 
         /** 3. generate html document */
         return call_user_func(

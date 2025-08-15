@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Views;
 
-use MetadataInterface;
-
 abstract class AbstractView implements ViewInterface
 {
     /** @var array<string,mixed> $metaData */
@@ -22,7 +20,7 @@ abstract class AbstractView implements ViewInterface
             return;
         }
 
-        $metaData = $this->metaDataService->getAllData();
+        $metaData = $this->metaDataService->getAll();
         foreach ($metaData as $key => $value) {
             $this->metaData[$key] = $value;
         }

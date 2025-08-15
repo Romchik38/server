@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-use Romchik38\Server\Http\Views\Errors\MetadataException;
+namespace Romchik38\Server\Http\Views;
+
+use Romchik38\Server\Http\Views\Errors\MetaDataException;
 
 interface MetaDataInterface
 {
     /**
-     * @throws MetadataException
+     * @throws MetaDataException
      * @return array<string,mixed>
      * */
-    public function getAllData(): array;
+    public function getAll(): array;
 }

@@ -3,9 +3,9 @@
 ## Current
 
 - View
-  - tests
-    - `MetaData`
-    - `PageUseControllerView`
+  - create `PageUseSingleView`
+  - test `PageUseSingleView`
+  - add `TwigView`
 
 ## Next
 
