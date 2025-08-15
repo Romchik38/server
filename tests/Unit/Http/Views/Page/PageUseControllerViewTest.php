@@ -7,8 +7,9 @@ namespace Romchik38\Server\Tests\Unit\Http\Views;
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Views\Dto\DefaultViewDTO;
+use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 use Romchik38\Server\Http\Views\Page\PageUseControllerView;
-use Romchik38\Server\Tests\Unit\Http\Views\Page\WithMetadata\MetaDataService;
+use Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\WithMetadata\MetaDataService;
 
 use function sprintf;
 
@@ -20,8 +21,8 @@ class PageUseControllerViewTest extends TestCase
         $pageDescription    = 'Home page';
         $controller         = new Controller('root');
         $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require_once __DIR__ . '/WithoutMetadata/controllerTemplate.php';
-        $generateTemplate   = require_once __DIR__ . '/WithoutMetadata/generateTemplate.php';
+        $controllerTemplate = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
+        $generateTemplate   = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
         $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
 
         $view->setController($controller)->setControllerData($controllerDto);
@@ -40,9 +41,9 @@ class PageUseControllerViewTest extends TestCase
         $userName           = 'User_1';
         $controller         = new Controller('root');
         $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require_once __DIR__ . '/WithMetadata/controllerTemplate.php';
-        $generateTemplate   = require_once __DIR__ . '/WithMetadata/generateTemplate.php';
-        require_once __DIR__ . '/WithMetadata/MetaDataService.php';
+        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithMetadata/controllerTemplate.php';
+        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithMetadata/generateTemplate.php';
+        require_once __DIR__ . '/PageUseControllerView/WithMetadata/MetaDataService.php';
         $metaDataService = new MetaDataService($userName);
         $view            = new PageUseControllerView($generateTemplate, $controllerTemplate, $metaDataService);
 
@@ -53,5 +54,31 @@ class PageUseControllerViewTest extends TestCase
         $expectedHtml     = sprintf($expectedTemplate, $userName, $pageName, $pageDescription);
 
         $this->assertSame($expectedHtml, $html);
+    }
+
+    public function testtoStringThrowsErrorNullController(): void
+    {
+        $pageName           = 'Home';
+        $pageDescription    = 'Home page';
+        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
+        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
+        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
+        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $view->setControllerData($controllerDto);
+
+        $this->expectException(ViewBuildException::class);
+        $view->toString();
+    }
+
+    public function testtoStringThrowsErrorNullControllerData(): void
+    {
+        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
+        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
+        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $controller         = new Controller('root');
+        $view->setController($controller);
+
+        $this->expectException(ViewBuildException::class);
+        $view->toString();
     }
 }

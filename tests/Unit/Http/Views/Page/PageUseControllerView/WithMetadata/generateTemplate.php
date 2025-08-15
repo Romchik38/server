@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Http\Views\Page\WithoutMetadata;
+namespace Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\WithMetadata;
 
 use function is_string;
 

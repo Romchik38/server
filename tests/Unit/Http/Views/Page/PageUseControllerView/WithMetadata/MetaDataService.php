@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Http\Views\Page\WithMetadata;
+namespace Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\WithMetadata;
 
 use Romchik38\Server\Http\Views\AbstractMetaData;
 
