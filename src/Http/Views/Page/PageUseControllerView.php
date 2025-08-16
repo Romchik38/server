@@ -37,9 +37,11 @@ class PageUseControllerView extends AbstractControllerView
 
         /** 1. create metadata for header, etc */
         $this->prepareMetaData();
-        $this->metaData['breadcrumbs'] = $this->prepareBreadcrumbs();
+        $this->metaData['breadcrumbs']       = $this->prepareBreadcrumbs();
+        $this->metaData['static_urlbuilder'] = $this->createStaticUrlbuilder();
+
         /**
-         * 2. generate html from controller template
+         * 2. generate html from a controller template
          */
         $controllerResult = call_user_func(
             $this->controllerTemplate,
