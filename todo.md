@@ -2,10 +2,6 @@
 
 ## Current
 
-- `PageUseControllerView` - test:
-  - breadcrumb
-  - static_urlbuilder
-
 - [f] Breadcrumb - default root `description` should be `home`, not `root`
 
 ## Next

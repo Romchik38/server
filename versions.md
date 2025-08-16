@@ -9,6 +9,10 @@
 
 [see todo](./todo.md)
 
+- [n] `PageUseControllerView` use
+  - breadcrumb
+  - static urlbuilder
+
 ## v1.26.0
 
 - [!] fully refactored all view classes and interfaces

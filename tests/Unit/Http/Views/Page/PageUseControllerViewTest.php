@@ -13,6 +13,8 @@ use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTreeInterf
 use Romchik38\Server\Http\Views\Dto\DefaultViewDTO;
 use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 use Romchik38\Server\Http\Views\Page\PageUseControllerView;
+use Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\StaticUrlbuilder\MetaDataService
+    as StaticMetadataService;
 use Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\WithMetadata\MetaDataService;
 
 use function sprintf;
@@ -60,7 +62,7 @@ class PageUseControllerViewTest extends TestCase
         $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
         $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithMetadata/controllerTemplate.php';
         $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithMetadata/generateTemplate.php';
-        require_once __DIR__ . '/PageUseControllerView/WithMetadata/MetaDataService.php';
+        require __DIR__ . '/PageUseControllerView/WithMetadata/MetaDataService.php';
         $metaDataService = new MetaDataService($userName);
         $view            = new PageUseControllerView(
             $generateTemplate,
@@ -133,6 +135,37 @@ class PageUseControllerViewTest extends TestCase
         $expectedHtml     = sprintf(
             $expectedTemplate,
             BreadcrumbInterface::HOME_PLACEHOLDER,
+            $pageName,
+            $pageDescription
+        );
+
+        $this->assertSame($expectedHtml, $html);
+    }
+
+    public function testStaticUrlbuilder(): void
+    {
+        $language           = 'en';
+        $pageName           = 'Home';
+        $pageDescription    = 'Home page';
+        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
+        $controllerTemplate = require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/controllerTemplate.php';
+        $generateTemplate   = require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/generateTemplate.php';
+        require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/MetaDataService.php';
+        $view       = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService,
+            new StaticMetadataService($language)
+        );
+        $controller = new Controller('root');
+        $view->setController($controller)->setControllerData($controllerDto);
+
+        $html = $view->toString();
+
+        $expectedTemplate = '<body><p>/%s</p><h1>%s</h1><p>%s</p></body>';
+        $expectedHtml     = sprintf(
+            $expectedTemplate,
+            $language,
             $pageName,
             $pageDescription
         );

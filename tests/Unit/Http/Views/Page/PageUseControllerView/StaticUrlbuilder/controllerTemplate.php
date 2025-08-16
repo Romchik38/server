@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\Breadcrumbs;
+namespace Romchik38\Server\Tests\Unit\Http\Views\Page\PageUseControllerView\StaticUrlbuilder;
 
 use Romchik38\Server\Http\Views\Dto\DefaultViewDTOInterface;
 
