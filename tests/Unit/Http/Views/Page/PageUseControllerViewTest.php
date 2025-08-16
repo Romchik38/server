@@ -111,4 +111,32 @@ class PageUseControllerViewTest extends TestCase
         $this->expectException(ViewBuildException::class);
         $view->toString();
     }
+
+    public function testBreadcrumbs(): void
+    {
+        $pageName           = 'Home';
+        $pageDescription    = 'Home page';
+        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
+        $controllerTemplate = require __DIR__ . '/PageUseControllerView/Breadcrumbs/controllerTemplate.php';
+        $generateTemplate   = require __DIR__ . '/PageUseControllerView/Breadcrumbs/generateTemplate.php';
+        $view               = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService
+        );
+        $controller         = new Controller('root');
+        $view->setController($controller)->setControllerData($controllerDto);
+
+        $html = $view->toString();
+
+        $expectedTemplate = '<body><p>%s</p><h1>%s</h1><p>%s</p></body>';
+        $expectedHtml     = sprintf(
+            $expectedTemplate,
+            BreadcrumbInterface::HOME_PLACEHOLDER,
+            $pageName,
+            $pageDescription
+        );
+
+        $this->assertSame($expectedHtml, $html);
+    }
 }
