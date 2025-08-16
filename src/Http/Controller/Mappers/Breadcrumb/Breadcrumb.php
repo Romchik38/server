@@ -63,8 +63,9 @@ class Breadcrumb implements BreadcrumbInterface
         ControllerDTOInterface $controllerDto,
         BreadcrumbDTOInterface|null $prev,
     ): BreadcrumbDTOInterface {
-        $name = $controllerDto->getName();
-        $path = $controllerDto->getPath();
+        $name        = $controllerDto->getName();
+        $description = $controllerDto->getDescription();
+        $path        = $controllerDto->getPath();
 
         array_push($path, $name);
 
@@ -76,14 +77,15 @@ class Breadcrumb implements BreadcrumbInterface
         }
 
         if ($name === ControllerInterface::ROOT_NAME) {
-            $name = BreadcrumbInterface::HOME_PLACEHOLDER;
+            $name        = BreadcrumbInterface::HOME_PLACEHOLDER;
+            $description = $name;
         }
 
         $url = '/' . implode('/', $path);
 
         $element = new BreadcrumbDTO(
             $name,
-            $controllerDto->getDescription(),
+            $description,
             $url,
             $prev
         );
