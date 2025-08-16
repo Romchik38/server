@@ -12,6 +12,7 @@
 - [n] `PageUseControllerView` use
   - breadcrumb
   - static urlbuilder
+- [f] `Breadcrumb` - changed mapping `root` description from `root` to `home`
 
 ## v1.26.0
 

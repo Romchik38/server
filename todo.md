@@ -2,8 +2,6 @@
 
 ## Current
 
-- [f] Breadcrumb - default root `description` should be `home`, not `root`
-
 ## Next
 
 - Controller tree

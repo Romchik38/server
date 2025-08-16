@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Views\Page;
 
 use Closure;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\Breadcrumb;
 use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
 use Romchik38\Server\Http\Views\AbstractControllerView;
 use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 use Romchik38\Server\Http\Views\MetaDataInterface;
@@ -17,12 +19,19 @@ class PageUseControllerView extends AbstractControllerView
 {
     use BreadcrumbControllerTrait;
 
+    protected readonly BreadcrumbInterface $breadcrumbService;
+
     public function __construct(
         protected readonly Closure $generateTemplate,
         protected readonly Closure $controllerTemplate,
-        protected readonly BreadcrumbInterface $breadcrumbService,
-        ?MetaDataInterface $metaDataService = null
+        ?BreadcrumbInterface $breadcrumbService = null,
+        ?MetaDataInterface $metaDataService = null,
     ) {
+        if ($breadcrumbService !== null) {
+            $this->breadcrumbService = $breadcrumbService;
+        } else {
+            $this->breadcrumbService = new Breadcrumb(new ControllerTree());
+        }
         parent::__construct($metaDataService);
     }
 
