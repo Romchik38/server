@@ -13,6 +13,12 @@ abstract class AbstractControllerView extends AbstractView implements Controller
     protected ControllerInterface|null $controller         = null;
     protected string $action                               = '';
 
+    public function __construct(
+        ?MetaDataInterface $metaDataService = null,
+    ) {
+        parent::__construct($metaDataService);
+    }
+
     public function setController(
         ControllerInterface $controller,
         string $action = ''

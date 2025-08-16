@@ -6,6 +6,10 @@ namespace Romchik38\Server\Tests\Unit\Http\Views\Page;
 
 use PHPUnit\Framework\TestCase;
 use Romchik38\Server\Http\Controller\Controller;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\Breadcrumb;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTree;
+use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTreeInterface;
 use Romchik38\Server\Http\Views\Dto\DefaultViewDTO;
 use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 use Romchik38\Server\Http\Views\Page\PageUseControllerView;
@@ -15,6 +19,15 @@ use function sprintf;
 
 class PageUseControllerViewTest extends TestCase
 {
+    protected readonly BreadcrumbInterface $breadcrumbService;
+    protected readonly ControllerTreeInterface $controllerTree;
+
+    public function setUp(): void
+    {
+        $this->controllerTree    = new ControllerTree();
+        $this->breadcrumbService = new Breadcrumb($this->controllerTree);
+    }
+
     public function testWithoutMetadata()
     {
         $pageName           = 'Home';
@@ -23,7 +36,11 @@ class PageUseControllerViewTest extends TestCase
         $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
         $controllerTemplate = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
         $generateTemplate   = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $view               = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService
+        );
 
         $view->setController($controller)->setControllerData($controllerDto);
         $html = $view->toString();
@@ -45,7 +62,12 @@ class PageUseControllerViewTest extends TestCase
         $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithMetadata/generateTemplate.php';
         require_once __DIR__ . '/PageUseControllerView/WithMetadata/MetaDataService.php';
         $metaDataService = new MetaDataService($userName);
-        $view            = new PageUseControllerView($generateTemplate, $controllerTemplate, $metaDataService);
+        $view            = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService,
+            $metaDataService
+        );
 
         $view->setController($controller)->setControllerData($controllerDto);
         $html = $view->toString();
@@ -63,7 +85,11 @@ class PageUseControllerViewTest extends TestCase
         $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
         $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
         $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $view               = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService
+        );
         $view->setControllerData($controllerDto);
 
         $this->expectException(ViewBuildException::class);
@@ -74,7 +100,11 @@ class PageUseControllerViewTest extends TestCase
     {
         $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
         $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $view               = new PageUseControllerView(
+            $generateTemplate,
+            $controllerTemplate,
+            $this->breadcrumbService
+        );
         $controller         = new Controller('root');
         $view->setController($controller);
 

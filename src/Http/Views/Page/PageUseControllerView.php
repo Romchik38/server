@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Views\Page;
 
 use Closure;
+use Romchik38\Server\Http\Controller\Mappers\Breadcrumb\BreadcrumbInterface;
 use Romchik38\Server\Http\Views\AbstractControllerView;
 use Romchik38\Server\Http\Views\Errors\ViewBuildException;
 use Romchik38\Server\Http\Views\MetaDataInterface;
+use Romchik38\Server\Http\Views\Traits\BreadcrumbControllerTrait;
 
 use function call_user_func;
 
 class PageUseControllerView extends AbstractControllerView
 {
+    use BreadcrumbControllerTrait;
+
     public function __construct(
         protected readonly Closure $generateTemplate,
         protected readonly Closure $controllerTemplate,
+        protected readonly BreadcrumbInterface $breadcrumbService,
         ?MetaDataInterface $metaDataService = null
     ) {
         parent::__construct($metaDataService);
@@ -32,7 +37,7 @@ class PageUseControllerView extends AbstractControllerView
 
         /** 1. create metadata for header, etc */
         $this->prepareMetaData();
-
+        $this->metaData['breadcrumbs'] = $this->prepareBreadcrumbs();
         /**
          * 2. generate html from controller template
          */
