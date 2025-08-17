@@ -4,6 +4,8 @@
 
 ## Next
 
+- Page view - use one template
+
 - Controller tree
   - can indicate about action not present, so Linktree will form blank url
 
