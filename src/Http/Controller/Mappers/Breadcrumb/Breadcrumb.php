@@ -77,8 +77,11 @@ class Breadcrumb implements BreadcrumbInterface
         }
 
         if ($name === ControllerInterface::ROOT_NAME) {
-            $name        = BreadcrumbInterface::HOME_PLACEHOLDER;
-            $description = $name;
+            $name = BreadcrumbInterface::HOME_PLACEHOLDER;
+        }
+
+        if ($description === ControllerInterface::ROOT_NAME) {
+            $description = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 
         $url = '/' . implode('/', $path);

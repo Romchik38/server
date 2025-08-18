@@ -9,6 +9,10 @@
 
 [see todo](./todo.md)
 
+## v1.26.2
+
+- [f] `Breadcrumb` - fixed description from `root` to `home`
+
 ## v1.26.1
 
 - [n] `PageUseControllerView` use
