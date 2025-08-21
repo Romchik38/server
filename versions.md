@@ -9,6 +9,8 @@
 
 [see todo](./todo.md)
 
+## v1.27.0
+
 - [!] - `PageUseSingleView` uses one template
 - [!] - `PageUseControllerView` uses one template
 - [!] `RequestMiddlewareInterface` - can return mixed result
