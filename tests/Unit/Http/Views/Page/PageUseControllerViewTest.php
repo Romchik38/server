@@ -20,13 +20,12 @@ class PageUseControllerViewTest extends TestCase
 {
     public function testWithoutMetadata()
     {
-        $pageName           = 'Home';
-        $pageDescription    = 'Home page';
-        $controller         = new Controller('root');
-        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
-        $generateTemplate   = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $controller      = new Controller('root');
+        $controllerDto   = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require_once __DIR__ . '/PageUseControllerView/WithoutMetadata/template.php';
+        $view            = new PageUseControllerView($template);
 
         $view->setController($controller)->setControllerData($controllerDto);
         $html = $view->toString();
@@ -39,18 +38,16 @@ class PageUseControllerViewTest extends TestCase
 
     public function testWithMetadata()
     {
-        $pageName           = 'Home';
-        $pageDescription    = 'Home page';
-        $userName           = 'User_1';
-        $controller         = new Controller('root');
-        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithMetadata/controllerTemplate.php';
-        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithMetadata/generateTemplate.php';
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $userName        = 'User_1';
+        $controller      = new Controller('root');
+        $controllerDto   = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseControllerView/WithMetadata/template.php';
         require __DIR__ . '/PageUseControllerView/WithMetadata/MetaDataService.php';
         $metaDataService = new MetaDataService($userName);
         $view            = new PageUseControllerView(
-            $generateTemplate,
-            $controllerTemplate,
+            $template,
             null,
             $metaDataService
         );
@@ -64,14 +61,13 @@ class PageUseControllerViewTest extends TestCase
         $this->assertSame($expectedHtml, $html);
     }
 
-    public function testtoStringThrowsErrorNullController(): void
+    public function testToStringThrowsErrorNullController(): void
     {
-        $pageName           = 'Home';
-        $pageDescription    = 'Home page';
-        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
-        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $controllerDto   = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseControllerView/WithoutMetadata/template.php';
+        $view            = new PageUseControllerView($template);
         $view->setControllerData($controllerDto);
 
         $this->expectException(ViewBuildException::class);
@@ -80,25 +76,23 @@ class PageUseControllerViewTest extends TestCase
 
     public function testtoStringThrowsErrorNullControllerData(): void
     {
-        $controllerTemplate = require __DIR__ . '/PageUseControllerView/WithoutMetadata/controllerTemplate.php';
-        $generateTemplate   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
-        $controller         = new Controller('root');
+        $template   = require __DIR__ . '/PageUseControllerView/WithoutMetadata/template.php';
+        $view       = new PageUseControllerView($template);
+        $controller = new Controller('root');
         $view->setController($controller);
 
         $this->expectException(ViewBuildException::class);
         $view->toString();
     }
 
-    public function testBreadcrumbs(): void
+    public function testBreadcrumbsDefault(): void
     {
-        $pageName           = 'Home';
-        $pageDescription    = 'Home page';
-        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require __DIR__ . '/PageUseControllerView/Breadcrumbs/controllerTemplate.php';
-        $generateTemplate   = require __DIR__ . '/PageUseControllerView/Breadcrumbs/generateTemplate.php';
-        $view               = new PageUseControllerView($generateTemplate, $controllerTemplate);
-        $controller         = new Controller('root');
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $controllerDto   = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseControllerView/Breadcrumbs/template.php';
+        $view            = new PageUseControllerView($template);
+        $controller      = new Controller('root');
         $view->setController($controller)->setControllerData($controllerDto);
 
         $html = $view->toString();
@@ -116,16 +110,14 @@ class PageUseControllerViewTest extends TestCase
 
     public function testStaticUrlbuilder(): void
     {
-        $language           = 'en';
-        $pageName           = 'Home';
-        $pageDescription    = 'Home page';
-        $controllerDto      = new DefaultViewDTO($pageName, $pageDescription);
-        $controllerTemplate = require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/controllerTemplate.php';
-        $generateTemplate   = require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/generateTemplate.php';
+        $language        = 'en';
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $controllerDto   = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/template.php';
         require __DIR__ . '/PageUseControllerView/StaticUrlbuilder/MetaDataService.php';
         $view       = new PageUseControllerView(
-            $generateTemplate,
-            $controllerTemplate,
+            $template,
             null,
             new StaticMetadataService($language)
         );

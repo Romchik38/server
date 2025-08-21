@@ -10,6 +10,7 @@
 [see todo](./todo.md)
 
 - [!] - `PageUseSingleView` uses one template
+- [!] - `PageUseControllerView` uses one template
 
 ## v1.26.2
 

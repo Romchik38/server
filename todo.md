@@ -2,8 +2,6 @@
 
 ## Current
 
-- Page view - use one template
-
 ## Next
 
 - Controller tree

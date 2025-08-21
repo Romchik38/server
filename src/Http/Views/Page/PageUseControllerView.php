@@ -22,8 +22,7 @@ class PageUseControllerView extends AbstractControllerView
     protected readonly BreadcrumbInterface $breadcrumbService;
 
     public function __construct(
-        protected readonly Closure $generateTemplate,
-        protected readonly Closure $controllerTemplate,
+        protected readonly Closure $template,
         ?BreadcrumbInterface $breadcrumbService = null,
         ?MetaDataInterface $metaDataService = null,
     ) {
@@ -44,26 +43,15 @@ class PageUseControllerView extends AbstractControllerView
             throw new ViewBuildException('View build aborted - controller(data) was not set');
         }
 
-        /** 1. create metadata for header, etc */
         $this->prepareMetaData();
         $this->metaData['breadcrumbs']       = $this->prepareBreadcrumbs();
         $this->metaData['static_urlbuilder'] = $this->createStaticUrlbuilder();
 
-        /**
-         * 2. generate html from a controller template
-         */
-        $controllerResult = call_user_func(
-            $this->controllerTemplate,
+        return call_user_func(
+            $this->template,
             $this->metaData,
             $this->controllerData,
             $this->action
-        );
-
-        /** 3. generate html document */
-        return call_user_func(
-            $this->generateTemplate,
-            $this->metaData,
-            $controllerResult
         );
     }
 }
