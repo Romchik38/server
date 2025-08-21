@@ -16,12 +16,11 @@ class PageUseSingleViewTest extends TestCase
 {
     public function testWithoutMetadata()
     {
-        $pageName         = 'Home';
-        $pageDescription  = 'Home page';
-        $handlerDto       = new DefaultViewDTO($pageName, $pageDescription);
-        $handlerTemplate  = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/handlerTemplate.php';
-        $generateTemplate = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/generateTemplate.php';
-        $view             = new PageUseSingleView($generateTemplate, $handlerTemplate);
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $handlerDto      = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/template.php';
+        $view            = new PageUseSingleView($template);
 
         $view->setHandlerData($handlerDto);
         $html = $view->toString();
@@ -34,15 +33,14 @@ class PageUseSingleViewTest extends TestCase
 
     public function testWithMetadata()
     {
-        $pageName         = 'Home';
-        $pageDescription  = 'Home page';
-        $userName         = 'User_1';
-        $handlerDto       = new DefaultViewDTO($pageName, $pageDescription);
-        $handlerTemplate  = require __DIR__ . '/PageUseSingleViewTest/WithMetadata/handlerTemplate.php';
-        $generateTemplate = require __DIR__ . '/PageUseSingleViewTest/WithMetadata/generateTemplate.php';
+        $pageName        = 'Home';
+        $pageDescription = 'Home page';
+        $userName        = 'User_1';
+        $handlerDto      = new DefaultViewDTO($pageName, $pageDescription);
+        $template        = require __DIR__ . '/PageUseSingleViewTest/WithMetadata/template.php';
         require_once __DIR__ . '/PageUseSingleViewTest/WithMetadata/MetaDataService.php';
         $metaDataService = new MetaDataService($userName);
-        $view            = new PageUseSingleView($generateTemplate, $handlerTemplate, $metaDataService);
+        $view            = new PageUseSingleView($template, $metaDataService);
 
         $view->setHandlerData($handlerDto);
         $html = $view->toString();
@@ -55,9 +53,8 @@ class PageUseSingleViewTest extends TestCase
 
     public function testtoStringThrowsErrorNullHandlerData(): void
     {
-        $handlerTemplate  = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/handlerTemplate.php';
-        $generateTemplate = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/generateTemplate.php';
-        $view             = new PageUseSingleView($generateTemplate, $handlerTemplate);
+        $template = require __DIR__ . '/PageUseSingleViewTest/WithoutMetadata/template.php';
+        $view     = new PageUseSingleView($template);
 
         $this->expectException(ViewBuildException::class);
         $view->toString();

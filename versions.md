@@ -9,6 +9,8 @@
 
 [see todo](./todo.md)
 
+- [!] - `PageUseSingleView` uses one template
+
 ## v1.26.2
 
 - [f] `Breadcrumb` - fixed description from `root` to `home`

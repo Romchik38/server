@@ -14,8 +14,7 @@ use function call_user_func;
 class PageUseSingleView extends AbstractSingleView
 {
     public function __construct(
-        protected readonly Closure $generateTemplate,
-        protected readonly Closure $handlerTemplate,
+        protected readonly Closure $template,
         ?MetaDataInterface $metaDataService = null
     ) {
         parent::__construct($metaDataService);
@@ -27,23 +26,12 @@ class PageUseSingleView extends AbstractSingleView
             throw new ViewBuildException('View build aborted - handlerData was not set');
         }
 
-        /** 1. create metadata for header, etc */
         $this->prepareMetaData();
 
-        /**
-         * 2. generate html from handler template
-         */
-        $handlerResult = call_user_func(
-            $this->handlerTemplate,
+        return call_user_func(
+            $this->template,
             $this->metaData,
             $this->handlerData
-        );
-
-        /** 3. generate html document */
-        return call_user_func(
-            $this->generateTemplate,
-            $this->metaData,
-            $handlerResult
         );
     }
 }
