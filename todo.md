@@ -2,9 +2,10 @@
 
 ## Current
 
-- [!] request middleware interface can return result
-  - add `getAttributeName()`
 - [n] controller - can hold request middleware result
+  - `null` - pass the same `request` to the next handler
+  - `ResponseInterface` - returns the `response`
+  - other type - add a result to the `request` as an attribute and pass modified(new) `request` to the next handler
 
 ## Next
 

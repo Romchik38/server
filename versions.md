@@ -11,6 +11,10 @@
 
 - [!] - `PageUseSingleView` uses one template
 - [!] - `PageUseControllerView` uses one template
+- [!] `RequestMiddlewareInterface` - can return mixed result
+  - `__invoke` returns `mixed`
+  - added new method `getAttributeName()`
+  - tests
 
 ## v1.26.2
 

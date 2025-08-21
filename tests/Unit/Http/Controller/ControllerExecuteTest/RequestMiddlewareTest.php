@@ -16,6 +16,7 @@ use Romchik38\Server\Http\Controller\Actions\DefaultActionInterface;
 use Romchik38\Server\Http\Controller\Controller;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
+use Romchik38\Server\Tests\Unit\Http\Controller\ControllerExecuteTest\RequestMiddlewareTest\AbstractRequestMiddleware;
 
 final class RequestMiddlewareTest extends TestCase
 {
@@ -23,7 +24,7 @@ final class RequestMiddlewareTest extends TestCase
     {
         $rootDefaultAction = $this->createRootDefaultAction();
 
-        $middleware = new class implements RequestMiddlewareInterface
+        $middleware = new class extends AbstractRequestMiddleware implements RequestMiddlewareInterface
         {
             public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
@@ -52,7 +53,7 @@ final class RequestMiddlewareTest extends TestCase
     {
         $rootDefaultAction = $this->createRootDefaultAction();
 
-        $middleware = new class implements RequestMiddlewareInterface
+        $middleware = new class extends AbstractRequestMiddleware implements RequestMiddlewareInterface
         {
             public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
@@ -81,7 +82,7 @@ final class RequestMiddlewareTest extends TestCase
     {
         $rootDefaultAction = $this->createRootDefaultAction();
 
-        $middleware1 = new class implements RequestMiddlewareInterface
+        $middleware1 = new class extends AbstractRequestMiddleware implements RequestMiddlewareInterface
         {
             public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
@@ -89,7 +90,7 @@ final class RequestMiddlewareTest extends TestCase
             }
         };
 
-        $middleware2 = new class implements RequestMiddlewareInterface
+        $middleware2 = new class extends AbstractRequestMiddleware implements RequestMiddlewareInterface
         {
             public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {

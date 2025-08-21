@@ -23,6 +23,7 @@ use Romchik38\Server\Http\Controller\Errors\DynamicActionLogicException;
 use Romchik38\Server\Http\Controller\Errors\NoSuchControllerException;
 use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
 use Romchik38\Server\Http\Controller\Middleware\ResponseMiddlewareInterface;
+use Romchik38\Server\Tests\Unit\Http\Controller\ControllerExecuteTest\RequestMiddlewareTest\AbstractRequestMiddleware;
 
 final class ControllerTest extends TestCase
 {
@@ -518,7 +519,7 @@ final class ControllerTest extends TestCase
     public function testAddRequestMiddleware(): void
     {
         $root       = new Controller('root');
-        $middleware = new class implements RequestMiddlewareInterface
+        $middleware = new class extends AbstractRequestMiddleware implements RequestMiddlewareInterface
         {
             public function __invoke(ServerRequestInterface $request): ?ResponseInterface
             {
@@ -537,6 +538,11 @@ final class ControllerTest extends TestCase
             public function __invoke(ResponseInterface $response): ResponseInterface
             {
                 return $response;
+            }
+
+            public function getAttributeName(): string
+            {
+                return 'some_name';
             }
         };
 
