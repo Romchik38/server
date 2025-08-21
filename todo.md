@@ -2,10 +2,11 @@
 
 ## Current
 
-## Next
+- [!] request middleware interface can return result
+  - add `getAttributeName()`
+- [n] controller - can hold request middleware result
 
-- Controller tree
-  - can indicate about action not present, so Linktree will form blank url
+## Next
 
 - HandlerRouter
   - main router
@@ -13,6 +14,9 @@
   - dynamic root handler
   - controller handler
   - not found handler
+
+- Controller tree
+  - can indicate about action not present, so Linktree will form blank url
 
 - VO
   - add `JsonSerializable`
