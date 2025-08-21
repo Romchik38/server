@@ -8,8 +8,10 @@ use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
 
 abstract class AbstractRequestMiddleware implements RequestMiddlewareInterface
 {
+    public const ATTRIBUTE_NAME = 'some_name';
+
     public function getAttributeName(): string
     {
-        return 'some_name';
+        return $this::ATTRIBUTE_NAME;
     }
 }

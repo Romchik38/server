@@ -15,6 +15,12 @@
   - `__invoke` returns `mixed`
   - added new method `getAttributeName()`
   - tests
+- [n] controller
+  - can hold request middleware result:
+    - `null` - pass the same `request` to the next handler
+    - `ResponseInterface` - returns the `response`
+    - other type - add a result to the `request` as an attribute and pass modified(new) `request` to the next handler
+  - added a test.
 
 ## v1.26.2
 

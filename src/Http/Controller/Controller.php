@@ -133,16 +133,16 @@ class Controller implements ControllerInterface
 
         $route = array_shift($elements);
         if ($route === $this->name) {
-            // excute request middlewares
+            // execute request middlewares
             $requestMiddlewareResult = $this->executeRequestMiddlewares($request);
-            if ($requestMiddlewareResult !== null) {
+            if ($requestMiddlewareResult instanceof ResponseInterface) {
                 return $requestMiddlewareResult;
             }
             if (count($elements) === 0) {
                 // execute this default action
                 if ($this->action !== null) {
                     try {
-                        $response = $this->action->handle($request);
+                        $response = $this->action->handle($requestMiddlewareResult);
                         // execute response middlewares
                         return $this->executeResponseMiddlewares($response);
                     } catch (ActionNotFoundException) {
@@ -159,7 +159,10 @@ class Controller implements ControllerInterface
                 try {
                     $nextController = $this->getChild($nextRoute);
                     $nextController->setCurrentParent($this);
-                    $nextRequest          = $request->withAttribute(self::REQUEST_ELEMENTS_NAME, $elements);
+                    $nextRequest          = $requestMiddlewareResult->withAttribute(
+                        self::REQUEST_ELEMENTS_NAME,
+                        $elements
+                    );
                     $nextControllerResult = $nextController->handle($nextRequest);
                     // execute response middlewares
                     return $this->executeResponseMiddlewares($nextControllerResult);
@@ -172,7 +175,10 @@ class Controller implements ControllerInterface
                             throw new NotFoundException(ControllerInterface::NOT_FOUND_ERROR_MESSAGE);
                         }
                         try {
-                            $dynamicRequest = $request->withAttribute(ActionInterface::TYPE_DYNAMIC_ACTION, $nextRoute);
+                            $dynamicRequest = $requestMiddlewareResult->withAttribute(
+                                ActionInterface::TYPE_DYNAMIC_ACTION,
+                                $nextRoute
+                            );
                             $response       = $this->dynamicAction->handle($dynamicRequest);
                             // execute response middlewares
                             return $this->executeResponseMiddlewares($response);
@@ -307,15 +313,21 @@ class Controller implements ControllerInterface
         $this->currentParent = $currentParent;
     }
 
-    private function executeRequestMiddlewares(ServerRequestInterface $request): ?ResponseInterface
-    {
+    private function executeRequestMiddlewares(
+        ServerRequestInterface $request
+    ): ResponseInterface|ServerRequestInterface {
+        $updatedRequest = $request;
         foreach ($this->requestMiddlewares as $middleware) {
-            $result = $middleware($request);
-            if ($result !== null) {
+            $result = $middleware($updatedRequest);
+            if ($result === null) {
+                continue;
+            } elseif ($result instanceof ResponseInterface) {
                 return $result;
+            } else {
+                $updatedRequest = $updatedRequest->withAttribute($middleware->getAttributeName(), $result);
             }
         }
-        return null;
+        return $updatedRequest;
     }
 
     private function executeResponseMiddlewares(
