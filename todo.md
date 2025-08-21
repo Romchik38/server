@@ -2,9 +2,9 @@
 
 ## Current
 
-## Next
-
 - Page view - use one template
+
+## Next
 
 - Controller tree
   - can indicate about action not present, so Linktree will form blank url
