@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Romchik38\Server\Http\Controller\Path;
 
-use function array_shift;
 use function count;
 use function explode;
 
-class PathRouterMiddleware extends AbstractRouterMiddleware
+abstract class AbstractPathRouterMiddleware extends AbstractRouterMiddleware
 {
     public const ATTRIBUTE_NAME = 'path_router_middleware';
 
@@ -29,14 +29,9 @@ class PathRouterMiddleware extends AbstractRouterMiddleware
             $elements = [''];
         }
 
-        // delete first blank item
-        array_shift($elements);
-
-        return $elements;
+        return $this->getPath($elements);
     }
 
-    public function getAttributeName(): string
-    {
-        return $this::ATTRIBUTE_NAME;
-    }
+    /** @param array<int,string> $elements */
+    abstract protected function getPath(array $elements): Path;
 }

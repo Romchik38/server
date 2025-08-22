@@ -4,15 +4,30 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
-use Romchik38\Server\Http\Controller\Middleware\RequestMiddlewareInterface;
+use InvalidArgumentException;
+use Romchik38\Server\Http\Routers\Middlewares\VO\AttributeName;
 
-abstract class AbstractRouterMiddleware implements RequestMiddlewareInterface
+abstract class AbstractRouterMiddleware implements RouterMiddlewareInterface
 {
-    private(set) ?RequestMiddlewareInterface $prev = null;
-    private(set) ?RequestMiddlewareInterface $next = null;
+    protected readonly AttributeName $attributeName;
 
-    public function setNext(RequestMiddlewareInterface $middleware): void
+    private(set) ?RouterMiddlewareInterface $prev = null;
+    private(set) ?RouterMiddlewareInterface $next = null;
+
+    /** @throws InvalidArgumentException */
+    public function __construct(
+        string $attributeName
+    ) {
+        $this->attributeName = new AttributeName($attributeName);
+    }
+
+    public function setNext(RouterMiddlewareInterface $middleware): void
     {
         $this->next = $middleware;
+    }
+
+    public function getAttributeName(): string
+    {
+        return (string) $this->attributeName;
     }
 }
