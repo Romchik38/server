@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Path;
 use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
+use Romchik38\Server\Http\Routers\Middlewares\Result\DynamicPathMiddlewareResult;
 
 use function array_search;
 use function array_shift;
@@ -22,12 +24,12 @@ class DynamicPathRouterMiddleware extends AbstractPathRouterMiddleware
     public function __construct(
         protected DynamicRootInterface $dynamicRootService,
         protected ResponseFactoryInterface $responseFactory,
-        string $attributeName = 'default_path_router_middleware'
+        string $attributeName = 'dynamic_path_router_middleware'
     ) {
         parent::__construct($attributeName);
     }
 
-    /** @return array<int, DynamicRootInterface|Path>|ResponseInterface */
+    /** @return DynamicPathMiddlewareResult|ResponseInterface|null */
     public function __invoke(ServerRequestInterface $request): mixed
     {
         $uri         = $request->getUri();
@@ -70,8 +72,13 @@ class DynamicPathRouterMiddleware extends AbstractPathRouterMiddleware
         $this->dynamicRootService->setCurrentRoot($rootName);
         $dynamicRoot = $this->dynamicRootService->withCurrentRoot($rootName);
         $parts[0]    = ControllerInterface::ROOT_NAME;
-        $path        = new Path($parts);
 
-        return [$dynamicRoot, $path];
+        try {
+            $path = new Path($parts);
+        } catch (InvalidArgumentException) {
+            return null;
+        }
+
+        return new DynamicPathMiddlewareResult($path, $dynamicRoot);
     }
 }

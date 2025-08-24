@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Path;
+use Romchik38\Server\Http\Routers\Middlewares\Result\DefaultPathMiddlewareResult;
 
 class DefaultPathRouterMiddleware extends AbstractPathRouterMiddleware
 {
@@ -16,6 +18,7 @@ class DefaultPathRouterMiddleware extends AbstractPathRouterMiddleware
         parent::__construct($attributeName);
     }
 
+    /** @return DefaultPathMiddlewareResult|null */
     public function __invoke(ServerRequestInterface $request): mixed
     {
         $parts = $this->createParts($request);
@@ -24,6 +27,12 @@ class DefaultPathRouterMiddleware extends AbstractPathRouterMiddleware
             $parts[0] = ControllerInterface::ROOT_NAME;
         }
 
-        return new Path($parts);
+        try {
+            $path = new Path($parts);
+        } catch (InvalidArgumentException) {
+            return null;
+        }
+
+        return new DefaultPathMiddlewareResult($path);
     }
 }

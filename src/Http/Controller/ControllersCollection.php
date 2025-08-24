@@ -16,12 +16,21 @@ class ControllersCollection implements ControllersCollectionInterface
 
     public function getController(string $method): ControllerInterface|null
     {
+        if ($method === 'HEAD') {
+            $method = 'GET';
+        }
         return $this->hash[$method] ?? null;
     }
 
-    public function setController(ControllerInterface $controller, string $method): ControllersCollectionInterface
+    public function setController(ControllerInterface $controller, string $method): self
     {
         $this->hash[$method] = $controller;
+        return $this;
+    }
+
+    public function setGetController(ControllerInterface $controller): self
+    {
+        $this->hash['GET'] = $controller;
         return $this;
     }
 

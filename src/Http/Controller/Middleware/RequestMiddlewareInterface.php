@@ -9,11 +9,14 @@ use Psr\Http\Message\ServerRequestInterface;
 interface RequestMiddlewareInterface
 {
     public const TYPE = 'request_middleware';
+
     /**
      * Expected returns:
      *   - null - to pass exec to the next handler with no changes
      *   - `ResponseInterface` - to stop exec and return a response
      *   - other type - to pass exec to the next handler with this data
+     *
+     * @throws MiddlewareException
      */
     public function __invoke(ServerRequestInterface $request): mixed;
 

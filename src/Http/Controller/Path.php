@@ -13,7 +13,10 @@ class Path implements PathInterface
     /** @var array<int,Name> $parts */
     protected array $parts;
 
-    /** @param array<int,string> $parts */
+    /**
+     * @param array<int,string> $parts
+     * @throws InvalidArgumentException
+     * */
     public function __construct(
         array $parts
     ) {

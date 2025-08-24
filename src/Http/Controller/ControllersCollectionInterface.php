@@ -13,8 +13,10 @@ interface ControllersCollectionInterface
 {
     public function getController(string $method): ControllerInterface|null;
 
-    public function setController(ControllerInterface $controller, string $method): ControllersCollectionInterface;
+    public function setController(ControllerInterface $controller, string $method): self;
 
     /** @return array<int,string> */
     public function getMethods(): array;
+
+    public function setGetController(ControllerInterface $controller): self;
 }
