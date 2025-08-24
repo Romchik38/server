@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Romchik38\Server\Http\Controller\Path;
 
 use function count;
 use function explode;
@@ -14,7 +13,8 @@ abstract class AbstractPathRouterMiddleware extends AbstractRouterMiddleware
 {
     public const ATTRIBUTE_NAME = 'path_router_middleware';
 
-    public function __invoke(ServerRequestInterface $request): mixed
+    /** @return array<int,string> */
+    protected function createParts(ServerRequestInterface $request): array
     {
         // 0. define
         $uri   = $request->getUri();
@@ -22,16 +22,12 @@ abstract class AbstractPathRouterMiddleware extends AbstractRouterMiddleware
         [$url] = explode('?', $path);
 
         // 1. parse url
-        $elements = explode('/', $url);
+        $parts = explode('/', $url);
 
         // two blank elements for /
-        if (count($elements) === 2 && $elements[0] === '' && $elements[1] === '') {
-            $elements = [''];
+        if (count($parts) === 2 && $parts[0] === '' && $parts[1] === '') {
+            $parts = [''];
         }
-
-        return $this->getPath($elements);
+        return $parts;
     }
-
-    /** @param array<int,string> $elements */
-    abstract protected function getPath(array $elements): Path;
 }

@@ -41,4 +41,9 @@ interface DynamicRootInterface
      * @return bool true on success / false on fail
      */
     public function setCurrentRoot(string $rootName): bool;
+
+    /**
+     * @return DynamicRootInterface new instance where current root already set
+     */
+    public function withCurrentRoot(string $rootName): self;
 }

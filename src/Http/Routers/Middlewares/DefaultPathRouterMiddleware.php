@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Routers\Middlewares;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\ControllerInterface;
 use Romchik38\Server\Http\Controller\Path;
 
@@ -15,13 +16,14 @@ class DefaultPathRouterMiddleware extends AbstractPathRouterMiddleware
         parent::__construct($attributeName);
     }
 
-    protected function getPath(array $elements): Path
+    public function __invoke(ServerRequestInterface $request): mixed
     {
+        $parts = $this->createParts($request);
         // replace blank with root
-        if ($elements[0] === '') {
-            $elements[0] = ControllerInterface::ROOT_NAME;
+        if ($parts[0] === '') {
+            $parts[0] = ControllerInterface::ROOT_NAME;
         }
 
-        return new Path($elements);
+        return new Path($parts);
     }
 }

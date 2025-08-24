@@ -63,4 +63,11 @@ class DynamicRoot implements DynamicRootInterface
         }
         return false;
     }
+
+    public function withCurrentRoot(string $rootName): self
+    {
+        $new = clone $this;
+        $new->setCurrentRoot($rootName);
+        return $new;
+    }
 }
