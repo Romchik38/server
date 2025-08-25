@@ -1,16 +1,47 @@
 # Router
 
-- `Romchik38\Server\Routers\Http\PlasticineRouter`
-- `Romchik38\Server\Routers\Http\DynamicRootRouter`
+- Main Router
+- Router Middlewares
 
-## Common
+The `MiddlewareRouter`, as a main router, processes the provided middlewares sequentially. The execution flow depends on the value returned by each middleware:
 
-### Redirect
+- `null`, the original request is passed to the next middleware.
+- `ResponseInterface`, the execution chain is terminated, and the response is returned immediately.
+- `other value`, that value is added to the request, and the updated request is passed to the next middleware.
 
-All urls, passed from Redirect Service will be normalized before `Location` header:
+This mechanism allows for establishing a dependency between the `request handler` and the `router middleware`.
 
-| type       | from Redirect Service          | Location header                |
-|------------|--------------------------------|--------------------------------|
-|absolute    | `http://somehost.com/some/url` | `http://somehost.com/some/url` |
-|origin form | `/some/url`                    | `http://somehost.com/some/url` |
-|rootless    | `some/url`                     | `http://somehost.com/some/url` |
+## Default group
+
+Use as much `HandlerRouterMiddleware` as needed with `request handler` to process a request.
+
+## Controller group
+
+1. Choose one of the path middleware
+    - `DefaultPathRouterMiddleware`
+    - `DynamicPathRouterMiddleware`
+2. Set a `ControllerRouterMiddleware`
+3. Use as much `HandlerRouterMiddleware` as needed in any part of the chain with `request handler` to process a request. As an expample - to handle a 404 use the middleware at the end of the chain.
+
+## HandlerRouterMiddleware
+
+`HandlerRouterMiddleware` must returns a response only. It does not catch any exceptions.
+
+## DynamicPathRouterMiddleware
+
+Returns one from:
+
+- `null` on trailing slash
+- `response` with redirect to `default root` when root part not found
+- `result` with `dynamic root` and `path`
+
+## DefaultPathRouterMiddleware
+
+Returns one from:
+
+- `null` on trailing slash
+- `result` with `path`
+
+## AbstractRouterMiddleware
+
+Use `AbstractRouterMiddleware` to implement own middleware
