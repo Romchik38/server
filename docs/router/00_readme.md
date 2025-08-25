@@ -11,6 +11,8 @@ The `MiddlewareRouter`, as a main router, processes the provided middlewares seq
 
 This mechanism allows for establishing a dependency between the `request handler` and the `router middleware`.
 
+If no response were received and there aren't any middleware in the chain, router throws `RuntimeException`.
+
 ## Default group
 
 Use as much `HandlerRouterMiddleware` as needed with `request handler` to process a request.
