@@ -42,6 +42,17 @@ Returns one from:
 - `null` on trailing slash
 - `result` with `path`
 
+## ControllerRouterMiddleware
+
+Returns one from:
+
+- `null` path not found
+- `null` missed path result
+- `null` on empty controller collection
+- `ResponseInterface` - from found action
+- `ResponseInterface` - 405 with method not allowed on non existing
+- `ResponseInterface` with empty body on `HEAD` method
+
 ## AbstractRouterMiddleware
 
 Use `AbstractRouterMiddleware` to implement own middleware

@@ -13,6 +13,8 @@ use Romchik38\Server\Http\Controller\ControllersCollectionInterface;
 use Romchik38\Server\Http\Controller\Errors\NotFoundException;
 use Romchik38\Server\Http\Routers\Middlewares\Result\PathMiddlewareResultInterface;
 
+use function count;
+
 class ControllerRouterMiddleware extends AbstractRouterMiddleware
 {
     public function __construct(
@@ -24,13 +26,21 @@ class ControllerRouterMiddleware extends AbstractRouterMiddleware
         parent::__construct($attributeName);
     }
 
+    /**
+     * @return null|ResponseInterface
+     */
     public function __invoke(ServerRequestInterface $request): mixed
     {
+        $allowedMethods = $this->controllersCollection->getMethods();
+        if (count($allowedMethods) === 0) {
+            return null;
+        }
+
         $method = $request->getMethod();
 
         $rootController = $this->controllersCollection->getController($method);
         if ($rootController === null) {
-            return $this->methodNotAllowed($this->controllersCollection->getMethods());
+            return $this->methodNotAllowed($allowedMethods);
         }
 
         $pathResult = $request->getAttribute($this->attributePathName);
