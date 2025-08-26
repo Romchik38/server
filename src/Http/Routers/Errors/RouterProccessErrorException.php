@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * throws during Router execute
+ *
  * @deprecated
  */
 class RouterProccessErrorException extends RuntimeException
