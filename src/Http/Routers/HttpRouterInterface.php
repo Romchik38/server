@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Routers;
 
+/** @deprecated */
 interface HttpRouterInterface
 {
     public const REQUEST_METHOD_GET  = 'GET';

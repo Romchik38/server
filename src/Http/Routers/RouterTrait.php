@@ -10,6 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use function sprintf;
 use function str_starts_with;
 
+/** @deprecated */
 trait RouterTrait
 {
     protected function normalizeRedirectUrl(

@@ -17,6 +17,7 @@ use Romchik38\Server\Http\Routers\Handlers\Redirect\RedirectResultDTOInterface;
 use function count;
 use function explode;
 
+/** @deprecated */
 class PlasticineRouter implements HttpRouterInterface, RequestHandlerInterface
 {
     use RouterTrait;

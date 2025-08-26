@@ -21,6 +21,7 @@ use function array_shift;
 use function count;
 use function explode;
 
+/** @deprecated */
 class DynamicRootRouter implements HttpRouterInterface, RequestHandlerInterface
 {
     use RouterTrait;
