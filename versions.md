@@ -9,6 +9,8 @@
 
 [see todo](./todo.md)
 
+- [n] - added new router middleware that handle `Accept-lLanguage` header
+
 ## v1.28.0
 
 - [n] - new router system, based on middlewares:
