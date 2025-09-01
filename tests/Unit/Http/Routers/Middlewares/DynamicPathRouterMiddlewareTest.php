@@ -77,4 +77,42 @@ final class DynamicPathRouterMiddlewareTest extends TestCase
 
         $this->assertSame('http://example.com/en', $headerLine);
     }
+
+    public function testWithPrefferedRootFound(): void
+    {
+        $uri     = new Uri('http://example.com/');
+        $request = new ServerRequest([], [], $uri, 'GET');
+        $request = $request->withAttribute(
+            'preffered_root_router_middleware',
+            ['uk-UA', 'uk', 'en-US', 'en']
+        );
+
+        $dynamicRoot     = new DynamicRoot('en', ['en', 'uk']);
+        $responseFactory = new ResponseFactory();
+        $middleware      = new DynamicPathRouterMiddleware($dynamicRoot, $responseFactory);
+
+        $result = $middleware($request);
+
+        $headerLine = $result->getHeaderLine('Location');
+        $this->assertSame('http://example.com/uk', $headerLine);
+    }
+
+    public function testWithPrefferedRootNotFound(): void
+    {
+        $uri     = new Uri('http://example.com/');
+        $request = new ServerRequest([], [], $uri, 'GET');
+        $request = $request->withAttribute(
+            'preffered_root_router_middleware',
+            ['uk-UA', 'uk']
+        );
+
+        $dynamicRoot     = new DynamicRoot('en', ['en', 'fr']);
+        $responseFactory = new ResponseFactory();
+        $middleware      = new DynamicPathRouterMiddleware($dynamicRoot, $responseFactory);
+
+        $result = $middleware($request);
+
+        $headerLine = $result->getHeaderLine('Location');
+        $this->assertSame('http://example.com/en', $headerLine);
+    }
 }
