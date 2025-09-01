@@ -34,7 +34,7 @@ Use as much `HandlerRouterMiddleware` as needed with `request handler` to proces
 Returns one from:
 
 - `null` on trailing slash
-- `response` with redirect to `default root` when root part not found
+- `response` with redirect to `default root` or `preffered root` when root part not found
 - `result` with `dynamic root` and `path`
 
 ## DefaultPathRouterMiddleware
