@@ -9,6 +9,8 @@
 
 [see todo](./todo.md)
 
+## v1.28.1
+
 - [n] - `PrefferedRootRouterMiddlewareUseAcceptLanguage` - a new router middleware that handle `Accept-lLanguage` header
 - [n] - `DynamicPathRouterMiddleware` - can redirect to preffered root
 
