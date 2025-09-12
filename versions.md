@@ -9,6 +9,10 @@
 
 [see todo](./todo.md)
 
+## v1.28.2
+
+- `DatabasePostgresql` - conneсtion for single queries can be restored
+
 ## v1.28.1
 
 - [n] - `PrefferedRootRouterMiddlewareUseAcceptLanguage` - a new router middleware that handle `Accept-lLanguage` header

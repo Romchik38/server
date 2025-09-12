@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Romchik38\Server\Persist\Sql;
 
 use PgSql\Connection;
+use Romchik38\Server\Persist\Sql\DatabaseException;
+use Romchik38\Server\Persist\Sql\DatabaseTransactionException;
+use Romchik38\Server\Persist\Sql\QueryException;
 use RuntimeException;
 
 use function extension_loaded;
@@ -17,6 +20,7 @@ use function pg_connection_status;
 use function pg_fetch_all;
 use function pg_free_result;
 use function pg_last_error;
+use function pg_ping;
 use function pg_query;
 use function pg_query_params;
 use function pg_transaction_status;
@@ -35,6 +39,7 @@ class DatabasePostgresql implements DatabaseSqlInterface
 {
     private Connection $connection;
     private bool $isConnected;
+    private bool $inTransaction = false;
 
     /**
      * @param int $flags
@@ -43,8 +48,11 @@ class DatabasePostgresql implements DatabaseSqlInterface
      *   4 (PGSQL_CONNECT_ASYNC)        - asynchronous connection
      * @throws DatabaseException - On missing pgsql extension and problem with a connection.
      * */
-    public function __construct(string $config, int $flags = 0)
-    {
+    public function __construct(
+        string $config,
+        int $flags = 0,
+        private readonly bool $reconnect = false
+    ) {
         if (extension_loaded('pgsql') === false) {
             throw new DatabaseException('Required extension: pgsql');
         }
@@ -79,7 +87,7 @@ class DatabasePostgresql implements DatabaseSqlInterface
         return $this->isConnected;
     }
 
-    public function queryParams(string $query, array $params): array
+    public function queryParams(string $query, array $params = []): array
     {
         try {
             $this->checkConnectionIsOk();
@@ -133,6 +141,8 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 $errMsg
             ));
         }
+        pg_free_result($result);
+        $this->inTransaction = true;
     }
 
     public function transactionEnd(): void
@@ -161,6 +171,8 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 $errMsg
             ));
         }
+        pg_free_result($result);
+        $this->inTransaction = false;
     }
 
     public function transactionRollback(): void
@@ -174,10 +186,10 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 'Transaction rollback is not possible'
             ));
         }
-
-         ob_start();
-         $result = pg_query($this->connection, 'ROLLBACK');
-         ob_end_clean();
+        $this->inTransaction = false;
+        ob_start();
+        $result = pg_query($this->connection, 'ROLLBACK');
+        ob_end_clean();
         if ($result === false) {
             $errMsg = pg_last_error($this->connection);
             throw new DatabaseTransactionException(sprintf(
@@ -185,6 +197,7 @@ class DatabasePostgresql implements DatabaseSqlInterface
                 $errMsg
             ));
         }
+        pg_free_result($result);
     }
 
     /** @throws RuntimeException */
@@ -196,6 +209,13 @@ class DatabasePostgresql implements DatabaseSqlInterface
             $status = pg_connection_status($this->connection);
             if ($status !== PGSQL_CONNECTION_OK) {
                 throw new RuntimeException('PostgreSQL connection is bad');
+                /** @todo reconnect */
+            } else {
+                if (! $this->inTransaction && $this->reconnect) {
+                    if (! pg_ping($this->connection)) {
+                        throw new RuntimeException('PostgreSQL server connection is broken');
+                    }
+                }
             }
         }
     }

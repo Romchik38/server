@@ -2,8 +2,6 @@
 
 ## Current
 
-- database and conmnection classes
-
 ## Next
 
 - Controller tree

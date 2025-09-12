@@ -10,9 +10,12 @@ use Romchik38\Server\Persist\Sql\DatabaseTransactionException;
 use Romchik38\Server\Persist\Sql\QueryException;
 use RuntimeException;
 
+use function is_string;
 use function pg_close;
 use function pg_connect;
 use function pg_query;
+use function shell_exec;
+use function sleep;
 use function sprintf;
 
 use const PGSQL_CONNECT_FORCE_NEW;
@@ -212,5 +215,66 @@ final class DatabasePostgresqlTest extends TestCase
         $params   = [4];
         $rows     = $database->queryParams($query, $params);
         $this->assertSame(null, $rows[0]['name']);
+    }
+
+    public function testQueryParamsWithReconnect(): void
+    {
+        $database = new DatabasePostgresql(
+            $this->connectionParams,
+            PGSQL_CONNECT_FORCE_NEW,
+            true
+        );
+        $result   = shell_exec('docker restart pg-container');
+        if (! is_string($result)) {
+            throw new RuntimeException('Could not restart docker container to proccess test');
+        }
+        sleep(5);   // waiting while container restars
+        $query  = 'SELECT name from products WHERE id = $1';
+        $params = [1];
+        $rows   = $database->queryParams($query, $params);
+        $this->assertSame('Product 1', $rows[0]['name']);
+    }
+
+    public function testQueryParamsWithoutReconnect(): void
+    {
+        $database = new DatabasePostgresql(
+            $this->connectionParams,
+            PGSQL_CONNECT_FORCE_NEW
+        );
+        $result   = shell_exec('docker restart pg-container');
+        if (! is_string($result)) {
+            throw new RuntimeException('Could not restart docker container to proccess test');
+        }
+        sleep(5);   // waiting while container restars
+        $query  = 'SELECT name from products WHERE id = $1';
+        $params = [1];
+
+        $this->expectException(QueryException::class);
+        $database->queryParams($query, $params);
+        $database->close();
+    }
+
+    public function testTransactionStartEndStopOnDatabaseReconnect(): void
+    {
+        $database = new DatabasePostgresql(
+            $this->connectionParams,
+            PGSQL_CONNECT_FORCE_NEW,
+            true
+        );
+
+        $database->transactionStart();
+        $query  = 'SELECT name from products WHERE id = $1';
+        $params = [1];
+        $rows   = $database->queryParams($query, $params);
+
+        $result = shell_exec('docker restart pg-container');
+        if (! is_string($result)) {
+            throw new RuntimeException('Could not restart docker container to proccess test');
+        }
+        sleep(5);   // waiting while container restars
+
+        $this->expectException(DatabaseTransactionException::class);
+        $database->transactionEnd();
+        $database->close();
     }
 }
