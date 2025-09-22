@@ -9,6 +9,12 @@
 
 [see todo](./todo.md)
 
+## v1.28.3
+
+- `AbstractUrbuilder` - encode url
+- `Urlbuilder` - test with special chars
+- `StaticUrlbuilder` - test with special chars
+
 ## v1.28.2
 
 - `DatabasePostgresql` - conneсtion for single queries can be restored

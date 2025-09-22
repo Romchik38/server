@@ -29,4 +29,17 @@ final class StaticUrlbuilderTest extends TestCase
 
         $this->assertSame('/en/article/views', $url);
     }
+
+    public function testWithRootParamsSpecialChars(): void
+    {
+        $path       = new Path(['root', 'article', 'views']);
+        $urlbuilder = new StaticUrlbuilder($path);
+        $root       = 'en';
+        $url        = $urlbuilder->withRoot(
+            $root,
+            ['id' => '1', 'color' => 'red&blue'] // %26
+        );
+
+        $this->assertSame('/en/article/views?id=1&color=red%26blue', $url);
+    }
 }

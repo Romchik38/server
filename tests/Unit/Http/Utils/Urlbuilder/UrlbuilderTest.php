@@ -121,4 +121,15 @@ final class UrlbuilderTest extends TestCase
         );
         $this->assertSame('http://example.com/product?id=1&color=red#fr1', $uri);
     }
+
+    public function testFromArrayWithSpecialChars(): void
+    {
+        $url = new Urlbuilder('http', 'example.com');
+
+        $uri = $url->fromArray(
+            ['root', 'product'],
+            ['id' => '1', 'color' => 'red&blue'] // %26
+        );
+        $this->assertSame('http://example.com/product?id=1&color=red%26blue', $uri);
+    }
 }

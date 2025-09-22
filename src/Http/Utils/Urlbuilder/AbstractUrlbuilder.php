@@ -13,6 +13,7 @@ use function implode;
 use function in_array;
 use function sprintf;
 use function strlen;
+use function urlencode;
 
 class AbstractUrlbuilder implements UrlbuilderInterface
 {
@@ -68,7 +69,7 @@ class AbstractUrlbuilder implements UrlbuilderInterface
         $paramPart  = '';
         $paramItems = [];
         foreach ($params as $key => $value) {
-            $paramItems[] = sprintf('%s=%s', $key, $value);
+            $paramItems[] = sprintf('%s=%s', urlencode($key), urlencode($value));
         }
         if (count($paramItems) > 0) {
             $paramPart = '?' . implode('&', $paramItems);

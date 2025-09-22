@@ -2,10 +2,6 @@
 
 ## Current
 
-- `AbstractUrbuilder` - encode url
-- `Urlbuilder` - test with special chars
-- `StaticUrlbuilder` - test with special chars
-
 ## Next
 
 - Controller tree
