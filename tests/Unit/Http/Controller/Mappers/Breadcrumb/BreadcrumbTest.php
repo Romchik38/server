@@ -62,4 +62,19 @@ final class BreadcrumbTest extends TestCase
         $this->assertSame('about', $breadcrumbDtoAbout->getDescription());
         $this->assertSame('/about', $breadcrumbDtoAbout->getUrl());
     }
+
+    public function testGetBreadcrumbDTOWithSpecialChars()
+    {
+        $controllerTree  = new ControllerTree();
+        $controllerRoot  = new Controller('root');
+        $controllerAbout = new Controller('about company');
+        $controllerRoot->setChild($controllerAbout);
+        $controllerAbout->setCurrentParent($controllerRoot);
+        $breadcrumb = new Breadcrumb($controllerTree);
+
+        $breadcrumbDtoAbout = $breadcrumb->getBreadcrumbDTO($controllerAbout, '');
+
+        $this->assertSame('about company', $breadcrumbDtoAbout->getName());
+        $this->assertSame('/about+company', $breadcrumbDtoAbout->getUrl());
+    }
 }

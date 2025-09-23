@@ -77,6 +77,20 @@ final class LinkTreeTest extends TestCase
         $this->assertSame('/sitemap', $child2->getUrl());
     }
 
+    public function testGetLinkTreeDTOWithoutDynamicRootWithSpecialChars(): void
+    {
+        $child1            = new ControllerDTO('news 2025', ['root'], [], 'News 2025 page');
+        $rootControllerDto = new ControllerDTO('root', [], [$child1], 'Home page');
+
+        $linkTreeService = new LinkTree();
+        $dto             = $linkTreeService->getLinkTreeDTO($rootControllerDto);
+        $children        = $dto->getChildren();
+        $child1          = $children[0];
+
+        $this->assertSame('news 2025', $child1->getName());
+        $this->assertSame('/news+2025', $child1->getUrl());
+    }
+
     protected function createRootControllerDTO(): ControllerDTOInterface
     {
         $child1 = new ControllerDTO('about', ['root'], [], 'About page');

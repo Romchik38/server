@@ -9,6 +9,11 @@
 
 [see todo](./todo.md)
 
+## v1.29.1
+
+- `LinkTree` - added test url with special chars
+- [!f] `Breadcrumb` - encode url parts
+
 ## v1.29.0
 
 - [!] Refactored `Controller` name encoding principle

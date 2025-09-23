@@ -9,11 +9,13 @@ use Romchik38\Server\Http\Controller\Dto\ControllerDTOInterface;
 use Romchik38\Server\Http\Controller\Mappers\ControllerTree\ControllerTreeInterface;
 use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
+use function array_map;
 use function array_merge;
 use function array_push;
 use function array_slice;
 use function count;
 use function implode;
+use function urlencode;
 
 class Breadcrumb implements BreadcrumbInterface
 {
@@ -84,7 +86,7 @@ class Breadcrumb implements BreadcrumbInterface
             $description = BreadcrumbInterface::HOME_PLACEHOLDER;
         }
 
-        $url = '/' . implode('/', $path);
+        $url = '/' . implode('/', array_map(fn($part)=> urlencode($part), $path));
 
         $element = new BreadcrumbDTO(
             $name,
