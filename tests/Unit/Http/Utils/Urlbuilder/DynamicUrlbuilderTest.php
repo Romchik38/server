@@ -20,6 +20,16 @@ final class DynamicUrlbuilderTest extends TestCase
         $this->assertSame('/uk/article/views', $du->fromArray($path));
     }
 
+    public function testWithDefaultsWithSpecialChars(): void
+    {
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
+        $path = ['root', 'article', 'views 2025'];
+        $du   = new DynamicUrlbuilder($dynamicRoot);
+
+        $this->assertSame('/uk/article/views+2025', $du->fromArray($path));
+    }
+
     public function testWithSchema(): void
     {
         $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);

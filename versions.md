@@ -9,6 +9,14 @@
 
 [see todo](./todo.md)
 
+## v1.29.0
+
+- [!] Refactored `Controller` name encoding principle
+  - `Name` represents raw unencoded string
+  - `Path` takes raw unencoded string
+  - All Urlbuilders - take `Path` or `array of raw unencoded string` and return `encoded url`
+  - added tests
+
 ## v1.28.3
 
 - `AbstractUrbuilder` - encode url

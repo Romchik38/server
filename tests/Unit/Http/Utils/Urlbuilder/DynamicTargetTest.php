@@ -20,4 +20,14 @@ final class DynamicTargetTest extends TestCase
         $requestTarget = $target->fromPath($path);
         $this->assertSame('/uk/products', $requestTarget);
     }
+
+    public function testFromPathWithSpecialChars(): void
+    {
+        $dynamicRoot = new DynamicRoot('en', ['en', 'uk']);
+        $dynamicRoot->setCurrentRoot('uk');
+        $path          = new Path(['root', 'products 2025']);
+        $target        = new DynamicTarget($dynamicRoot);
+        $requestTarget = $target->fromPath($path);
+        $this->assertSame('/uk/products+2025', $requestTarget);
+    }
 }

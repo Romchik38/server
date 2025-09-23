@@ -17,4 +17,12 @@ final class TargetTest extends TestCase
         $requestTarget = $target->fromPath($path);
         $this->assertSame('/products', $requestTarget);
     }
+
+    public function testFromPathWithSpecialChars(): void
+    {
+        $path          = new Path(['root', 'products 2025']);
+        $target        = new Target();
+        $requestTarget = $target->fromPath($path);
+        $this->assertSame('/products+2025', $requestTarget);
+    }
 }

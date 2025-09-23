@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Http\Controller;
 
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Romchik38\Server\Http\Controller\Actions\ActionInterface;
@@ -64,6 +63,8 @@ class Controller implements ControllerInterface
     /** used to explicitly identify a controller */
     protected readonly string $id;
 
+    protected readonly Name $name;
+
     /** @var array<int,RequestMiddlewareInterface> $requestMiddlewares */
     protected array $requestMiddlewares = [];
 
@@ -76,15 +77,13 @@ class Controller implements ControllerInterface
     protected ControllerInterface|null $currentParent = null;
 
     public function __construct(
-        protected readonly string $name,
+        string $name,
         protected readonly bool $publicity = false,
         protected readonly DefaultActionInterface|null $action = null,
         protected readonly DynamicActionInterface|null $dynamicAction = null,
         string $id = ''
     ) {
-        if (strlen($name) === 0) {
-            throw new InvalidArgumentException('Controller name is empty');
-        }
+        $this->name = new Name($name);
         if ($this->action !== null) {
             $this->action->setController($this);
         }
@@ -132,7 +131,7 @@ class Controller implements ControllerInterface
         }
 
         $route = array_shift($elements);
-        if ($route === $this->name) {
+        if ($route === (string) $this->name) {
             // execute request middlewares
             $requestMiddlewareResult = $this->executeRequestMiddlewares($request);
             if ($requestMiddlewareResult instanceof ResponseInterface) {
@@ -210,14 +209,14 @@ class Controller implements ControllerInterface
 
     public function getName(): string
     {
-        return $this->name;
+        return (string) $this->name;
     }
 
     public function getDescription(string $dynamicRoute = ''): string
     {
         if (strlen($dynamicRoute) === 0) {
             if ($this->action === null) {
-                return $this->name;
+                return (string) $this->name;
             } else {
                 return $this->action->getDescription();
             }
@@ -266,7 +265,7 @@ class Controller implements ControllerInterface
 
     public function getFullPath(string $route = ''): array
     {
-        $fullPath = [$this->name];
+        $fullPath = [(string) $this->name];
         if ($route !== '') {
             array_push($fullPath, $route);
         }

@@ -85,7 +85,7 @@ class DynamicPathRouterMiddleware extends AbstractPathRouterMiddleware
         $parts[0]    = ControllerInterface::ROOT_NAME;
 
         try {
-            $path = new Path($parts);
+            $path = Path::fromEncodedUrlParts($parts);
         } catch (InvalidArgumentException) {
             return null;
         }

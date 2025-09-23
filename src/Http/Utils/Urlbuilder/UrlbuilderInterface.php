@@ -9,7 +9,7 @@ use Romchik38\Server\Http\Controller\PathInterface;
 interface UrlbuilderInterface
 {
     /**
-     * @param array<int,string> $parts - Non epmty array with non empty string(s).
+     * @param array<int,string> $parts - Not encoded controller names.
      * @param array<string,string> $params - Key/value for query string.
      * */
     public function fromArray(
@@ -19,7 +19,7 @@ interface UrlbuilderInterface
     ): string;
 
     /**
-     * @param array<string,string> $params - Key/value for query string
+     * @param array<string,string> $params - Not encoded Key/value for query string
      * */
     public function fromPath(
         PathInterface $path,

@@ -2,8 +2,6 @@
 
 ## Current
 
-- Controller `Path` pakes raw names and encode then
-
 ## Next
 
 - Controller tree

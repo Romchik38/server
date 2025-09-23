@@ -18,73 +18,73 @@ final class NameTest extends TestCase
 
     public function testDigitsChars(): void
     {
-        $n1 = new Name('a1a');
+        $n1 = Name::fromEncodedUrlPart('a1a');
         $this->assertSame('a1a', $n1());
     }
 
     public function testDigits(): void
     {
-        $n1 = new Name('0123');
+        $n1 = Name::fromEncodedUrlPart('0123');
         $this->assertSame('0123', $n1());
     }
 
     public function testNotAscii(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Name('і');
+        Name::fromEncodedUrlPart('і');
     }
 
     public function testUpperCase(): void
     {
-        $n1 = new Name('Product');
+        $n1 = Name::fromEncodedUrlPart('Product');
         $this->assertSame('Product', $n1());
     }
 
     public function testDash(): void
     {
-        $n1 = new Name('a-1a');
+        $n1 = Name::fromEncodedUrlPart('a-1a');
         $this->assertSame('a-1a', $n1());
     }
 
     public function testExclamationMark(): void
     {
-        $n1 = new Name('!');
+        $n1 = Name::fromEncodedUrlPart('!');
         $this->assertSame('!', $n1());
     }
 
     public function testDollar(): void
     {
-        $n1 = new Name('$');
+        $n1 = Name::fromEncodedUrlPart('$');
         $this->assertSame('$', $n1());
     }
 
     public function testUnderscore(): void
     {
-        $n1 = new Name('_');
+        $n1 = Name::fromEncodedUrlPart('_');
         $this->assertSame('_', $n1());
     }
 
     public function testDotComma(): void
     {
-        $n1 = new Name('.,');
+        $n1 = Name::fromEncodedUrlPart('.,');
         $this->assertSame('.,', $n1());
     }
 
     public function testPlusStarSingleQuote(): void
     {
-        $n1 = new Name('+*\'');
-        $this->assertSame('+*\'', $n1());
+        $n1 = Name::fromEncodedUrlPart('+*\'');
+        $this->assertSame(' *\'', $n1());
     }
 
     public function testParentheses(): void
     {
-        $n1 = new Name('()');
+        $n1 = Name::fromEncodedUrlPart('()');
         $this->assertSame('()', $n1());
     }
 
     public function testPercent(): void
     {
-        $n1 = new Name('as%AC');
-        $this->assertSame('as%AC', $n1());
+        $n1 = Name::fromEncodedUrlPart('as%25');
+        $this->assertSame('as%', $n1());
     }
 }

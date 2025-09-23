@@ -10,7 +10,7 @@ interface StaticUrlbuilderInterface
 {
     /**
      * @throws InvalidArgumentException
-     * @param array<string,string> $params - Key/value for query string
+     * @param array<string,string> $params Not encoded Key/value for query string
      * */
     public function withRoot(
         string $rootName,

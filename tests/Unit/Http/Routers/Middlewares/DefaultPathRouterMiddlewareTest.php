@@ -30,6 +30,23 @@ final class DefaultPathRouterMiddlewareTest extends TestCase
         $this->assertSame(['root'], $path());
     }
 
+    public function testHandleWithSpecialChars(): void
+    {
+        $middleware = new DefaultPathRouterMiddleware();
+
+        $uri     = new Uri('http://example.com/hello+world');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
+        $result = $middleware($request);
+
+        $this->assertTrue($result instanceof DefaultPathMiddlewareResult);
+
+        $path = $result->getPath();
+
+        $this->assertTrue($path instanceof PathInterface);
+        $this->assertSame(['root', 'hello world'], $path());
+    }
+
     public function testHandleReturnsNull(): void
     {
         $middleware = new DefaultPathRouterMiddleware();

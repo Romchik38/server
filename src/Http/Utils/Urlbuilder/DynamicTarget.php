@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Utils\Urlbuilder;
 
 use Romchik38\Server\Http\Controller\ControllerInterface;
+use Romchik38\Server\Http\Controller\Path;
 use Romchik38\Server\Http\Controller\PathInterface;
 use Romchik38\Server\Http\Routers\Handlers\DynamicRoot\DynamicRootInterface;
 
-use function implode;
-
-class DynamicTarget implements TargetInterface
+class DynamicTarget extends RootlessTarget
 {
     public function __construct(
         protected readonly DynamicRootInterface $dynamicRoot
@@ -24,6 +23,6 @@ class DynamicTarget implements TargetInterface
         if ($firstPath === ControllerInterface::ROOT_NAME) {
             $parts[0] = $this->dynamicRoot->getCurrentRoot()->getName();
         }
-        return '/' . implode('/', $parts);
+        return parent::fromPath(new Path($parts));
     }
 }

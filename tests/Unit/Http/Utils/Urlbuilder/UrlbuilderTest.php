@@ -21,6 +21,16 @@ final class UrlbuilderTest extends TestCase
         $this->assertSame('http://example.com/product', $uri);
     }
 
+    public function testFromPathWithSpecialChars(): void
+    {
+        $url = new Urlbuilder('http', 'example.com');
+
+        $path = new Path(['root', 'product 2025']);
+
+        $uri = $url->fromPath($path);
+        $this->assertSame('http://example.com/product+2025', $uri);
+    }
+
     public function testFromPathEmptyAuthority(): void
     {
         $this->expectException(InvalidArgumentException::class);

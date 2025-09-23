@@ -7,6 +7,10 @@ namespace Romchik38\Server\Http\Controller;
 use InvalidArgumentException;
 
 use function count;
+use function is_string;
+use function preg_match;
+use function sprintf;
+use function urldecode;
 
 class Path implements PathInterface
 {
@@ -14,7 +18,7 @@ class Path implements PathInterface
     protected array $parts;
 
     /**
-     * @param array<int,string> $parts
+     * @param array<int,string> $parts Non encoded strings
      * @throws InvalidArgumentException
      * */
     public function __construct(
@@ -37,5 +41,24 @@ class Path implements PathInterface
             $parts[] = $part();
         }
         return $parts;
+    }
+
+    /** @param array<int,mixed|string> $parts Encoded url parts*/
+    public static function fromEncodedUrlParts(array $parts): self
+    {
+        $decodedParts = [];
+        foreach ($parts as $part) {
+            if (! is_string($part)) {
+                throw new InvalidArgumentException('param path part is invalid');
+            }
+            if (preg_match(Name::PATTERN, $part) !== 1) {
+                throw new InvalidArgumentException(
+                    sprintf('path name part %s is invalid', $part)
+                );
+            }
+            $decodedParts[] = urldecode($part);
+        }
+
+        return new self($decodedParts);
     }
 }

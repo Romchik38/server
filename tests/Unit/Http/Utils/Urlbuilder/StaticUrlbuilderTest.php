@@ -20,6 +20,16 @@ final class StaticUrlbuilderTest extends TestCase
         $this->assertSame('/en/article/views', $url);
     }
 
+    public function testWithRootPathWithRootWithSpecialChars(): void
+    {
+        $path       = new Path(['root', 'article', 'views 2025']);
+        $urlbuilder = new StaticUrlbuilder($path);
+        $root       = 'en';
+        $url        = $urlbuilder->withRoot($root);
+
+        $this->assertSame('/en/article/views+2025', $url);
+    }
+
     public function testWithRootPathWithoutRoot(): void
     {
         $path       = new Path(['article', 'views']);

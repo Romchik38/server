@@ -28,7 +28,7 @@ class DefaultPathRouterMiddleware extends AbstractPathRouterMiddleware
         }
 
         try {
-            $path = new Path($parts);
+            $path = Path::fromEncodedUrlParts($parts);
         } catch (InvalidArgumentException) {
             return null;
         }

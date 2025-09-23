@@ -49,6 +49,21 @@ final class DynamicPathRouterMiddlewareTest extends TestCase
         $this->assertSame(['root'], $path());
     }
 
+    public function testHandleWithSpecialChars(): void
+    {
+        $dynamicRoot     = new DynamicRoot('en', ['en', 'uk']);
+        $responseFactory = new ResponseFactory();
+        $middleware      = new DynamicPathRouterMiddleware($dynamicRoot, $responseFactory);
+
+        $uri     = new Uri('http://example.com/en/hello+world');
+        $request = new ServerRequest([], [], $uri, 'GET');
+
+        $result = $middleware($request);
+        $path   = $result->getPath();
+
+        $this->assertSame(['root', 'hello world'], $path());
+    }
+
     public function testHandleReturnsNullOnTrailingSlash(): void
     {
         $dynamicRoot     = new DynamicRoot('en', ['en', 'uk']);

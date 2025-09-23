@@ -22,4 +22,29 @@ final class PathTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Path([]);
     }
+
+    public function testFromEncodedUrlParts(): void
+    {
+        $parts = ['root', 'product%25'];
+        $path  = Path::fromEncodedUrlParts($parts);
+        $this->assertSame(['root', 'product%'], $path());
+    }
+
+    public function testFromEncodedUrlPartsThrowsErrorOnSpecailChars(): void
+    {
+        $parts = ['root', 'product '];
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('path name part product  is invalid');
+        Path::fromEncodedUrlParts($parts);
+    }
+
+    public function testFromEncodedUrlPartsThrowsErrorOnNonString(): void
+    {
+        $parts = [1, false];
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('param path part is invalid');
+        Path::fromEncodedUrlParts($parts);
+    }
 }

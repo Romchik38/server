@@ -5,27 +5,25 @@ declare(strict_types=1);
 namespace Romchik38\Server\Http\Controller;
 
 use InvalidArgumentException;
+use Romchik38\Server\Domain\VO\Text\NonEmpty;
 
 use function preg_match;
 use function sprintf;
+use function urldecode;
 
-class Name
+class Name extends NonEmpty
 {
+    public const NAME    = 'controller name';
     public const PATTERN = '/^[a-zA-Z0-9$\-_.+!*\'(),%]+$/';
 
-    /** @throws InvalidArgumentException */
-    public function __construct(
-        private readonly string $name
-    ) {
-        if (preg_match($this::PATTERN, $name) !== 1) {
+    public static function fromEncodedUrlPart(string $part): self
+    {
+        if (preg_match(self::PATTERN, $part) !== 1) {
             throw new InvalidArgumentException(
-                sprintf('Controller name %s is invalid', $name)
+                sprintf('name part %s is invalid', $part)
             );
         }
-    }
 
-    public function __invoke(): string
-    {
-        return $this->name;
+        return new self(urldecode($part));
     }
 }

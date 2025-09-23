@@ -18,4 +18,13 @@ final class RootlessTargetTest extends TestCase
 
         $this->assertSame('/article/news', $url);
     }
+
+    public function testsFromPathWithRootWithSpecialChars(): void
+    {
+        $path   = new Path(['article', 'news 2025']);
+        $target = new RootlessTarget();
+        $url    = $target->fromPath($path);
+
+        $this->assertSame('/article/news+2025', $url);
+    }
 }
