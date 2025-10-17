@@ -15,6 +15,7 @@ use Romchik38\Server\Utils\Mailer\MailerInterface;
 use function count;
 use function implode;
 use function phpversion;
+use function sprintf;
 
 class EmailLogger extends AbstractLogger implements DeferredLoggerInterface
 {
@@ -29,7 +30,7 @@ class EmailLogger extends AbstractLogger implements DeferredLoggerInterface
         parent::__construct($logLevel, $alternativeLogger);
     }
 
-    public function write(string $level, string $message)
+    public function write(string $level, string $message): void
     {
         $this->messages[] = [$level, $message];
     }
@@ -44,12 +45,16 @@ class EmailLogger extends AbstractLogger implements DeferredLoggerInterface
         $writeErrors    = [];
         $messagesToSent = [];
         $date           = new DateTime();
-        $dateString     = $date->format(DeferredLoggerInterface::DATE_TIME_FORMAT);
+        $dateString     = $date->format(self::DATE_TIME_FORMAT);
         foreach ($this->messages as $item) {
             [$level, $message] = $item;
 
-            $messagesToSent[] = '<p>Date: ' . $dateString . '</p><p>Level: '
-                . $level . '</p><p>Message: ' . $message . '</p>';
+            $messagesToSent[] = sprintf(
+                '<p>Date: %s</p><p>Level: %s</p><p>Message: %s</p>',
+                $dateString,
+                $level,
+                $message
+            );
         }
 
         $subject = 'Log message';

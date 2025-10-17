@@ -4,41 +4,17 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Utils\Logger\DeferredLogger;
 
-use DateTime;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Romchik38\Server\Utils\Logger\AbstractLogger;
+use Romchik38\Server\Utils\Logger\AbstractFileLogger;
 
 use function count;
 use function fclose;
 use function fopen;
 use function fwrite;
 
-use const PHP_EOL;
-
-class FileLogger extends AbstractLogger implements
-    DeferredLoggerInterface,
-    FileLoggerInterface
+class FileLogger extends AbstractFileLogger implements DeferredLoggerInterface
 {
-    protected readonly string $fullFilePath;
-
-    /**
-     * @param string $protocol [ file:// (default), http://, ftp:// etc.]
-     * @param resource $context — [optional]
-     */
-    public function __construct(
-        string $fileName,
-        int $logLevel,
-        string $protocol = FileLoggerInterface::DEFAULT_PROTOCOL,
-        protected readonly bool $useIncludePath = false,
-        protected $context = null,
-        protected LoggerInterface|null $alternativeLogger = null
-    ) {
-        parent::__construct($logLevel, $alternativeLogger);
-        $this->fullFilePath = $protocol . $fileName;
-    }
-
-    public function write(string $level, string $message)
+    public function write(string $level, string $message): void
     {
         $this->messages[] = [$level, $message];
     }
@@ -49,7 +25,7 @@ class FileLogger extends AbstractLogger implements
             return;
         }
 
-        // 1 open file - write, pointer at the and, if the file doesn't exist, if will be created
+        // 1 open file - write, pointer at the end, if the file doesn't exist, if will be created
         $fp = fopen($this->fullFilePath, 'a', $this->useIncludePath, $this->context);
         if ($fp === false) {
             // log error to alternative logger
@@ -64,11 +40,9 @@ class FileLogger extends AbstractLogger implements
         }
         // 2 write
         $writeErrors = [];
-        $date        = new DateTime();
-        $dateString  = $date->format(DeferredLoggerInterface::DATE_TIME_FORMAT);
         foreach ($this->messages as $item) {
             [$level, $message] = $item;
-            $str               = '[' . $dateString . '] ' . $level . ': ' . $message . PHP_EOL;
+            $str               = $this->createLine($level, $message);
             $writeResult       = fwrite($fp, $str);
             if ($writeResult === false) {
                 $writeErrors[] = $item;

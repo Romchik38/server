@@ -9,6 +9,14 @@
 
 [see todo](./todo.md)
 
+## v1.29.2
+
+- Logger:
+  - created `AbstractFileLogger`. A file will be created on `__construct` if non exists
+  - created `FileLogger`, which logs each message separately(no deffer).
+  - added a test for `FileLogger`
+  - removed `FileLoggerInterface`
+
 ## v1.29.1
 
 - `LinkTree` - added test url with special chars

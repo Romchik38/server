@@ -12,7 +12,7 @@ class EchoLogger extends AbstractLogger implements DeferredLoggerInterface
     {
     }
 
-    protected function write(string $level, string $message)
+    protected function write(string $level, string $message): void
     {
         echo 'Log: ' . $level, ' - ' . $message;
     }

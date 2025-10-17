@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Romchik38\Server\Utils\Logger;
 
+use DateTime;
 use Psr\Log\AbstractLogger as PsrAbstractLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -12,10 +13,15 @@ use Stringable;
 use function is_array;
 use function is_object;
 use function method_exists;
+use function sprintf;
 use function strtr;
+
+use const PHP_EOL;
 
 abstract class AbstractLogger extends PsrAbstractLogger
 {
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
     /** @var array <int,array<int,string>> $messages */
     protected array $messages = [];
 
@@ -55,10 +61,8 @@ abstract class AbstractLogger extends PsrAbstractLogger
      *
      * Also you can push all messages to $messages array and then,
      * in the finish line, send all messages. LoggerServerInterface has sendAllLogs() for this.
-     *
-     * @return void
      */
-    abstract protected function write(string $level, string $message);
+    abstract protected function write(string $level, string $message): void;
 
     /**
      * @param array<int|string,mixed> $context
@@ -94,5 +98,14 @@ abstract class AbstractLogger extends PsrAbstractLogger
             [$level, $message] = $item;
             $this->alternativeLogger->log($level, $message);
         }
+    }
+
+    protected function createLine(
+        string $level,
+        string $message,
+        string $dateFormat = self::DATE_TIME_FORMAT
+    ): string {
+        $dateString = new DateTime()->format($dateFormat);
+        return sprintf('[%s] %s: %s%s', $dateString, $level, $message, PHP_EOL);
     }
 }
