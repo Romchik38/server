@@ -2,6 +2,11 @@
 
 ## Current
 
+- logger:
+  - create a file on __construct if non exist
+  - no def file logger
+  - tests
+
 ## Next
 
 - Controller tree
